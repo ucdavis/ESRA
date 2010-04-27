@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" dynamic-update="true">
+		<id name="id" access="field" column="EmployeeID" unsaved-value="0"/>
+
+		<many-to-one name="HomeDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept" />
+		<many-to-one name="WorkDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept" />
+		<property name="Different" column="Different" />
+		<property name="FullName" column="EmpName" />
+		<property name="FirstName" column="FirstName" />
+		<property name="MiddleName" column="MiddleName" />
+		<property name="LastName" column="LastName" />
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TC"/>
+		<property name="HireDate" column="HireDate" />
+		<property name="BeginDate" column="BeginDate" />
+		<property name="YearsInTitle" column="YearsInTitle" />
+		<property name="PayRate" column="PayRate" />
+		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"/>
+		<property name="SalaryGrade" column="SalaryGrade" />
+		<property name="BargainingUnitCode" column="BargainingUnit" />
+
+		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
+			<key column="EmployeeID" foreign-key="EmployeeID"/>
+			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
+			<property name="CareerHireDate" column="CareerHireDate" />
+			<property name="ApptHireDate" column="ApptHireDate" />
+			<property name="DepartmentComments" column="DepartmentComments" />
+			<property name="DeansOfficeComments" column="DeansOfficeComments" />
+		</joined-subclass>
+	</class>
+</hibernate-mapping>

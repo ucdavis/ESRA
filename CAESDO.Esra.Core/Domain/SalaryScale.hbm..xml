@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" table="SalaryScale" dynamic-update="true">
+		<!--<id name="id" access="field" column="SalaryScaleID" unsaved-value="0">
+			<generator class="identity" />
+		</id>-->
+		
+		<composite-id>
+			<key-property name="TitleCode" column="TitleCode"/>
+			<key-property name="EffectiveDate" column="EffectiveDate"/>
+		</composite-id>
+		
+		<property name="TitleCode" column="TitleCode" />
+		<property name="EffectiveDate" column="EffectiveDate" />
+		<property name="SalaryGrade" column ="SalaryGrade" />
+		<property name="BargainingCode" column="BargainingCode" />
+		<property name="LaborMarketWAS" column="LaborMarketWAS" />
+		<property name="LaborMarketMidAnnual" column="LaborMarketMidAnnual" />
+		<property name="CollegeAvgAnnual" column="CollegeAvgAnnual" />
+		<property name="CampusAvgAnnual" column="CampusAvgAnnual" />
+
+		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.TPS3.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core">
+			<column name="SalaryGrade"/>
+			<column name="EffectiveDate"/>
+		</many-to-one>
+					
+		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none">
+			<key>
+				<column name="TitleCode" />
+				<column name="EffectiveDate"/>
+			</key> 
+			<one-to-many class="CAESDO.Esra.Core.Domain.SalaryStep, CAESDO.Esra.Core" />
+		</bag>
+
+	</class>
+</hibernate-mapping>

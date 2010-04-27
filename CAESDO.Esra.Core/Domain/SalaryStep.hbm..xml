@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.SalaryStep, CAESDO.Esra.Core" table="SalarySteps" dynamic-update="true">
+		<!--<id name="id" access="field" column="SalaryScaleID" unsaved-value="0">
+			<generator class="identity" />
+		</id>-->
+		
+		<composite-id>
+			<key-property name="TitleCode" column="TitleCode"/>
+			<key-property name="EffectiveDate" column="EffectiveDate"/>
+			<key-property name="StepNumber" column="Step"/>
+		</composite-id>
+		
+		<property name="TitleCode" column="TitleCode" />
+		<property name="EffectiveDate" column="EffectiveDate" />
+		<property name="StepNumber" column ="Step" />
+		<property name="Annual" column="Annual" />
+		<property name="Monthly" column="Monthly" />
+		<property name="Hourly" column="Hourly" />
+
+		<many-to-one name="SalaryScale" class="CAESDO.TPS3.Core.Domain.SalaryScale, CAESDO.Esra.Core">
+			<column name="TitleCode"/>
+			<column name="EffectiveDate"/>
+		</many-to-one>
+					
+	</class>
+</hibernate-mapping>

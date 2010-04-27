@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" table="Departments" dynamic-update="true">
+		<id name="id" access="field" column="DepartmentNumber" unsaved-value="0">
+			<!--<generator class="identity" />-->
+		</id>
+		<property name="DepartmentNumber" column="DepartmentNumber" />
+		<property name="Name" column="Name" />
+		<property name="ShortName" column="ShortName" />
+
+		<bag name="Employees" table="UCDEmployee" inverse="true" cascade="none">
+			<key column="HomeDept" />
+			<one-to-many class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" />
+		</bag>
+	</class>
+</hibernate-mapping>

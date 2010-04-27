@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.QuartileType, CAESDO.Esra.Core" table="QuartileType" dynamic-update="true">
+		<id name="id" access="field" column="QuartileTypeID" unsaved-value="0">
+			<generator class="identity" />
+		</id>
+		<property name="Type" column="Type" />
+		<property name="ShortType" column="ShortType" />
+		<property name="Description" column="Description" />
+	</class>
+</hibernate-mapping>

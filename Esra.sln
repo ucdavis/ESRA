@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAESDO.Esra.Core", "CAESDO.Esra.Core\CAESDO.Esra.Core.csproj", "{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAESDO.Esra.Data", "CAESDO.Esra.Data\CAESDO.Esra.Data.csproj", "{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAESDO.Esra.BLL", "CAESDO.Esra.BLL\CAESDO.Esra.BLL.csproj", "{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esra.Web", "Esra.Web\Esra.Web.csproj", "{4A910EC7-8C1B-4F6A-8F0A-44B90644D661}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://cubert:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CAESDO.Esra.BLL\\CAESDO.Esra.BLL.csproj
+		SccProjectName1 = CAESDO.Esra.BLL
+		SccLocalPath1 = CAESDO.Esra.BLL
+		SccProjectUniqueName2 = CAESDO.Esra.Core\\CAESDO.Esra.Core.csproj
+		SccProjectName2 = CAESDO.Esra.Core
+		SccLocalPath2 = CAESDO.Esra.Core
+		SccProjectUniqueName3 = CAESDO.Esra.Data\\CAESDO.Esra.Data.csproj
+		SccProjectName3 = CAESDO.Esra.Data
+		SccLocalPath3 = CAESDO.Esra.Data
+		SccProjectUniqueName4 = Esra.Web\\Esra.Web.csproj
+		SccProjectName4 = Esra.Web
+		SccLocalPath4 = Esra.Web
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A910EC7-8C1B-4F6A-8F0A-44B90644D661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A910EC7-8C1B-4F6A-8F0A-44B90644D661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A910EC7-8C1B-4F6A-8F0A-44B90644D661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A910EC7-8C1B-4F6A-8F0A-44B90644D661}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
