@@ -431,10 +431,10 @@ namespace CAESDO.Esra.Web
             return retval;
         }
 
-        protected bool IsDepartmentUser()
+        protected static bool IsDepartmentUser()
         {
             bool retval = false;
-            bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
+            bool? isDepartmentUser = HttpContext.Current.Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
             if (isDepartmentUser != null)
                 retval = (bool)isDepartmentUser;
             //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
