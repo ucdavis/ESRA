@@ -113,18 +113,38 @@ namespace CAESDO.Esra.Web
                 }
                 else
                 {
-                    SalaryScaleBLL.InsertRecord(ss);
+                    //SalaryScaleBLL.InsertRecord(ss);
 
                     // Logic for creating a new SalaryGradeQuartile:
-                    SalaryGradeQuartiles sgq = new SalaryGradeQuartiles()
+
+                    // NOTE: I think this should only happen if there's not already a
+                    // Salary Grade Quartile, i.e. salary grade, which is shared
+                    // across salary scales.
+                    // First try looking for a Salary Grade Quartile with the 
+                    // same Salary Grade and Effective Date:
+
+                    SalaryGradeQuartiles sgq = SalaryGradeQuartilesBLL.GetRecord(ss.SalaryGrade, ss.EffectiveDate);
+
+                    if (sgq == null)
                     {
-                        EffectiveDate = ss.EffectiveDate,
-                        SalaryGrade = ss.SalaryGrade
-                    };
-                    sgq.SalaryScales = new List<SalaryScale>();
+                        sgq = new SalaryGradeQuartiles()
+                        {
+                            EffectiveDate = ss.EffectiveDate,
+                            SalaryGrade = ss.SalaryGrade
+                        };
+
+                        sgq.SalaryScales = new List<SalaryScale>();
+                    }
+
                     sgq.SalaryScales.Add(ss);
 
                     SalaryGradeQuartilesBLL.InsertRecord(sgq);
+
+                    // Now take care of setting the ss.quartile:
+                    ss.SalaryGradeQuartiles = sgq;
+
+                    // Lastly save the Salary Scale:
+                    SalaryScaleBLL.InsertRecord(ss);
 
                     gvSalaryScale.DataBind();
 

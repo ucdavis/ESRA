@@ -34,22 +34,25 @@ namespace CAESDO.Esra.BLL
                     // delete record from database:
                     using (var ts = new TransactionScope())
                     {
-                        SalaryGradeQuartiles sgq = GetSalaryGradeQuartiles(record);
+                        SalaryGradeQuartiles sgq = record.SalaryGradeQuartiles;
 
                         if (sgq != null)
                         {
-                            if (sgq.SalaryGrade.Equals(record.TitleCode))
+                            record.SalaryGradeQuartiles = null;
+
+                            if (sgq.SalaryGrade.Equals(record.TitleCode) ||
+                                (sgq.SalaryScales.Count == 1))
                             {
                                 // This is a special SalaryGradeQuartiles, whose SalaryGrade
                                 // equals the SalaryScale.TitleCode, that we need to delete.
                                 SalaryGradeQuartilesBLL.Remove(sgq);
+                                SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
                             }
                             else
                             {
                                 // This Quartile is shared across SalaryScales and 
                                 // we just need to remove the relationship.
                                 sgq.SalaryScales.Remove(record);
-                                SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
                             }
                         }
 
@@ -59,8 +62,7 @@ namespace CAESDO.Esra.BLL
                     }
                 }
             }
-
-            return retval;
+           return retval;
         }
 
         public static Dictionary<string, decimal?> GetCriteriaListItems(string titleCode, DateTime effectiveDate)
@@ -99,6 +101,33 @@ namespace CAESDO.Esra.BLL
         public static Dictionary<string, decimal?> GetCriteriaListItems(string titleCode)
         {
             return GetCriteriaListItems(titleCode, DateTime.Today);
+        }
+
+        /// <summary>
+        /// Given a title code, return a list of SalaryScales, sorted by the propertyName in the 
+        /// order provided.  If the title code is null or "0", all SalaryScales are returned.
+        /// </summary>
+        /// <param name="titleCode">TitleCode of the SalaryScales desired.</param>
+        /// <param name="propertyName">"Sort by" property name.</param>
+        /// <param name="ascending">"Sort order", either true for ascending or false for descending.</param>
+        /// <returns>IList of SalaryScales with matching TitleCodes.</returns>
+        public static IList<SalaryScale> GetSalaryScales(string titleCode, string propertyName, bool ascending)
+        {
+            IList<SalaryScale> retval = null;
+            if (String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))
+            {
+                retval = GetAllSalaryScale(propertyName, ascending);
+            }
+            else
+            {
+                SalaryScale example = new SalaryScale()
+                {
+                    TitleCode = titleCode
+                };
+                retval = GetByInclusionExample(example, propertyName, ascending, "TitleCode");
+                example = null;
+            }
+            return retval;
         }
 
         // Given a date, return the salary scale with the appropriate effective date if 

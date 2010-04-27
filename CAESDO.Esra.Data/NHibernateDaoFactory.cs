@@ -29,6 +29,7 @@ namespace CAESDO.Esra.Data
         public IUserDao GetUserDao() { return new UserDao(); }
         public ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao() { return new SalaryReviewAnalysisDao(); }
         public IDepartmentDao GetDepartmentDao() { return new DepartmentDao(); }
+        public ISalaryGradeQuartilesDao GetSalaryGradeQuartilesDao() { return new SalaryGradeQuartilesDao(); }
         
         #endregion
 
@@ -37,8 +38,65 @@ namespace CAESDO.Esra.Data
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
         public class UnitDao : AbstractNHibernateDao<Unit, string>, IUnitDao { }
 
-        public class DepartmentDao : AbstractNHibernateDao<Department, string>, IDepartmentDao
+        public class DepartmentDao : AbstractNHibernateDao<Department, string>, IDepartmentDao { }
+
+        public class SalaryGradeQuartilesDao : AbstractNHibernateDao<SalaryGradeQuartiles, int>, ISalaryGradeQuartilesDao
         {
+            /// <summary>
+            /// This method returns a distinct list of
+            /// SalaryGradeQuartiles objects, one of each with the earliest EffectiveDate. 
+            /// This is because the list is built by taking the first object for each salary grade
+            /// from the larger, complete list, which was sorted by EffectiveDate.
+            /// </summary>
+            /// <returns>A list of SalaryGradeQuartiles objects with distinct SalaryGrades, each
+            /// having the earliest EffectiveDate out of all others with the same Salary Grade.</returns>
+            public IList<SalaryGradeQuartiles> GetDistinct()
+            {
+                IList<SalaryGradeQuartiles> retval = new List<SalaryGradeQuartiles>();
+                /*
+                 * I could not get this to work as intended, but I am leaving it here as an example
+                 * 
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryGradeQuartiles))
+                .SetProjection(Projections.GroupProperty("SalaryGrade"))
+                .AddOrder(Order.Asc("SalaryGrade"));
+
+                retval = criteria.List<SalaryGradeQuartiles>();
+                */
+                
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryGradeQuartiles))
+                .AddOrder(Order.Asc("SalaryGrade"))
+                .AddOrder(Order.Asc("EffectiveDate"));
+
+                foreach (SalaryGradeQuartiles item in criteria.List<SalaryGradeQuartiles>())
+                {
+                    if (retval.Count == 0)
+                        retval.Add(item);
+                    else
+                    {
+                        if (retval[retval.Count - 1].SalaryGrade.Equals(item.SalaryGrade) == false)
+                        {
+                            retval.Add(item);
+                        }
+                    }
+                } // end for
+                 
+                return retval;
+            }
+
+            /// <summary>
+            /// This method returns a list of just the salary grades, which
+            /// can be used for populating a drop-down list with distinct salary grades.
+            /// </summary>
+            /// <returns>List of distinct salary grades based on the underlying 
+            /// Salary Scales.</returns>
+            public IList<String> GetDistinctSalaryGrades()
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryGradeQuartiles))
+                .SetProjection(Projections.GroupProperty("SalaryGrade"))
+                .AddOrder(Order.Asc("SalaryGrade"));
+
+                return criteria.List<String>();
+            }
         }
 
         public class EmployeeDao : AbstractNHibernateDao<Employee, string>, IEmployeeDao

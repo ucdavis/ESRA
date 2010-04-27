@@ -22,11 +22,27 @@
             <asp:Parameter Name="effectiveDate" Type="DateTime" />
         </UpdateParameters>
         <SelectParameters>
+            <asp:ControlParameter ControlID="ddlSelectQuartile" DefaultValue="0" 
+                Name="salaryGrade" PropertyName="SelectedValue" Type="String" />
             <asp:Parameter DefaultValue="SalaryGrade" Name="propertyName" Type="String" />
             <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
         </SelectParameters>
-        
     </asp:ObjectDataSource>
+    <div id="divSelectQuartile">
+        <asp:DropDownList ID="ddlSelectQuartile" runat="server" 
+            AppendDataBoundItems="True" AutoPostBack="True" 
+            DataSourceID="odsQuartiles" 
+            onselectedindexchanged="ddlSelectQuartile_SelectedIndexChanged">
+            <asp:ListItem Value="0">-- All Salary Grades --</asp:ListItem>
+        </asp:DropDownList>
+        <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectQuartile">
+        </ajax:ListSearchExtender>
+        <asp:ObjectDataSource ID="odsQuartiles" runat="server" 
+            OldValuesParameterFormatString="original_{0}" 
+            SelectMethod="GetDistinctSalaryGrades" 
+            TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL" ></asp:ObjectDataSource>
+        <br /><br />
+    </div>
     <asp:GridView ID="gvSalaryGradeQuartiles" runat="server" 
         DataSourceID="odsSalaryGradeQuartiles" AutoGenerateColumns="False" 
         AllowSorting="True" onrowdatabound="gvSalaryGradeQuartiles_OnRowDataBound" 
@@ -56,6 +72,8 @@
                             ID="cvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMinAnnual" Operator="DataTypeCheck" 
                             Type="Double" ValidationGroup="UpdateRecord"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator
+                                ID="rfvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMinAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="First Qrtle Annual" 
@@ -71,6 +89,9 @@
                             ID="cvFirstQrtleAnnual" runat="server" ErrorMessage="First Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbFirstQrtleAnnual" Operator="DataTypeCheck" 
                             Type="Double" ValidationGroup="UpdateRecord"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator
+                                ID="rfvFirstQrtleAnnual" runat="server" ErrorMessage="First Qrtle Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbFirstQrtleAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
+                
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Mid Annual" SortExpression="MidAnnual">
@@ -84,6 +105,9 @@
                             ID="cvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMidAnnual" Operator="DataTypeCheck" 
                             Type="Double" ValidationGroup="UpdateRecord"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator
+                                ID="rfvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMidAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
+                
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Third Qrtle Annual" 
@@ -100,6 +124,9 @@
                             ID="cvThirdQrtleAnnual" runat="server" ErrorMessage="Third Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbThirdQrtleAnnual" Operator="DataTypeCheck" 
                             Type="Double" ValidationGroup="UpdateRecord"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator
+                                ID="rfvThirdQrtleAnnual" runat="server" ErrorMessage="Third Qrtle Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbThirdQrtleAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
+                
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Max Annual" SortExpression="MaxAnnual">
@@ -113,6 +140,9 @@
                             ID="cvMaxAnnual" runat="server" ErrorMessage="Max Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMaxAnnual" Operator="DataTypeCheck" 
                             Type="Double" ValidationGroup="UpdateRecord"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator
+                                ID="rfvMaxAnnual" runat="server" ErrorMessage="Max Annual $" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMaxAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
+                
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Effective Date" SortExpression="EffectiveDate">

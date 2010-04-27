@@ -84,7 +84,7 @@
                                                 <tr>
                                                     <td colspan="5">
                                                         <asp:LinkButton ID="lbtnAddAnotherSalaryStep" runat="server" Text="Add Another Salary Step"
-                                                            OnClick="lbtnAddAnotherSalaryStep_Click"></asp:LinkButton>
+                                                            OnClick="lbtnAddAnotherSalaryStep_Click" CausesValidation="false"></asp:LinkButton>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -93,10 +93,13 @@
                                             <tr>
                                                 <td>
                                                     <asp:TextBox ID="tbStepNumber2" runat="server" Text='<%# Bind("StepNumber") %>' OnTextChanged="tbStepNumber_OnTextChanged" />
+                                                    <asp:RequiredFieldValidator
+                                                            ID="tbStepNumber2RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber2" ></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
-                                                        OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                        OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox><asp:RequiredFieldValidator
+                                                            ID="tbSalaryAmountRequiredFieldValidator" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual2" InitialValue="$0.00"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblMonthly2" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'></asp:Label>
@@ -106,7 +109,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:LinkButton ID="lbtnDeleteSalaryStep" runat="server" OnClick="lbtnDeleteSalaryStep_Click"
-                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step" CausesValidation="false"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                                                 </td>
                                             </tr>
                                         </ItemTemplate>
@@ -115,10 +118,14 @@
                                                 <td>
                                                     <asp:TextBox ID="tbStepNumber3" runat="server" Text='<%# Bind("StepNumber") %>' CssClass="tb_alt"
                                                         OnTextChanged="tbStepNumber_OnTextChanged" />
+                                                         <asp:RequiredFieldValidator
+                                                            ID="tbStepNumber3RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber3" ></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
                                                         CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                        <asp:RequiredFieldValidator
+                                                            ID="tbSalaryAmountRequiredFieldValidator2" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual3" InitialValue="$0.00"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblMonthly3" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'
@@ -129,21 +136,27 @@
                                                 </td>
                                                 <td>
                                                     <asp:LinkButton ID="lbtnDeleteSalaryStepAlt" runat="server" OnClick="lbtnDeleteSalaryStep_Click"
-                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step" CausesValidation="false"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                                                 </td>
                                             </tr>
                                         </AlternatingItemTemplate>
                                         <EmptyDataTemplate>
                                             <tr>
                                                 <td>
-                                                    No Salary Steps Found
+                                                No Salary Steps Found
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                    <td>
+                                                        <asp:LinkButton ID="lbtnAddAnotherSalaryStep" runat="server" Text="Add a Salary Step"
+                                                            OnClick="lbtnAddAnotherSalaryStep_Click" CausesValidation="false"></asp:LinkButton>
+                                                    </td>
+                                                </tr>
                                         </EmptyDataTemplate>
                                         <EmptyItemTemplate>
                                             <tr>
                                                 <td>
-                                                    No Salary Steps Found
+                                                No Salary Steps Found
                                                 </td>
                                             </tr>
                                         </EmptyItemTemplate>

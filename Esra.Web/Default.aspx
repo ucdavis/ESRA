@@ -54,8 +54,6 @@
             <dt><asp:HyperLink ID="HyperLink16" runat="server" NavigateUrl="~/TitleCode_UserInputForm.aspx">Title Code Averages Maintenance</asp:HyperLink></dt><dd>Enter a New or Edit an Existing Title Code Labor Market WAS/Mid Amount or Campus Average.</dd>
             <dd>
                 Add New Salary Steps or Edit Existing Salary Step Numbers or Amounts.</dd>
-            <dd>
-            </dd>
             <dt><asp:HyperLink ID="HyperLink17" runat="server" NavigateUrl="~/SalaryGradeQuartiles_UserInputForm.aspx">Salary Grade Maintenance</asp:HyperLink></dt><dd>
             Enter a New or Edit an Existing Title Code Salary Grade Quartile Amount.</dd>
             <dt><asp:HyperLink ID="HyperLink18" runat="server" NavigateUrl="~/SalaryStep_UserInputForm.aspx">Salary Step Maintenance</asp:HyperLink></dt><dd>

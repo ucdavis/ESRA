@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="TitleCode_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.TitleCode_UserInputForm" Title="ESRA - Title Code Averages Page" %>
+<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="TitleCode_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.TitleCode_UserInputForm" Title="ESRA - Title Code Averages Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
@@ -11,17 +11,32 @@
     <hr />
     <br />
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
-        OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllSalaryScale" 
+        OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScales" 
         TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
         DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
         UpdateMethod="UpdateRecord">
 <SelectParameters>
+    <asp:ControlParameter ControlID="ddlSelectTitleCode" DefaultValue="0" 
+        Name="titleCode" PropertyName="SelectedValue" Type="String" />
 <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String"></asp:Parameter>
 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean"></asp:Parameter>
 </SelectParameters>
     </asp:ObjectDataSource>
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vTitleCodeAverages" runat="server">
+            <asp:DropDownList ID="ddlSelectTitleCode" runat="server" 
+                AppendDataBoundItems="True" DataSourceID="odsTitleCode" 
+                DataTextField="TitleCode_Name" DataValueField="TitleCode" 
+                AutoPostBack="True" >
+                <asp:ListItem Value="0">-- All Title Codes --</asp:ListItem>
+            </asp:DropDownList>
+            <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectTitleCode">
+            </ajax:ListSearchExtender>
+            <asp:ObjectDataSource ID="odsTitleCode" runat="server" 
+                TypeName="CAESDO.Esra.BLL.TitleBLL" 
+                OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll"></asp:ObjectDataSource>
+            <br />
+            <br />
         <asp:GridView ID="gvSalaryScale" runat="server" DataSourceID="odsSalaryScale" 
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
@@ -72,6 +87,8 @@
             </asp:TemplateField>
             <%-- <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
                 SortExpression="TitleCode" ReadOnly="true"/>--%>
+                <asp:BoundField DataField="SalaryGrade" HeaderText="Salary Grade" 
+                SortExpression="SalaryGrade"  ReadOnly="true"/>
             <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
                 SortExpression="BargainingCode"  ReadOnly="true"/>
                 
@@ -96,7 +113,11 @@
                 <EditItemTemplate>
                 <asp:Label ID="lblLaborMarketWASHeader" runat="server" Text="Labor Market WAS:" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbLaborMarketWAS" runat="server" Text='<%# Bind("LaborMarketWAS") %>'></asp:TextBox>
+                    <asp:CompareValidator ID="cvLaborMarketWAS" runat="server" ErrorMessage="CompareValidator" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbLaborMarketWAS" Operator="DataTypeCheck" 
+                            Type="Currency"></asp:CompareValidator>
                 </EditItemTemplate>
+                
                 <ItemTemplate>
                     <asp:Label ID="lblLaborMarketWAS" runat="server" Text='<%# (Convert.ToDouble(Eval("LaborMarketWAS")) != 0 ? Eval("LaborMarketWAS", "{0:c}") : "") %>'></asp:Label>
                 </ItemTemplate>
@@ -107,6 +128,8 @@
                 <asp:Label ID="lblLaborMarketMidAnnualHeader" runat="server" Text="Labor Market Mid (Annual):" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbLaborMarketMidAnnual" runat="server" 
                         Text='<%# Bind("LaborMarketMidAnnual") %>'></asp:TextBox>
+                        <asp:CompareValidator ID="cvLaborMarketMidAnnual" runat="server" ErrorMessage="Labor Market Mid (Annual)" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbLaborMarketMidAnnual" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
                 </EditItemTemplate>
                 <ItemTemplate>
                     <asp:Label ID="lblLaborMarketMidAnnual" runat="server" 
@@ -126,78 +149,70 @@
                 <asp:Label ID="lblCampusAverageAnnualHeader" runat="server" Text="Campus Average (Annual):" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbCampusAverageAnnual" runat="server" 
                         Text='<%# Bind("CampusAverageAnnual") %>'></asp:TextBox>
-                </EditItemTemplate>
-                <ItemTemplate>
-                    <asp:Label ID="lblCampusAverageAnnual" runat="server" Text='<%# (Convert.ToDouble(Eval("CampusAverageAnnual")) != 0 ? Eval("CampusAverageAnnual", "{0:c}") : "") %>'></asp:Label>
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField ShowHeader="False">
+                         <asp:CompareValidator ID="cvCampusAverageAnnual" runat="server" ErrorMessage="Campus Average (Annual)" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbCampusAverageAnnual" Operator="DataTypeCheck" 
+                            Type="Currency"></asp:CompareValidator></EditItemTemplate><ItemTemplate>
+                    <asp:Label ID="lblCampusAverageAnnual" runat="server" Text='<%# (Convert.ToDouble(Eval("CampusAverageAnnual")) != 0 ? Eval("CampusAverageAnnual", "{0:c}") : "") %>'></asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnDeleteSalaryScaleAverages" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
-                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
-    </asp:GridView>
-        </asp:View>
-        <asp:View ID="vInsertNewTitleCodeAverages" runat="server">
+                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></ItemTemplate></asp:TemplateField></Columns></asp:GridView></asp:View><asp:View ID="vInsertNewTitleCodeAverages" runat="server">
             <table style="width:100%;" id="tblNewTitleCodeAverages">
                 <tr class="tr_head">
-                    <th>Title Code</th>
-                    <th>Payroll Title</th>
-                    <th>Effective Date</th>
-                    <th>Salary Grade</th>
-                    <th>Bargaining Code</th>
-                    <th>Labor Market WAS</th>
-                    <th>Labor Market Mid (Annual)</th>
-                    <th>College Average (Annual)</th>
-                    <th>Campus Average (Annual)</th>
-                </tr>
-                <tr>
+                    <th>Title Code</th><th>Payroll Title</th><th>Effective Date</th><th>Salary Grade</th><th>Bargaining Code</th><th>Labor Market WAS</th><th>Labor Market Mid (Annual)</th><th>College Average (Annual)</th><th>Campus Average (Annual)</th></tr><tr>
                     <td>
-                        <asp:Label ID="lblTitleCode" runat="server" Text=""></asp:Label></td>
+                        <asp:Label ID="lblTitleCode" runat="server" Text=""></asp:Label>
+                    </td>
                     <td>
-                        <asp:Label ID="lblPayrollTitle" runat="server" Text=""></asp:Label></td>
+                        <asp:Label ID="lblPayrollTitle" runat="server" Text=""></asp:Label>
+                    </td>
                     <td>
-                        <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" CssClass="calendar">
+                        <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" CssClass="calendar" 
+                            Format="MM/dd/yyyy" TargetControlID="tbEffectiveDate">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbEffectiveDate" runat="server" ></asp:TextBox><asp:RequiredFieldValidator
-                            ID="rfvEffectiveDate" runat="server" ErrorMessage="Effective Date" Text="Date is Required!" ControlToValidate="tbEffectiveDate" InitialValue="" Display="Dynamic"></asp:RequiredFieldValidator><asp:CompareValidator
-                                ID="compareValEffectiveDate" runat="server" 
-                            ErrorMessage="CompareValidator" Text="Bad Date Format!" Display="Dynamic" 
-                            ControlToValidate="tbEffectiveDate" Operator="DataTypeCheck" 
-                            Type="Date"></asp:CompareValidator></td>
+                        <asp:TextBox ID="tbEffectiveDate" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvEffectiveDate" runat="server" 
+                            ControlToValidate="tbEffectiveDate" Display="Dynamic" 
+                            ErrorMessage="Effective Date" InitialValue="" Text="Date is Required!"></asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="compareValEffectiveDate" runat="server" 
+                            ControlToValidate="tbEffectiveDate" Display="Dynamic" 
+                            ErrorMessage="Effective Date" Operator="DataTypeCheck" Text="Bad Date Format!" 
+                            Type="Date"></asp:CompareValidator>
+                    </td>
                     <td>
                         <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
-                        </td>
+                    </td>
                     <td>
                         <asp:Label ID="lblBargainingCode" runat="server" Text=""></asp:Label>
                     </td>
                     <td>
                         <asp:TextBox ID="tbLaborMarketWAS" runat="server"></asp:TextBox>
+                        <asp:CompareValidator ID="cvLaborMarketWAS" runat="server" ErrorMessage="Labor Market WAS" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbLaborMarketWAS" Operator="DataTypeCheck" 
+                            Type="Currency"></asp:CompareValidator>
                     </td>
                     <td>
                         <asp:TextBox ID="tbLaborMarketMid" runat="server"></asp:TextBox>
+                        <asp:CompareValidator ID="cvLaborMarketMid" runat="server" ErrorMessage="Labor Market Mid (Annual)" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbLaborMarketMid" Operator="DataTypeCheck" 
+                            Type="Currency"></asp:CompareValidator>
                     </td>
                     <td>
                         <asp:Label ID="lblCollegeAverageAnnual" runat="server" Text=""></asp:Label>
                     </td>
                     <td>
                         <asp:TextBox ID="tbCampusAverageAnnual" runat="server" Text=""></asp:TextBox>
+                        <asp:CompareValidator ID="cvCampusAverageAnnual" runat="server" ErrorMessage="Campus Average (Annual)" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbCampusAverageAnnual" Operator="DataTypeCheck" 
+                            Type="Currency"></asp:CompareValidator>
                     </td>
-                </tr>
-                <tr><td colspan="2">
-                    <asp:LinkButton ID="lbtnSave" runat="server" CommandName="save" oncommand="btnClick_Command" Text="Save" ToolTip="Save" CssClass="buttons">
-                        <img alt="Save" class="new_button" src="images/common/disk4.jpg"/>
-                    </asp:LinkButton>
-                    &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CommandName="cancel" 
-                        oncommand="btnClick_Command" Text="Cancel" CausesValidation="false" ToolTip="Cancel" CssClass="buttons"><img alt="Cancel" class="cancel_button" src="images/common/Cancel.png"/>
-                    </asp:LinkButton>
-                    &nbsp;</td>
-                </tr>
-            </table>
-            
-        </asp:View>
-    </asp:MultiView>
-    
-</asp:Content>
+                    </tr>
+                    <tr><td colspan="2">
+                        <asp:LinkButton ID="lbtnSave" runat="server" CommandName="save" 
+                            CssClass="buttons" oncommand="btnClick_Command" Text="Save" ToolTip="Save">
+                    <img alt="Save" class="save_button" src="images/common/disk4.jpg"/></asp:LinkButton>
+                        &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="false" 
+                            CommandName="cancel" CssClass="buttons" oncommand="btnClick_Command" 
+                            Text="Cancel" ToolTip="Cancel"><img 
+                        alt="Cancel" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
+                        &nbsp;</td>
+                        <td colspan="7" /></tr></table></asp:View></asp:MultiView></asp:Content>

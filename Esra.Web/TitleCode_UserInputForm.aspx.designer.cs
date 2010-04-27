@@ -50,6 +50,33 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.View vTitleCodeAverages;
         
         /// <summary>
+        /// ddlSelectTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSelectTitleCode;
+        
+        /// <summary>
+        /// ListSearchExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ListSearchExtender1;
+        
+        /// <summary>
+        /// odsTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsTitleCode;
+        
+        /// <summary>
         /// gvSalaryScale control.
         /// </summary>
         /// <remarks>
@@ -149,6 +176,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.TextBox tbLaborMarketWAS;
         
         /// <summary>
+        /// cvLaborMarketWAS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvLaborMarketWAS;
+        
+        /// <summary>
         /// tbLaborMarketMid control.
         /// </summary>
         /// <remarks>
@@ -156,6 +192,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbLaborMarketMid;
+        
+        /// <summary>
+        /// cvLaborMarketMid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvLaborMarketMid;
         
         /// <summary>
         /// lblCollegeAverageAnnual control.
@@ -174,6 +219,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbCampusAverageAnnual;
+        
+        /// <summary>
+        /// cvCampusAverageAnnual control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvCampusAverageAnnual;
         
         /// <summary>
         /// lbtnSave control.

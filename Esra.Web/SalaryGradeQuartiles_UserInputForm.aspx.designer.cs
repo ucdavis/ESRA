@@ -32,6 +32,33 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.ObjectDataSource odsSalaryGradeQuartiles;
         
         /// <summary>
+        /// ddlSelectQuartile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSelectQuartile;
+        
+        /// <summary>
+        /// ListSearchExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ListSearchExtender1;
+        
+        /// <summary>
+        /// odsQuartiles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsQuartiles;
+        
+        /// <summary>
         /// gvSalaryGradeQuartiles control.
         /// </summary>
         /// <remarks>

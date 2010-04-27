@@ -36,5 +36,10 @@ namespace CAESDO.Esra.Web
         {
             SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_UPDATED_SUCCESS);
         }
+
+        protected void ddlSelectQuartile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gvSalaryGradeQuartiles.DataBind();
+        }
     }
 }

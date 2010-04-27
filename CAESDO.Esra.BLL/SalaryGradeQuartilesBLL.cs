@@ -52,5 +52,94 @@ namespace CAESDO.Esra.BLL
                 }
             }
         }
+
+        /// <summary>
+        /// Get a single, specific SalaryGradeQuartiles based on the salaryGrade and effectiveDate provided.
+        /// </summary>
+        /// <param name="salaryGrade"></param>
+        /// <param name="effectiveDate"></param>
+        /// <returns>SalaryGradeQuartiles</returns>
+        public static SalaryGradeQuartiles GetRecord(string salaryGrade, DateTime effectiveDate)
+        {
+            SalaryGradeQuartiles example = new SalaryGradeQuartiles()
+            {
+                EffectiveDate = effectiveDate,
+                SalaryGrade = salaryGrade
+            };
+            return GetRecord(example);
+        }
+
+        /// <summary>
+        /// Get the single SalaryGradeQuartiles, which matches the example provided.
+        /// </summary>
+        /// <param name="example">Example SalaryGradeQuartiles of the matching one desired.</param>
+        /// <returns>SalaryGradeQuartiles</returns>
+        public static SalaryGradeQuartiles GetRecord(SalaryGradeQuartiles example)
+        {
+            SalaryGradeQuartiles retval = null;
+
+            if (example != null)
+            {
+                IList<SalaryGradeQuartiles> items = GetByInclusionExample(example, "SalaryGrade", "EffectiveDate");
+
+                if (items.Count == 1)
+                {
+                    retval = items[0];
+                }
+            }
+            return retval;
+        }
+
+        /// <summary>
+        /// Gets a list of all the SalaryGradeQuartiles matching the salaryGrade provided or all if no
+        /// salaryGrade was provided, sorted by, and in the order provided.
+        /// </summary>
+        /// <param name="salaryGrade">The SalaryGrade string for the Quartile(s) desired.</param>
+        /// <param name="propertyName">The "order by" property name.</param>
+        /// <param name="ascending">The "sort" order, true for ascending, false for descending.</param>
+        /// <returns>IList of SalaryGradeQuartiles</returns>
+        public static IList<SalaryGradeQuartiles> GetAll(string salaryGrade, string propertyName, bool ascending)
+        {
+            IList<SalaryGradeQuartiles> retval = null;
+
+            if (String.IsNullOrEmpty(salaryGrade) || salaryGrade.Equals("0"))
+            {
+                retval = GetAll(propertyName, ascending);
+            }
+            else
+            {
+                SalaryGradeQuartiles example = new SalaryGradeQuartiles()
+                {
+                    SalaryGrade = salaryGrade
+                };
+                retval = GetByInclusionExample(example, propertyName, ascending, "SalaryGrade");
+            }
+
+            return retval;
+        }
+
+        /// <summary>
+        /// This method calls the underlying DAO method, which returns a distinct list of
+        /// SalaryGradeQuartiles objects, one of each with the earliest EffectiveDate. 
+        /// This is because the list is built by taking the first object for each salary grade
+        /// from the larger, complete list, which was sorted by EffectiveDate.
+        /// </summary>
+        /// <returns>A list of SalaryGradeQuartiles objects with distinct SalaryGrades, each
+        /// having the earliest EffectiveDate out of all others with the same Salary Grade.</returns>
+        public static IList<SalaryGradeQuartiles> GetDistinct()
+        {
+            return daoFactory.GetSalaryGradeQuartilesDao().GetDistinct();
+        }
+
+        /// <summary>
+        /// This method calls the underlying DAO method, which returns a list of just the salary grades
+        /// that can be used for populating a drop-down list with distinct salary grades.
+        /// </summary>
+        /// <returns>List of distinct salary grades based on the underlying 
+        /// Salary Scales.</returns>
+        public static IList<String> GetDistinctSalaryGrades()
+        {
+            return daoFactory.GetSalaryGradeQuartilesDao().GetDistinctSalaryGrades();
+        }
     }
 }

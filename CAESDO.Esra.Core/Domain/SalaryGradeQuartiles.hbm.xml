@@ -10,7 +10,7 @@
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 		</composite-id>
 
-		<bag name="SalaryScales" table="SalaryScale" cascade="none" >
+		<bag name="SalaryScales" table="SalaryScale" cascade="none" inverse="true">
 			<key>
 				<column name="SalaryGrade"/>
 				<column name="EffectiveDate"/>
