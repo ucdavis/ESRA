@@ -138,6 +138,15 @@ namespace CAESDO.Esra.Web
                     SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_CHILD_RECORDS_EXIST);
                 }
             }
+            else if (e.CommandName.Equals("add_steps"))
+            {
+                string[] keySegments = ((string)e.CommandArgument).Split(new char[] { '|' });
+
+                string redirectURL = "~/NewSalarySteps_UserInputForm.aspx?" + 
+                    KEY_TITLE_CODE + "=" + keySegments[0] + "&" +
+                    KEY_EFFECTIVE_DATE + "=" +  HttpContext.Current.Server.UrlEncode(keySegments[1]);
+                Response.Redirect(redirectURL);
+            }
 
             ViewState.Remove(CURRENT_SELECTED_TITLECODE_KEY_NAME);
             MultiView1.SetActiveView(vTitleCodeAverages);

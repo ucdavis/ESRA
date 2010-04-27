@@ -74,6 +74,17 @@
                 SortExpression="TitleCode" ReadOnly="true"/>--%>
             <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
                 SortExpression="BargainingCode"  ReadOnly="true"/>
+                
+                 <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps">
+                     <EditItemTemplate>
+                         <asp:Label ID="lblEditNumSalarySteps" runat="server" Text='<%# Bind("NumSalarySteps") %>'></asp:Label>
+                     </EditItemTemplate>
+                     <ItemTemplate>
+                         <asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
+                         <asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Visible='<%# (Convert.ToInt32(Eval("NumSalarySteps")) > 0 ? false : true)%>'>Add Steps</asp:LinkButton>
+                     </ItemTemplate>
+            </asp:TemplateField>
+                
             <asp:TemplateField HeaderText="Labor Market WAS" 
                 SortExpression="LaborMarketWAS">
                 <EditItemTemplate>

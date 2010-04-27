@@ -79,6 +79,13 @@
     <Compile Include="ModalConfirm.aspx.designer.cs">
       <DependentUpon>ModalConfirm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NewSalarySteps_UserInputForm.aspx.cs">
+      <DependentUpon>NewSalarySteps_UserInputForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewSalarySteps_UserInputForm.aspx.designer.cs">
+      <DependentUpon>NewSalarySteps_UserInputForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UserAdminPage.aspx.cs">
       <DependentUpon>UserAdminPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -189,6 +196,7 @@
     <Content Include="includes\jsUpdateProgress.js" />
     <Content Include="LogoutPage.aspx" />
     <Content Include="ModalConfirm.aspx" />
+    <Content Include="NewSalarySteps_UserInputForm.aspx" />
     <Content Include="UserAdminPage.aspx" />
     <Content Include="images\common\page-under-construction.jpg" />
     <Content Include="SalaryStep_UserInputForm.aspx" />

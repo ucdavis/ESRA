@@ -100,6 +100,35 @@ namespace CAESDO.Esra.BLL
             return daoFactory.GetSalaryScaleDao().GetEffectiveSalaryScale(titleCode, effectiveDate);
         }
 
+        public static SalaryScale GetSalaryScale(string titleCode, string effectiveDateStr)
+        {
+            if (String.IsNullOrEmpty(titleCode) || String.IsNullOrEmpty(effectiveDateStr))
+                return null;
+            else
+                return GetSalaryScale(titleCode, Convert.ToDateTime(effectiveDateStr));
+        }
+
+        public static SalaryScale GetSalaryScale(string titleCode, DateTime effectiveDate)
+        {
+            SalaryScale retval = null;
+
+            SalaryScale example = new SalaryScale()
+                {
+                    TitleCode = titleCode,
+                    EffectiveDate = effectiveDate
+                };
+
+            IList<SalaryScale> scales = GetByInclusionExample(example, "TitleCode", "EffectiveDate");
+            example = null;
+
+            if (scales.Count == 1)
+            {
+                retval = scales[0];
+            }
+            
+            return retval;
+        }
+
         public static IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending)
         {
             return daoFactory.GetSalaryScaleDao().GetAllSalaryScale(propertyName, ascending);

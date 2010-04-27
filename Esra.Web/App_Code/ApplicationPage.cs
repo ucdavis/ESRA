@@ -49,6 +49,8 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_SORT_PROPERTY_NAME = "SortPropertyName"; 
         protected static readonly string KEY_ASCENDING = "Ascending";
         protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
+        protected static readonly string KEY_EFFECTIVE_DATE = "EffectiveDate";
+        protected static readonly string KEY_TITLE_CODE = "TitleCode";
 
         public ApplicationPage()
         {
