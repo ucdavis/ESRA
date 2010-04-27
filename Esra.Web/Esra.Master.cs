@@ -14,6 +14,7 @@ namespace CAESDO.Esra.Web
 {
     public partial class Esra : System.Web.UI.MasterPage
     {
+        public static readonly string DEFAULT_PAGE = "Default.aspx";
         protected string _Version;
         public string Version
         {
@@ -50,7 +51,7 @@ namespace CAESDO.Esra.Web
             FormsAuthentication.SignOut();
             Session.Abandon();
             //string postBackUrl = "~/LogoutPage.aspx";
-            string postBackUrl = "https://cas.ucdavis.edu/cas/logout";
+            string postBackUrl = "https://cas.ucdavis.edu/cas/logout?service=" + Request.Url.ToString().Substring(0, Request.Url.ToString().LastIndexOf("/") +1) + DEFAULT_PAGE; 
             Response.Redirect(postBackUrl);        
         }
     }
