@@ -22,7 +22,7 @@
             <asp:Parameter Name="effectiveDate" Type="DateTime" />
         </UpdateParameters>
         <SelectParameters>
-            <asp:ControlParameter ControlID="ddlSelectQuartile" DefaultValue="0" 
+            <asp:ControlParameter ControlID="ddlSelectQuartile" DefaultValue="" 
                 Name="salaryGrade" PropertyName="SelectedValue" Type="String" />
             <asp:Parameter DefaultValue="SalaryGrade" Name="propertyName" Type="String" />
             <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
@@ -35,6 +35,7 @@
             AppendDataBoundItems="True" AutoPostBack="True" 
             DataSourceID="odsQuartiles" 
             onselectedindexchanged="ddlSelectQuartile_SelectedIndexChanged">
+            <asp:ListItem Value="">-- Select a Salary Grade --</asp:ListItem>
             <asp:ListItem Value="0">-- All Salary Grades --</asp:ListItem>
         </asp:DropDownList>
         <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectQuartile">
@@ -52,7 +53,8 @@
         OnRowUpdating="gvSalaryGradeQuartiles_RowUpdating" 
         onrowcommand="gvSalaryGradeQuartiles_RowCommand" 
         DataKeyNames="SalaryGrade,EffectiveDate" 
-        onselectedindexchanged="gvSalaryGradeQuartiles_SelectedIndexChanged" GridLines="None">
+        onselectedindexchanged="gvSalaryGradeQuartiles_SelectedIndexChanged" GridLines="None"
+        EmptyDataText="No Salary Grade Quartile Data Available.">
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
