@@ -10,6 +10,9 @@ namespace CAESDO.Esra.BLL
 {
     public class EmployeeBLL : GenericBLL<Employee, int>
     {
-       
+        public static IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
+        {
+            return EmployeeBLL.daoFactory.GetEmployeeDao().GetByTitleCode(titleCode, propertyName, ascending);
+        }
     }
 }
