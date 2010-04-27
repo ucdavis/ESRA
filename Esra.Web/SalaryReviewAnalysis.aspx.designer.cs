@@ -149,6 +149,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlNewSAREmployee;
         
         /// <summary>
+        /// lsexDdlNewSAREmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender lsexDdlNewSAREmployee;
+        
+        /// <summary>
         /// vSalaryReviewAnalysis control.
         /// </summary>
         /// <remarks>

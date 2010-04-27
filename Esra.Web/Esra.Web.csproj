@@ -58,14 +58,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\NHibernateSessionModule.cs" />
+    <Compile Include="LoginPage.aspx.designer.cs">
+      <DependentUpon>LoginPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\NHibernateSessionModule.cs" />
     <Compile Include="App_Code\ApplicationPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Content Include="ErrorPage.aspx" />
     <Content Include="SalaryReviewAnalysis.aspx" />
     <Compile Include="App_Code\CatbertManager.cs" />
-    <Content Include="App_Code\CAESDORoleProvider.cs" />
+    <Compile Include="App_Code\CAESDORoleProvider.cs" />
     <Compile Include="App_Code\CatbertUsersRev.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

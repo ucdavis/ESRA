@@ -19,6 +19,7 @@ namespace CAESDO.Esra.Web
                 long temp = 0;
                 string employeeID = Request.QueryString["EmployeeID"];
                 Session.Remove("TitleCode");
+                Session.Remove("Employee.PayRate");
                 List<Employee> empList = new List<Employee>();
                 List<Title> titleList = new List<Title>();
                 if (String.IsNullOrEmpty(employeeID) == false && employeeID.Length == 13 && long.TryParse(employeeID, out temp))
@@ -28,8 +29,9 @@ namespace CAESDO.Esra.Web
                     {
                         empList.Add(emp);
                         titleList.Add(emp.Title);
-                        tblEmpDetails_Init(emp);
-                        tblTitleHeader_Init(emp);
+                        //tblEmpDetails_Init(emp);
+                        //tblTitleHeader_Init(emp);
+                        Session.Add("Employee.PayRate", emp.PayRate);
                         Session.Add("TitleCode", emp.Title.TitleCode);
                         rptScenarios_Init();
                     }
@@ -38,6 +40,8 @@ namespace CAESDO.Esra.Web
                 gvEmployees.DataBind();
                 gvTitle.DataSource = titleList;
                 gvTitle.DataBind();
+                gvEmployeeTitle.DataSource = empList;
+                gvEmployeeTitle.DataBind();
             }
         }
 
@@ -53,9 +57,16 @@ namespace CAESDO.Esra.Web
                 rpt.Visible = false;
             }
         }
-
+        /*
         protected void tblTitleHeader_Init(Employee emp)
         {
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeeTitleCode")).Text = emp.Title.TitleCode;
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeePayrollTitle")).Text = emp.Title.PayrollTitle;
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeeSalaryGrade")).Text = emp.Title.SalaryGrade;
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeeSalaryStep")).Text = emp.SalaryStep;
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeeBargainingUnit")).Text = emp.Title.BargainingCode;
+            //((Label)gvEmployeeTitle.FindControl("lblEmployeeReportDate")).Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+
             lblTblTitleHeaderTitleCode.Text = emp.Title.TitleCode;
             lblTblTitleHeaderPayrollTitle.Text = emp.Title.PayrollTitle;
             lblTblTitleHeaderSalaryGrade.Text = emp.Title.SalaryGrade;
@@ -63,12 +74,12 @@ namespace CAESDO.Esra.Web
             lblTblTitleHeaderBargainingUnit.Text = emp.Title.BargainingCode;
             lblTblTitleHeaderReportDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
         }
+        */
 
+        /*
         protected void tblEmpDetails_Init(Employee emp)
         {
             lblTblEmpDetailsDeptName.Text = emp.HomeDepartment.Name;
-            //lblTblEmpDetailsTitleCode.Text = emp.Title.TitleCode;
-            //lblTblEmpDetailsBargainingUnit.Text = emp.Title.BargainingCode;
             lblTblEmpDetailsEmpName.Text = emp.FullName;
             lblTblEmpDetailsHireDate.Text = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
             lblTblEmpDetailsYearsOfService.Text = Convert.ToString(emp.YearsOfService);
@@ -78,7 +89,7 @@ namespace CAESDO.Esra.Web
             lblTblEmpDetailsDepartmentComments.Text = emp.DepartmentComments;
             lblTblEmpDetailsDeansOfficeComments.Text = emp.DeansOfficeComments;
         }
-
+        */
         protected void rptScenarios_Init()
         {
             List<Scenario> scenarios = new List<Scenario>();
@@ -113,9 +124,8 @@ namespace CAESDO.Esra.Web
             double.TryParse(ddl.SelectedValue, out newSalary);
             RepeaterItem item = (RepeaterItem)ddl.Parent;
             TextBox tbSalaryAmount = (TextBox)item.FindControl("tbSalaryAmount");
-            double oldSalary = 0;
-            NumberStyles styles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
-            double.TryParse(lblTblEmpDetailsPayRate.Text, styles, CultureInfo.CurrentCulture.NumberFormat, out oldSalary);
+            double oldSalary = (double)Session["Employee.PayRate"];
+            
             if (newSalary == 0)
             {
                 newSalary = oldSalary;
@@ -149,9 +159,8 @@ namespace CAESDO.Esra.Web
             tb.Text = String.Format("{0:c}", newSalary);
 
             // get old salary amount:
-            double oldSalary = 0;
-            double.TryParse(lblTblEmpDetailsPayRate.Text, styles, numberFormatInfo, out oldSalary);
-
+            double oldSalary = (double)Session["Employee.PayRate"];;
+  
             // calculate percent increase up or down:
             double percentIncrease = (newSalary / oldSalary - 1);
             TextBox tbPercentIncrease = (TextBox)item.FindControl("tbPercentIncrease");
@@ -178,8 +187,7 @@ namespace CAESDO.Esra.Web
             tb.Text = String.Format("{0:p}", (percentIncrease/100));
 
             // get old salary amount:
-            double oldSalary = 0;
-            double.TryParse(lblTblEmpDetailsPayRate.Text, styles, numberFormatInfo, out oldSalary);
+            double oldSalary = (double)Session["Employee.PayRate"];
 
             // calculate new salary amount based on percent increase up or down:
             double newSalary = oldSalary * (1 + (percentIncrease / 100));

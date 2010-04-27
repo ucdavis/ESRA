@@ -257,6 +257,42 @@
         <center>
             <asp:Label ID="Label1" Font-Bold="True" runat="server" Text="Employee Details" Font-Size="Large"></asp:Label></center>
         <br />
+        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Title Data Unavailable.">
+            <HeaderStyle cssclass="tr_head" />
+            <AlternatingRowStyle CssClass="tr_alt" />
+            <Columns>
+                <asp:TemplateField>
+                    <HeaderTemplate>Title Code</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeeTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <HeaderTemplate>Payroll Title</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeePayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <HeaderTemplate>Salary Grade</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeeSalaryGrade" runat="server" Text='<%# Eval("Title.SalaryGrade") %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <HeaderTemplate>Salary Step</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeeSalaryStep" runat="server" Text='<%# Eval("SalaryStep") %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+                 <asp:TemplateField>
+                    <HeaderTemplate>Bargaining Unit</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeeBargainingUnit" runat="server" Text='<%# Eval("Title.BargainingCode") %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <HeaderTemplate>Report Date</HeaderTemplate>
+                    <EditItemTemplate></EditItemTemplate>
+                    <ItemTemplate><asp:Label ID="lblEmployeeReportDate" runat="server" Text='<%# String.Format("{0:MM/dd/yyyy}", DateTime.Today) %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+             </Columns>
+        </asp:GridView>
         <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" EmptyDataText="Employee Data Unavailable."
             DataKeyNames="ID" EnableViewState="False" EnableTheming="False">
             <HeaderStyle cssclass="tr_head" />
@@ -338,7 +374,7 @@
                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
+                        <asp:Label ID="lblEmployeePayRate" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Department Comments">
@@ -382,7 +418,7 @@
     </div>
     <div id="divSAR">
         <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
-            <tr>
+           <%-- <tr>
                 <th>
                     TitleCode
                 </th>
@@ -479,7 +515,7 @@
                 <td>
                     <asp:Label runat="server" ID="lblTblEmpDetailsDeansOfficeComments"></asp:Label>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td colspan="9">
                     <asp:UpdatePanel runat="server" ID="upScenarios">

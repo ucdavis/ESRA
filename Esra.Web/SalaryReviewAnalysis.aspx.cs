@@ -49,9 +49,13 @@ namespace CAESDO.Esra.Web
             gvSalaryReviewAnalysis.DataBind();
         }
 
-        protected void btnCreateNewSalaryReviewAnalysis_Click(object sender, EventArgs e)
-        {
 
+        protected void ddlNewSAREmployee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            string id = ddl.SelectedValue;
+            string redirectURL = "~/Test.aspx?EmployeeID=" + id;
+            Response.Redirect(redirectURL);
         }
     }
 }
