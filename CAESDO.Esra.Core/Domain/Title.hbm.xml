@@ -10,7 +10,7 @@
 		<property name="AbbreviatedName" column="AbbreviatedName" />
 		<property name="BargainingCode" column="BargainingCode" />
 
-		<bag name="SalaryScales" table="SalaryScale_V" inverse="true" cascade="none">
+		<bag name="SalaryScales" table="SalaryScale" inverse="true" cascade="none">
 			<key>
 				<column name="TitleCode"/>
 			</key> 
