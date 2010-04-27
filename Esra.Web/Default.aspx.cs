@@ -44,5 +44,10 @@ namespace CAESDO.Esra.Web
             //Response.Write(exception == null ? "Null value" : exception.ApplicationID);
 
         }
+
+        protected void ddlTitleCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gvEmployees.DataBind();
+        }
     }
 }

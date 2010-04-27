@@ -59,8 +59,11 @@
         </asp:GridView>
         <asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
-            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
+            OldValuesParameterFormatString="original_{0}" 
+            SelectMethod="GetByTitleCode">
             <SelectParameters>
+                <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
+                    Name="titleCode" PropertyName="SelectedValue" Type="String" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
@@ -68,7 +71,8 @@
         
         Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
-            DataTextField="TitleCode" DataValueField="id" AutoPostBack="True">
+            DataTextField="TitleCode" DataValueField="id" AutoPostBack="True" 
+            onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
         </asp:DropDownList>
         
         <asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
