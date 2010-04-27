@@ -44,12 +44,24 @@
                                             Text='<%# Eval("AbbreviatedName") %>'></asp:Label></td>--%>
                             </tr>
                             <%--<tr><th colspan="5">Salary Scales</th></tr>--%>
+                            <asp:Panel ID="pnlNoSalaryScale" runat="server" Visible='<%# ((int)Eval("SalaryScales.Count") == 0 ? true : false) %>'>
+                            <tr><th colspan="5">Salary Scales</th></tr>
+                            <tr>
+                            <td colspan="5">
+                                No Data Available.
+                            </td>
+                            </tr>
+                            </asp:Panel>
+                            <asp:Panel ID="pnlSalaryScale" runat="server" Visible='<%# ((int)Eval("SalaryScales.Count") > 0 ? true : false) %>'>
                             <tr>
                                 <td colspan="5">
                                     <asp:Repeater runat="server" ID="rptSalaryScale" 
-                                        DataSource='<%# Eval("SalaryScales") %>'>
+                                        DataSource='<%# Eval("SalaryScales") %>' >
                                         <HeaderTemplate><tr><th colspan="5">Salary Scales</th></tr></HeaderTemplate>
+                                        
                                     <ItemTemplate>
+                                    
+                                   
                                         <table>
                                             <tr>
                                                 <th colspan="2">Effective Date:</th>
@@ -148,8 +160,11 @@
                                              </td>
                                         </tr>
                                     </table>
+                                   
                                 </ItemTemplate>
-                        </asp:Repeater></td></tr></table>
+                        </asp:Repeater></td></tr>
+                        </asp:Panel>
+                        </table>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
