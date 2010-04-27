@@ -6,7 +6,6 @@ using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 // added
-using CAESArch.Data.NHibernate;
 using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
@@ -108,7 +107,7 @@ namespace CAESDO.Esra.Web
         {
 
             //Might want to rollback the transaction whenever an error gets this far up the stack
-            NHibernateSessionManager.Instance.RollbackTransaction();
+            CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.RollbackTransaction();
 
             //Grab the page context
             HttpContext ctx = HttpContext.Current;
