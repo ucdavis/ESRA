@@ -12,7 +12,7 @@ namespace CAESDO.Esra.Web
 
         protected CAESDO.Esra.Core.Domain.SalaryScale CurrentSalaryScale
         {
-            get { return ViewState[KEY_CURRENT_SALARY_SCALE] as SalaryScale; }
+            get { return ViewState[KEY_CURRENT_SALARY_SCALE] as CAESDO.Esra.Core.Domain.SalaryScale; }
             set { ViewState.Add(KEY_CURRENT_SALARY_SCALE, value); }
         }
 
