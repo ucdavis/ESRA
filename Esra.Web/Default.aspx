@@ -8,6 +8,12 @@
  <br />
  <hr />
     <asp:MultiView ID="MultiView1" runat="server">
+        <asp:View ID="vDemo" runat="server">
+            Select a Demonstration Mode:
+            <asp:RadioButtonList ID="rblDemoMode" runat="server" AutoPostBack="True" 
+                onselectedindexchanged="rblDemoMode_SelectedIndexChanged" ><asp:ListItem Text="Reviewer" Value="Reviewer"></asp:ListItem><asp:ListItem Text="Department User" Value="User"></asp:ListItem>
+            </asp:RadioButtonList>
+        </asp:View>
         <asp:View ID="vDeansOffice" runat="server">
         <dl>
             <dt>

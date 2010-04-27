@@ -19,6 +19,7 @@ using CAESDO.Esra.Core.DataInterfaces;
 using System.Reflection;
 using CAESOps;
 using CAESDO.Esra.Core.Domain;
+using System.Web.Configuration;
 
 
 namespace CAESDO.Esra.Web
@@ -40,6 +41,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string ROLE_USER = "User";
         protected static readonly string ROLE_DOUser = "DOUser";
         protected static readonly string KEY_CURRENT_USER_ID = "UserID";
+        protected static readonly string KEY_CURRENT_USER_ROLE = "UserRole";
 
         public ApplicationPage()
         {
@@ -174,6 +176,15 @@ namespace CAESDO.Esra.Web
                 Control c = lblMessage;
                 this.SetFocus(c);
             }
+        }
+
+        protected bool IsDemoMode()
+        {
+            bool retval = false;
+            string applicationMode = WebConfigurationManager.AppSettings["ApplicationMode"];
+            if (String.IsNullOrEmpty(applicationMode) == false && applicationMode.Equals("demo", System.StringComparison.OrdinalIgnoreCase))
+                retval = true;
+            return retval;
         }
 
         private const string STR_CurrentUserType = "currentUserType";

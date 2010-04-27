@@ -369,20 +369,11 @@ namespace CAESDO.Esra.Web
 
         protected bool IsDepartmentUser()
         {
-            bool retval = true;
-            if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
-            {
-                //retval = false;
-                retval = true;
-            }
-            /*
-            CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
-            UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
-            if (employee.WorkDepartment.Name.Equals(DEANS_OFFICE_DEPARTMENT_NAME))
+            bool retval = false;
+            if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
             {
                 retval = true;
             }
-            */
             return retval;
         }
 

@@ -16,8 +16,8 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
-                
-
+                Session.Remove(KEY_CURRENT_USER_ID);
+                Session.Remove(KEY_CURRENT_USER_ROLE);
             }
         }
 
@@ -25,7 +25,6 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
-                Session.Remove(KEY_CURRENT_USER_ID);
                 /*
                 if (User.IsInRole(ROLE_USER))
                 {
@@ -40,16 +39,40 @@ namespace CAESDO.Esra.Web
                 CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
                 UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
                 Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);
-                
-                if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
+
+                if (IsDemoMode())
                 {
-                    MultiView1.SetActiveView(vDeansOffice);
+                    MultiView1.SetActiveView(vDemo);
                 }
                 else
                 {
-                    MultiView1.SetActiveView(vDepartments);
+
+                    if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
+                    {
+                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                        MultiView1.SetActiveView(vDeansOffice);
+                    }
+                    else
+                    {
+                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                        MultiView1.SetActiveView(vDepartments);
+                    }
                 }
-                 
+            }
+        }
+
+        protected void rblDemoMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RadioButtonList rbl = (RadioButtonList)sender;
+            if (rbl.SelectedValue.Equals(ROLE_USER))
+            {
+                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                MultiView1.SetActiveView(vDepartments);
+            }
+            else
+            {
+                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                MultiView1.SetActiveView(vDeansOffice);
             }
         }
     }
