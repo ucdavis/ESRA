@@ -45,8 +45,8 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" AutoPostBack="True"
                                 DataSourceID="odsESRAs" DataTextField="ReferenceNumber" 
-                                DataValueField="ID" AppendDataBoundItems="True">
-                                <asp:ListItem Value="0">-- Select a Reference Number --</asp:ListItem>
+                                DataValueField="ID" AppendDataBoundItems="True" >
+                                <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
@@ -68,14 +68,14 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" DataSourceID="odsEmployee"
                                 DataTextField="FullName" DataValueField="ID" AppendDataBoundItems="True">
-                                <asp:ListItem Value="0">-- Select an Employee --</asp:ListItem>
+                                <asp:ListItem Value="">-- Select an Employee --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AutoPostBack="True" 
                                 DataTextField="FullName" DataValueField="EmployeeID" 
                                 DataSourceID="odsCreatedBy" AppendDataBoundItems="True">
-                                <asp:ListItem Value="0">-- Select Created By --</asp:ListItem>
+                                <asp:ListItem Value="">-- Select Created By --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td><ajax:CalendarExtender
