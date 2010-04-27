@@ -10,6 +10,26 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryReviewAnalysisBLL : GenericBLL<SalaryReviewAnalysis, int>
     {
+        public static void DeleteRecord(int id)
+        {
+            using (var ts = new TransactionScope())
+            {  
+                Remove(GetByID(id));
+                
+                ts.CommittTransaction();
+            }
+        }
+
+        public static void DeleteRecord(string referenceNumber)
+        {
+            using (var ts = new TransactionScope())
+            {
+                Remove(GetByProperty("ReferenceNumber", referenceNumber));
+
+                ts.CommittTransaction();
+            }
+        }
+
         public static IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool ascending)
         {
             IList<SalaryReviewAnalysis> retval = null;
@@ -66,6 +86,11 @@ namespace CAESDO.Esra.BLL
 
             record.ApprovedScenario = approvedScenario;
 
+            // TODO: Add logic for figuring out originating department.
+            // Is this the user's home department if it's the same as their
+            // work department; otherwise their work department or what?
+            // or perhaps we just leave this blank?
+
             using (var ts = new TransactionScope())
             {
                 IList<Scenario> oldScenarios = ScenarioBLL.GetBySalaryReviewAnalysisID(record.ID);
@@ -87,14 +112,16 @@ namespace CAESDO.Esra.BLL
                         ScenarioBLL.Remove(oldScenario);
                     }
                 }
+                
                 EnsurePersistent(ref record);
+
+                if (String.IsNullOrEmpty(record.ReferenceNumber))
+                {
+                    record.ReferenceNumber = String.Format("{0:yyyyMMdd}", DateTime.Today) + record.ID;
+                }
+
                 ts.CommittTransaction();
             }
-
-            // TODO: Add logic for figuring out originating department.
-            // Is this the user's home department if it's the same as their
-            // work department; otherwise their work department or what?
-            // or perhaps we just leave this blank?
         }
     }
 }

@@ -35,10 +35,8 @@
          <asp:ObjectDataSource ID="odsCreatedBy" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetUsersInApplication" 
             TypeName="CAESDO.Esra.Web.CatbertManager">
-           
         </asp:ObjectDataSource>
        
- 
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
                 &nbsp;<table style="width: 75%;" id="tblSearchCriteria" border="1" cellpadding="2" cellspacing="0">
@@ -118,15 +116,22 @@
                     AutoGenerateColumns="False" 
                     EmptyDataText="No Data Found." 
                     onselectedindexchanged="gvSalaryReviewAnalysis_SelectedIndexChanged" 
-                    DataKeyNames="ID" >
+                    DataKeyNames="ID" OnRowDeleting="gvSalaryReviewAnalysis_OnRowDeleting">
                     <Columns>
-                        <asp:CommandField ShowSelectButton="True" />
+                        <asp:TemplateField ShowHeader="false">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtnSelect" runat="server" CausesValidation="False" 
+                        CommandName="Select" Text="Select" ToolTip="Select" CssClass="buttons"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False" 
+                        CommandName="Delete" Text="Delete" ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Reference Number" SortExpression="ReferenceNumber">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("ReferenceNumber") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("ReferenceNumber") %>'></asp:Label>
+                                <asp:Label ID="lblReferenceNumber" runat="server" Text='<%# Bind("ReferenceNumber") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Originating Department" SortExpression="OriginatingDepartment">

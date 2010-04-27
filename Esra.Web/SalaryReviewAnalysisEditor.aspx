@@ -2,6 +2,7 @@
     Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisEditor" Title="ESRA - Salary Review Analysis Editor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
+
     <script type="text/javascript">
         function ConfirmMe() {
             //if (Page_ClientValidate())
@@ -441,7 +442,7 @@
             <td>
                 <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" 
                     AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" 
-                    EmptyDataText="Salary Review Analysis Data Unavailable." Width="100%">
+                    EmptyDataText="Salary Review Analysis has yet to be saved." Width="100%">
                     <HeaderStyle cssclass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -583,7 +584,7 @@
                 &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
         Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis" OnClientClick="return ConfirmMe()"/>
                 &nbsp;
-                <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClientClick="history.go(-1);return false;"
+                <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClick="btnCancelSalaryReviewAnalysis_Click"
         Text="Cancel/Back" />
      </td> 
     </tr>
@@ -602,8 +603,8 @@
             <SelectParameters>
                 <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" 
                     Type="String" />
-                <asp:QueryStringParameter DefaultValue="0" Name="propertyValue" 
-                    QueryStringField="ReferenceNumber" Type="Object" />
+                <asp:SessionParameter DefaultValue="0" Name="propertyValue" 
+                    SessionField="ReferenceNumber" Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
     </div>

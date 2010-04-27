@@ -40,14 +40,17 @@ namespace CAESDO.Esra.Web
             get
             {
                 string retval = Request.QueryString[KEY_REFERENCE_NUM];
-                long temp = 0;
+                if (String.IsNullOrEmpty(retval))
+                {
+                    retval = Session[KEY_REFERENCE_NUM] as string;
+                }
 
+                long temp = 0;
                 // ###20081001 min length = 11
                 if (String.IsNullOrEmpty(retval) || retval.Length < 11 || long.TryParse(retval, out temp) == false)
                 {
                     retval = null;
                 }
-
                 return retval;
             }
         }
@@ -77,6 +80,10 @@ namespace CAESDO.Esra.Web
 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
+                    // Set the session reference number so that it can be
+                    // used by the datasource select method.
+                    Session[KEY_REFERENCE_NUM] = ReferenceNum;
+
                     sra = SalaryReviewAnalysisBLL.GetByProperty(KEY_REFERENCE_NUM, ReferenceNum);
                     if (sra != null)
                     {
@@ -178,7 +185,12 @@ namespace CAESDO.Esra.Web
             if (scenarios == null)
             {
                 scenarios = new List<Scenario>();
-                scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType = SelectionTypeBLL.GetByType(SelectionType.NONE).Type });
+                scenarios.Add(new Scenario()
+                {
+                    ScenarioNumber = 1,
+                    SelectionType = SelectionTypeBLL.GetByType(SelectionType.NONE).Type,
+                    Approved = false
+                });
             }
             rptScenarios.DataSource = scenarios;
             rptScenarios.DataBind();
@@ -427,10 +439,12 @@ namespace CAESDO.Esra.Web
                 sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
                 if (sra == null)
                 {
+                    User user = UserBLL.GetCurrent();
                     sra = new SalaryReviewAnalysis() {
                         ReferenceNumber = ReferenceNum,
                         DateInitiated = DateTime.Today,
-                        InitiatedByReviewerName = UserBLL.GetCurrent().FullName,
+                        InitiatedByReviewerName = user.FullName,
+                        OriginatingDepartment = DepartmentBLL.GetOriginatingDepartmentForUser(user.EmployeeID),
                         Title = TitleBLL.GetByTitleCode(Session[KEY_TITLE_CODE] as string),
                         Employee = EmployeeBLL.GetByID(EmployeeID),
                         SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
@@ -439,7 +453,16 @@ namespace CAESDO.Esra.Web
             }
             else
             {
-                sra = new SalaryReviewAnalysis();
+                User user = UserBLL.GetCurrent();
+                sra = new SalaryReviewAnalysis()
+                {
+                    DateInitiated = DateTime.Today,
+                    InitiatedByReviewerName = user.FullName,
+                    OriginatingDepartment = DepartmentBLL.GetOriginatingDepartmentForUser(user.EmployeeID),
+                    Title = TitleBLL.GetByTitleCode(Session[KEY_TITLE_CODE] as string),
+                    Employee = EmployeeBLL.GetByID(EmployeeID),
+                    SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
+                };
             }
 
             if (String.IsNullOrEmpty(dateApproved) == false)
@@ -450,6 +473,9 @@ namespace CAESDO.Esra.Web
             sra.Scenarios = scenarios;
 
             SalaryReviewAnalysisBLL.UpdateRecord(sra);
+            // At this point we need to set the reference number if a newly created analysis!
+            Session[KEY_REFERENCE_NUM] = sra.ReferenceNumber;
+
             // This data binding is needed here because we're using a DataSource vs a DataSourceID,
             // and the DataBinding is not automatic.
             gvEmployees.DataBind();
@@ -457,6 +483,8 @@ namespace CAESDO.Esra.Web
             gvEmployeeTitle.DataBind();
 
             // TODO: Figure where to redirect the user to upon a successful save.
+            // Probably back to the vSalaryReviewAnalysis of the SalaryReviewAnalysisPage.
+            // Must make sure the appropriate session variables and/or query string parameters are set!
         }
 
         protected void tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged(object sender, EventArgs e)
@@ -467,7 +495,8 @@ namespace CAESDO.Esra.Web
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
-            // TODO: Add logic to clear out any modified variables.
+            string redirectURL = "~/SalaryReviewAnalysisPage.aspx?" + KEY_REFERENCE_NUM +"=" + ReferenceNum;
+            Response.Redirect(redirectURL);
         }
 
         protected void cbxApproved_CheckChanged(object sender, EventArgs e)

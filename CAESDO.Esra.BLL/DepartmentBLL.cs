@@ -28,5 +28,21 @@ namespace CAESDO.Esra.BLL
             return departments;
         }
 
+        // This method contains the logic, which resolves the originating department
+        // based on the user provided.  Currently it's set to the user's work department.
+        public static Department GetOriginatingDepartmentForUser(string usersEmployeeID)
+        {
+            Department retval = null;
+
+            if (String.IsNullOrEmpty(usersEmployeeID) == false)
+            {
+                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", usersEmployeeID);
+                if (user != null)
+                {
+                    retval = user.WorkDepartment;
+                }
+            }
+            return retval;
+        }
     }
 }

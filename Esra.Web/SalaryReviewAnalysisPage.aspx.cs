@@ -20,6 +20,27 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_SALARY_REVIEW_ANALYSIS_ID = "CurrentSarID";
         protected static readonly string KEY_EMPLOYEE_ID = "CurrentEmployeeID";
         protected static readonly string KEY_TITLE_ID = "titleCode";
+        protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
+
+        protected string ReferenceNum
+        {
+            get
+            {
+                string retval = Request.QueryString[KEY_REFERENCE_NUM];
+                if (String.IsNullOrEmpty(retval))
+                {
+                    retval = Session[KEY_REFERENCE_NUM] as string;
+                }
+
+                long temp = 0;
+                // ###20081001 min length = 11
+                if (String.IsNullOrEmpty(retval) || retval.Length < 11 || long.TryParse(retval, out temp) == false)
+                {
+                    retval = null;
+                }
+                return retval;
+            }
+        }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -38,7 +59,25 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
-                MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
+                if (String.IsNullOrEmpty(ReferenceNum) == false)
+                {
+                    SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
+                    int id = sra.ID;
+                    Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
+                    Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
+                    Session.Add(KEY_TITLE_ID, sra.Title.ID);
+
+                    List<SalaryScale> salaryScales = new List<SalaryScale>();
+                    salaryScales.Add(sra.SalaryScale);
+                    gvSalaryScale.DataSource = salaryScales;
+                    gvSalaryScale.DataBind();
+                    
+                    MultiView1.SetActiveView(vSalaryReviewAnalysis);
+                }
+                else
+                {
+                    MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
+                }
             }
         }
 
@@ -128,6 +167,18 @@ namespace CAESDO.Esra.Web
             SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
             string redirectURL = "~/SalaryReviewAnalysisEditor.aspx?ReferenceNumber=" + sra.ReferenceNumber;
             Response.Redirect(redirectURL);
+        }
+
+        protected void gvSalaryReviewAnalysis_OnRowDeleting(object sender, EventArgs e)
+        {
+            //TODO: Add delete logic here.
+            GridView gv = sender as GridView;
+            GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
+            Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
+          
+            SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
+
+            // TODO: Add a message that says "Deleted" or whatever.
         }
     }
 }

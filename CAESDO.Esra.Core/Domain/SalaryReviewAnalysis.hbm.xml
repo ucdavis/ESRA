@@ -8,9 +8,13 @@
 		<property name="ReferenceNumber" column="ReferenceNumber" />
 		<!--<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>-->
 		<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" column="FkEmployee" foreign-key="PkEmployee"></many-to-one>
-		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core">
+    
+    <!--Set Title insert="false"; update="false" in order to be able to save the SalaryScale; otherwise TitleCode 
+    shows up twice in the result list!-->
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false">
 			<column name="TitleCode"/>
 		</many-to-one>
+    
 		<property name="DateInitiated" column="DateInitiated" />
 		<property name="DateApproved" column="DateApproved" />
 		<property name="DepartmentComments" column="DepartmentComments" />
@@ -23,7 +27,8 @@
 			<key column="SalaryReviewAnalysisID"/>
 			<one-to-many class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" />
 		</bag>
-		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" cascade="none" update="false" insert="false">
+    
+		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" cascade="none" update="false">
 			<column name="TitleCode"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>
