@@ -64,7 +64,7 @@ namespace CAESDO.Esra.Core.Domain
 
         private decimal _FirstQrtleMonthly;
 
-        public virtual decimal _FirstQrtleMonthly
+        public virtual decimal FirstQrtleMonthly
         {
             get { return _FirstQrtleAnnual / 12; }
             set { _FirstQrtleMonthly = value; }
@@ -86,6 +86,8 @@ namespace CAESDO.Esra.Core.Domain
             set { _ThirdQrtleMonthly = value; }
         }
 
+        private decimal _MaxMonthly;
+
         public virtual decimal MaxMonthly
         {
             get { return _MaxAnnual / 12; }
@@ -102,7 +104,7 @@ namespace CAESDO.Esra.Core.Domain
 
         private decimal _FirstQrtleHourly;
 
-        public virtual decimal _FirstQrtleHourly
+        public virtual decimal FirstQrtleHourly
         {
             get { return _FirstQrtleAnnual / 52 / 40; }
             set { _FirstQrtleHourly = value; }
@@ -124,6 +126,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _ThirdQrtleHourly = value; }
         }
 
+        private decimal _MaxHourly;
         public virtual decimal MaxHourly
         {
             get { return _MaxAnnual / 52 / 40; }
@@ -138,9 +141,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _EffectiveDate = value; }
         }
 
-        private IList<SalaryScales> _SalaryScales;
+        private IList<SalaryScale> _SalaryScales;
 
-        public virtual IList<SalaryScales> SalaryScales
+        public virtual IList<SalaryScale> SalaryScales
         {
             get { return _SalaryScales; }
             set { _SalaryScales = value; }
