@@ -58,6 +58,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportToExcel.aspx.cs">
+      <DependentUpon>ExportToExcel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExportToExcel.aspx.designer.cs">
+      <DependentUpon>ExportToExcel.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ModalConfirm.aspx.cs">
       <DependentUpon>ModalConfirm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -164,8 +171,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ExportToExcel.aspx" />
     <Content Include="images\common\home_icon-full.jpg" />
     <Content Include="images\common\loading.gif" />
+    <Content Include="includes\exportToExcel.js" />
     <Content Include="includes\jsUpdateProgress.js" />
     <Content Include="ModalConfirm.aspx" />
     <Content Include="UserAdminPage.aspx" />

@@ -1,14 +1,14 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
-<script type="text/javascript" language="javascript">
-    var ModalProgress = '<%= ModalProgress.ClientID %>';
-    </script>
-    <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
+    <script type="text/javascript" language="javascript">
+        var ModalProgress = '<%= ModalProgress.ClientID %>';
+</script>
+<script type="text/javascript" src="includes/exportToExcel.js"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
+<script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
     <div> <center><asp:Label ID="lblPageTitle" runat="server" 
             Text="Salary Scales &amp; Employee Salary Comparison" Font-Bold="True" 
             Font-Size="Larger"></asp:Label></center>
@@ -278,6 +278,9 @@ document.write(month+"/"+today+"/"+year)
                 </asp:GridView>
                 
                 <br />
+                
+                <asp:Button ID="btnExportToExcel" runat="server" Text="Export to Excel" OnClientClick="ExportToExcel(); return false;" />
+                
                 <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center><br />
                 <%--<asp:Panel ID="panelUpdateProgress" runat="server" >
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">

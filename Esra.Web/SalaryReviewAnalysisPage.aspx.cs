@@ -18,7 +18,6 @@ namespace CAESDO.Esra.Web
     public partial class SalaryReviewAnalysisPage : ApplicationPage
     {
         protected static readonly string KEY_SALARY_REVIEW_ANALYSIS_ID = "CurrentSarID";
-        protected static readonly string KEY_EMPLOYEE_ID = "CurrentEmployeeID";
         protected static readonly string KEY_TITLE_ID = "titleCode";
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
 

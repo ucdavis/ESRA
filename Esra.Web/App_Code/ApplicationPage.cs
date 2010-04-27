@@ -44,6 +44,10 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_CURRENT_USER_ROLE = "UserRole";
         protected static readonly string KEY_IS_DEPARTMENT_USER = "IsDepartmentUser";
         protected static readonly string KEY_CURRENT_USER = "User";
+        protected static readonly string KEY_APPLIED_FILTERS = "AppliedFilters";
+        protected static readonly string KEY_SORT_PROPERTY_NAME = "SortPropertyName"; 
+        protected static readonly string KEY_ASCENDING = "Ascending";
+        protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
 
         public ApplicationPage()
         {
@@ -154,6 +158,10 @@ namespace CAESDO.Esra.Web
                     objectDataSource.SelectParameters["ascending"].DefaultValue = "true";
                 }
             }
+
+            // New stuff for use with Excel output:
+            Session.Add(KEY_ASCENDING, objectDataSource.SelectParameters["ascending"].DefaultValue);
+            Session.Add(KEY_SORT_PROPERTY_NAME, propertyName);
 
             //gridView.DataBind();
 

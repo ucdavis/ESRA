@@ -12,7 +12,6 @@ namespace CAESDO.Esra.Web
     public partial class SalaryReviewAnalysisEditor : ApplicationPage
     {
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
-        protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
         protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
@@ -24,8 +23,12 @@ namespace CAESDO.Esra.Web
             get
             {
                 string retval = Request.QueryString[KEY_EMPLOYEE_ID];
-                long temp = 0;
+                if (String.IsNullOrEmpty(retval))
+                {
+                    retval = Session[KEY_EMPLOYEE_ID] as string;
+                }
 
+                long temp = 0;
                 if (String.IsNullOrEmpty(retval) || retval.Length != 13 || long.TryParse(retval, out temp) == false)
                 {
                     retval = null;

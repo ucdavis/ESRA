@@ -41,6 +41,9 @@ namespace CAESDO.Esra.BLL
             {
                 propertyName = "FullName";  // Default sort by FullName
             }
+            if (String.IsNullOrEmpty(propertyName))
+                propertyName = "FullName";
+
             IList<Employee> employees = GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
             List<Employee> retval = null;
             if (isDepartmentUser)

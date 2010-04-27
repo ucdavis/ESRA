@@ -642,7 +642,7 @@
             </UpdateParameters>
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="0" Name="id" 
-                    SessionField="CurrentEmployeeID" Type="String" />
+                    SessionField="EmployeeID" Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="odsTitle" runat="server" TypeName="CAESDO.Esra.BLL.TitleBLL"
