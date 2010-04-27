@@ -1,4 +1,4 @@
-﻿<%@ Page Title="ESRA - New Salary Steps Editor" Language="C#" MasterPageFile="~/Esra.Master"
+﻿<%@ Page Title="ESRA - Salary Steps Editor" Language="C#" MasterPageFile="~/Esra.Master"
     AutoEventWireup="true" CodeBehind="NewSalarySteps_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.NewSalarySteps_UserInputForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -8,7 +8,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <div id="divPageTitle">
         <center>
-            <asp:Label ID="lblPageTitle" runat="server" Text="New Salary Steps Editor" Font-Bold="True"
+            <asp:Label ID="lblPageTitle" runat="server" Text="Salary Steps Editor" Font-Bold="True"
                 Font-Size="Larger"></asp:Label></center>
         <br />
         <hr />
@@ -17,7 +17,7 @@
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vNoSalaryScaleDataProvided" runat="server">
             Unable to process request.
-            <br />
+            <br /><br />
             Title Code and/or Salary Scale information was missing.
         </asp:View>
         <asp:View ID="vEditNewSalarySteps" runat="server">
@@ -29,18 +29,15 @@
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Save"
                                 CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Text="Update"
-                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
-                            &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False"
-                                CommandName="Exit" Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
-                        </ItemTemplate>
+                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>&nbsp;<asp:LinkButton
+                                    ID="lbtnCancelUpdate" runat="server" CausesValidation="False" CommandName="Exit"
+                                    Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title.PayrollTitle">
                         <EditItemTemplate>
-                            <asp:Label ID="lblEditTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
-                        </EditItemTemplate>
+                            <asp:Label ID="lblEditTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="lblTitle" runat="server" Text='<%# Bind("Title.PayrollTitle") %>'></asp:Label>
-                        </ItemTemplate>
+                            <asp:Label ID="lblTitle" runat="server" Text='<%# Bind("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="TitleCode" HeaderText="Title Code" ReadOnly="True" SortExpression="TitleCode" />
                     <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
@@ -51,7 +48,11 @@
                         SortExpression="BargainingCode" />
                     <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps">
                         <ItemTemplate>
-                            <asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# Eval("SalarySteps.Count") %>'></asp:Label>
+                            <asp:UpdatePanel ID="upNumSalarySteps" runat="server">
+                                <ContentTemplate><asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# Eval("SalarySteps.Count") %>'>
+                                    </asp:Label>
+                                </ContentTemplate> 
+                            </asp:UpdatePanel>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Salary Steps">
@@ -76,7 +77,7 @@
                                                         Hourly
                                                     </th>
                                                     <td>
-                                                        &nbsp;
+                                                        &#160;&nbsp;
                                                     </td>
                                                 </tr>
                                                 <asp:PlaceHolder ID="DataSection" runat="server"></asp:PlaceHolder>
@@ -155,7 +156,7 @@
             </asp:GridView>
         </asp:View>
         <asp:View ID="vDisplaySalaryScale" runat="server">
-            You have chosen to add new Salary Steps to<br />
+            You have chosen to add new or edit Salary Steps to<br />
             <br />
             &nbsp;&nbsp;Title Code:
             <%= TitleCode %>
@@ -164,7 +165,7 @@
             <%= EffectiveDate %>.
             <br />
             <br />
-            Select "Edit" to start adding steps.
+            Select "Edit" to start adding/editing steps.
             <br />
             <br />
             <asp:GridView ID="gvDisplaySalaryScale" runat="server" DataSourceID="odsSalaryScale"
@@ -175,16 +176,13 @@
                     <asp:TemplateField ShowHeader="false">
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" OnClick="lbtnEdit_Click"
-                                Text="Edit" ToolTip="Edit" CssClass="buttons"><%--<img src="images/common/edit.png" alt="Edit" class="edit_button"/>--%></asp:LinkButton>
-                        </ItemTemplate>
+                                Text="Edit" ToolTip="Edit" CssClass="buttons"><%--<img src="images/common/edit.png" alt="Edit" class="edit_button"/>--%></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title">
                         <EditItemTemplate>
-                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Title") %>'></asp:TextBox>
-                        </EditItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Title") %>'></asp:TextBox></EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="lblPayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
-                        </ItemTemplate>
+                            <asp:Label ID="lblPayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="TitleCode" HeaderText="Title Code" ReadOnly="True" SortExpression="TitleCode" />
                     <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
@@ -197,12 +195,10 @@
                         SortExpression="NumSalarySteps" />
                     <asp:TemplateField HeaderText="Salary Steps" SortExpression="SalarySteps">
                         <EditItemTemplate>
-                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:TextBox>
-                        </EditItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:TextBox></EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="lblNoSteps" runat="server" Text="None" Visible='<%# ((int)Eval("SalarySteps.Count") == 0 ? true : false) %>'></asp:Label>
-                            <asp:Repeater ID="rptSalarySteps" runat="server" DataSource='<%# Eval("SalarySteps") %>'
-                                Visible='<%# ((int)Eval("SalarySteps.Count") > 0 ? true : false) %>'>
+                            <asp:Label ID="lblNoSteps" runat="server" Text="None" Visible='<%# ((int)Eval("SalarySteps.Count") == 0 ? true : false) %>'></asp:Label><asp:Repeater
+                                ID="rptSalarySteps" runat="server" DataSource='<%# Eval("SalarySteps") %>' Visible='<%# ((int)Eval("SalarySteps.Count") > 0 ? true : false) %>'>
                                 <HeaderTemplate>
                                     <table>
                                         <tr class="tr_subhead">
@@ -223,7 +219,7 @@
                                 <ItemTemplate>
                                     <tr>
                                         <th>
-                                            <asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber")+"." %>'></asp:Label>
+                                            <asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
                                         </th>
                                         <td>
                                             <asp:Label ID="lblAnnual" runat="server" Text='<%# Eval("Annual", "{0:c}") %>'></asp:Label>
@@ -237,9 +233,9 @@
                                     </tr>
                                 </ItemTemplate>
                                 <AlternatingItemTemplate>
-                                     <tr class="tr_alt">
+                                    <tr class="tr_alt">
                                         <th>
-                                            <asp:Label ID="lblStepNumberAlt" runat="server" Text='<%# Eval("StepNumber")+"." %>'
+                                            <asp:Label ID="lblStepNumberAlt" runat="server" Text='<%# Eval("StepNumber") %>'
                                                 CssClass="tb_alt"></asp:Label>
                                         </th>
                                         <td>
@@ -265,6 +261,9 @@
             </asp:GridView>
         </asp:View>
     </asp:MultiView>
+    <p>
+        &nbsp;&nbsp;<asp:ImageButton ID="imgEditButton" runat="server" CssClass="back_button" src="images/common/arrow_left.jpg" alt="Back" OnClick="lbtnBack_Click"/>&nbsp;<asp:LinkButton ID="lbtnBack" runat="server" ToolTip="Back" CssClass="buttons"
+            OnClick="lbtnBack_Click" Text="Back"/></p>
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL"
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScale">
         <SelectParameters>

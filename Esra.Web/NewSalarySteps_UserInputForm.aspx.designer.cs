@@ -77,6 +77,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.GridView gvDisplaySalaryScale;
         
         /// <summary>
+        /// imgEditButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton imgEditButton;
+        
+        /// <summary>
+        /// lbtnBack control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbtnBack;
+        
+        /// <summary>
         /// odsSalaryScale control.
         /// </summary>
         /// <remarks>

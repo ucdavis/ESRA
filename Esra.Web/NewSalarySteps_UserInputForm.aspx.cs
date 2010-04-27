@@ -21,6 +21,12 @@ namespace CAESDO.Esra.Web
             set { ViewState.Add(KEY_CURRENT_SALARY_SCALE, value); }
         }
 
+        protected String ReturnPage
+        {
+            get { return ViewState[KEY_RETURN_PAGE] as string; }
+            set { ViewState.Add(KEY_RETURN_PAGE, value); }
+        }
+
         protected string TitleCode
         {
             get
@@ -56,10 +62,15 @@ namespace CAESDO.Esra.Web
                 return retval;
             }
         }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                ReturnPage = "~/Default.aspx";
+                if (Request.UrlReferrer != null)
+                    ReturnPage = Request.UrlReferrer.AbsolutePath;
+
                 MultiView1.SetActiveView(vNoSalaryScaleDataProvided);
 
                 if (String.IsNullOrEmpty(TitleCode) == false && String.IsNullOrEmpty(EffectiveDate) == false)
@@ -218,6 +229,8 @@ namespace CAESDO.Esra.Web
 
             gvSalaryScale.DataSource = scales;
             gvSalaryScale.DataBind();
+
+            (gvSalaryScale.FindControl("upNumSalarySteps") as UpdatePanel).Update();
         }
 
         protected void gvSalaryScales_OnCommand(object sender, CommandEventArgs e)
@@ -226,29 +239,22 @@ namespace CAESDO.Esra.Web
             {
                 SalaryScale ss = SalaryScaleBLL.GetSalaryScale(CurrentSalaryScale.TitleCode, CurrentSalaryScale.EffectiveDate);
 
-                using (var ts = new TransactionScope())
+                // This is necessary in order for the existing SalarySteps to be removed from the
+                // relationship and the session; otherwise, we get an object with the same
+                // identifier is already associated with the session.
+                if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
                 {
-
-                    if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
-                    {
-                        foreach (SalaryStep step in ss.SalarySteps)
-                        {
-                            SalaryStepBLL.Remove(step);
-                        }
-                    }
-
-                    ss.SalarySteps = CurrentSalaryScale.SalarySteps;
-                    ss.NumSalarySteps = CurrentSalaryScale.SalarySteps.Count;
-
-                    SalaryScaleBLL.EnsurePersistent(ref ss);
-
-                    ts.CommittTransaction();
+                    ss.SalarySteps.Clear();
+                    SalaryScaleBLL.InsertRecord(ss);
                 }
-                //SalaryScaleBLL.InsertRecord(ss);
+
+                ss.SalarySteps = CurrentSalaryScale.SalarySteps;
+                ss.NumSalarySteps = CurrentSalaryScale.SalarySteps.Count;
+
+                SalaryScaleBLL.InsertRecord(ss);
 
                 // Exit the "Add" view and return back to the select display view:
-
-                gvSalaryScale.DataBind();
+                gvDisplaySalaryScale.DataBind();
 
                 SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_UPDATED_SUCCESS);
 
@@ -258,10 +264,15 @@ namespace CAESDO.Esra.Web
             else if (e.CommandName.Equals("Exit"))
             {
                 CurrentSalaryScale = null;
-                odsSalaryScale.DataBind();
+                //odsSalaryScale.DataBind();
                 gvDisplaySalaryScale.DataBind();
                 MultiView1.SetActiveView(vDisplaySalaryScale);
             }
+        }
+
+        protected void lbtnBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(ReturnPage);
         }
     }
 }
