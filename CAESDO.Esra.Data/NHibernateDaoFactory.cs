@@ -27,6 +27,7 @@ namespace CAESDO.Esra.Data
         public ISalaryScaleDao GetSalaryScaleDao() { return new SalaryScaleDao(); }
         public IUnitDao GetUnitDao() { return new UnitDao(); }
         public IUserDao GetUserDao() { return new UserDao(); }
+        public ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao() { return new SalaryReviewAnalysisDao(); }
         
         #endregion
 
@@ -169,5 +170,92 @@ namespace CAESDO.Esra.Data
             }
         }
         #endregion
+    }
+
+    public class SalaryReviewAnalysisDao : AbstractNHibernateDao<SalaryReviewAnalysis, int>, ISalaryReviewAnalysisDao
+    {
+        public IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool? ascending)
+        {
+                IList<SalaryReviewAnalysis> retval = null;
+                if (String.IsNullOrEmpty(propertyName)) propertyName = "Employee.FullName";
+                if (ascending == null) ascending = true;
+
+                if ((String.IsNullOrEmpty(employeeID) || employeeID.Equals("0")) &&
+                    ((String.IsNullOrEmpty(reviewerLogin) || reviewerLogin.Equals("0")) &&
+                    ((String.IsNullOrEmpty(creationDate) || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))))
+                {
+                    retval = GetAll(propertyName, (bool)ascending);
+                }
+                else
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis));
+                    Conjunction conjunction = Expression.Conjunction();
+                    criteria.CreateAlias("Employee", "Employee");
+
+                    if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
+                    {
+
+                        conjunction.Add(Expression.Eq("Employee.ID", employeeID));
+                    }
+                    if (String.IsNullOrEmpty(reviewerLogin) == false && reviewerLogin.Equals("0") == false)
+                    {
+                        conjunction.Add(Expression.Eq("InitiatedByReviewerName", reviewerLogin));
+                    }
+                    if (String.IsNullOrEmpty(creationDate) == false && creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today)) == false)
+                    {
+                        conjunction.Add(Expression.Eq("DateInitiated", Convert.ToDateTime(creationDate)));
+                    }
+                    criteria.Add(conjunction);
+
+                    if (propertyName.Equals("Department.Name"))
+                    {
+                        criteria.CreateAlias("Department", "Department")
+                        .AddOrder(((bool)ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
+                        .AddOrder(Order.Asc("Employee.FullName"));
+                    }
+                    else
+                    {
+                        criteria.AddOrder(((bool)ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+                        if (propertyName.Equals("Employee.FullName") == false)
+                        {
+                            criteria.AddOrder(Order.Asc("Employee.FullName"));
+                        }
+                    }
+
+                    retval = criteria.List<SalaryReviewAnalysis>();
+                }
+                return retval;
+        }
+
+        public new IList<SalaryReviewAnalysis> GetAll(string propertyName, bool ascending)
+        {
+             IList<SalaryReviewAnalysis> retval = null;
+
+                if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("Employee.FullName"))
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis))
+                      .CreateAlias("Employee", "Employee")
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryReviewAnalysis>();                    
+                }
+                else if (propertyName.Equals("Department.Name"))
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis))
+                      .CreateAlias("Department", "Department")
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryReviewAnalysis>();                    
+                }
+                else
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis))
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryReviewAnalysis>();
+                }
+
+                return retval;
+        }
     }
 }

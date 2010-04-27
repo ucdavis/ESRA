@@ -14,6 +14,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
         ISalaryScaleDao GetSalaryScaleDao();
         IUserDao GetUserDao();
         IUnitDao GetUnitDao();
+        ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao();
     }
 
     // There's no need to declare each of the DAO interfaces in its own file, so just add them inline here.
@@ -26,6 +27,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
+
     }
 
     public interface ISalaryScaleDao : IDao<SalaryScale, int>
@@ -40,6 +42,12 @@ namespace CAESDO.Esra.Core.DataInterfaces
     }
 
     public interface IUnitDao : IDao<Unit, string> { }
+
+    public interface ISalaryReviewAnalysisDao : IDao<SalaryReviewAnalysis, int>
+    {
+        new IList<SalaryReviewAnalysis> GetAll(string propertyName, bool ascending);
+        IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool? ascending);
+    }
 
     #endregion
 }

@@ -10,6 +10,27 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryReviewAnalysisBLL : GenericBLL<SalaryReviewAnalysis, int>
     {
-       
+        public static IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool ascending)
+        {
+            IList<SalaryReviewAnalysis> retval = null;
+
+            if (String.IsNullOrEmpty(employeeID) 
+                && String.IsNullOrEmpty(reviewerLogin) 
+                && (String.IsNullOrEmpty(creationDate) 
+                    || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))
+            {
+                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(propertyName, ascending);
+            }
+            else
+            {
+                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(employeeID, reviewerLogin, creationDate, propertyName, ascending);
+            }
+            return retval;
+        }
+
+        public static SalaryReviewAnalysis GetByReferenceNumber(string referenceNumber)
+        {
+            return GetByProperty("ReferenceNumber", referenceNumber);
+        }
     }
 }
