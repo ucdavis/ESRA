@@ -310,6 +310,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
   
                             <EditItemTemplate>
+                                <asp:Label ID="lblHomeDepartmentHeader" runat="server" Text="Department:" CssClass="edit_header"/><br />
                                 <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>' />
                                 <%--<asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("HomeDepartment") %>'></asp:TextBox>--%>
                             </EditItemTemplate>
@@ -318,7 +319,9 @@ document.write(month+"/"+today+"/"+year)
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Title Code" SortExpression="Title">
-                            <EditItemTemplate><asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'/>
+                            <EditItemTemplate>
+                                <asp:Label ID="lblTitleHeader" runat="server" Text="Title Code:" CssClass="edit_header"/><br />
+                                <asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'/>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblTitleCode" runat="server" 
@@ -327,6 +330,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Bargaining Unit">
                             <EditItemTemplate>
+                                <asp:Label ID="lblBargainingUnitHeader" runat="server" Text="Bargaining Unit:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label2" runat="server" 
                                     Text='<%# Eval("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
                             </EditItemTemplate>
@@ -337,6 +341,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Employee Name" SortExpression="FullName">
                             <EditItemTemplate>
+                                <asp:Label ID="lblFullNameHeader" runat="server" Text="Employee Name:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -347,6 +352,7 @@ document.write(month+"/"+today+"/"+year)
                             <EditItemTemplate>
                                 <ajax:CalendarExtender ID="ceAdjustedCareerHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedCareerHireDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
+                                <asp:Label ID="lblAdjustedCareerHireDateHeader" runat="server" Text="Hire Date:" CssClass="edit_header"/><br />
                                 <asp:TextBox ID="tbAdjustedCareerHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                                     
@@ -360,6 +366,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Years Of Service" 
                             SortExpression="YearsOfService">
                             <EditItemTemplate>
+                                <asp:Label ID="lblYearsOfServiceHeader" runat="server" Text="Years Of Service:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label4" runat="server" 
                                     Text='<%# Eval("YearsOfService", "{0:0.00}") %>'></asp:Label>
                             </EditItemTemplate>
@@ -372,6 +379,7 @@ document.write(month+"/"+today+"/"+year)
                             <EditItemTemplate>
                             <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedApptHireDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
+                                <asp:Label ID="lblAdjustedApptHireDateHeader" runat="server" Text="Begin Date (in Title)" CssClass="edit_header"/><br />
                                 <asp:TextBox ID="tbAdjustedApptHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                             </EditItemTemplate>
@@ -382,6 +390,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Time In Title" SortExpression="TimeInTitle">
                             <EditItemTemplate>
+                                <asp:Label ID="lblTimeInTitleHeader" runat="server" Text="Time In Title:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label5" runat="server" 
                                     Text='<%# Eval("TimeInTitle", "{0:0.00}") %>'></asp:Label>
                             </EditItemTemplate>
@@ -395,6 +404,7 @@ document.write(month+"/"+today+"/"+year)
                             <EditItemTemplate>
                             <ajax:CalendarExtender ID="ceExperienceBeginDate" runat="server" CssClass="calendar" TargetControlID="tbExperienceBeginDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
+                                <asp:Label ID="lblExperienceBeginDateHeader" runat="server" Text="Experience Begin Date:" CssClass="edit_header"/><br />
                                 <asp:TextBox ID="tbExperienceBeginDate" runat="server" 
                                     Text='<%# Bind("ExperienceBeginDate", "{0:MM/dd/yyyy}") %>' ></asp:TextBox>
                             </EditItemTemplate>
@@ -407,6 +417,7 @@ document.write(month+"/"+today+"/"+year)
                             <EditItemTemplate>
                                 <%--<asp:TextBox ID="TextBox3" runat="server" 
                                     Text='<%# Bind("YearsOfExperience") %>'></asp:TextBox>--%>
+                                    <asp:Label ID="lblYearsOfExperienceHeader" runat="server" Text="Years Of Experience:" CssClass="edit_header"/><br />
                                     <asp:Label ID="lblEditYearsOfExperience" runat="server" Text='<%# Eval("YearsOfExperience","{0:0.00}") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -415,6 +426,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Pay Rate" SortExpression="PayRate">
                             <EditItemTemplate>
+                                <asp:Label ID="lblPayRateHeader" runat="server" Text="Pay Rate:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -423,8 +435,9 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Department Comments">
                             <EditItemTemplate>
+                                <asp:Label ID="lblDepartmentCommentsHeader" runat="server" Text="Department Comments:" CssClass="edit_header"/><br />
                                 <asp:TextBox ID="TextBox4" runat="server" 
-                                    Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>'></asp:TextBox>
+                                    Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>' BackColor='<%# (!IsDepartmentUser() ? System.Drawing.Color.LightGray : System.Drawing.Color.White) %>' ></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblDepartmentComments" runat="server" Text='<%# Eval("DepartmentComments") %>'></asp:Label>
@@ -432,8 +445,9 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Dean's Office Comments">
                             <EditItemTemplate>
+                                <asp:Label ID="lblDeansOfficeCommentsHeader" runat="server" Text="Dean's Office Comments:" CssClass="edit_header"/><br />
                                 <asp:TextBox ID="TextBox5" runat="server" 
-                                    Text='<%# Bind("DeansOfficeComments") %>' ReadOnly='<%# IsDepartmentUser() %>'></asp:TextBox>
+                                    Text='<%# Bind("DeansOfficeComments") %>' ReadOnly='<%# IsDepartmentUser() %>' BackColor='<%# (IsDepartmentUser() ? System.Drawing.Color.LightGray : System.Drawing.Color.White) %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblDeansOfficeComments" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
