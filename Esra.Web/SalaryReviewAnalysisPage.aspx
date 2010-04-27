@@ -150,7 +150,7 @@
                         <ItemStyle Width="50px" />
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnSelect" runat="server" CausesValidation="False" CommandName="Select"
-                                    Text="Select" ToolTip="Select" CssClass="buttons"><img src="images/common/edit.png" alt="select" /></asp:LinkButton>
+                                    Text="View" ToolTip="View" CssClass="buttons"><img src="images/common/employee_salary_comparison.png" alt="View" /></asp:LinkButton>
                                 &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False"
                                  CommandName="Delete" CommandArgument='<%# ((CAESDO.Esra.Core.Domain.SalaryReviewAnalysis)Container.DataItem).ID %>'
                                     Text="Delete" ToolTip="Delete" CssClass="buttons" OnClientClick="return confirm('Are you sure you want to delete this analysis?');" OnClick="gvSalaryReviewAnalysis_OnRowDeleting">
