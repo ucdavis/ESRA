@@ -62,9 +62,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _DateInitiated = value; }
         }
 
-        private DateTime _DateApproved;
+        private DateTime? _DateApproved;
 
-        public virtual DateTime DateApproved
+        public virtual DateTime? DateApproved
         {
             get { return _DateApproved; }
             set { _DateApproved = value; }
