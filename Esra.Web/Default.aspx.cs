@@ -18,6 +18,7 @@ namespace CAESDO.Esra.Web
             {
                 Session.Remove(KEY_CURRENT_USER_ID);
                 Session.Remove(KEY_CURRENT_USER_ROLE);
+                Session.Remove(KEY_IS_DEPARTMENT_USER);
             }
         }
 
@@ -50,11 +51,13 @@ namespace CAESDO.Esra.Web
                     if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
                     {
                         Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
                         MultiView1.SetActiveView(vDeansOffice);
                     }
                     else
                     {
                         Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                        Session.Add(KEY_IS_DEPARTMENT_USER, true);
                         MultiView1.SetActiveView(vDepartments);
                     }
                 }
