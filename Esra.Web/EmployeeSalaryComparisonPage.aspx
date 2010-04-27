@@ -303,9 +303,10 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-</li></ul>                
+</li></ul __designer:mapid="1a7">                
 <%--</td></tr></tbody></table> --%>
-<p class="note">Items highlighted in <span class="yellow">yellow</span> indicate a change from pps</p>
+<p class="note">Items highlighted in <span class="yellow">yellow</span> indicate a 
+    change from pps.</p>
 <h2 class="h2_black"><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" ></asp:Label>
 <asp:Button ID="btnExportToExcel" runat="server" OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" /></h2>
 
