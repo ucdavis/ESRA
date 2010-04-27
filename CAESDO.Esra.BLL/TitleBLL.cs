@@ -8,16 +8,15 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {
-    public class TitleBLL : GenericBLL<Title, int>
+    public class TitleBLL : GenericBLL<Title, string>
     {
 
-        public static Title GetByTitleCode(int id)
+        public static Title GetByTitleCode(string id)
         {
             Title retval = null;
 
-            if (id > 0)
+            if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
             {
-
                 retval = GetByID(id);
             }
 
