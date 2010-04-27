@@ -5,6 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class SalaryReviewAnalysis : DomainObject<SalaryReviewAnalysis, int>
     {
         private string _ReferenceNumber;
