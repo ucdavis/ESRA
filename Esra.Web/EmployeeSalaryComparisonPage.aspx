@@ -29,10 +29,10 @@
     
     <h2><asp:Label ID="lblTitleSalaryScaleSection" runat="server" Text="Salary Scales"></asp:Label></h2>
     &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
-            DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
+            DataTextField="PayrollTitle_TitleCode" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
             onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
-            <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
+            <asp:ListItem Value="0">-- Select a Title --</asp:ListItem>
         </asp:DropDownList>
         <ajax:ListSearchExtender ID="ListSearchExtender4" runat="server" 
             TargetControlID="ddlTitleCode">
@@ -202,10 +202,10 @@
                 <td>
                     <asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
-            DataTextField="TitleCode_Name" DataValueField="ID" 
+            DataTextField="PayrollTitle_TitleCode" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple" >
-            <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
+            <asp:ListItem Value="0">-- Any Title(s) --</asp:ListItem>
         </asp:ListBox></td></tr><tr>
                 <td><asp:ListBox ID="lbxDepartments" runat="server" 
             AppendDataBoundItems="True" 
@@ -613,7 +613,7 @@ document.write(month+"/"+today+"/"+year)
             TypeName="CAESDO.Esra.BLL.TitleBLL" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
             <SelectParameters>
-                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="PayrollTitle" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
             
