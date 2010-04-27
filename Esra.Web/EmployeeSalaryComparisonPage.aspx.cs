@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
+using System.Reflection;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using CAESArch.BLL;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
@@ -25,6 +27,16 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_SELECTED_TITLE_STRINGS = "selectedTitleStrings";
         protected static readonly string KEY_SELECTED_TITLES = "selectedTitles";
         protected static readonly string KEY_SEARCH_PARAMETERS = "searchParameters";
+        public static readonly string[] TRACK_CHANGES_FIELD_NAMES = new string[] 
+        {"AdjustedCareerHireDate",
+         "AdjustedApptHireDate",
+         "ExperienceBeginDate",
+         "DepartmentComments",
+         "DeansOfficeComments",
+         "PPSCareerHireDateChecked",
+         "PPSApptHireDateChecked"};
+
+        protected string CurrentEditingRecordID { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -36,6 +48,7 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_SELECTED_TITLE_STRINGS);
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_SEARCH_PARAMETERS);
+
             }
         }
 
@@ -330,7 +343,6 @@ namespace CAESDO.Esra.Web
         protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-
         }
 
         protected void gvEmployees_Sorting(object sender, GridViewSortEventArgs e)
@@ -340,19 +352,71 @@ namespace CAESDO.Esra.Web
 
         protected void gvEmployees_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            // Will need to check old values against new values, and then add the appropriate 
-            // entries in the employee changes table.
+            // Get the old employee record and compare it against the new values
+            // to see if any of the tracked fields have changed, and add an
+            // employee change record as appropriate.
 
-            // values that can be changed:
-            //tbAdjustedCareerHireDate - AdjustedCareerHireDate
-            //tbAdjustedApptHireDate - AdjustedApptHireDate
-            //tbExperienceBeginDate - ExperienceBeginDate
-            //tbDepartmentComments - DepartmentComments
-            //tbDeansOfficeComments - DeansOfficeComments
-            //e.OldValues[];
-            //e.NewValues[];
-
+            Employee emp = EmployeeBLL.GetNullableByID(e.Keys["ID"] as string);
             
+            EmployeeChanges changeRecord = null;
+            foreach (string fieldName in TRACK_CHANGES_FIELD_NAMES)
+            {
+                bool createChangeRecord = false;
+                PropertyInfo pi = typeof (Employee).GetProperty(fieldName);
+                var oldValue = pi.GetValue(emp, null);
+                string newValue = (e.NewValues[fieldName] == null ? null : e.NewValues[fieldName].ToString());
+
+                if ((oldValue == null && newValue != null) ||
+                    (oldValue != null && newValue == null))
+                {
+                    // Create change record
+                    createChangeRecord = true;
+                }
+                else if (oldValue != null && newValue != null)
+                {
+                    if (oldValue is DateTime)
+                    {
+                        // Compare dates and create change record if diffenent
+                        if (!DateTime.Equals(oldValue, Convert.ToDateTime(newValue)))
+                        {
+                            createChangeRecord = true;
+                        }
+                    }
+                    else if (oldValue is bool)
+                    {
+                        if (!oldValue.Equals(Convert.ToBoolean(newValue)))
+                        {
+                            // create change record
+                            createChangeRecord = true;
+                        }
+                    }
+                    else if (!oldValue.Equals(newValue))
+                    {
+                        // create change record
+                        createChangeRecord = true;
+                    }
+                }
+
+                if (createChangeRecord)
+                {
+                    // Create a new EmployeeChanges record and add to to EmployeeChanges table:
+                    var record = new EmployeeChanges()
+                        {
+                            ChangeType = ChangeTypeBLL.GetByProperty("Type", fieldName),
+                            Comments = "Old value: [" + oldValue + "]; new value: [" + newValue + "]",
+                            DateChanged = DateTime.Now,
+                            Employee = emp,
+                            User = UserBLL.GetCurrent(),
+                            Title = emp.Title
+                        };
+
+                    using (var ts = new TransactionScope())
+                    {
+                        EmployeeChangesBLL.EnsurePersistent(record);
+                        ts.CommitTransaction();
+                    }
+                }
+            }
         }
 
         protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
