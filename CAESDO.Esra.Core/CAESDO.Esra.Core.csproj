@@ -80,16 +80,16 @@
     <Compile Include="Utils\DesignByContract.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Domain\ApptType.hbm..xml" />
-    <Content Include="Domain\UCDEmployee.hbm..xml" />
-    <Content Include="Domain\SalaryStep.hbm..xml" />
-    <Content Include="Domain\SalaryGradeQuartiles.hbm..xml" />
-    <Content Include="Domain\SalaryScale.hbm..xml" />
-    <Content Include="Domain\Title.hbm..xml" />
-    <Content Include="Domain\SelectionType.hbm..xml" />
-    <Content Include="Domain\QuartileType.hbm..xml" />
-    <Content Include="Domain\PayRateType.hbm..xml" />
-    <Content Include="Domain\Department.hbm..xml" />
+    <EmbeddedResource Include="Domain\ApptType.hbm.xml" />
+    <EmbeddedResource Include="Domain\UCDEmployee.hbm.xml" />
+    <EmbeddedResource Include="Domain\SalaryStep.hbm.xml" />
+    <EmbeddedResource Include="Domain\SalaryGradeQuartiles.hbm.xml" />
+    <EmbeddedResource Include="Domain\SalaryScale.hbm.xml" />
+    <EmbeddedResource Include="Domain\Title.hbm..xml" />
+    <EmbeddedResource Include="Domain\SelectionType.hbm.xml" />
+    <EmbeddedResource Include="Domain\QuartileType.hbm.xml" />
+    <EmbeddedResource Include="Domain\PayRateType.hbm.xml" />
+    <EmbeddedResource Include="Domain\Department.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
