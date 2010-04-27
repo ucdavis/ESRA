@@ -34,6 +34,8 @@ namespace CAESDO.Esra.Web
             //MultiView1.SetActiveView(vEmployees);
             if (!IsPostBack)
             {
+                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                ViewState.Add(KEY_CURRENT_USER, user);
                 MultiView1.SetActiveView(vEmployees);
 
                 /*
@@ -413,10 +415,13 @@ namespace CAESDO.Esra.Web
         protected bool IsDepartmentUser()
         {
             bool retval = false;
-            if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
-            {
-                retval = true;
-            }
+            bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
+            if (isDepartmentUser != null)
+                retval = (bool)isDepartmentUser;
+            //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
+            //{
+            //    retval = true;
+            //}
             return retval;
         }
 
@@ -450,6 +455,30 @@ namespace CAESDO.Esra.Web
                 ddlEmployee.DataSource = odsDepartmentUserEmployees;
             }
             ddlEmployee.DataBind();
+        }
+
+        protected void gvEmployees_RowDataBound(object sender, EventArgs e)
+        {
+            GridViewRowEventArgs args = (GridViewRowEventArgs)e;
+            GridViewRow gvr = args.Row;
+
+            if (gvr.RowType.Equals(DataControlRowType.DataRow))
+            {
+                UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
+                if (user != null)
+                {
+                    Employee employee = gvr.DataItem as Employee;
+
+                    if (!EmployeeBLL.IsDepartmentEmployee(user, employee))
+                    {
+                        ((Label)gvr.FindControl("lblDeptName")).Text = null;
+                        ((Label)gvr.FindControl("lblFullName")).Text = null;
+                        ((Label)gvr.FindControl("lblDepartmentComments")).Text = null;
+                        ((Label)gvr.FindControl("lblDeansOfficeComments")).Text = null;
+                        ((LinkButton)gvr.FindControl("lbtnEdit")).Visible = false;
+                    }
+                }
+            }
         }
 
         private void AddUserDepartmentsToSession()

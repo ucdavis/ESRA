@@ -288,6 +288,7 @@ document.write(month+"/"+today+"/"+year)
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
                     onrowupdated="gvEmployees_RowUpdated" 
+                    OnRowDataBound="gvEmployees_RowDataBound"
                     EnableViewState="False">
                     <PagerSettings Position="TopAndBottom" />
                     <HeaderStyle cssclass="tr_head" />
@@ -302,7 +303,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                                    CommandName="Edit" Text="Edit" Visible='<%# (String.IsNullOrEmpty(Eval("FullName") as String) ? false : true) %>'></asp:LinkButton>
+                                    CommandName="Edit" Text="Edit"></asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         
@@ -339,7 +340,7 @@ document.write(month+"/"+today+"/"+year)
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
+                                <asp:Label ID="lblFullName" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Hire Date">
@@ -426,7 +427,7 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label8" runat="server" Text='<%# Eval("DepartmentComments") %>'></asp:Label>
+                                <asp:Label ID="lblDepartmentComments" runat="server" Text='<%# Eval("DepartmentComments") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Dean's Office Comments">
@@ -435,7 +436,7 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Bind("DeansOfficeComments") %>' ReadOnly='<%# IsDepartmentUser() %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label9" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
+                                <asp:Label ID="lblDeansOfficeComments" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
                             </ItemTemplate>
                         
                         </asp:TemplateField>
