@@ -249,10 +249,10 @@ a:link .title
 #nav a {color: #11398a; text-decoration: none;}
 #nav > ul > li > a {letter-spacing: -1px; font-size: 1em;}
 #nav li li a {display: block; font-weight: normal; padding: 0px;}
-#nav li li a:hover {padding: 0px; font-weight: bold}
+#nav li li a:hover {padding: 0px; font-weight: bold} 
 #nav li {float: left; position: relative; text-align: left; padding: 0px;}
 #nav > ul li {padding: 0px 15px;}
-#nav > ul > li:hover {background: url(../images/common/nav_bg.jpg) repeat-x left bottom; font-weight:bold;}
+#nav > ul > li:hover, #nav li.nav2:hover {background: url(../images/common/nav_bg.jpg) repeat-x left bottom; font-weight:bold;}
 #nav li ul {display: none; position: absolute; top: 100%; left: 0; font-weight: normal; padding: 4px 0px 15px;
      background: url(../images/common/navddsm_bg.png) no-repeat left bottom; margin-left: -15px; min-width: 170px;}
 #nav li ul.reports {background: url(../images/common/navdd_bg.png) no-repeat left bottom;}     
@@ -260,4 +260,3 @@ a:link .title
 #nav li li {display: block; float: none; background-color: transparent; border: 0; padding-top: 4px;}
 #nav li ul li.lastjustkidding {background: url(../images/common/navdd_rightbg.png) no-repeat bottom right;}
 #nav li:hover ul, li.over ul {display: block;}	
-

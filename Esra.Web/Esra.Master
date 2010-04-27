@@ -35,7 +35,8 @@
             <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review Analysis</a></li>
             <asp:Panel ID="pnlAdminMaintenance" runat="server" >
             
-	    <li>
+            
+	    <li class="nav2">
 	         <center><asp:ImageButton ID="ImageButton5" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance"/></center><br />
 	            <asp:HyperLink ID="HyperLink1" runat="server">Maintenance</asp:HyperLink>
 	            <ul>
@@ -44,7 +45,7 @@
 	                <li><a href="SalaryStep_UserInputForm.aspx">Salary Steps</a></li>
 	            </ul>
 	    </li>
-	    <li>
+	    <li class="nav2">
             <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx"/></center>
             <br /><a href="UserAdminPage.aspx">User Administration</a>
         </li>
@@ -63,7 +64,43 @@
        </li>
 	</ul>
 	</div>
-	</asp:Panel>	
+	</asp:Panel>
+	<%--<asp:Panel ID="pnlAdminMaintenance" runat="server">
+	<div id="nav2">
+	<ul id="ul_nav2">
+	    <li>
+            <center><asp:ImageButton ID="ImageButton3" runat="server" ImageUrl="~/images/common/salary_scales.png" AlternateText="Employee Salary Comparison" PostBackUrl="~/EmployeeSalaryComparisonPage.aspx" ToolTip="Salary Scales & Employee Salary Comparison"/></center>
+            <br /><a href="EmployeeSalaryComparisonPage.aspx">Employee Salary Comparison</a></li>
+        <li>
+            <center><asp:ImageButton ID="ImageButton7" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis"/></center>
+            <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review Analysis</a></li>
+         <li>
+	         <center><asp:ImageButton ID="ImageButton8" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance"/></center><br />
+	            <asp:HyperLink ID="HyperLink2" runat="server">Maintenance</asp:HyperLink>
+	            <ul>
+	                <li><a href="TitleCode_UserInputForm.aspx">Title Codes</a></li>
+	                <li><a href="SalaryGradeQuartiles_UserInputForm.aspx">Salary Grade Quartiles</a></li>
+	                <li><a href="SalaryStep_UserInputForm.aspx">Salary Steps</a></li>
+	            </ul>
+	    </li>
+	    <li>
+            <center><asp:ImageButton ID="ImageButton9" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx"/></center>
+            <br /><a href="UserAdminPage.aspx">User Administration</a>
+        </li>
+        <li>
+            <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
+                <img src="images/common/feedback.png" alt="Feedback" class="buttons"/></a></center>
+            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">Feedback</a></li>
+            
+        <li>
+            <center><asp:ImageButton ID="ImageButton10" runat="server" ImageUrl="~/images/common/logout.png" AlternateText="Logout" 
+                    ToolTip="Logout" 
+                    onclick="imgBtnLogout_Click"/></center>
+            <br /><asp:LinkButton ID="LinkButton1" runat="server" ToolTip="CAS Logout" OnClick="imgBtnLogout_Click" >CAS Logout</asp:LinkButton>
+       </li>
+	</ul>
+	</div>
+	</asp:Panel>	--%>
 </div>
     
     <div id="all">
