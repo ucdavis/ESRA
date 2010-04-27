@@ -19,7 +19,30 @@ namespace CAESDO.Esra.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            MultiView1.SetActiveView(vEmployees);
+            //MultiView1.SetActiveView(vEmployees);
+            if (!IsPostBack)
+            {
+                MultiView1.SetActiveView(vEmployees);
+
+                string titleCode = Request.QueryString["TitleCode"];
+                if (String.IsNullOrEmpty(titleCode) == false)
+                {
+                    ddlTitleCode.SelectedValue = titleCode;
+                }
+
+                string department = Request.QueryString["Department"];
+                if (String.IsNullOrEmpty(department) == false)
+                {
+                    ddlDepartment.SelectedValue = department;
+                }
+
+                string employeeID = Request.QueryString["EmployeeID"];
+                if (String.IsNullOrEmpty(employeeID) == false)
+                {
+                    ddlEmployee.SelectedValue = employeeID;
+                }
+            }
+
             /*
             AppException exception = AppExceptionBLL.GetByID(21);
 
@@ -103,6 +126,16 @@ namespace CAESDO.Esra.Web
         protected void gvEmployees_Sorting(object sender, GridViewSortEventArgs e)
         {
             gridView_Sorting((GridView)sender, e, odsEmployee, "Default");
+        }
+
+        protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+            // This is the a temporary fix to get the updated Years of service and TimeInTitle to 
+            // update properly.
+            //Response.Redirect(Page.Request.Url.ToString());
+            string queryString = "TitleCode="+ddlTitleCode.SelectedValue+"&Department="+ddlDepartment.SelectedValue+"&EmployeeID="+ddlEmployee.SelectedValue;
+            string pathString = Page.Request.Url.AbsolutePath;
+            Response.Redirect(pathString+"?"+queryString);
         }
     }
 }
