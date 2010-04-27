@@ -1,5 +1,5 @@
-﻿function ExportToExcel() {
-    PageMethods.ExportToExcel(ExportToExcelOnComplete)
+﻿function ExportToExcel(propertyName, ascending, titleCodesString, pkEmployeeID, departmentsString) {
+    PageMethods.ExportToExcel(propertyName, ascending, titleCodesString, pkEmployeeID, departmentsString, ExportToExcelOnComplete)
 
     return false;
 }

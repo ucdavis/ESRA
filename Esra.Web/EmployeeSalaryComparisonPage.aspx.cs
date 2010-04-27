@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Services;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using CAESArch.BLL;
 using CAESDO.Core.Domain;
@@ -17,11 +16,11 @@ namespace CAESDO.Esra.Web
 {
     public partial class EmployeeSalaryComparisonPage : ApplicationPage
     {
-        protected static readonly string KEY_SELECTED_DEPARTMENT_STRINGS = "selectedDepartmentStrings";
-        protected static readonly string KEY_SELECTED_DEPARTMENTS = "selectedDepartments";
-        protected static readonly string KEY_SELECTED_TITLE_STRINGS = "selectedTitleStrings";
-        protected static readonly string KEY_SELECTED_TITLES = "selectedTitles";
-        protected static readonly string KEY_SEARCH_PARAMETERS = "searchParameters";
+        //protected static readonly string KEY_SELECTED_DEPARTMENT_STRINGS = "selectedDepartmentStrings";
+        //protected static readonly string KEY_SELECTED_DEPARTMENTS = "selectedDepartments";
+        //protected static readonly string KEY_SELECTED_TITLE_STRINGS = "selectedTitleStrings";
+        //protected static readonly string KEY_SELECTED_TITLES = "selectedTitles";
+        //protected static readonly string KEY_SEARCH_PARAMETERS = "searchParameters";
         public static readonly string[] TRACK_CHANGES_FIELD_NAMES = new string[] 
         {"AdjustedCareerHireDate",
          "AdjustedApptHireDate",
@@ -31,19 +30,37 @@ namespace CAESDO.Esra.Web
          "PPSCareerHireDateChecked",
          "PPSApptHireDateChecked"};
 
+        protected static List<Title> SelectedTitles { get; set; }
+        protected static List<Department> SelectedDepartments { get; set; }
+        protected static string[] SelectedTitleStrings { get; set; }
+        protected static string[] SelectedDepartmentStrings { get; set; }
+        protected static ESRSearchParameters SearchParameters { get; set; }
+        protected static string EmployeeID { get; set; }
+
         protected string CurrentEditingRecordID { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                Session.Remove(KEY_SELECTED_DEPARTMENT_STRINGS);
-                Session.Remove(KEY_SELECTED_DEPARTMENTS);
-                Session.Remove(KEY_SELECTED_TITLES);
-                Session.Remove(KEY_SELECTED_TITLE_STRINGS);
-                Session.Remove(KEY_EMPLOYEE_ID);
-                Session.Remove(KEY_SEARCH_PARAMETERS);
-                
+                //Session.Remove(KEY_SELECTED_DEPARTMENT_STRINGS);
+                SelectedDepartmentStrings = null;
+                //Session.Remove(KEY_SELECTED_DEPARTMENTS);
+                SelectedDepartments = null;
+                //Session.Remove(KEY_SELECTED_TITLES);
+                SelectedTitles = null;
+                //Session.Remove(KEY_SELECTED_TITLE_STRINGS);
+                SelectedTitleStrings = null;
+                //Session.Remove(KEY_EMPLOYEE_ID);
+                EmployeeID = null;
+                //Session.Remove(KEY_SEARCH_PARAMETERS);
+                SearchParameters = null;
+
+                hiddenUserID.Value = null;
+                hiddenIsDepartmentUser.Value = null;
+                hiddenEmployeeID.Value = null;
+                hiddenSelectedDepartmentStrings.Value = null;
+                hiddenSelectedTitleStrings.Value = null;
             }
         }
 
@@ -64,6 +81,9 @@ namespace CAESDO.Esra.Web
                 ddlEmployee_ClearSelectedValue();
 
                 gvESRSearchParams_Init();
+
+                hiddenUserID.Value = UserBLL.GetCurrent().EmployeeID;
+                hiddenIsDepartmentUser.Value = IsDepartmentUser().ToString();
 
                 Page.Form.DefaultButton = btnSearch.UniqueID;
             }
@@ -96,26 +116,33 @@ namespace CAESDO.Esra.Web
 
         #region ExcelOps
         [WebMethod]
-        public static void ExportToExcel()
+        public static void ExportToExcel(string propertyName, string ascending, string titleCodesString, string pkEmployee, string departmentIDsString)
         {
             System.Web.SessionState.HttpSessionState Session = HttpContext.Current.Session;
-            //string userId = Session[KEY_CURRENT_USER_ID] as string;
+                      
+                //string userId = Session[KEY_CURRENT_USER_ID] as string;
             // Revised to use Catbert user.
             User user = UserBLL.GetCurrent();
             string userId = user.EmployeeID;
             //bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
             bool isDepartmentUser = IsDepartmentUser();
-            string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
-            bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));
-            string[] titleStrings = Session[KEY_SELECTED_TITLE_STRINGS] as string[];
-            string pkEmployee = Session[KEY_EMPLOYEE_ID] as string;
-            string[] departmentStrings = Session[KEY_SELECTED_DEPARTMENT_STRINGS] as string[];
+
+           // string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
+           // bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));
+
+            //string[] titleStrings = Session[KEY_SELECTED_TITLE_STRINGS] as string[];
+            string[] titleStrings = titleCodesString.Split('|');
+            //string pkEmployee = Session[KEY_EMPLOYEE_ID] as string;
+            //string pkEmployee = EmployeeID as string;
+            
+            //string[] departmentStrings = Session[KEY_SELECTED_DEPARTMENT_STRINGS] as string[];
+            string[] departmentStrings = departmentIDsString.Split('|');
 
             IList<Employee> employees = EmployeeBLL.GetAllEmployeesForUser(
                 userId,
                 isDepartmentUser,
                 propertyName,
-                ascending,
+                Convert.ToBoolean(ascending),
                 titleStrings,
                 pkEmployee,
                 departmentStrings);
@@ -227,6 +254,7 @@ namespace CAESDO.Esra.Web
             if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
             {
                 Employee emp = EmployeeBLL.GetByID(id);
+                hiddenEmployeeID.Value = id;
 
                 ddlTitleCode.SelectedValue = emp.Title.ID;
                 ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
@@ -255,6 +283,7 @@ namespace CAESDO.Esra.Web
                 if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
                 {
                     Employee emp = EmployeeBLL.GetByID(id);
+                    hiddenEmployeeID.Value = id;
 
                     ddlTitleCode.SelectedValue = emp.Title.ID;
                     ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
@@ -377,14 +406,21 @@ namespace CAESDO.Esra.Web
         protected Employee ddlEmployee_ClearSelectedValue()
         {
             ddlEmployee.SelectedIndex = -1;
-            Session.Add(KEY_EMPLOYEE_ID, "0");
+            //Session.Add(KEY_EMPLOYEE_ID, "0");
+            EmployeeID = "0";
+            hiddenEmployeeID.Value = EmployeeID;
             return GetAllNamedEmployee();
         }
 
         protected void lbxDepartments_ClearSelectedValues()
         {
-            Session.Add("selectedDepartmentStrings", new string[] { "0" });
-            Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
+            //Session.Add("selectedDepartmentStrings", new string[] { "0" });
+            SelectedDepartmentStrings = new string[] { "0" };
+            hiddenSelectedDepartmentStrings.Value = string.Join("|", SelectedDepartmentStrings);
+            
+            //Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
+
+            SelectedDepartments =  new List<Department>() { GetAllNamedDepartment() };
 
             lbxDepartments.SelectedIndex = -1;
             lbxDepartmentIDs.SelectedIndex = -1;
@@ -432,14 +468,21 @@ namespace CAESDO.Esra.Web
             }
 
             string[] retval = selected.ToArray();
-            Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, retval);
-            Session.Add(KEY_SELECTED_DEPARTMENTS, selectedDepartments);
+            //Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, retval);
+            SelectedDepartmentStrings = retval;
+            hiddenSelectedDepartmentStrings.Value = string.Join("|", SelectedDepartmentStrings);
+            //Session.Add(KEY_SELECTED_DEPARTMENTS, selectedDepartments);
+            SelectedDepartments = selectedDepartments;
         }
 
         protected void lbxTitleCodes_ClearSelectedValues()
         {
-            Session.Add(KEY_SELECTED_TITLE_STRINGS, new string[] { "0" });
-            Session.Add(KEY_SELECTED_TITLES, new List<Title>() { GetAllNamedTitle() });
+            //Session.Add(KEY_SELECTED_TITLE_STRINGS, new string[] { "0" });
+            SelectedTitleStrings =  new string[] { "0" };
+            hiddenSelectedTitleStrings.Value = string.Join("|", SelectedTitleStrings);
+            //Session.Add(KEY_SELECTED_TITLES, new List<Title>() { GetAllNamedTitle() });
+            SelectedTitles = new List<Title>() { GetAllNamedTitle() };
+         
             lbxTitleCodes.SelectedIndex = -1;
             lbxTitleCodeIDs.SelectedIndex = -1;
         }
@@ -485,8 +528,12 @@ namespace CAESDO.Esra.Web
             }
 
             string[] retval = selected.ToArray();
-            Session.Add(KEY_SELECTED_TITLE_STRINGS, retval);
-            Session.Add(KEY_SELECTED_TITLES, selectedTitles);
+
+            //Session.Add(KEY_SELECTED_TITLE_STRINGS, retval);
+            SelectedTitleStrings = retval;
+            hiddenSelectedTitleStrings.Value = string.Join("|", SelectedTitleStrings);
+            //Session.Add(KEY_SELECTED_TITLES, selectedTitles);
+            SelectedTitles = selectedTitles;
 
             if (retval.Length == 1 && retval[0].Equals("0") == false)
             {
@@ -514,8 +561,10 @@ namespace CAESDO.Esra.Web
             ESRSearchParameters sp = new ESRSearchParameters()
             {
                 // Get the selected titles:
-                SearchTitles = Session[KEY_SELECTED_TITLES] as List<Title>,
-                SearchDepartments = (List<Department>)Session[KEY_SELECTED_DEPARTMENTS] as List<Department>,
+                //SearchTitles = Session[KEY_SELECTED_TITLES] as List<Title>,
+                SearchTitles = SelectedTitles,
+                //SearchDepartments = (List<Department>)Session[KEY_SELECTED_DEPARTMENTS] as List<Department>,
+                SearchDepartments = SelectedDepartments,
                 SearchEmployee = GetSelectedEmployee()
             };
             List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
@@ -523,7 +572,9 @@ namespace CAESDO.Esra.Web
 
             gvESRSearchParams.DataSource = esParams;
             gvESRSearchParams.DataBind();
-            Session.Add(KEY_SEARCH_PARAMETERS, sp);
+
+            //Session.Add(KEY_SEARCH_PARAMETERS, sp);
+            SearchParameters = sp;
         }
 
         protected void gvESRSearchParams_Load(Employee emp)
@@ -569,12 +620,17 @@ namespace CAESDO.Esra.Web
             if (ddlEmployee.SelectedIndex > 0)
             {
                 searchEmployee = EmployeeBLL.GetByID(ddlEmployee.SelectedValue);
-                Session.Add(KEY_EMPLOYEE_ID, ddlEmployee.SelectedValue);
+
+                //Session.Add(KEY_EMPLOYEE_ID, ddlEmployee.SelectedValue);
+                EmployeeID = ddlEmployee.SelectedValue;
+                hiddenEmployeeID.Value = EmployeeID;
             }
             else
             {
                 searchEmployee = GetAllNamedEmployee();
-                Session.Add(KEY_EMPLOYEE_ID, "0");
+                //Session.Add(KEY_EMPLOYEE_ID, "0");
+                EmployeeID = "0";
+                hiddenEmployeeID.Value = EmployeeID;
             }
             return searchEmployee;
         }
@@ -666,8 +722,11 @@ namespace CAESDO.Esra.Web
             //IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true);
             IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(UserBLL.GetCurrent().EmployeeID as string, "Name", true);
             
-            Session.Add(KEY_SELECTED_DEPARTMENTS, departments);
-            Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, new string[] { "0" });
+            //Session.Add(KEY_SELECTED_DEPARTMENTS, departments);
+            SelectedDepartments = departments as List<Department>;
+            //Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, new string[] { "0" });
+            SelectedDepartmentStrings = new string[] {"0"};
+            hiddenSelectedDepartmentStrings.Value = string.Join("|", SelectedDepartmentStrings);
 
         }
     }

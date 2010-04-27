@@ -1,16 +1,49 @@
-<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 
     <script type="text/javascript" language="javascript">
         var ModalProgress = '<%= ModalProgress.ClientID %>';
+        
+        
 </script>
 <script type="text/javascript" src="includes/exportToExcel.js"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
 
     <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
+    
+    <script type="text/javascript">
+        function NewExportToExcel() {
+            var hiddenEmployeeID_ClientID = '<%= hiddenEmployeeID.ClientID %>';
+            var hiddenEmployeeID = document.getElementById(hiddenEmployeeID_ClientID);
+            var pkEmployeeID = hiddenEmployeeID.value;
+
+            var hiddenTitleCodesString_ClientID = '<%= hiddenSelectedTitleStrings.ClientID %>';
+            var hiddenTitleCodesString = document.getElementById(hiddenTitleCodesString_ClientID);
+            var titleCodesString = hiddenTitleCodesString.value;
+
+            var hiddenDepartmentsString_ClientID = '<%= hiddenSelectedDepartmentStrings.ClientID %>';
+            var hiddenDepartmentsString = document.getElementById(hiddenDepartmentsString_ClientID);
+            var departmentsString = hiddenDepartmentsString.value;
+
+            var hiddenSortPropertyName_ClientID = '<%= hiddenSortPropertyName.ClientID %>';
+            var hiddenSortPropertyName = document.getElementById(hiddenSortPropertyName_ClientID);
+            var propertyName = hiddenSortPropertyName.value;
+
+            var hiddenAscending_ClientID = '<%= hiddenAscending.ClientID %>';
+            var hiddenAscending = document.getElementById(hiddenAscending_ClientID);
+            var ascending = hiddenAscending.value;
+
+            //console.log(pkEmployeeID);
+            //console.log(titleCodesString);
+            //console.log(departmentsString);
+            //debugger;
+            ExportToExcel(propertyName, ascending, titleCodesString, pkEmployeeID, departmentsString);
+            
+        }
+    </script>
 
     <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Scales &amp; Employee Salary Comparison"></asp:Label></h1>
 <%--    <div class="left_col">
@@ -329,13 +362,13 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-</li></ul __designer:mapid="2be">                
+</li></ul __designer:mapid="2b58">                
 <%--</td></tr></tbody></table> --%>
 <p class="note">Items highlighted in <span class="light_green">light green</span> indicate a 
     change from PPS.<br />
     Dates with <span class="bold">bolded</span> text have been validated to be correct in PPS.</p>
 <h2 class="h2_black"><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" ></asp:Label>
-<asp:Button ID="btnExportToExcel" runat="server" OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" /></h2>
+<asp:Button ID="btnExportToExcel" runat="server" OnClientClick="NewExportToExcel(); return false;" Text="Export to Excel" /></h2>
 
                 <%--<asp:Panel ID="panelUpdateProgress" runat="server" >
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
@@ -366,7 +399,9 @@
                 <asp:UpdatePanel ID="up" runat="server">
                 <ContentTemplate>
                 <div id="ESCR_table">
-                <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
+                 <asp:HiddenField ID="hiddenSortPropertyName" runat="server" />
+                 <asp:HiddenField ID="hiddenAscending" runat="server" />
+                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
@@ -584,6 +619,14 @@
             </asp:View>
         </asp:MultiView>
     
+     <asp:HiddenField ID="hiddenUserID" runat="server"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenIsDepartmentUser" runat="server"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenEmployeeID" runat="server" />
+     <asp:HiddenField ID="hiddenSelectedDepartmentStrings" runat="server"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenSelectedTitleStrings" runat="server" />
+    <%-- <asp:HiddenField ID="hiddenSortPropertyName" runat="server" />
+     <asp:HiddenField ID="hiddenAscending" runat="server" />--%>
+     
 <asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
@@ -597,22 +640,28 @@
                 <asp:Parameter Name="ExperienceBeginDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
-                <asp:SessionParameter DefaultValue="false" Name="IsDepartmentUser" SessionField="IsDepartmentUser" Type="String" />
+                <asp:ControlParameter DefaultValue="false" Name="IsDepartmentUser" ControlID="hiddenIsDepartmentUser" Type="String" />
                 <asp:Parameter Name="original_ID" Type="String" />
             </UpdateParameters>
+           
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                <asp:ControlParameter DefaultValue="0" Name="userID" ControlID="hiddenUserID" 
                     Type="String" />
-                <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
-                    SessionField="IsDepartmentUser" Type="Boolean" />
+                   
+                <asp:ControlParameter DefaultValue="true" Name="isDepartmentUser" 
+                    ControlID="hiddenIsDepartmentUser" Type="Boolean" />
+                    
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
+                
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-                <asp:SessionParameter DefaultValue="0" Name="titleCodes" 
-                    SessionField="selectedTitleStrings" Type="Object" />
+                
+                <asp:ControlParameter ControlID="hiddenSelectedTitleStrings" DefaultValue="0" Name="titleCodesString" Type="String" />
+                    
                 <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
                     Name="pkEmployee" PropertyName="SelectedValue" Type="String" />
-                <asp:SessionParameter DefaultValue="" Name="departmentIDs" 
-                    SessionField="selectedDepartmentStrings" Type="Object" />
+                    
+                <asp:ControlParameter ControlID="hiddenSelectedDepartmentStrings" DefaultValue="" Name="departmentIDsString" 
+                    Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
         
@@ -629,10 +678,10 @@
         <asp:ObjectDataSource ID="odsFilteredEmployees" runat="server" 
                     TypeName="CAESDO.Esra.BLL.EmployeeBLL" SelectMethod="GetEmployees" >
                     <SelectParameters>
-                     <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                     <asp:ControlParameter DefaultValue="0" Name="userID" ControlID="hiddenUserID" 
                     Type="String" />
-                    <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
-                    SessionField="IsDepartmentUser" Type="Boolean" />
+                    <asp:ControlParameter DefaultValue="true" Name="isDepartmentUser" 
+                    ControlID="hiddenIsDepartmentUser" Type="Boolean" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
@@ -698,7 +747,7 @@
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllDepartmentsForUser" 
             TypeName="CAESDO.Esra.BLL.DepartmentBLL">
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                <asp:ControlParameter DefaultValue="0" Name="userID" ControlID="hiddenUserID" 
                     Type="String" />
                 <asp:Parameter DefaultValue="Name" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
@@ -709,7 +758,7 @@
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllDepartmentsForUser" 
             TypeName="CAESDO.Esra.BLL.DepartmentBLL">
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                <asp:ControlParameter DefaultValue="0" Name="userID" ControlID="hiddenUserID" 
                     Type="String" />
                 <asp:Parameter DefaultValue="DepartmentNumber" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
@@ -721,7 +770,7 @@
                     SelectMethod="GetAllEmployeesForUser" 
                     TypeName="CAESDO.Esra.BLL.EmployeeBLL" >
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                <asp:ControlParameter DefaultValue="0" Name="userID" ControlID="hiddenUserID" 
                     Type="String" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />

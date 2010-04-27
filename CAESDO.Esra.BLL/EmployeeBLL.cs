@@ -69,6 +69,13 @@ namespace CAESDO.Esra.BLL
             return retval;
         }
 
+        public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string titleCodesString, string pkEmployee, string departmentIDsString)
+        {
+            string[] titleCodes = titleCodesString.Split('|');
+            string[] departmentIDs = departmentIDsString.Split('|');
+            return GetAllEmployeesForUser(userID, isDepartmentUser, propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
+        }
+
         public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
         {
             if (isDepartmentUser && String.IsNullOrEmpty(propertyName) == false && propertyName.Equals("FullName"))

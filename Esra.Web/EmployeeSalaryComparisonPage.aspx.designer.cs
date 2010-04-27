@@ -266,6 +266,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.UpdatePanel up;
         
         /// <summary>
+        /// hiddenSortPropertyName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenSortPropertyName;
+        
+        /// <summary>
+        /// hiddenAscending control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenAscending;
+        
+        /// <summary>
         /// gvEmployees control.
         /// </summary>
         /// <remarks>
@@ -300,6 +318,51 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNoSearchParametersSelected;
+        
+        /// <summary>
+        /// hiddenUserID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenUserID;
+        
+        /// <summary>
+        /// hiddenIsDepartmentUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenIsDepartmentUser;
+        
+        /// <summary>
+        /// hiddenEmployeeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenEmployeeID;
+        
+        /// <summary>
+        /// hiddenSelectedDepartmentStrings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenSelectedDepartmentStrings;
+        
+        /// <summary>
+        /// hiddenSelectedTitleStrings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenSelectedTitleStrings;
         
         /// <summary>
         /// odsEmployee control.

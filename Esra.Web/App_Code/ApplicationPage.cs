@@ -1,28 +1,16 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
+using System.Reflection;
 using System.Text;
 using System.Web;
-using System.Web.Security;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 // added
-using System.Security.Principal;
-using System.Data.SqlClient;
-using System.Collections;
-using System.Threading;
-using System.Web.SessionState;
-using System.Web.Caching;
 using CAESArch.Data.NHibernate;
-using CAESDO.Esra.BLL;
-using CAESDO.Esra.Data;
 using CAESDO.Esra.Core.DataInterfaces;
-using System.Reflection;
-using CAESOps;
 using CAESDO.Esra.Core.Domain;
-using System.Web.Configuration;
+using CAESDO.Esra.Data;
+using CAESOps;
 using Elmah;
 
 
@@ -222,8 +210,14 @@ namespace CAESDO.Esra.Web
             }
 
             // New stuff for use with Excel output:
-            Session.Add(KEY_ASCENDING, objectDataSource.SelectParameters["ascending"].DefaultValue);
-            Session.Add(KEY_SORT_PROPERTY_NAME, propertyName);
+            //Session.Add(KEY_ASCENDING, objectDataSource.SelectParameters["ascending"].DefaultValue);
+            //Session.Add(KEY_SORT_PROPERTY_NAME, propertyName);
+            HiddenField hiddenSortPropertyName = gridView.Parent.FindControl("hiddenSortPropertyName") as HiddenField;
+            HiddenField hiddenAscending = gridView.Parent.FindControl("hiddenAscending") as HiddenField; ;
+            if (hiddenSortPropertyName != null)
+                hiddenSortPropertyName.Value = propertyName;
+            if (hiddenAscending != null)
+                hiddenAscending.Value = objectDataSource.SelectParameters["ascending"].DefaultValue;
 
             //gridView.DataBind();
 
