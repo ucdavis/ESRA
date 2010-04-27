@@ -12,7 +12,7 @@
         
         Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
-            DataTextField="TitleCode" DataValueField="id" AutoPostBack="True" 
+            DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
             onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
@@ -271,8 +271,6 @@ document.write(month+"/"+today+"/"+year)
                                 <asp:Label ID="Label1" runat="server" Text='<%# Bind("PayRate", "{0:c}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <%--<asp:BoundField DataField="PayRate" DataFormatString="{0:c}" 
-                            HeaderText="Pay Rate" SortExpression="PayRate" ReadOnly="true" ApplyFormatInEditMode="false" />--%>
                         <asp:TemplateField HeaderText="Department Comments">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox4" runat="server" 
@@ -310,7 +308,7 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter Name="AdjustedApptHireDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
-                <asp:Parameter Name="original_ID" Type="String" />
+                <asp:Parameter Name="original_ID" Type="int32" />
             </UpdateParameters>
             <SelectParameters>
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
@@ -318,7 +316,7 @@ document.write(month+"/"+today+"/"+year)
                 <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
                     Name="titleCode" PropertyName="SelectedValue" Type="String" />
                 <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
-                    Name="employeeID" PropertyName="SelectedValue" Type="String" />
+                    Name="pkEmployee" PropertyName="SelectedValue" Type="Int32" />
                 <asp:ControlParameter ControlID="ddlDepartment" DefaultValue="0" 
                     Name="departmentID" PropertyName="SelectedValue" Type="String" />
             </SelectParameters>
@@ -329,7 +327,7 @@ document.write(month+"/"+today+"/"+year)
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetByTitleCode">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ddlTitleCode" Name="id" 
-                    PropertyName="SelectedValue" Type="Int32" />
+                    PropertyName="SelectedValue" Type="String" DefaultValue="0" />
             </SelectParameters>
         </asp:ObjectDataSource>
         

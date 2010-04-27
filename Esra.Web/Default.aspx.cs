@@ -24,6 +24,7 @@ namespace CAESDO.Esra.Web
             {
                 MultiView1.SetActiveView(vEmployees);
 
+                
                 string titleCode = Request.QueryString["TitleCode"];
                 if (String.IsNullOrEmpty(titleCode) == false)
                 {
@@ -41,6 +42,7 @@ namespace CAESDO.Esra.Web
                 {
                     ddlEmployee.SelectedValue = employeeID;
                 }
+                 
             }
 
             /*
@@ -80,10 +82,16 @@ namespace CAESDO.Esra.Web
             // Assume that if the employees ddl was selected, that they want a single 
             // employee and their associated title code.
             string id = ((DropDownList)sender).SelectedValue.ToString();
-            Employee emp = EmployeeBLL.GetByID(id);
-            ddlTitleCode.SelectedValue = emp.Title.ID.ToString();
+
+            if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
+            {
+                Employee emp = EmployeeBLL.GetByID(Convert.ToInt32(id));
+            
+                ddlTitleCode.SelectedValue = emp.Title.ID;
+                ddlDepartment.SelectedIndex = -1;
+            }
             //ddlTitleCode.SelectedIndex = -1;
-            ddlDepartment.SelectedIndex = -1;
+           
             //gvEmployees.DataBind();
         }
 
@@ -97,9 +105,16 @@ namespace CAESDO.Esra.Web
         {
             if (ddlEmployee.SelectedIndex > 0)
             {
+                string id = ddlEmployee.SelectedValue.ToString();
+
                 // Get a specific employee.
-                ddlTitleCode.SelectedIndex = -1;
-                ddlDepartment.SelectedIndex = -1;
+                if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
+                {
+                    Employee emp = EmployeeBLL.GetByID(Convert.ToInt32(id));
+
+                    ddlTitleCode.SelectedValue = emp.Title.ID;
+                    ddlDepartment.SelectedIndex = -1;
+                }
             }
             else if (ddlTitleCode.SelectedIndex > 0 && ddlDepartment.SelectedIndex > 0)
             {
@@ -136,16 +151,15 @@ namespace CAESDO.Esra.Web
 
         protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
-            gvEmployees.DataBind();
+            //gvEmployees.DataBind();
 
             // This is the a temporary fix to get the updated Years of service and TimeInTitle to 
             // update properly.
             //Response.Redirect(Page.Request.Url.ToString());
-            /*
+            
             string queryString = "TitleCode="+ddlTitleCode.SelectedValue+"&Department="+ddlDepartment.SelectedValue+"&EmployeeID="+ddlEmployee.SelectedValue;
             string pathString = Page.Request.Url.AbsolutePath;
-            Response.Redirect(pathString+"?"+queryString);
-             */
+            Response.Redirect(pathString+"?"+queryString);  
         }
 
         protected void gvEmployees_DataBound(object sender, EventArgs e)
