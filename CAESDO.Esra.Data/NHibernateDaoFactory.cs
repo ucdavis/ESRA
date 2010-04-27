@@ -28,6 +28,7 @@ namespace CAESDO.Esra.Data
         public IUnitDao GetUnitDao() { return new UnitDao(); }
         public IUserDao GetUserDao() { return new UserDao(); }
         public ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao() { return new SalaryReviewAnalysisDao(); }
+        public IDepartmentDao GetDepartmentDao() { return new DepartmentDao(); }
         
         #endregion
 
@@ -35,6 +36,10 @@ namespace CAESDO.Esra.Data
 
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
         public class UnitDao : AbstractNHibernateDao<Unit, string>, IUnitDao { }
+
+        public class DepartmentDao : AbstractNHibernateDao<Department, string>, IDepartmentDao
+        {
+        }
 
         public class EmployeeDao : AbstractNHibernateDao<Employee, string>, IEmployeeDao
         {
@@ -63,9 +68,9 @@ namespace CAESDO.Esra.Data
             {
                 IList<Employee> retval = null;
 
-                if ((titleCodes == null) || (titleCodes.Length == 0) || (titleCodes[0].Equals("0")) &&
-                    ((String.IsNullOrEmpty(pkEmployee)) || pkEmployee.Equals("0")) &&
-                    ((departmentIDs == null) || (departmentIDs.Length == 0) || (departmentIDs[0].Equals("0"))))
+                if (((titleCodes == null) || (titleCodes.Length == 0) || (titleCodes[0].Equals("0"))) &&
+                    (((String.IsNullOrEmpty(pkEmployee)) || pkEmployee.Equals("0"))) &&
+                    (((departmentIDs == null) || (departmentIDs.Length == 0) || (departmentIDs[0].Equals("0")))))
                 {
                     retval = GetAll(propertyName, ascending);
                 }

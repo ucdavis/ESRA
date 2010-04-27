@@ -86,13 +86,13 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.ListBox lbxTitleCodes;
         
         /// <summary>
-        /// lbxDepartment control.
+        /// lbxDepartments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbxDepartment;
+        protected global::System.Web.UI.WebControls.ListBox lbxDepartments;
         
         /// <summary>
         /// ddlEmployee control.
@@ -228,5 +228,23 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsDepartments;
+        
+        /// <summary>
+        /// odsDepartmentUserDepartments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsDepartmentUserDepartments;
+        
+        /// <summary>
+        /// odsDepartmentUserEmployees control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsDepartmentUserEmployees;
     }
 }

@@ -129,14 +129,14 @@ namespace CAESDO.Esra.Web
                     lbxDepartments_ClearSelectedValues();
                 }
             }
-            else if (lbxTitleCodes.SelectedIndex > 0 && lbxDepartment.SelectedIndex > 0)
+            else if (lbxTitleCodes.SelectedIndex > 0 && lbxDepartments.SelectedIndex > 0)
             {
                 // Get all the employees for a given department with the matching title code.
                 //ddlEmployee.SelectedIndex = -1;
                 ddlEmployee_ClearSelectedValue();
             }
             
-            else if (lbxDepartment.SelectedIndex > 0)
+            else if (lbxDepartments.SelectedIndex > 0)
             {
                 // Get all employees in the given departments with any title code.
                 //ddlEmployee.SelectedIndex = -1;
@@ -156,6 +156,7 @@ namespace CAESDO.Esra.Web
                 lbxTitleCodes_ClearSelectedValues();
                 ddlEmployee_ClearSelectedValue();
                 //ddlEmployee.SelectedIndex = -1;
+
                 lbxDepartments_ClearSelectedValues();
             }
 
@@ -197,9 +198,17 @@ namespace CAESDO.Esra.Web
 
         protected void lbxDepartments_ClearSelectedValues()
         {
-            Session.Add("selectedDepartmentStrings", new string[] {"0"});
-            Session.Add("selectedDepartments", new List<Department>(){ GetAllNamedDepartment()});
-            lbxDepartment.SelectedIndex = -1;
+            if (IsDepartmentUser())
+            {
+                AddUserDepartmentsToSession();
+            }
+            else
+            {
+                Session.Add("selectedDepartmentStrings", new string[] { "0" });
+                Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
+            }
+            lbxDepartments.SelectedIndex = -1;
+
         }
 
         protected void lbxDepartments_SelectedValues(object sender, EventArgs e)
@@ -208,9 +217,9 @@ namespace CAESDO.Esra.Web
             List<string> selected = new List<string>();
             List<Department> selectedDepartments = new List<Department>();
             
-            foreach (int i in lbxDepartment.GetSelectedIndices())
+            foreach (int i in lbxDepartments.GetSelectedIndices())
             {
-                string value = lbxDepartment.Items[i].Value;
+                string value = lbxDepartments.Items[i].Value;
                 selected.Add(value);
                 if (value.Equals("0") == false)
                 {
@@ -267,7 +276,7 @@ namespace CAESDO.Esra.Web
             ESRSearchParameters sp = new ESRSearchParameters()
             {
                 SearchTitles = new List<Title>() { GetAllNamedTitle() },
-                SearchDepartments = new List<Department>() { GetAllNamedDepartment() },
+                SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() } ),
                 SearchEmployee = GetAllNamedEmployee()
             };
             List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
@@ -356,6 +365,71 @@ namespace CAESDO.Esra.Web
            {
                rpt.Visible = false;
            }
+        }
+
+        protected bool IsDepartmentUser()
+        {
+            bool retval = true;
+            if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
+            {
+                //retval = false;
+                retval = true;
+            }
+            /*
+            CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
+            UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
+            if (employee.WorkDepartment.Name.Equals(DEANS_OFFICE_DEPARTMENT_NAME))
+            {
+                retval = true;
+            }
+            */
+            return retval;
+        }
+
+        protected ObjectDataSource GetDataSourceForDepartments()
+        {
+            ObjectDataSource retval = odsDepartments;
+            if (IsDepartmentUser())
+            {
+                retval = odsDepartmentUserDepartments;
+            }
+            return retval;
+        }
+
+        protected void lbxDepartments_Init(object sender, EventArgs e)
+        {
+            lbxDepartments.DataSource = odsDepartments;
+
+            if (IsDepartmentUser())
+            {
+                lbxDepartments.DataSource = odsDepartmentUserDepartments;
+            }
+            lbxDepartments.DataBind();
+        }
+
+        protected void ddlEmployee_Init(object sender, EventArgs e)
+        {
+            ddlEmployee.DataSource = odsEmployees;
+
+            if (IsDepartmentUser())
+            {
+                ddlEmployee.DataSource = odsDepartmentUserEmployees;
+            }
+            ddlEmployee.DataBind();
+        }
+
+        private void AddUserDepartmentsToSession()
+        {
+            // Add departments to session:
+            IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true);
+            Session.Add("selectedDepartments", departments);
+
+            List<string> selectedDepartmentStrings = new List<string>();
+            foreach (Department dept in departments)
+            {
+                selectedDepartmentStrings.Add(dept.ID);
+            }
+            Session.Add("selectedDepartmentStrings", selectedDepartmentStrings.ToArray());
         }
     }
 }

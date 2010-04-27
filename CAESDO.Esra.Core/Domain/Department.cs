@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public class Department : DomainObject<Department, string>
+    public class Department : DomainObject<Department, string>, IComparable<Department>
     {
         private string _DepartmentNumber;
 
@@ -36,6 +36,23 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _Employees; }
             set { _Employees = value; }
+        }
+
+        public virtual int CompareTo(Department item)
+        {
+            return this.Name.CompareTo(item.Name);
+        }
+
+        public virtual bool Equals(Department other)
+        {
+            if (this.Name == other.Name)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Department()

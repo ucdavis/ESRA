@@ -34,7 +34,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual bool? Different
         {
-            get { return _Different; }
+            get { return (_Different == null ? false : _Different); }
             set { _Different = value; }
         }
 

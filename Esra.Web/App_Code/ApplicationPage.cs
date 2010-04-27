@@ -18,6 +18,7 @@ using CAESDO.Esra.Data;
 using CAESDO.Esra.Core.DataInterfaces;
 using System.Reflection;
 using CAESOps;
+using CAESDO.Esra.Core.Domain;
 
 
 namespace CAESDO.Esra.Web
@@ -34,6 +35,11 @@ namespace CAESDO.Esra.Web
         protected static readonly string MESSAGE_RECORD_DELETED_SUCCESS = "Success: Record Successfully Deleted";
         protected static readonly string MESSAGE_RECORD_UPDATED_SUCCESS = "Success: Record Successfully Updated";
         protected static readonly string MASTER_PAGE_MESSAGE_LABEL_NAME = "lbl_Message";
+        protected static readonly string ROLE_ADMIN = "Admin";
+        protected static readonly string ROLE_REVIEWER = "Reviewer";
+        protected static readonly string ROLE_USER = "User";
+        protected static readonly string ROLE_DOUser = "DOUser";
+        protected static readonly string KEY_CURRENT_USER_ID = "UserID";
 
         public ApplicationPage()
         {
@@ -54,7 +60,7 @@ namespace CAESDO.Esra.Web
             HttpContext ctx = HttpContext.Current;
 
             //Grab the exception that raised this error
-            Exception ex = ctx.Server.GetLastError();
+            System.Exception ex = ctx.Server.GetLastError();
 
             //Handle Error
 
@@ -170,6 +176,52 @@ namespace CAESDO.Esra.Web
             }
         }
 
+        private const string STR_CurrentUserType = "currentUserType";
+        //private const string STR_CreateUserURL = "~/Login/CreateUser.aspx";
+
+        #region UserProperties
+
+        private User _p;
+
+        public User p
+        {
+            get
+            {
+                if (_p == null && HttpContext.Current.User.Identity.IsAuthenticated)
+                    _p = daoFactory.GetUserDao().GetUserByLogin(HttpContext.Current.User.Identity.Name);
+
+                return _p;
+            }
+            set { _p = value; }
+        }
+
+        //private IDaoFactory daoFactory
+        //{
+        //    get { return new NHibernateDaoFactory(); }
+        //}
+
+        public string LoggedInUserName
+        {
+            get
+            {
+                string userName = string.Empty;
+
+                if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    if (p == null)
+                    {
+                        userName = HttpContext.Current.User.Identity.Name;
+                    }
+                    else
+                    {
+                        userName = p.FirstName + " " + p.LastName;
+                    }
+                }
+
+                return userName;
+            }
+        }
+        #endregion
     }
 
 }

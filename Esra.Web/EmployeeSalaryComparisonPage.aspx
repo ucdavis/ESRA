@@ -92,6 +92,7 @@
                                                         <tr>
                                                         <td colspan="5">
                                                             <table>
+                                                                <asp:Panel ID="LM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
                                                                 <tr>
                                                                     <th>Labor Market WAS:</th><td><asp:Label ID="Label17" runat="server" 
                                                         Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label></td>
@@ -104,6 +105,7 @@
                                                                     <th>College Average:</th><td><asp:Label ID="Label19" runat="server" 
                                                         Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label></td>
                                                                 </tr>
+                                                                </asp:Panel>
                                                                 <tr>
                                                                     <th>Campus Average:</th><td><asp:Label ID="Label20" runat="server" 
                                                         Text='<%# Eval("CampusAverageAnnual","{0:c}") %>'></asp:Label></td>
@@ -148,7 +150,7 @@
              TargetControlID="lbxTitleCodes" >
                     </ajax:ListSearchExtender>
                 <ajax:ListSearchExtender ID="ListSearchExtender2" runat="server" 
-             TargetControlID="lbxDepartment">
+             TargetControlID="lbxDepartments">
          </ajax:ListSearchExtender>
          <ajax:ListSearchExtender ID="ListSearchExtender3" runat="server" 
              TargetControlID="ddlEmployee" >
@@ -161,25 +163,28 @@
                  Text="Search Parameters"></asp:Label></center>
              </th></tr>
             <tr>
-                <td rowspan="3"><asp:ListBox ID="lbxTitleCodes" runat="server" 
+                <td rowspan="3">
+                    <asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
-             SelectionMode="Multiple">
+             SelectionMode="Multiple" >
             <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
         </asp:ListBox></td>
-                <td rowspan="3"><asp:ListBox ID="lbxDepartment" runat="server" 
-            AppendDataBoundItems="True" DataSourceID="odsDepartments" 
+                <td rowspan="3"><asp:ListBox ID="lbxDepartments" runat="server" 
+            AppendDataBoundItems="True" 
             DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
-            onselectedindexchanged="lbxDepartments_SelectedValues">
+            onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
         </asp:ListBox></td>
                 
             </tr>
             <tr>
                 <td><asp:DropDownList ID="ddlEmployee" runat="server" 
-            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
-            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged">
+            AppendDataBoundItems="True" AutoPostBack="True" 
+            DataTextField="FullName" DataValueField="ID" 
+                        onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
+                        oninit="ddlEmployee_Init">
             <asp:ListItem Value="0">-- Any Employee --</asp:ListItem>
         </asp:DropDownList></td>
             </tr>
@@ -373,7 +378,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Department Comments">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox4" runat="server" 
-                                    Text='<%# Bind("DepartmentComments") %>'></asp:TextBox>
+                                    Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label8" runat="server" Text='<%# Eval("DepartmentComments") %>'></asp:Label>
@@ -382,7 +387,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Dean's Office Comments">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox5" runat="server" 
-                                    Text='<%# Bind("DeansOfficeComments") %>'></asp:TextBox>
+                                    Text='<%# Bind("DeansOfficeComments") %>' ReadOnly='<%# IsDepartmentUser() %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label9" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
@@ -462,6 +467,27 @@ document.write(month+"/"+today+"/"+year)
             TypeName="CAESDO.Esra.BLL.DepartmentBLL">
             <SelectParameters>
                 <asp:Parameter DefaultValue="Name" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsDepartmentUserDepartments" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllDepartmentsForUser" 
+            TypeName="CAESDO.Esra.BLL.DepartmentBLL">
+            <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                <asp:Parameter DefaultValue="Name" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsDepartmentUserEmployees" runat="server" 
+            OldValuesParameterFormatString="original_{0}" 
+                    SelectMethod="GetAllEmployeesForUser" 
+                    TypeName="CAESDO.Esra.BLL.EmployeeBLL" >
+            <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>

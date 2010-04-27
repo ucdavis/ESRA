@@ -11,6 +11,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     public interface IDaoFactory
     {
         IGenericDao<T, IdT> GetGenericDao<T, IdT>();
+        IDepartmentDao GetDepartmentDao();
         IEmployeeDao GetEmployeeDao();
         ISalaryScaleDao GetSalaryScaleDao();
         IUserDao GetUserDao();
@@ -23,6 +24,10 @@ namespace CAESDO.Esra.Core.DataInterfaces
     #region Inline interface declarations
 
     public interface IGenericDao<T, IdT> : IDao<T, IdT> { }
+
+    public interface IDepartmentDao : IDao<Department, string>
+    {
+    }
 
     public interface IEmployeeDao : IDao<Employee, string>
     {
