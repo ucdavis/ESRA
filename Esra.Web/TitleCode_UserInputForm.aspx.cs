@@ -371,6 +371,11 @@ namespace CAESDO.Esra.Web
             e.Cancel = true;
         }
 
+        protected void tbBargainingCode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         //protected void gvSalaryScale_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         //{
         //    SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_UPDATED_SUCCESS);

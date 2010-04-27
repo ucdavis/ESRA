@@ -125,7 +125,7 @@
                          <asp:Label ID="lblEditNumSalarySteps" runat="server" Text='<%# Bind("NumSalarySteps") %>'></asp:Label>
                      </EditItemTemplate>
                      <ItemTemplate>
-                         <asp:Label ID="lblNumSalarySteps" Font-Underline="true" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
+                         <asp:Label ID="lblNumSalarySteps" Font-Underline="false" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
                          <%--<asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Visible='<%# (Convert.ToInt32(Eval("NumSalarySteps")) > 0 ? false : true)%>'
                          Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add Steps" :  "Edit Steps") %>'>
                          </asp:LinkButton>--%>
@@ -201,7 +201,7 @@
                         <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" CssClass="calendar" 
                             Format="MM/dd/yyyy" TargetControlID="tbEffectiveDate">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbEffectiveDate" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="tbEffectiveDate" runat="server" Width="75px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvEffectiveDate" runat="server" 
                             ControlToValidate="tbEffectiveDate" Display="Dynamic" 
                             ErrorMessage="Effective Date" InitialValue="" Text="Date is Required!"></asp:RequiredFieldValidator>
@@ -214,7 +214,7 @@
                         <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
                     </td>--%>
                     <td>
-                        <asp:TextBox ID="tbSalaryGrade" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="tbSalaryGrade" runat="server" Width="50px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="SalaryGradeRequiredFieldValidator" runat="server" 
                             ControlToValidate="tbSalaryGrade" Display="Dynamic" 
                             ErrorMessage="Salary Grade" InitialValue="" Text="Salary Grade is Required!"></asp:RequiredFieldValidator>
@@ -223,7 +223,8 @@
                         <asp:Label ID="lblBargainingCode" runat="server" Text=""></asp:Label>
                     </td>--%>
                     <td>
-                        <asp:TextBox ID="tbBargainingCode" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="tbBargainingCode" runat="server" 
+                            ontextchanged="tbBargainingCode_TextChanged" Width="50px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="BargainingCodeRequiredFieldValidator" runat="server" 
                             ControlToValidate="tbBargainingCode" Display="Dynamic" 
                             ErrorMessage="Bargaining Code" InitialValue="" Text="Bargaining Code is Required!"></asp:RequiredFieldValidator>
