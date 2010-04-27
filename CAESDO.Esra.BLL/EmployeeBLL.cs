@@ -34,7 +34,6 @@ namespace CAESDO.Esra.BLL
                     {
                         employees.Sort();
                     }
-
                     retval = employees;
                 }
             }
@@ -44,6 +43,11 @@ namespace CAESDO.Esra.BLL
             }
 
             return retval;
+        }
+
+        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string employeeID, string departmentID)
+        {
+            return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, employeeID, departmentID);
         }
     }
 }
