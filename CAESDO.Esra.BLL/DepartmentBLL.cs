@@ -8,7 +8,7 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {
-    public class DepartmentBLL : GenericBLL<Department, int>
+    public class DepartmentBLL : GenericBLL<Department, string>
     {
        
     }
