@@ -6,7 +6,7 @@ using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 // added
-using CAESArch.Data;
+using CAESArch.Data.NHibernate;
 using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
