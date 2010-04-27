@@ -58,6 +58,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserAdminPage.aspx.cs">
+      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserAdminPage.aspx.designer.cs">
+      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SalaryStep_UserInputForm.aspx.cs">
+      <DependentUpon>SalaryStep_UserInputForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SalaryStep_UserInputForm.aspx.designer.cs">
+      <DependentUpon>SalaryStep_UserInputForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -143,6 +157,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UserAdminPage.aspx" />
+    <Content Include="images\common\page-under-construction.jpg" />
+    <Content Include="SalaryStep_UserInputForm.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="images\common\120px-Document_new_svg.png" />
     <Content Include="images\common\Cancel-2.jpg" />
