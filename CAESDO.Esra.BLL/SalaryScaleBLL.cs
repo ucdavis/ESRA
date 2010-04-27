@@ -71,20 +71,23 @@ namespace CAESDO.Esra.BLL
             {
                 Title title = TitleBLL.GetByID(titleCode);
                 SalaryScale ss = GetEffectiveSalaryScale(titleCode, DateTime.Today);
-                cl.Add(new KeyValuePair<string, decimal?>("None", null));
-                cl.Add(new KeyValuePair<string, decimal?>("Min", ss.SalaryGradeQuartiles.MinAnnual));
-                cl.Add(new KeyValuePair<string, decimal?>("1st", ss.SalaryGradeQuartiles.FirstQrtleAnnual));
-                cl.Add(new KeyValuePair<string, decimal?>("Mid", ss.SalaryGradeQuartiles.MidAnnual));
-                cl.Add(new KeyValuePair<string, decimal?>("3rd", ss.SalaryGradeQuartiles.ThirdQrtleAnnual));
-                cl.Add(new KeyValuePair<string, decimal?>("Max", ss.SalaryGradeQuartiles.MaxAnnual));
-                cl.Add(new KeyValuePair<string, decimal?>("Labor Mkt WAS", Convert.ToDecimal(ss.LaborMarketWAS)));
-                cl.Add(new KeyValuePair<string, decimal?>("Labor Mkt Mid", Convert.ToDecimal(ss.LaborMarketMidAnnual)));
-                cl.Add(new KeyValuePair<string, decimal?>("College AVG", Convert.ToDecimal(ss.CollegeAverageAnnual)));
-                cl.Add(new KeyValuePair<string, decimal?>("Campus AVG", Convert.ToDecimal(ss.CampusAverageAnnual)));
+
+
+                List<SelectionType> selectionTypes = SelectionTypeBLL.GetAll("SortOrder", true);
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[0].ShortType, null)); // "None"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[1].ShortType, ss.SalaryGradeQuartiles.MinAnnual)); // "Min"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[2].ShortType, ss.SalaryGradeQuartiles.FirstQrtleAnnual)); // "1st"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[3].ShortType, ss.SalaryGradeQuartiles.MidAnnual)); // "Mid"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[4].ShortType, ss.SalaryGradeQuartiles.ThirdQrtleAnnual)); // "3rd"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[5].ShortType, ss.SalaryGradeQuartiles.MaxAnnual)); // "Max"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[6].ShortType, Convert.ToDecimal(ss.LaborMarketWAS))); // "Labor Mkt WAS"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[7].ShortType, Convert.ToDecimal(ss.LaborMarketMidAnnual))); // "Labor Mkt Mid"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[8].ShortType, Convert.ToDecimal(ss.CollegeAverageAnnual))); // "College AVG"
+                cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[9].ShortType, Convert.ToDecimal(ss.CampusAverageAnnual))); // "Campus AVG"
 
                 foreach (SalaryStep step in ss.SalarySteps)
                 {
-                    cl.Add(new KeyValuePair<string, decimal?>("Step " + step.StepNumber, Convert.ToDecimal(step.Annual)));
+                    cl.Add(new KeyValuePair<string, decimal?>(selectionTypes[10].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual))); // "Step"
                 }
             }
             return cl;
