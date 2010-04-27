@@ -116,6 +116,29 @@ namespace CAESDO.Esra.Core.Domain
             return retval;
         }
 
+        public virtual SalaryScale InitializedCopy()
+        {
+            SalaryScale retval = new SalaryScale()
+            {
+                _BargainingCode = this._BargainingCode,
+                _EffectiveDate = DateTime.Today,
+                _NumSalarySteps = this._NumSalarySteps,
+                _Title = this._Title,
+                _TitleCode = this._TitleCode,
+                SalaryGrade = this.SalaryGrade
+            };
+
+            // Take care of creating initialized copies of the salary steps:
+            List<SalaryStep> ss = new List<SalaryStep>();
+            foreach (SalaryStep step in this.SalarySteps)
+            {
+                ss.Add(step.InitializedCopy(retval));
+            }
+            retval.SalarySteps = ss; // Assign the newly copied salary steps.
+
+            return retval;
+        }
+
         public SalaryScale()
         {
 

@@ -87,6 +87,19 @@ namespace CAESDO.Esra.Core.Domain
             return retval;
         }
 
+        public virtual SalaryStep InitializedCopy(SalaryScale salaryScale)
+        {
+            SalaryStep ss = new SalaryStep()
+            {
+                _EffectiveDate = DateTime.Today,
+                _StepNumber = this._StepNumber,
+                _Title = this._Title,
+                _TitleCode = this.TitleCode,
+                _SalaryScale = salaryScale
+            };
+            return ss;
+        }
+
         public SalaryStep()
         {
 
