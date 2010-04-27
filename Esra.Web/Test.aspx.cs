@@ -93,8 +93,7 @@ namespace CAESDO.Esra.Web
         protected void rptScenarios_Init()
         {
             List<Scenario> scenarios = new List<Scenario>();
-            scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType =  SelectionTypeBLL.GetByType(SelectionType.NONE)});
-            rptScenarios.DataSource = scenarios;
+            scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType =  SelectionTypeBLL.GetByType(SelectionType.NONE).Type});            rptScenarios.DataSource = scenarios;
             rptScenarios.DataBind();
         }
 

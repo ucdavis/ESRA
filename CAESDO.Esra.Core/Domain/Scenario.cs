@@ -14,11 +14,11 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryReviewAnalysis = value; }
         }
 
-        public virtual int SalaryReviewAnalysisID
-        {
-            get { return SalaryReviewAnalysisID; }
-            set { SalaryReviewAnalysisID = value; }
-        }
+        //public virtual int SalaryReviewAnalysisID
+        //{
+        //    get { return SalaryReviewAnalysisID; }
+        //    set { SalaryReviewAnalysisID = value; }
+        //}
 
         private int _ScenarioNumber;
         // i.e. 1-7.
@@ -28,9 +28,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _ScenarioNumber = value; }
         }
 
-        private SelectionType _SelectionType;
+        private string _SelectionType;
         // Valid only if selection was choosen from drop-down list.
-        public virtual SelectionType SelectionType
+        public virtual string SelectionType
         {
             get { return _SelectionType; }
             set { _SelectionType = value; }

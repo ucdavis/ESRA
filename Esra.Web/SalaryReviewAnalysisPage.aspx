@@ -327,10 +327,20 @@
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Repeater runat="server" DataSource='<%# Eval("Scenarios") %>'>
-                                <HeaderTemplate><table><tr><th>Scenario #</th></tr></HeaderTemplate>
-                                <ItemTemplate><tr><td><asp:Label ID="lblScenarioNum" runat="server" Text='<%# Bind("ScenarioNumber") %>'></asp:Label></td></tr></ItemTemplate>
+                                <HeaderTemplate><table>
+                                <tr><th>Scenario #</th>
+                                <th>Criteria</th>
+                                <th>% Increase</th>
+                                <th>New Salary Amount</th>
+                                <th>Approved</th></tr></HeaderTemplate>
                                 
-                                <%--<asp:Label ID="Label2" runat="server" Text='<%# Bind("Scenarios") %>'></asp:Label>--%>
+                                <ItemTemplate>
+                                <tr><td><%# Eval("ScenarioNumber") %></td>
+                                <td><asp:DropDownList runat="server" ID="ddlSelectionType"  DataValueField="Key" DataTextField="Key" DataSourceID="odsCriteria" Enabled="false" SelectedValue='<%# Eval("SelectionType") %>'></asp:DropDownList></td>
+                                <td><%# Eval("PercentIncrease", "{0:p}") %></td>
+                                <td><%# Eval("SalaryAmount", "{0:c}") %></td>
+                                <td><asp:CheckBox runat="server" Checked='<%# Convert.ToBoolean(Eval("Approved")) %>' Enabled="false"/></td></tr></ItemTemplate>
+                                
                                 <FooterTemplate></table></FooterTemplate>
                                 </asp:Repeater>
                             </ItemTemplate>
@@ -339,9 +349,15 @@
                             SortExpression="DepartmentComments" />
                         <asp:BoundField DataField="DeansOfficeComments" 
                             HeaderText="Deans Office Comments" SortExpression="DeansOfficeComments" />
-                        <asp:BoundField DataField="DateApproved" 
-                            HeaderText="Date Approved" SortExpression="DateApproved" 
-                            DataFormatString="{0:MM/dd/yyyy}" />
+                        <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblDateApproved" runat="server" 
+                                    Text='<%# ((Eval("DateApproved") as DateTime?) == null  ? "" : Eval("DateApproved", "{0:MM/dd/yyyy}")) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
                 <asp:ObjectDataSource ID="odsSARDetails" runat="server" 
@@ -537,7 +553,8 @@
     <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
         SelectMethod="GetCriteriaListItems" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
         <SelectParameters>
-            <asp:SessionParameter DefaultValue="0" Name="id" SessionField="titleCode" Type="Int32" />
+            <asp:SessionParameter DefaultValue="0" Name="titleCode" 
+                SessionField="titleCode" Type="String" />
         </SelectParameters>
     </asp:ObjectDataSource>
     

@@ -18,7 +18,7 @@ namespace CAESDO.Esra.Web
     {
         protected static readonly string KEY_SALARY_REVIEW_ANALYSIS_ID = "CurrentSarID";
         protected static readonly string KEY_EMPLOYEE_ID = "CurrentEmployeeID";
-        protected static readonly string KEY_TITLE_ID = "CurrentTitleCode";
+        protected static readonly string KEY_TITLE_ID = "titleCode";
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -77,6 +77,7 @@ namespace CAESDO.Esra.Web
                 Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
                 CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sar = SalaryReviewAnalysisBLL.GetByID(id);
                 Session.Add(KEY_EMPLOYEE_ID, sar.Employee.ID);
+                Session.Add(KEY_TITLE_ID, sar.Title.ID);
                 //odsSAREmployee.DataBind();
                 //odsTitle.DataBind();
                 MultiView1.SetActiveView(vSalaryReviewAnalysis);
