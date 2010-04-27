@@ -6,6 +6,7 @@ using NHibernate.Expression;
 using System.ComponentModel;
 using System.Web;
 using System.Web.Security;
+using System;
 
 namespace CAESDO.Esra.Data
 {
@@ -22,11 +23,37 @@ namespace CAESDO.Esra.Data
             return new GenericDao<T, IdT>();
         }
 
+        public IEmployeeDao GetEmployeeDao() { return new EmployeeDao(); }
+
         #endregion
 
         #region Inline DAO implementations
 
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
+
+        public class EmployeeDao : AbstractNHibernateDao<Employee, int>, IEmployeeDao
+        {
+            public IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
+            {
+                IList<Employee> retval = null;
+
+                if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee))
+                      .CreateAlias("Title", "Title")
+                      .Add(Expression.Eq("Title.TitleCode", titleCode))
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<Employee>();
+                }
+                else
+                {
+                    retval = GetAll(propertyName, ascending);
+                }
+
+                return retval;
+            }
+        }
 
         #endregion
 
