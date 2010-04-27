@@ -6,6 +6,8 @@ namespace CAESDO.Esra.Core.Domain
 {
     public class SelectionType : DomainObject<SelectionType, int>
     {
+        public static readonly string NONE = "None";
+
         private string _Type;
         // i.e. Minimum, First, Mid Point, Third, Maximum, Labor Market Weighted Average Salary, Labor Market Mid, etc.
         public virtual string Type
