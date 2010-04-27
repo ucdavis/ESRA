@@ -239,8 +239,7 @@
             <table>
             <tr><td rowspan="2"><asp:Image ID="imgBackArrow" runat="server" 
                     AlternateText="back arrow" CssClass="buttons" 
-                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />&nbsp;&nbsp;
-                <asp:Button ID="btnBack" runat="server" 
+                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" /><asp:Button ID="btnBack" runat="server" 
                                 OnClick="lbtnBack_Click" Text="Back" /></td><td>Error: Employee is 
                     outside of user&#39;s home or work department.</td></tr>
             <tr><td>Unable view or perform a Salary Review Analysis on this Individual.</td></tr>
@@ -752,7 +751,7 @@
                     </SelectParameters> 
                 </asp:ObjectDataSource>
                 
-                &nbsp;<asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.SRAEmployeeBLL"
+                <asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.SRAEmployeeBLL"
                     OldValuesParameterFormatString="original_{0}" SelectMethod="GetBySalaryReviewAnalysisID">
                     <SelectParameters>
                         <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" 
@@ -770,9 +769,9 @@
                 <asp:LinkButton runat="server" ID="lbtnBack" OnClick="lbtnBack_Click" ToolTip="Back"
                     CssClass="buttons" Text="&lt;img alt=&quot;Back&quot; class=&quot;back_button&quot; 
                     src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
-                &nbsp;<asp:LinkButton ID="lbtnEdlt" runat="server" OnClick="lbtnEdit_Click" ToolTip="Edit"
+                <asp:LinkButton ID="lbtnEdlt" runat="server" OnClick="lbtnEdit_Click" ToolTip="Edit"
                     CssClass="buttons">Edit <img id="imgEditButton" alt="Edit" class="edit_button" src="images/common/edit.png"/></asp:LinkButton>
-                    &nbsp;<asp:LinkButton ID="lbtnPrint" runat="server" 
+                    <asp:LinkButton ID="lbtnPrint" runat="server" 
                     OnClientClick="window.print();return false;" ToolTip="Print"
                     CssClass="buttons">Print <img id="imgPrintButton" alt="Print" class="print_button" src="images/common/printer.gif"/></asp:LinkButton>
                 <%--<table style="width: 100%;">
