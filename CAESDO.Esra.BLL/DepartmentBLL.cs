@@ -21,10 +21,9 @@ namespace CAESDO.Esra.BLL
                 departments.Add(user.WorkDepartment);
             }
 
+            departments.Sort();
             if (!ascending)
                 departments.Reverse();
-            else
-                departments.Sort();
 
             return departments;
         }
