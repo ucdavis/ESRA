@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
-<h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis"></asp:Label></h1>
+    <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis"></asp:Label></h1>
 <%--<div class="left_col_empty"></div>--%>
 <div class="right_col">
 <div id="SRA_scale">
@@ -88,6 +88,7 @@
                             (Use today&#39;s date for any date)
                         </td>
                     </tr>
+                    <tr><td colspan="5">&nbsp;</td></tr>
                     <tr>
                         <th>
                             &nbsp;Employee
@@ -104,8 +105,9 @@
                             </center>
                         </td>
                     </tr>
+                    <%--<tr><td colspan="4">&nbsp;</td></tr>--%>
                     <tr>
-                        <td>
+                        <td><br />
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AppendDataBoundItems="True"
                                 DataSourceID="odsFilteredEmployees" DataTextField="FullName" DataValueField="ID"
                                 ondatabound="ddlEmployee_DataBound">
@@ -114,7 +116,7 @@
                             <ajax:ListSearchExtender ID="ddlEmployee_ListSearchExtender" runat="server" TargetControlID="ddlEmployee">
                             </ajax:ListSearchExtender>
                         </td>
-                        <td>
+                        <td><br />
                             <asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" DataSourceID="odsCreatedBy"
                                 DataTextField="FullName" DataValueField="Login"
                                 ondatabound="ddlCreatedBy_DataBound">
@@ -123,7 +125,7 @@
                             <ajax:ListSearchExtender ID="ddlCreatedBy_ListSearchExtender" runat="server" TargetControlID="ddlCreatedBy">
                             </ajax:ListSearchExtender>
                         </td>
-                        <td>
+                        <td><br />
                             <ajax:CalendarExtender ID="ceCreationDate" runat="server" Format="MM/dd/yyyy" TargetControlID="tbCreationDate"
                                 PopupPosition="BottomRight" PopupButtonID="btn_calendar" CssClass="calendar">
                             </ajax:CalendarExtender>
