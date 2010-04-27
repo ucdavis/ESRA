@@ -1,5 +1,6 @@
 ﻿using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
+using System;
 
 namespace CAESDO.Esra.Core.DataInterfaces
 {
@@ -10,6 +11,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         IGenericDao<T, IdT> GetGenericDao<T, IdT>();
         IEmployeeDao GetEmployeeDao();
+        ISalaryScaleDao GetSalaryScaleDao();
     }
 
     // There's no need to declare each of the DAO interfaces in its own file, so just add them inline here.
@@ -22,6 +24,11 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
+    }
+
+    public interface ISalaryScaleDao : IDao<SalaryScale, int>
+    {
+        SalaryScale GetEffectiveSalaryScale(DateTime effectiveDate);
     }
 
     #endregion
