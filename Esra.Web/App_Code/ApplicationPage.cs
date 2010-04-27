@@ -283,7 +283,7 @@ namespace CAESDO.Esra.Web
         protected bool IsMiddleStep(object sender)
         {
             bool retval = false;
-            RepeaterItem item = (RepeaterItem)sender;
+            IDataItemContainer item = sender as IDataItemContainer;
             SalaryStep step = (SalaryStep)item.DataItem;
             SalaryScale ss = step.SalaryScale;
             int numSteps = ss.SalarySteps.Count;
