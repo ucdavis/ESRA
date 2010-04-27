@@ -1,10 +1,10 @@
 ﻿using System;
-using CAESArch.Core.Domain;
+//using CAESArch.Core.Domain;
 
 namespace CAESDO.Esra.Core.Domain
 {
     [Serializable]
-    public class SalaryStep : DomainObject<SalaryStep, int>, IComparable<SalaryStep>
+    public class SalaryStep : CAESArch.Core.Domain.DomainObject<SalaryStep, int>, IComparable<SalaryStep>
     {
         private SalaryScale _SalaryScale;
 
