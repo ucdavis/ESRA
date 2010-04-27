@@ -72,7 +72,7 @@ namespace CAESDO.Esra.Data
                     (((String.IsNullOrEmpty(pkEmployee)) || pkEmployee.Equals("0"))) &&
                     (((departmentIDs == null) || (departmentIDs.Length == 0) || (departmentIDs[0].Equals("0")))))
                 {
-                    retval = GetAll(propertyName, ascending);
+                    retval = GetAllEmployees(propertyName, ascending);
                 }
                 else
                 {
@@ -113,6 +113,27 @@ namespace CAESDO.Esra.Data
                     retval = criteria.List<Employee>();
                 }
                 return retval;
+            }
+
+            public IList<Employee> GetAllEmployees(string propertyName, bool ascending)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
+                if (propertyName.Equals("HomeDepartment"))
+                {
+                    criteria.CreateAlias("HomeDepartment", "HomeDepartment")
+                    .AddOrder((ascending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
+                    .AddOrder(Order.Asc("FullName"));
+                }
+                else
+                {
+                    criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+                    if (propertyName.Equals("FullName") == false)
+                    {
+                        criteria.AddOrder(Order.Asc("FullName"));
+                    }
+                }
+
+                return criteria.List<Employee>();
             }
         }
 

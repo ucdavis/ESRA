@@ -18,7 +18,13 @@ namespace CAESDO.Esra.BLL
         public static IList<Employee> GetAllEmployeesForUser(string userID, string propertyName, bool ascending)
         {
             UCDEmployee user = GetByProperty("EmployeeID", userID);
-            return GetEmployees("FullName", true, null, null, new string []{ user.HomeDepartment.ID, user.WorkDepartment.ID });
+            return GetEmployees("FullName", false, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+        }
+
+        public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending)
+        {
+            UCDEmployee user = GetByProperty("EmployeeID", userID);
+            return GetEmployees("FullName", isDepartmentUser, null, null, new string []{ user.HomeDepartment.ID, user.WorkDepartment.ID });
         }
 
         public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
@@ -150,6 +156,11 @@ namespace CAESDO.Esra.BLL
         public static IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
         {
             return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
+        }
+
+        public static IList<Employee> GetAllEmployees(string propertyName, bool ascending)
+        {
+            return daoFactory.GetEmployeeDao().GetAllEmployees(propertyName, ascending);
         }
 
         public static void UpdateRecord(Employee record)

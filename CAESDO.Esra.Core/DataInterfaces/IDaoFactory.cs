@@ -33,6 +33,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
+        IList<Employee> GetAllEmployees(string propertyName, bool ascending);
     }
 
     public interface ISalaryScaleDao : IDao<SalaryScale, int>
