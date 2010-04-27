@@ -25,7 +25,16 @@ namespace CAESDO.Esra.BLL
                 if (department != null)
                 {
                     List<Employee> employees = department.Employees as List<Employee>;
-                    employees.Sort();
+
+                    if (String.IsNullOrEmpty(propertyName) == false && propertyName.Equals("FullName") && ascending == false)
+                    {
+                        employees.Reverse();
+                    }
+                    else
+                    {
+                        employees.Sort();
+                    }
+
                     retval = employees;
                 }
             }
