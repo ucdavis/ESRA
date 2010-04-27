@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
 	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployees" dynamic-update="true">
-		<id name="id" access="field" column="EmployeeID" unsaved-value="0">
+		<!--<id name="id" access="field" column="EmployeeID" unsaved-value="0">
 			<generator class="assigned" />
+		</id>-->
+		<id name="id" access="field" column="EmployeeID" length="9" type="string">
+			<generator class="assigned"/>
 		</id>
 
 		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept"  insert="false" update="false"/>
@@ -21,13 +24,13 @@
 		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
 		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
-		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee_V">
+		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee_V" >
 			<key column="EmployeeID"/>
-			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" update="false"/>
-			<property name="CareerHireDate" column="CareerHireDate" update="false"/>
-			<property name="ApptHireDate" column="ApptHireDate" update="false"/>
-			<property name="DepartmentComments" column="DepartmentComments" update="false"/>
-			<property name="DeansOfficeComments" column="DeansOfficeComments" update="false"/>
+			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
+			<property name="CareerHireDate" column="CareerHireDate" />
+			<property name="ApptHireDate" column="ApptHireDate" />
+			<property name="DepartmentComments" column="DepartmentComments" />
+			<property name="DeansOfficeComments" column="DeansOfficeComments"/>
 			<property name="YearsOfService" column="YearsOfService" update="false"/>
 			<property name="TimeInTitle" column="TimeInTitle" update="false"/>
 		</joined-subclass>
