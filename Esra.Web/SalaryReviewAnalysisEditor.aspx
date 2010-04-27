@@ -528,7 +528,8 @@
                                  <tr>
                                         <th>
                                              <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'/><asp:HiddenField ID="scenarioIdAlt" runat="server"
-                                                Value='<%# Eval("ID") %>.' />
+                                                Value='<%# Eval("ID") %>
+                                                ' />
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"

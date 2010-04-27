@@ -185,12 +185,12 @@ namespace CAESDO.Esra.Web
             }
             else if (args.CommandArgument.Equals("resetFields"))
             {
-                RadioButton rb = args.Item.FindControl("rbApproved") as RadioButton;
-                if (rb == null)
-                {
-                    rb = args.Item.FindControl("rbApprovedAlt") as RadioButton;
-                }
-                rb.Checked = false;
+                //RadioButton rb = args.Item.FindControl("rbApproved") as RadioButton;
+                //if (rb == null)
+                //{
+                //    rb = args.Item.FindControl("rbApprovedAlt") as RadioButton;
+                //}
+                //rb.Checked = false;
 
                 CheckBox ckBox = args.Item.FindControl("cbxApproved") as CheckBox;
                 if (ckBox == null)
@@ -286,7 +286,7 @@ namespace CAESDO.Esra.Web
 
         protected void tbPercentIncrease_OnTextChanged(object sender, EventArgs args)
         {
-            NumberStyles styles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol | NumberStyles.AllowTrailingSign | NumberStyles.AllowLeadingSign;
+            NumberStyles styles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol | NumberStyles.AllowTrailingSign | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowTrailingWhite;
             NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
             TextBox tb = (TextBox)sender;
             RepeaterItem item = (RepeaterItem)tb.Parent;
@@ -299,6 +299,8 @@ namespace CAESDO.Esra.Web
             ddl.SelectedIndex = -1; // reset ddl
 
             // get the percentage:
+            // For some reason the space percent sign is not converting properly.
+            tb.Text = tb.Text.Replace("%", "");
             double percentIncrease = 0;
             double.TryParse(tb.Text, styles, numberFormatInfo, out percentIncrease);
             tb.Text = String.Format("{0:p}", (percentIncrease/100));
@@ -334,14 +336,34 @@ namespace CAESDO.Esra.Web
 
         protected void btnAddAnotherScenario_Click(object sender, EventArgs e)
         {
+            Repeater rpt = ((System.Web.UI.Control)sender).Parent.NamingContainer as Repeater;
+            RepeaterItemCollection items = rpt.Items;
+
+            List<Scenario> scenarios = new List<Scenario>();
+            foreach (RepeaterItem item in items)
+            {
+                scenarios.Add(UpdateScenarioValues(item));
+            }
+            scenarios.Add(new Scenario()
+            {
+                ScenarioNumber = items.Count + 1,
+                SelectionType = SelectionType.NONE,
+                SalaryAmount = Session[KEY_EMPLOYEE_PAY_RATE] as Double?,
+                Approved = false
+            });
+            
+            rptScenarios.DataSource = scenarios;
+            rptScenarios.DataBind();
         }
 
         protected void btnSubmitSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
+            // TODO: Add logic to save the updated SalaryReviewAnalysis and Scenarios.
         }
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
+            // TODO: Add logic to clear out any modified variables.
         }
 
         protected void cbxApproved_CheckChanged(object sender, EventArgs e)
@@ -369,6 +391,70 @@ namespace CAESDO.Esra.Web
                 ckBox.Checked = false;
             }
             cb.Checked = true;
+        }
+
+        protected Scenario UpdateScenarioValues(RepeaterItem item)
+        {
+            NumberStyles styles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol | NumberStyles.AllowTrailingSign | NumberStyles.AllowLeadingSign | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint;
+            NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
+            Scenario scenario = null;
+
+            HiddenField idField = item.FindControl("scenarioId") as HiddenField;
+            if (idField == null)
+            {
+                idField = item.FindControl("scenarioIdAlt") as HiddenField;
+            }
+            String id = idField.Value;
+            // Logic to force a restore of a non-saved scenario:
+            if (String.IsNullOrEmpty(id) || id.Equals("0"))
+            {
+                scenario =  new Scenario();
+            }
+            else
+            {
+                scenario = ScenarioBLL.GetByID(Convert.ToInt32(id));  
+            }
+            
+            // Update scenario values with any changes from UI:
+            scenario.ScenarioNumber = item.ItemIndex + 1;
+
+            CheckBox ckBox = item.FindControl("cbxApproved") as CheckBox;
+            if (ckBox == null)
+            {
+                ckBox = item.FindControl("cbxApprovedAlt") as CheckBox;
+            }
+            scenario.Approved = Convert.ToBoolean(ckBox.Checked);
+
+            DropDownList ddlCriteria = item.FindControl("ddlCriteria") as DropDownList;
+            if (ddlCriteria == null)
+            {
+                ddlCriteria = item.FindControl("ddlCriteriaAlt") as DropDownList;
+            }
+            ListItem selectedItem = ddlCriteria.Items[ddlCriteria.SelectedIndex];
+            
+            scenario.SelectionType = selectedItem.Text;
+
+            TextBox tbPercentIncrease = item.FindControl("tbPercentIncrease") as TextBox;
+            if (tbPercentIncrease == null)
+            {
+                tbPercentIncrease = item.FindControl("tbPercentIncreaseAlt") as TextBox;
+            }
+            // For some reason the space percent sign is not converting properly.
+            tbPercentIncrease.Text = tbPercentIncrease.Text.Replace("%", "");
+            double percentIncrease = 0;
+            double.TryParse(tbPercentIncrease.Text, styles, numberFormatInfo, out percentIncrease);
+            scenario.PercentIncrease = percentIncrease / 100;
+
+            TextBox tbSalaryAmount = item.FindControl("tbSalaryAmount") as TextBox;
+            if (tbSalaryAmount == null)
+            {
+                tbSalaryAmount = item.FindControl("tbSalaryAmountAlt") as TextBox;
+            }
+            double newSalary = 0;
+            double.TryParse(tbSalaryAmount.Text, styles, numberFormatInfo, out newSalary);
+            scenario.SalaryAmount = newSalary;
+
+            return scenario;
         }
     }
 }
