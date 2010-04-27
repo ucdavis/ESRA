@@ -84,6 +84,7 @@
                                                 <tr>
                                                     <td colspan="5">
                                                         <table>
+                                                         <asp:Panel ID="pnlQuartiles" runat="server" Visible='<%# !HasSalarySteps(Container) %>'>
                                                             <tr>
                                                                 <th>
                                                                     Quartile
@@ -168,9 +169,11 @@
                                                                     <asp:Label ID="Label16" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxHourly","{0:c}") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
+                                                            </asp:Panel>
                                                             <tr>
                                                                 <td colspan="5">
                                                                     <table>
+                                                                    <asp:Panel ID="pnlLM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
                                                                         <tr>
                                                                             <th>
                                                                                 Labor Market WAS:
@@ -179,6 +182,7 @@
                                                                                 <asp:Label ID="Label17" runat="server" Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label>
                                                                             </td>
                                                                         </tr>
+                                                                        
                                                                         <tr>
                                                                             <th>
                                                                                 Labor Market Mid:
@@ -195,6 +199,7 @@
                                                                                 <asp:Label ID="Label19" runat="server" Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label>
                                                                             </td>
                                                                         </tr>
+                                                                        </asp:Panel>
                                                                         <tr>
                                                                             <th>
                                                                                 Campus Average:
@@ -237,13 +242,13 @@
                                                                             <asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
                                                                         </th>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepAnnual" runat="server" Text='<%# Eval("Annual","{0:c}") %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepAnnual" runat="server" Text='<%# Eval("Annual","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepMonthly" runat="server" Text='<%# Eval("Monthly","{0:c}") %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepMonthly" runat="server" Text='<%# Eval("Monthly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepHourly" runat="server" Text='<%# Eval("Hourly","{0:c}") %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepHourly" runat="server" Text='<%# Eval("Hourly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                 </ItemTemplate>
