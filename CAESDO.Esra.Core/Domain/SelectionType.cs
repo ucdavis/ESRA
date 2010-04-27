@@ -32,6 +32,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _Description = value; }
         }
 
+        private string _SortOrder;
+
+        public virtual string SortOrder
+        {
+            get { return _SortOrder; }
+            set { _SortOrder = value; }
+        }
+
         public SelectionType()
         {
 

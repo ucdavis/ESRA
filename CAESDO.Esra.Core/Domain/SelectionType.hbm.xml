@@ -7,5 +7,6 @@
 		<property name="Type" column="Type" />
 		<property name="ShortType" column="ShortType" />
 		<property name="Description" column="Description" />
+    <property name="SortOrder" column="SortOrder" />
 	</class>
 </hibernate-mapping>
