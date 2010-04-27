@@ -212,6 +212,7 @@
     <Content Include="includes\Esra_print.css" />
     <Content Include="includes\exportToExcel.js" />
     <Content Include="includes\jsUpdateProgress.js" />
+    <Content Include="includes\cas.css" />
     <Content Include="LogoutPage.aspx" />
     <Content Include="ModalConfirm.aspx" />
     <Content Include="NewSalarySteps_UserInputForm.aspx" />

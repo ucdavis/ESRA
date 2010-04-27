@@ -2,18 +2,21 @@
     AutoEventWireup="true" CodeBehind="LogoutPage.aspx.cs" Inherits="CAESDO.Esra.Web.LogoutPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style type="text/css" media="screen">
-        @import 'https://cas.ucdavis.edu/cas/css/cas.css' /**/;
+
+    <style type="text/css">
+        @import url("includes/cas.css");
     </style>
-    <!--[if gte IE 6]><style type="text/css" media="screen">@import 'css/ie_cas.css';</style><![endif]-->
-
-    <script type="text/javascript" src="https://cas.ucdavis.edu/cas/js/common_rosters.js"></script>
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
+
+    <script type="text/javascript">
+    var nav = document.getElementById('ul_nav');
+    nav.style.display = 'none';
+</script>
+    <script type="text/javascript" src="https://cas.ucdavis.edu/cas/js/common_rosters.js"></script>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-    <center><asp:Label ID="lblPageTitle" runat="server" Text="ESRA Logout" Font-Bold="true" Font-Size="Larger" ></asp:Label></center>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server" >
+    <center><asp:Label ID="lblPageTitle" runat="server" Text="ESRA Logout" Font-Bold="true" Font-Size="X-Large" class="title"></asp:Label></center>
  <br />
  <hr />
     <div id="cas">
@@ -72,11 +75,11 @@
         </div>
     </div>
     <div id="divReturnToLoginPage">
+    
     <br />
     <hr />
     <br />
-        <p>
-            &nbsp;<asp:HyperLink ID="hlLoginPage" runat="server" NavigateUrl="~/Default.aspx">Click here to be redirected to the Login Page.</asp:HyperLink>
-        </p>
+        &nbsp;&nbsp;<asp:HyperLink ID="hlLoginPage" runat="server" NavigateUrl="~/Default.aspx" ForeColor="White">Click here to be redirected to the Login Page.</asp:HyperLink>
+        
     </div>
 </asp:Content>
