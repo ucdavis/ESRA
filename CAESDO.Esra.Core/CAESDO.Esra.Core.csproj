@@ -86,7 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\ApptType.hbm.xml" />
-    <EmbeddedResource Include="Domain\UCDEmployee.hbm.xml" />
     <EmbeddedResource Include="Domain\SalaryStep.hbm.xml" />
     <EmbeddedResource Include="Domain\SalaryGradeQuartiles.hbm.xml" />
     <EmbeddedResource Include="Domain\SalaryScale.hbm.xml" />
