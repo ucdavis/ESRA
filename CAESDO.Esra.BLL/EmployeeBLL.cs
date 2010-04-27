@@ -50,6 +50,16 @@ namespace CAESDO.Esra.BLL
             return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, pkEmployee, departmentID);
         }
 
+        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string pkEmployee, string[] departmentIDs)
+        {
+            return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, pkEmployee, departmentIDs);
+        }
+
+        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
+        {
+            return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
+        }
+
         public static void UpdateRecord(Employee record)
         {
 
