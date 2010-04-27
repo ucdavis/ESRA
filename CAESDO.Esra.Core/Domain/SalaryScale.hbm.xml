@@ -27,6 +27,7 @@
 		<property name="EffectiveDate" column="EffectiveDate" update="false" insert="false"/>
 		<property name="SalaryGrade" column ="SalaryGrade" />
 		<property name="BargainingCode" column="BargainingCode" />
+    <property name="NumSalarySteps" column="NumSalarySteps" />
 		<property name="LaborMarketWAS" column="LaborMarketWAS" />
 		<property name="LaborMarketMidAnnual" column="LaborMarketMidAnnual" />
 		<property name="CollegeAverageAnnual" column="CollegeAvgAnnual" />

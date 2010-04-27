@@ -44,6 +44,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _BargainingCode = value; }
         }
 
+        private int _NumSalarySteps;
+
+        public virtual int NumSalarySteps
+        {
+            get { return _NumSalarySteps; }
+            set { _NumSalarySteps = value; }
+        }
+
         private SalaryGradeQuartiles _SalaryGradeQuartiles;
 
         public virtual SalaryGradeQuartiles SalaryGradeQuartiles
