@@ -14,6 +14,8 @@
 		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false">
 			<column name="TitleCode"/>
 		</many-to-one>
+
+    <property name="CurrentTitleCode" column="CurrentTitleCode" />
     
 		<property name="DateInitiated" column="DateInitiated" />
 		<property name="DateApproved" column="DateApproved" />

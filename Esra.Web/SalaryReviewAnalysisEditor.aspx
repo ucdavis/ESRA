@@ -473,8 +473,16 @@
         </asp:View>
     <asp:View ID="vSalaryReviewAnalysis" runat="server">
         
-        <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
+        <table id="tblSRAMain" border="1" cellpadding="2" cellspacing="0" width="100%">
             <%--<th colspan="2">Abbreviated Name</th>--%>
+            <tr>
+                <td><asp:Label ID="lblTblSRAMain_CurrentTitleCodeTitle" runat="server" Text="Original Title Code:" Font-Bold="True"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="lblTblSRAMain_CurrentTitleCode" runat="server"></asp:Label></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title Code:" Font-Bold="True"></asp:Label>&nbsp;
+                <asp:Label ID="lblTblSRAMain_TitleCode" runat="server"></asp:Label></td>
+            </tr>
             
             <tr>
             <td>
@@ -502,7 +510,7 @@
                                     Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:Label>--%>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Initiated By (ReviewerName)" 
+                        <asp:TemplateField HeaderText="Initiated By (Reviewer Name)" 
                             SortExpression="InitiatedByReviewerName">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox2" runat="server" 

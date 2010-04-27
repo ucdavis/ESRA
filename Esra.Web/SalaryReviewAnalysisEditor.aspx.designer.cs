@@ -158,6 +158,42 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.View vSalaryReviewAnalysis;
         
         /// <summary>
+        /// lblTblSRAMain_CurrentTitleCodeTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblSRAMain_CurrentTitleCodeTitle;
+        
+        /// <summary>
+        /// lblTblSRAMain_CurrentTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblSRAMain_CurrentTitleCode;
+        
+        /// <summary>
+        /// blTblSRAMain_ProposedTitleCodeTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label blTblSRAMain_ProposedTitleCodeTitle;
+        
+        /// <summary>
+        /// lblTblSRAMain_TitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblSRAMain_TitleCode;
+        
+        /// <summary>
         /// gvSalaryReviewAnaysis control.
         /// </summary>
         /// <remarks>

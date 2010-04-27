@@ -118,6 +118,9 @@ namespace CAESDO.Esra.Web
 
                         rptScenarios_Init(scenarios);
 
+                        lblTblSRAMain_CurrentTitleCode.Text = sra.CurrentTitleCode;
+                        lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode;
+
                         MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
                 }
@@ -471,15 +474,24 @@ namespace CAESDO.Esra.Web
                 if (sra == null)
                 {
                     User user = UserBLL.GetCurrent();
+                    Employee emp = EmployeeBLL.GetByID(EmployeeID);
+                    string titleCode = Titles[0].TitleCode;
+                    bool isReclass = false;
+                    if (titleCode.Equals(emp.TitleCode) == false)
+                    {
+                        isReclass = true;
+                    }
                     sra = new SalaryReviewAnalysis()
                     {
                         ReferenceNumber = ReferenceNum,
                         DateInitiated = DateTime.Today,
                         InitiatedByReviewerName = user.FullName,
                         OriginatingDepartment = DepartmentBLL.GetOriginatingDepartmentForUser(user.EmployeeID),
-                        Title = TitleBLL.GetByTitleCode(Session[KEY_TITLE_CODE] as string),
-                        Employee = EmployeeBLL.GetByID(EmployeeID),
-                        SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
+                        Title = TitleBLL.GetByTitleCode(titleCode),
+                        Employee = emp,
+                        SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(titleCode, DateTime.Today),
+                        CurrentTitleCode = emp.TitleCode,
+                        IsReclass = isReclass
                     };
                 }
                 else
@@ -491,14 +503,23 @@ namespace CAESDO.Esra.Web
             else
             {
                 User user = UserBLL.GetCurrent();
+                Employee emp = EmployeeBLL.GetByID(EmployeeID);
+                string titleCode = Titles[0].TitleCode;
+                bool isReclass = false;
+                if (titleCode.Equals(emp.TitleCode) == false)
+                {
+                    isReclass = true;
+                }
                 sra = new SalaryReviewAnalysis()
                 {
                     DateInitiated = DateTime.Today,
                     InitiatedByReviewerName = user.FullName,
                     OriginatingDepartment = DepartmentBLL.GetOriginatingDepartmentForUser(user.EmployeeID),
-                    Title = TitleBLL.GetByTitleCode(Session[KEY_TITLE_CODE] as string),
-                    Employee = EmployeeBLL.GetByID(EmployeeID),
-                    SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
+                    Title = TitleBLL.GetByTitleCode(titleCode),
+                    Employee = emp,
+                    SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(titleCode, DateTime.Today),
+                    CurrentTitleCode = emp.TitleCode,
+                    IsReclass = isReclass
                 };
             }
 
@@ -641,6 +662,9 @@ namespace CAESDO.Esra.Web
             Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
             rptScenarios_Init(null);
 
+            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].TitleCode;
+            lblTblSRAMain_TitleCode.Text = proposedTitle.TitleCode;
+
             gvTitle.DataBind();
             gvEmployees.DataBind();
             gvEmployeeTitle.DataBind();
@@ -652,6 +676,9 @@ namespace CAESDO.Esra.Web
         {
             Criteria = SalaryScaleBLL.GetCriteriaListItems(Employees[0].TitleCode);
             rptScenarios_Init(null);
+
+            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].TitleCode;
+            lblTblSRAMain_TitleCode.Text = Employees[0].TitleCode;
 
             gvTitle.DataBind();
             gvEmployees.DataBind();

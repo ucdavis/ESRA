@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain
 {
@@ -22,6 +23,11 @@ namespace CAESDO.Esra.Core.Domain
             set { _Employee = value; }
         }
 
+        /// <summary>
+        /// AKA Proposed Title.
+        /// This is the Title used to perform the analysis on.
+        /// </summary>
+        
         private Title _Title;
 
         public virtual Title Title
@@ -109,6 +115,21 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _IsReclass; }
             set { _IsReclass = value; }
+        }
+
+        /// <summary>
+        /// This was the person's title code at the time the 
+        /// analysis was performed.  Typically the same as the 
+        /// TitleCode, unless it was a reclass.
+        /// </summary>
+        private string _CurrentTitleCode;
+
+        [StringLengthValidator(4)]
+        [NotNullValidator]
+        public virtual string CurrentTitleCode
+        {
+            get { return _CurrentTitleCode; }
+            set { _CurrentTitleCode = value; }
         }
 
         public SalaryReviewAnalysis()
