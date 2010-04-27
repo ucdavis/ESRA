@@ -142,7 +142,7 @@
                                             </th>
                                             <td>
                                                 <asp:TextBox ID="tbAnnual" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
-                                            AutoPostBack="true"></asp:TextBox>
+                                            AutoPostBack="true" Width="85px"></asp:TextBox>
                                                 <asp:RequiredFieldValidator ID="tbAnnualRequiredFieldValidator" runat="server"
                                                              ErrorMessage="Annual $"
                                                              Display="Dynamic" Text="Amount > $0 Required!"
@@ -170,7 +170,7 @@
                                             </th>
                                             <td>
                                                 <asp:TextBox ID="tbAnnualAlt" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged"
-                                            AutoPostBack="true"></asp:TextBox>
+                                            AutoPostBack="true" Width="85px"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="tbAnnualAltRequiredFieldValidator" runat="server"
                                                              ErrorMessage="Annual $"
                                                              Display="Dynamic" Text="Amount > $0 Required!"
@@ -227,7 +227,7 @@
                         <asp:Label ID="TitleCodeLabel" runat="server" Text='<%# Eval("TitleCode") %>' />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>' />
+                        <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>' Width="75px"/>
                          <asp:CompareValidator ID="cvEffectiveDate" runat="server" ErrorMessage="Effective Date" Display="Dynamic"
                     Text="Bad Date Format!" ControlToValidate="tbEffectiveDate" Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
                     <asp:RequiredFieldValidator ID="tbEffectiveDateRequiredFieldValidator" runat="server"
@@ -277,7 +277,7 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
-                                            AutoPostBack="true"></asp:TextBox>
+                                            AutoPostBack="true" Width="85px"></asp:TextBox>
                                             <asp:CompareValidator ID="cvAnnual2" runat="server" ErrorMessage="Annual $" Display="Dynamic"
                     Text="Bad Number Format!" ControlToValidate="tbAnnual2" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
                     <asp:RequiredFieldValidator ID="tbAnnual2RequiredFieldValidator" runat="server"
@@ -300,7 +300,7 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' CssClass="tb_alt"
-                                            OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true" Width="85px"></asp:TextBox>
                                             <asp:CompareValidator ID="cvAnnual3" runat="server" ErrorMessage="Annual $" Display="Dynamic"
                     Text="Bad Number Format!" ControlToValidate="tbAnnual3" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
                     <asp:RequiredFieldValidator ID="tbAnnual3RequiredFieldValidator" runat="server"
@@ -419,7 +419,7 @@
                         <asp:Label ID="TitleCodeTextBox" runat="server" Text='<%# Eval("TitleCode") %>' />
                     </td>
                     <td>
-                        <asp:TextBox ID="EffectiveDateTextBox" runat="server" Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>' />
+                        <asp:TextBox ID="EffectiveDateTextBox" runat="server" Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>' Width="75px" />
                         <asp:CompareValidator ID="cvEffectiveDateTextBox" runat="server" ErrorMessage="Effective Date" Display="Dynamic"
                     Text="Bad Date Format!" ControlToValidate="EffectiveDateTextBox" Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
                     <asp:RequiredFieldValidator ID="EffectiveDateTextBoxRequiredFieldValidator" runat="server"
