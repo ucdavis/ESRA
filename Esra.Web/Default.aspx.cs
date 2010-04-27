@@ -15,7 +15,7 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class _Default : System.Web.UI.Page
+    public partial class _Default : ApplicationPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
