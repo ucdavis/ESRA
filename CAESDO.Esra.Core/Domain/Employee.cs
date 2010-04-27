@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public class Employee : UCDEmployee
+    public class Employee : UCDEmployee, IComparable<Employee>
     {
         private bool _DatesHaveBeenAdjusted;
 
@@ -109,6 +109,23 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _DeansOfficeComments; }
             set { _DeansOfficeComments = value; }
+        }
+
+        public virtual int CompareTo(Employee item)
+        {
+            return this.FullName.CompareTo(item.FullName);
+        }
+
+        public virtual bool Equals(Employee other)
+        {
+            if (this.FullName == other.FullName)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Employee()
