@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
 namespace CAESDO.Esra.Core.Domain
 {
     public class Employee : UCDEmployee
     {
-        private bool? _DatesHaveBeenAdjusted;
+        private bool _DatesHaveBeenAdjusted;
 
         public virtual bool DatesHaveBeenAdjusted
         {
             get
             {
-                return (_DatesHaveBeenAdjusted == null ? false : (bool)_DatesHaveBeenAdjusted);
+                return _DatesHaveBeenAdjusted ;
             }
             set { _DatesHaveBeenAdjusted = value; }
         }
 
         private DateTime? _CareerHireDate;
 
-        public virtual DateTime CareerHireDate
+        public virtual DateTime? CareerHireDate
         {
             get 
             {
@@ -38,14 +39,14 @@ namespace CAESDO.Esra.Core.Domain
 
                 if (value != null)
                 {
-                    _DatesHaveBeenAdjusted = true;
+                    DatesHaveBeenAdjusted = true;
                 }
             }
         }
 
         private DateTime? _ApptHireDate;
 
-        public virtual DateTime ApptHireDate
+        public virtual DateTime? ApptHireDate
         {
             get
             {
@@ -64,7 +65,7 @@ namespace CAESDO.Esra.Core.Domain
 
                 if (value != null)
                 {
-                    _DatesHaveBeenAdjusted = true;
+                    DatesHaveBeenAdjusted = true;
                 }
             }
         }
@@ -75,8 +76,7 @@ namespace CAESDO.Esra.Core.Domain
         {
             get
             {
-                System.TimeSpan diffResult = DateTime.Now - CareerHireDate;
-                return diffResult.TotalDays / 365;
+                return (DateTime.Today - (DateTime)CareerHireDate).TotalDays / 365.25;
             }
             set
             {
@@ -88,8 +88,7 @@ namespace CAESDO.Esra.Core.Domain
         {
             get
             {
-                System.TimeSpan diffResult = DateTime.Now - ApptHireDate;
-                return diffResult.TotalDays / 365;
+                return (DateTime.Today - (DateTime)ApptHireDate).TotalDays / 365.25;
             }
             set
             {
