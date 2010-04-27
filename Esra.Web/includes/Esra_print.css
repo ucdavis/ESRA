@@ -4,16 +4,11 @@
 }
 body
 {
-    font-size:0.8em;
+    font-size:0.6em;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
-#page_title
-{
-    font-size:1em;
-    font-weight:bold;
-    float:right;
-}
-#header, #nav, .buttons, .back_button, .edit_button, #master_footer, #title, .master_p, .bbox
+
+#header, #nav, .buttons, .back_button, .edit_button, #master_footer, #title, .master_p, .bbox, #page_title
 {
     display:none;
 }
