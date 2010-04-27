@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CAESDO {
+namespace CAESDO.Esra.Web {
     
     
     public partial class _Default {
