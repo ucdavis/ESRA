@@ -44,11 +44,11 @@
                     DataSourceID="odsESRAs" DataTextField="ReferenceNumber" DataValueField="ID">
                     <asp:ListItem>-- Select a Reference Number --</asp:ListItem>
                 </asp:DropDownList>
-                &nbsp;<asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" 
+                &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" 
                     DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID">
                     <asp:ListItem>-- Select an Employee --</asp:ListItem>
                 </asp:DropDownList>
-                &nbsp;<asp:DropDownList ID="DropDownList2" runat="server">
+                &nbsp;<asp:DropDownList ID="ddl" runat="server">
                 </asp:DropDownList>
                 &nbsp;<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsSalaryReviewAnalysis">
