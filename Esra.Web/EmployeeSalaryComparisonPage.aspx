@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
+<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
@@ -219,7 +219,7 @@
         </asp:ListBox></td></tr><tr>
                 <td><asp:ListBox ID="lbxDepartments" runat="server" 
             AppendDataBoundItems="True" 
-            DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
+            DataTextField="Name_DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
         </asp:ListBox></td></tr><tr>
@@ -300,7 +300,7 @@ document.write(month+"/"+today+"/"+year)
                             </tr>
                             <tr>
                                 
-                                <td><asp:Repeater runat="server" ID="rptDepartments" DataSource='<%# Eval("SearchDepartments")%>'><ItemTemplate><asp:Label runat="server" ID="lblSearchDepartment" Text='<%# Eval("Name") %>'></asp:Label></ItemTemplate>
+                                <td><asp:Repeater runat="server" ID="rptDepartments" DataSource='<%# Eval("SearchDepartments")%>'><ItemTemplate><asp:Label runat="server" ID="lblSearchDepartment" Text='<%# Eval("Name_DepartmentNumber") %>'></asp:Label></ItemTemplate>
                                 <SeparatorTemplate><br /></SeparatorTemplate></asp:Repeater></td>
                                 <td><asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("SearchEmployee.FullName") %>'></asp:Label></td>
                                 <td><asp:Label ID="lblReportDate" runat="server" Text='<%# Eval("ReportDate", "{0:MM/dd/yyyy}") %>'></asp:Label></td>

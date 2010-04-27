@@ -23,6 +23,11 @@ namespace CAESDO.Esra.Core.Domain
             set { _Name = value; }
         }
 
+        public virtual string Name_DepartmentNumber
+        {
+            get { return _Name + " (" +_DepartmentNumber + ")"; }
+        }
+
         private string _ShortName;
 
         public virtual string ShortName
