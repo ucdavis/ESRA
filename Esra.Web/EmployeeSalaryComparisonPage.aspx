@@ -279,9 +279,10 @@ document.write(month+"/"+today+"/"+year)
                 
                 <br />
                 
-                <asp:Button ID="btnExportToExcel" runat="server" Text="Export to Excel" OnClientClick="ExportToExcel(); return false;" />
-                
-                <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center><br />
+                <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center>
+                &nbsp;<asp:Button ID="btnExportToExcel" runat="server" 
+                    OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" />
+                <br />
                 <%--<asp:Panel ID="panelUpdateProgress" runat="server" >
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
                         <ProgressTemplate>
