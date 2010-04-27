@@ -10,6 +10,7 @@ Begin DataProject = "Esra.Database"
    End
    Begin Folder = "Create Scripts"
       Script = "Create database and insert all data.sql"
+      Script = "Create table ChangeType and EmployeeChanges and insert into ChangeType.sql"
       Begin Folder = "Insert Data"
          Script = "Insert into SelectionType, ApptType, PayRateType, QuartileType.sql"
       End
