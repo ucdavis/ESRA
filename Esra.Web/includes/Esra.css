@@ -385,6 +385,53 @@ option:hover
     
 }
 
+/* ajax calendar */
+
+.right_col #ESCR_table .calendar td 
+{
+    padding-top:10px;
+    padding:0px;
+}
+
+.calendar .ajax__calendar_body
+{
+    padding-top:10px;
+}
+.calendar .ajax__calendar_container
+{	
+	padding-top:10px;
+	background: white;
+}
+.calendar .ajax__calendar_month
+{
+    margin-top:10px;
+    padding-top:10px;
+    margin-left:10px;
+    margin-right:-10px;
+}
+.calendar .ajax__calendar_days td
+{
+    padding:5px;
+}
+.calendar .ajax__calendar_days thead, .calendar .ajax__calendar_days th
+{
+    border-top:solid 1px black;
+}
+.calendar .ajax__calendar_header
+{
+    margin-bottom:10px;
+}
+.edit_header 
+{
+    font-weight: bold; font-size: 0.9em; 
+    padding:10px 0 10px 0;
+    width: 100%; display: block;
+    background: url(../images/common/edit_stripe_green.png);
+}
+.edit_header p
+{
+    
+}
 
 
 /*Modal Popup*/
@@ -550,9 +597,14 @@ option:hover
 {
     background-color:#CCCCCC;
 }
-.yellow
+.light_green
 {
-    background-color:Yellow;
+    background-color:#97d092;
+}
+
+.light_green_edit
+{
+    padding:2px 5px 2px 5px;
 }
 .note
 {

@@ -187,7 +187,10 @@
   <ItemGroup>
     <Content Include="ExportToExcel.aspx" />
     <Content Include="images\common\adduser.png" />
+    <Content Include="images\common\Cancel.png" />
     <Content Include="images\common\collapse_blue.jpg" />
+    <Content Include="images\common\disk4.jpg" />
+    <Content Include="images\common\edit_stripe_green.png" />
     <Content Include="images\common\employee_salary_comparison.png" />
     <Content Include="images\common\esra.png" />
     <Content Include="images\common\expand_blue.jpg" />
@@ -217,7 +220,6 @@
     <Content Include="Default.aspx" />
     <Content Include="images\common\120px-Document_new_svg.png" />
     <Content Include="images\common\Cancel-2.jpg" />
-    <Content Include="images\common\Cancel.png" />
     <Content Include="images\common\cancel1.png" />
     <Content Include="images\common\arrow_left.jpg" />
     <Content Include="images\common\bigboxg_left.jpg" />
