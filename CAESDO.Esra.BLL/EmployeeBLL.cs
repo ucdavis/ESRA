@@ -26,12 +26,14 @@ namespace CAESDO.Esra.BLL
             // Business rules for determining whether or not a employee is visible to a user:
             bool retval = false;
 
-            if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(user.HomeDepartmentID)) ||
-                (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(user.HomeDepartmentID)))
+            if (user != null && employee != null)
             {
-                retval = true;
+                if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(user.HomeDepartmentID)) ||
+                    (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(user.HomeDepartmentID)))
+                {
+                    retval = true;
+                }
             }
-
             return retval;
         }
 
@@ -171,11 +173,42 @@ namespace CAESDO.Esra.BLL
             return retval;
         }
 
+        /// <summary>
+        /// Returns list of employees used for selection, based on whether or not
+        /// user is department user, and their associated work and home departments.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="ascending"></param>
+        /// <returns>Filtered list of employees based of user's role and department.</returns>
+        public static IList<Employee> GetEmployees(string userID, bool isDepartmentUser, string propertyName, bool ascending)
+        {
+            if (isDepartmentUser)
+            {
+                // return filtered list:
+                UCDEmployee user = GetByProperty("EmployeeID", userID);
+                return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+            }
+            else
+            {
+                // return all users:
+                return GetAllEmployees(propertyName, ascending);
+            }
+        }
+
         public static IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
         {
             return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
         }
 
+        /// <summary>
+        /// Returns a sorted list of employees.
+        /// If propertyName = HomeDepartment: list is sorted by department name, employee last name.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="ascending"></param>
+        /// <returns>List employees sorted by propertyName in "ascending" order provided.</returns>
         public static IList<Employee> GetAllEmployees(string propertyName, bool ascending)
         {
             return daoFactory.GetEmployeeDao().GetAllEmployees(propertyName, ascending);

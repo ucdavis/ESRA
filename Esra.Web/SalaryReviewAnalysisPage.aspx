@@ -17,16 +17,26 @@
                 <asp:Parameter DefaultValue="" Name="propertyValue" Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
         <asp:ObjectDataSource ID="odsESRAs" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
+            SelectMethod="GetAllSalaryReviewAnalysis" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
             <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                    <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
                 <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
         <asp:ObjectDataSource ID="odsEmployee" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.EmployeeBLL">
+            SelectMethod="GetEmployees" TypeName="CAESDO.Esra.BLL.EmployeeBLL">
             <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
@@ -83,7 +93,7 @@
                     <tr>
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AppendDataBoundItems="True" 
-                                DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID">
+                                DataSourceID="odsFilteredEmployees" DataTextField="FullName" DataValueField="ID">
                                 <asp:ListItem Value="">-- Any Employee --</asp:ListItem>
                             </asp:DropDownList>
                             <ajax:ListSearchExtender ID="ddlEmployee_ListSearchExtender" runat="server" 
@@ -162,16 +172,27 @@
                                 <asp:Label ID="lblApprovedScenario" runat="server" Text='<%# Bind("ApprovedScenario.ScenarioNumber") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <%--<asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />--%>
-                        <asp:BoundField DataField="DeansOfficeComments" HeaderText="Deans Office Comments"
-                            SortExpression="DeansOfficeComments" />
+                        <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />
+                        
+                        <asp:TemplateField HeaderText="Deans Office Comments" SortExpression="DeansOfficeComments" Visible="false">
+                            <ItemTemplate>
+                                <asp:Panel ID="pnlDeansOfficeComments" runat="server" Visible="false">
+                                    <asp:Label ID="lblDeansOfficeComments" runat="server" Text='<%# Eval("DeansOfficeComments" ) %>' ></asp:Label>
+                                </asp:Panel>
+                            </ItemTemplate>
+                            
+                            <EditItemTemplate>
+                                
+                                <asp:TextBox ID="DeansOfficeComments" runat="server" Text='<%# Bind("DeansOfficeComments") %>' ></asp:TextBox>
+                            </EditItemTemplate>
+                            </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
                 <br />
                 <hr />
                 <br />
                 &nbsp;<asp:DropDownList ID="ddlNewSAREmployee" runat="server" AppendDataBoundItems="True" 
-                                DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID" AutoPostBack="true" OnSelectedIndexChanged="ddlNewSAREmployee_SelectedIndexChanged">
+                                 DataTextField="FullName" DataValueField="ID" AutoPostBack="true" OnSelectedIndexChanged="ddlNewSAREmployee_SelectedIndexChanged" DataSourceID="odsFilteredEmployees">
                                 <asp:ListItem Value="0">-- Select an Employee to Create a New Salary Review Analysis --</asp:ListItem>
                             </asp:DropDownList>
                 <ajax:ListSearchExtender ID="lsexDdlNewSAREmployee" runat="server" TargetControlID="ddlNewSAREmployee">
@@ -829,5 +850,17 @@
                 SessionField="titleCode" Type="String" />
         </SelectParameters>
     </asp:ObjectDataSource>
+    
+    <asp:ObjectDataSource ID="odsFilteredEmployees" runat="server" 
+                    TypeName="CAESDO.Esra.BLL.EmployeeBLL" SelectMethod="GetEmployees" >
+                    <SelectParameters>
+                     <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                    <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
+                <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+       </asp:ObjectDataSource>
     
 </asp:Content>

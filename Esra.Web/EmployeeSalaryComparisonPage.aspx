@@ -200,7 +200,7 @@
             AppendDataBoundItems="True" AutoPostBack="True" 
             DataTextField="FullName" DataValueField="ID" 
                         onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
-                        oninit="ddlEmployee_Init">
+                        DataSourceID="odsFilteredEmployees">
             <asp:ListItem Value="0">-- Any Employee --</asp:ListItem>
         </asp:DropDownList></td>
             </tr>
@@ -549,6 +549,18 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
+        <asp:ObjectDataSource ID="odsFilteredEmployees" runat="server" 
+                    TypeName="CAESDO.Esra.BLL.EmployeeBLL" SelectMethod="GetEmployees" >
+                    <SelectParameters>
+                     <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                    <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
+                <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+       </asp:ObjectDataSource>
         
         <asp:ObjectDataSource ID="odsTitle" runat="server"  
             TypeName="CAESDO.Esra.BLL.TitleBLL" 

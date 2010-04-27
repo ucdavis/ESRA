@@ -30,6 +30,52 @@ namespace CAESDO.Esra.BLL
             }
         }
 
+        /// <summary>
+        /// This is the new method, which returns a list of analyses,
+        /// according to the user's department and role.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="employeeID"></param>
+        /// <param name="reviewerLogin"></param>
+        /// <param name="creationDate"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="ascending"></param>
+        /// <returns>List of filtered analyses, according to user's department and role.</returns>
+        public static IList<SalaryReviewAnalysis> GetAll(string userId,
+            bool isDepartmentUser,
+            string employeeID,
+            string reviewerLogin,
+            string creationDate,
+            string propertyName,
+            bool ascending)
+        {
+            IList<SalaryReviewAnalysis> retval = null;
+
+            if (String.IsNullOrEmpty(employeeID)
+                && String.IsNullOrEmpty(reviewerLogin)
+                && (String.IsNullOrEmpty(creationDate)
+                    || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))
+            {
+                // The underlying method takes care of the user/department filtering.
+                retval = GetAllSalaryReviewAnalysis(userId, isDepartmentUser, propertyName, ascending);
+            }
+            else
+            {
+                string reviewerFullName = reviewerLogin;
+                if (String.IsNullOrEmpty(reviewerLogin) == false)
+                {
+                    User user = UserBLL.GetByLogin(reviewerLogin);
+                    reviewerFullName = user.FullName;
+                }
+                retval = GetListFilteredByUser(userId, isDepartmentUser,
+                    daoFactory.GetSalaryReviewAnalysisDao().GetAll(employeeID, reviewerFullName, creationDate, propertyName, ascending));
+            }
+
+            return retval;
+        }
+
+        /*
         public static IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool ascending)
         {
             IList<SalaryReviewAnalysis> retval = null;
@@ -39,7 +85,7 @@ namespace CAESDO.Esra.BLL
                 && (String.IsNullOrEmpty(creationDate)
                     || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))
             {
-                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAllSalaryReviewAnalysis(propertyName, ascending);
+                retval = GetAllSalaryReviewAnalysis(propertyName, ascending);
             }
             else
             {
@@ -52,6 +98,62 @@ namespace CAESDO.Esra.BLL
 
                 retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(employeeID, reviewerFullName, creationDate, propertyName, ascending);
             }
+            return retval;
+        }
+         * */
+
+        /// <summary>
+        /// Given a List of SalaryReviewAnalysis,
+        /// filter the list according to the user's department and role.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <returns>List of SalaryReviewAnalysis filtered according to the user's department and role.</returns>
+        private static IList<SalaryReviewAnalysis> GetListFilteredByUser(string userId, bool isDepartmentUser, IList<SalaryReviewAnalysis> analyses)
+        {
+            IList<SalaryReviewAnalysis> retval = analyses;
+            if (isDepartmentUser)
+            {
+                if (analyses != null && analyses.Count > 0)
+                {
+                    UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId);
+           
+                    IList<SalaryReviewAnalysis> tempList = new List<SalaryReviewAnalysis>();
+                    foreach (SalaryReviewAnalysis sra in analyses)
+                    {
+                        if (EmployeeBLL.IsDepartmentEmployee(user, sra.Employee))
+                        {
+                            tempList.Add(sra);
+                        }
+                    }
+                    retval = tempList;
+                }
+            }
+            return retval;
+        }
+
+        /// <summary>
+        /// The purpose for this method is to filter the results based on the user and the analysis' employee.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="ascending"></param>
+        /// <returns>List of employees filtered by user</returns>
+        public static IList<SalaryReviewAnalysis> GetAllSalaryReviewAnalysis(string userId, bool isDepartmentUser, string propertyName, bool ascending)
+        {
+            IList<SalaryReviewAnalysis> retval = GetAllSalaryReviewAnalysis(propertyName, ascending);
+
+            if (isDepartmentUser)
+            {
+                // Only return the analyses to which the user has permission to see.
+                // The current business rules are users with a matching home and work department.
+                if (retval.Count > 0)
+                {
+                    retval = GetListFilteredByUser(userId, isDepartmentUser, retval);
+                }
+            }
+
             return retval;
         }
 

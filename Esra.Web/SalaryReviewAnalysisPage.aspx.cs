@@ -59,6 +59,9 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
+                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                ViewState.Add(KEY_CURRENT_USER, user);
+
                 MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
@@ -98,7 +101,14 @@ namespace CAESDO.Esra.Web
         {
             ddlReferenceNumber.SelectedIndex = -1;
             ddlNewSAREmployee.SelectedIndex = -1;
-            gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetAll(ddlEmployee.SelectedValue, ddlCreatedBy.SelectedValue, tbCreationDate.Text, "Employee.FullName", true);
+            gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetAll(
+                Session[KEY_CURRENT_USER_ID] as string,
+                IsDepartmentUser(),
+                ddlEmployee.SelectedValue,
+                ddlCreatedBy.SelectedValue,
+                tbCreationDate.Text,
+                "Employee.FullName",
+                true);
             gvSalaryReviewAnalysis.DataBind();
         }
 
@@ -111,8 +121,7 @@ namespace CAESDO.Esra.Web
             //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
             if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
             {
-                CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
-                items.Add(item);
+                items.Add(SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue)));       
             }
 
             //lbtnBack_Click(null, null);
