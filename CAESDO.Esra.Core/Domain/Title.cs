@@ -62,7 +62,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual string PayrollTitle_TitleCode
         {
-            get { return _AbbreviatedName + " - " + _TitleCode; }
+            get { return _AbbreviatedName + " (" + _TitleCode + ")"; }
         }
 
         public Title()
