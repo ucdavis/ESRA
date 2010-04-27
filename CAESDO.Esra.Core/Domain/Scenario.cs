@@ -46,6 +46,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryAmount = value; }
         }
 
+        private bool? _Approved;
+        // Set if this is the "approved" salary scenario.
+        public virtual bool? Approved
+        {
+            get { return _Approved; }
+            set { _Approved = value; }
+        }
+
         public Scenario()
         {
 

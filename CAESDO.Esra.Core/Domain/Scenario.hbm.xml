@@ -8,6 +8,7 @@
 		<property name="ScenarioNumber" column="ScenarioNumber"/>
 		<property name="PercentIncrease" column="PercentIncrease" />
 		<property name="SalaryAmount" column="SalaryAmount" />
+		<property name ="Approved" column="Approved"/>
 
 		<many-to-one name="SalaryReviewAnalysis" class="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core" column="SalaryReviewAnalysisID"/>
 
