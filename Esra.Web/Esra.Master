@@ -24,21 +24,22 @@
                     <center><p>
                     <asp:Label ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger"></asp:Label></p></center>
                     <asp:Label ID="lbl_Message" runat="server" Text="Unable to delete record: Child records exist." Visible="False" Font-Bold="False"
-                        Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;<ajax:AnimationExtender ID="AutomationExtender1" runat="server" TargetControlID="lbl_Message">
-        <Animations>
-                        <OnLoad>
-                            <Sequence>
-                               <Color Duration="2"
-                                    StartValue="#ffff99"
-                                    EndValue="#FFFFFF"
-                                    Property="style"
-                                    PropertyKey="backgroundColor" />
-                                <StyleAction Attribute="backgroundColor" value="" />
-                                <FadeOut Duration="5" Fps="20" />
-                            </Sequence>
-                        </OnLoad>
-                    </Animations>
-    </ajax:AnimationExtender>
+                        Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;
+                        <ajax:AnimationExtender ID="AutomationExtender1" runat="server" TargetControlID="lbl_Message">
+                            <Animations>
+                                <OnLoad>
+                                    <Sequence>
+                                        <Color Duration="2"
+                                            StartValue="#ffff99"
+                                            EndValue="#FFFFFF"
+                                            Property="style"
+                                            PropertyKey="backgroundColor" />
+                                        <StyleAction Attribute="backgroundColor" value="" />
+                                        <FadeOut Duration="5" Fps="20" />
+                                    </Sequence>
+                                </OnLoad>
+                        </Animations>
+                    </ajax:AnimationExtender>
                     <asp:ContentPlaceHolder ID="ContentHeader" runat="server">
                     </asp:ContentPlaceHolder>
                 </div>
