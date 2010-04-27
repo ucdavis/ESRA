@@ -1,11 +1,9 @@
-﻿using CAESDO.Esra.Core.DataInterfaces;
+﻿using CAESArch.Data.NHibernate;
+using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
 using NHibernate;
-using NHibernate.Expression;
-using System.ComponentModel;
-using System.Web;
-using System.Web.Security;
+using NHibernate.Criterion;
 using System;
 
 namespace CAESDO.Esra.Data
@@ -36,10 +34,10 @@ namespace CAESDO.Esra.Data
 
         #region Inline DAO implementations
 
-        public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
-        public class UnitDao : AbstractNHibernateDao<Unit, string>, IUnitDao { }
+        public class GenericDao<T, IdT> : IGenericDao<T, IdT> { }
+        public class UnitDao : IUnitDao { }
 
-        public class TitleDao : AbstractNHibernateDao<Title, string>, ITitleDao
+        public class TitleDao : ITitleDao
         {
             public IList<string> GetDistinctTitleCodesWithSalarySteps()
             {
@@ -52,9 +50,9 @@ namespace CAESDO.Esra.Data
             }
         }
 
-        public class DepartmentDao : AbstractNHibernateDao<Department, string>, IDepartmentDao { }
+        public class DepartmentDao : IDepartmentDao { }
 
-        public class SalaryGradeQuartilesDao : AbstractNHibernateDao<SalaryGradeQuartiles, int>, ISalaryGradeQuartilesDao
+        public class SalaryGradeQuartilesDao : ISalaryGradeQuartilesDao
         {
             /// <summary>
             /// This method returns a distinct list of
@@ -114,7 +112,7 @@ namespace CAESDO.Esra.Data
             }
         }
 
-        public class EmployeeDao : AbstractNHibernateDao<Employee, string>, IEmployeeDao
+        public class EmployeeDao : IEmployeeDao
         {
             public IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
             {
@@ -131,7 +129,7 @@ namespace CAESDO.Esra.Data
                 }
                 else
                 {
-                    retval = GetAll(propertyName, ascending);
+                    retval = GetAllEmployees(propertyName, ascending);
                 }
 
                 return retval;
@@ -210,7 +208,7 @@ namespace CAESDO.Esra.Data
             }
         }
 
-        public class SalaryScaleDao : AbstractNHibernateDao<SalaryScale, int>, ISalaryScaleDao
+        public class SalaryScaleDao : ISalaryScaleDao
         {
             public SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate)
             {
@@ -411,7 +409,7 @@ namespace CAESDO.Esra.Data
             }
         }
 
-        public class UserDao : AbstractNHibernateDao<User, int>, IUserDao
+        public class UserDao : IUserDao
         {
             public User GetUserByLogin(string LoginID)
             {
@@ -437,7 +435,7 @@ namespace CAESDO.Esra.Data
         #endregion
     }
 
-    public class SalaryReviewAnalysisDao : AbstractNHibernateDao<SalaryReviewAnalysis, int>, ISalaryReviewAnalysisDao
+    public class SalaryReviewAnalysisDao : ISalaryReviewAnalysisDao
     {
         public IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool? ascending)
         {
