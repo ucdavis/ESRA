@@ -14,5 +14,27 @@ namespace CAESDO.Esra.BLL
         {
             return EmployeeBLL.daoFactory.GetEmployeeDao().GetByTitleCode(titleCode, propertyName, ascending);
         }
+
+        public static IList<Employee> GetByDepartmentID(string departmentID, string propertyName, bool ascending)
+        {
+            IList<Employee> retval = null;
+
+            if (String.IsNullOrEmpty(departmentID) == false && departmentID.Equals("0") == false)
+            {
+                Department department = DepartmentBLL.GetByID(Convert.ToInt32(departmentID));
+                if (department != null)
+                {
+                    List<Employee> employees = department.Employees as List<Employee>;
+                    employees.Sort();
+                    retval = employees;
+                }
+            }
+            else
+            {
+                retval = GetAll(propertyName, ascending);
+            }
+
+            return retval;
+        }
     }
 }
