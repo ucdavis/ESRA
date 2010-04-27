@@ -49,7 +49,7 @@ namespace CAESDO.Esra.BLL
                 UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", usersEmployeeID);
                 if (user != null)
                 {
-                    retval = user.WorkDepartment;
+                    retval = user.HomeDepartment;
                 }
             }
             return retval;
