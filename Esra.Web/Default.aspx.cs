@@ -47,12 +47,23 @@ namespace CAESDO.Esra.Web
                 }
                 else
                 {
-
-                    if (User.IsInRole(ROLE_ADMIN) || User.IsInRole(ROLE_DOUser) || User.IsInRole(ROLE_REVIEWER))
+                    if (User.IsInRole(ROLE_ADMIN))
+                    {
+                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
+                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                        MultiView1.SetActiveView(vAdmin);
+                    }
+                    else if (User.IsInRole(ROLE_DOUser))
+                    {
+                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
+                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                        MultiView1.SetActiveView(vDeansOffice);
+                    }
+                    else if (User.IsInRole(ROLE_REVIEWER))
                     {
                         Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
                         Session.Add(KEY_IS_DEPARTMENT_USER, false);
-                        MultiView1.SetActiveView(vDeansOffice);
+                        MultiView1.SetActiveView(vReviewer);
                     }
                     else
                     {
@@ -67,17 +78,30 @@ namespace CAESDO.Esra.Web
         protected void rblDemoMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             RadioButtonList rbl = (RadioButtonList)sender;
-            if (rbl.SelectedValue.Equals(ROLE_USER))
+            
+            if (rbl.SelectedValue.Equals(ROLE_ADMIN))
+            {
+                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
+                Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                MultiView1.SetActiveView(vAdmin);
+            }
+            else if (rbl.SelectedValue.Equals(ROLE_DOUser))
+            {
+                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
+                Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                MultiView1.SetActiveView(vDeansOffice);
+            }
+            else if (rbl.SelectedValue.Equals(ROLE_REVIEWER))
+            {
+                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                MultiView1.SetActiveView(vReviewer);
+            }
+            else 
             {
                 Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
                 Session.Add(KEY_IS_DEPARTMENT_USER, true);
                 MultiView1.SetActiveView(vDepartments);
-            }
-            else
-            {
-                Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
-                Session.Add(KEY_IS_DEPARTMENT_USER, false);
-                MultiView1.SetActiveView(vDeansOffice);
             }
         }
     }
