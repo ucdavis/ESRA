@@ -57,8 +57,15 @@
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsCreatedBy" runat="server" OldValuesParameterFormatString="original_{0}"
+        <%--<asp:ObjectDataSource ID="odsCreatedBy" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetUsersInApplication" TypeName="CAESDO.Esra.Web.CatbertManager">
+        </asp:ObjectDataSource>--%>
+        <asp:ObjectDataSource ID="odsCreatedBy" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetUsersInApplication" TypeName="CAESDO.Esra.BLL.UserBLL">
+            <SelectParameters>
+                <asp:Parameter Name="pUnits" Type="Object"/>
+                <asp:Parameter DefaultValue="Reviewer" Name="roleName" Type="String" />
+            </SelectParameters>
         </asp:ObjectDataSource>
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
@@ -118,7 +125,7 @@
                         </td>
                         <td><br />
                             <asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" DataSourceID="odsCreatedBy"
-                                DataTextField="FullName" DataValueField="Login"
+                                DataTextField="FullName" DataValueField="LoginID"
                                 ondatabound="ddlCreatedBy_DataBound">
                                 <asp:ListItem Value="">-- Any Reviewer --</asp:ListItem>
                             </asp:DropDownList>
