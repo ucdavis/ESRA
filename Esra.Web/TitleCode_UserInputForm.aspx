@@ -4,13 +4,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-<div> <center><asp:Label ID="lblPageTitle" runat="server" 
-            Text="Title Code Averages Maintenance" Font-Bold="True" 
-            Font-Size="Larger"></asp:Label></center>
- <br />
+<div><h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" 
+            Text="Title Code Averages Maintenance"></asp:Label></h1>
  </div>
-    <hr />
-    <br />
+ <div class="right_col">
+ <div id="ESCR_table">
+  <br />
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScales" 
         TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
@@ -36,29 +35,35 @@
             <asp:ObjectDataSource ID="odsTitleCode" runat="server" 
                 TypeName="CAESDO.Esra.BLL.TitleBLL" 
                 OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll"></asp:ObjectDataSource>
-            <br />
-            <br />
+<br />
+<br />
+
+
+
+<h2 class="h2_black">&nbsp;</h2>
         <asp:GridView ID="gvSalaryScale" runat="server" DataSourceID="odsSalaryScale" 
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
         OnRowDataBound="gvSalaryScale_OnRowDataBound" 
         onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="TitleCode, EffectiveDate" 
-                onrowupdating="gvSalaryScale_RowUpdating"  >
+                onrowupdating="gvSalaryScale_RowUpdating"  GridLines="None" Width="100%">
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
             <asp:TemplateField ShowHeader="False">
+            <ItemStyle Width="50px" />
                 <ItemTemplate>
+                
                     <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
                         CommandName="Edit" Text="Edit" ToolTip="Edit" CssClass="buttons"><img src="images/common/edit.png" alt="Edit" class="edit_button"/></asp:LinkButton>
                     &nbsp;<asp:LinkButton ID="lbtnNew" runat="server" CausesValidation="False" 
-                        CommandName="Select" Text="New" ToolTip="New" CssClass="buttons"><img src="images/common/Document-new.png" alt="New" class="new_button"/></asp:LinkButton>
+                        CommandName="Select" Text="New" ToolTip="New" CssClass="buttons"><img src="images/common/Document-new.png" height="21px" width="21px" alt="New" class="new_button"/></asp:LinkButton>
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" 
-                        CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
+                        CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons"><img src="images/common/disk4.jpg" width="21px" height="21px" alt="Save" class="save_button"/></asp:LinkButton>
                     &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
-                        CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
+                        CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" width="21px" height="21px" alt="Cancel" class="cancel_button"/></asp:LinkButton>
                 </EditItemTemplate>
             </asp:TemplateField>
              <asp:TemplateField HeaderText="Title Code" SortExpression="TitleCode">
@@ -179,7 +184,11 @@
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnDeleteSalaryScaleAverages" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
                         CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons" Visible='<%# CAESDO.Esra.BLL.SalaryScaleBLL.CanBeDeleted((CAESDO.Esra.Core.Domain.SalaryScale)Container.DataItem) %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></ItemTemplate></asp:TemplateField></Columns></asp:GridView></asp:View><asp:View ID="vInsertNewTitleCodeAverages" runat="server">
-            <table style="width:100%;" id="tblNewTitleCodeAverages">
+                        
+                        
+                        
+                        
+            <table id="tblNewTitleCodeAverages">
                 <tr class="tr_head">
                     <th>Title Code</th><th>Payroll Title</th><th>Effective Date</th><th>Salary Grade</th><th>Bargaining Code</th><th>Labor Market WAS</th><th>Labor Market Mid (Annual)</th><th>College Average (Annual)</th><th>Campus Average (Annual)</th></tr><tr>
                     <td>
@@ -241,13 +250,17 @@
                             Type="Currency"></asp:CompareValidator>
                     </td>
                     </tr>
-                    <tr><td colspan="2">
+                    <tr><td style="border:none;">
                         <asp:LinkButton ID="lbtnSave" runat="server" CommandName="save" 
                             CssClass="buttons" oncommand="btnClick_Command" Text="Save" ToolTip="Save">
-                    <img alt="Save" class="save_button" src="images/common/disk4.jpg"/></asp:LinkButton>
+                    <img alt="Save" class="save_button" width="21px" height="21px" src="images/common/disk4.jpg"/></asp:LinkButton>
                         &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="false" 
                             CommandName="cancel" CssClass="buttons" oncommand="btnClick_Command" 
                             Text="Cancel" ToolTip="Cancel"><img 
-                        alt="Cancel" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
+                        alt="Cancel" width="21px" height="21px" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
                         &nbsp;</td>
-                        <td colspan="7" /></tr></table></asp:View></asp:MultiView></asp:Content>
+                        <td colspan="8" style="border:none;"/></tr></table></asp:View></asp:MultiView>
+                        </div>
+                        </div>
+                        </div>
+                        </asp:Content>
