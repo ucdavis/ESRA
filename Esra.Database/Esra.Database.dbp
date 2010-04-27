@@ -1,0 +1,48 @@
+# Microsoft Developer Studio Project File - Database Project
+Begin DataProject = "Esra.Database"
+   MSDTVersion = "80"
+   DefDBRef = "vogel.ESRA.dbo"
+   SccProjectName = "SAK"
+   SccLocalPath = "SAK"
+   SccAuxPath = "SAK"
+   SccProvider = "SAK"
+   Begin Folder = "Change Scripts"
+   End
+   Begin Folder = "Create Scripts"
+      Begin Folder = "SQL Server Agent Jobs"
+         Script = "ESRA.dbo.Employee_TimeLengthsRefresher_Job.sql"
+      End
+      Begin Folder = "Tables"
+         Script = "dbo.ApptType.sql"
+         Script = "dbo.Employee.sql"
+         Script = "dbo.QuartileType.sql"
+         Script = "dbo.SalaryGradeMatrix.sql"
+         Script = "dbo.SalaryReviewAnalysis.sql"
+         Script = "dbo.SalaryScale.sql"
+         Script = "dbo.SalarySteps.sql"
+         Script = "dbo.Scenario.sql"
+         Script = "dbo.SelectionType.sql"
+         Script = "dbo.SRAEmployee.sql"
+         Script = "dbo.UCDEmployee_AddIns.sql"
+         Script = "dbp.PayRateType.sql"
+      End
+      Begin Folder = "Views"
+         Script = "dbo.Departments.sql"
+         Script = "dbo.Title.sql"
+         Script = "dbo.UCDEmployee.sql"
+         Script = "dbo.vLogin.sql"
+         Script = "dbo.vUnit.sql"
+         Script = "dbo.vUsers.sql"
+         Script = "dbo.vUserUnit.sql"
+      End
+   End
+   Begin DBRefFolder = "Database References"
+      Begin DBRefNode = "vogel.ESRA.dbo"
+         ConnectStr = "Data Source=vogel;Initial Catalog=ESRA;Integrated Security=True"
+         Provider = "{91510608-8809-4020-8897-FBA057E22D54}"
+         Colorizer = 6
+      End
+   End
+   Begin Folder = "Queries"
+   End
+End
