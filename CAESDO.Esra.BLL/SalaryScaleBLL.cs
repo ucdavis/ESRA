@@ -11,28 +11,28 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryScaleBLL : GenericBLL<SalaryScale, int>
     {
-        public static List<KeyValuePair<string, decimal>> GetCriteriaListItems(string titleCode)
+        public static List<KeyValuePair<string, decimal?>> GetCriteriaListItems(string titleCode)
         {
-            List<KeyValuePair<string, decimal>> cl = new List<KeyValuePair<string, decimal>>();
+            List<KeyValuePair<string, decimal?>> cl = new List<KeyValuePair<string, decimal?>>();
             int titleCodeInt = 0;
             if (String.IsNullOrEmpty(titleCode) == false && titleCode.Length == 4 && Int32.TryParse(titleCode, out titleCodeInt))
             {
                 Title title = TitleBLL.GetByID(titleCode);
                 SalaryScale ss = GetEffectiveSalaryScale(titleCode, DateTime.Today);
-
-                cl.Add(new KeyValuePair<string, decimal>("Min", ss.SalaryGradeQuartiles.MinAnnual));
-                cl.Add(new KeyValuePair<string, decimal>("1st", ss.SalaryGradeQuartiles.FirstQrtleAnnual));
-                cl.Add(new KeyValuePair<string, decimal>("Mid", ss.SalaryGradeQuartiles.MidAnnual));
-                cl.Add(new KeyValuePair<string, decimal>("3rd", ss.SalaryGradeQuartiles.ThirdQrtleAnnual));
-                cl.Add(new KeyValuePair<string, decimal>("Max", ss.SalaryGradeQuartiles.MaxAnnual));
-                cl.Add(new KeyValuePair<string, decimal>("Labor Mkt WAS", Convert.ToDecimal(ss.LaborMarketWAS)));
-                cl.Add(new KeyValuePair<string, decimal>("Labor Mkt Mid", Convert.ToDecimal(ss.LaborMarketMidAnnual)));
-                cl.Add(new KeyValuePair<string, decimal>("College AVG", Convert.ToDecimal(ss.CollegeAverageAnnual)));
-                cl.Add(new KeyValuePair<string, decimal>("Campus AVG", Convert.ToDecimal(ss.CampusAverageAnnual)));
+                cl.Add(new KeyValuePair<string, decimal?>("None", null));
+                cl.Add(new KeyValuePair<string, decimal?>("Min", ss.SalaryGradeQuartiles.MinAnnual));
+                cl.Add(new KeyValuePair<string, decimal?>("1st", ss.SalaryGradeQuartiles.FirstQrtleAnnual));
+                cl.Add(new KeyValuePair<string, decimal?>("Mid", ss.SalaryGradeQuartiles.MidAnnual));
+                cl.Add(new KeyValuePair<string, decimal?>("3rd", ss.SalaryGradeQuartiles.ThirdQrtleAnnual));
+                cl.Add(new KeyValuePair<string, decimal?>("Max", ss.SalaryGradeQuartiles.MaxAnnual));
+                cl.Add(new KeyValuePair<string, decimal?>("Labor Mkt WAS", Convert.ToDecimal(ss.LaborMarketWAS)));
+                cl.Add(new KeyValuePair<string, decimal?>("Labor Mkt Mid", Convert.ToDecimal(ss.LaborMarketMidAnnual)));
+                cl.Add(new KeyValuePair<string, decimal?>("College AVG", Convert.ToDecimal(ss.CollegeAverageAnnual)));
+                cl.Add(new KeyValuePair<string, decimal?>("Campus AVG", Convert.ToDecimal(ss.CampusAverageAnnual)));
 
                 foreach (SalaryStep step in ss.SalarySteps)
                 {
-                    cl.Add(new KeyValuePair<string, decimal>(step.StepNumber, Convert.ToDecimal(step.Annual)));
+                    cl.Add(new KeyValuePair<string, decimal?>("Step " + step.StepNumber, Convert.ToDecimal(step.Annual)));
                 }
             }
             return cl;
