@@ -27,6 +27,7 @@ Begin DataProject = "Esra.Database"
          Script = "dbp.PayRateType.sql"
       End
       Begin Folder = "Views"
+         Script = "dbo.APTDIS_V2.sql"
          Script = "dbo.Departments.sql"
          Script = "dbo.Title.sql"
          Script = "dbo.UCDEmployee.sql"
