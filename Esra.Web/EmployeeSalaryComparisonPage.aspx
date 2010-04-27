@@ -402,7 +402,7 @@
                 <ajax:modalpopupextender id="ModalProgress" runat="server" targetcontrolid="panelUpdateProgress"
                     backgroundcssclass="modalBackground" popupcontrolid="panelUpdateProgress" />
                     
-                <asp:UpdatePanel ID="up" runat="server">
+                <asp:UpdatePanel ID="up" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                 <div id="ESCR_table">
                  <asp:HiddenField ID="hiddenSortPropertyName" runat="server" />

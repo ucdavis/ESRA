@@ -261,6 +261,7 @@ namespace CAESDO.Esra.Web
                 ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
                 lbxTitleCodes_ClearSelectedValues();
                 lbxDepartments_ClearSelectedValues();
+                MultiView1.SetActiveView(vEmployees);
                 gvESRSearchParams_Load(emp);
             }
             else
@@ -288,39 +289,46 @@ namespace CAESDO.Esra.Web
 
                     ddlTitleCode.SelectedValue = emp.Title.ID;
                     ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
+                    lbxTitleCodes_ClearSelectedValues();
                     lbxDepartments_ClearSelectedValues();
-                }
-            }
-            else if ((lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0) &&
-                (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0))
-            {
-                // Get all the employees for a given department with the matching title code.
-                ddlEmployee_ClearSelectedValue();
-            }
 
-            else if (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0)
-            {
-                // Get all employees in the given departments with any title code.
-                ddlEmployee_ClearSelectedValue();
-                lbxTitleCodes_ClearSelectedValues();
-            }
-            else if (lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0)
-            {
-                // Get all employees with the given title codes in any department.
-                ddlEmployee_ClearSelectedValue();
-                lbxDepartments_ClearSelectedValues();
+                    MultiView1.SetActiveView(vEmployees);
+                    gvESRSearchParams_Load(emp);
+                }
             }
             else
             {
-                // Get all employees regardless of their department or title code.
-                lbxTitleCodes_ClearSelectedValues();
-                ddlEmployee_ClearSelectedValue();
-                
-                lbxDepartments_ClearSelectedValues();
-            }
+                if ((lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0) &&
+                    (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0))
+                {
+                    // Get all the employees for a given department with the matching title code.
+                    ddlEmployee_ClearSelectedValue();
+                }
 
-            MultiView1.SetActiveView(vEmployees);
-            gvESRSearchParams_Load();
+                else if (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0)
+                {
+                    // Get all employees in the given departments with any title code.
+                    ddlEmployee_ClearSelectedValue();
+                    lbxTitleCodes_ClearSelectedValues();
+                }
+                else if (lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0)
+                {
+                    // Get all employees with the given title codes in any department.
+                    ddlEmployee_ClearSelectedValue();
+                    lbxDepartments_ClearSelectedValues();
+                }
+                else
+                {
+                    // Get all employees regardless of their department or title code.
+                    lbxTitleCodes_ClearSelectedValues();
+                    ddlEmployee_ClearSelectedValue();
+                    
+                    lbxDepartments_ClearSelectedValues();
+                }
+
+                MultiView1.SetActiveView(vEmployees);
+                gvESRSearchParams_Load();
+            }
         }
 
         protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
@@ -597,6 +605,8 @@ namespace CAESDO.Esra.Web
 
             gvESRSearchParams.DataSource = esParams;
             gvESRSearchParams.DataBind();
+
+            SearchParameters = sp;
         }
 
         protected static Title GetAllNamedTitle()
@@ -629,15 +639,16 @@ namespace CAESDO.Esra.Web
 
                 //Session.Add(KEY_EMPLOYEE_ID, ddlEmployee.SelectedValue);
                 EmployeeID = ddlEmployee.SelectedValue;
-                hiddenEmployeeID.Value = EmployeeID;
             }
             else
             {
                 searchEmployee = GetAllNamedEmployee();
                 //Session.Add(KEY_EMPLOYEE_ID, "0");
                 EmployeeID = "0";
-                hiddenEmployeeID.Value = EmployeeID;
             }
+
+            hiddenEmployeeID.Value = EmployeeID;
+
             return searchEmployee;
         }
         
