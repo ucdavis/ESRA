@@ -25,12 +25,13 @@
                 <AlternatingRowStyle CssClass="tr_alt" />
                 <Columns>
                     <asp:TemplateField ShowHeader="false">
+                    <ItemStyle Width="50px" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Save"
                                 CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Text="Update"
-                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand" ValidationGroup="Update"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>&nbsp;<asp:LinkButton
+                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand" ValidationGroup="Update"><img src="images/common/disk4.jpg" width="21px" height="21px" alt="Save" class="save_button"/></asp:LinkButton>&nbsp;<asp:LinkButton
                                     ID="lbtnCancelUpdate" runat="server" CausesValidation="False" CommandName="Exit"
-                                    Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton></ItemTemplate>
+                                    Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" width="21px" height="21px" alt="Cancel" class="cancel_button"/></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title.PayrollTitle" ItemStyle-Width="300px">
                         <EditItemTemplate>
@@ -47,7 +48,7 @@
                     <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" ReadOnly="True"
                         SortExpression="BargainingCode" ItemStyle-Width="100px"/>
                       
-                    <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps"> 
+                    <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps" ItemStyle-Width="100px"> 
                         <ItemTemplate>
                             <asp:UpdatePanel ID="upNumSalarySteps" runat="server">
                                 <ContentTemplate><asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# Eval("SalarySteps.Count") %>'>
@@ -65,16 +66,16 @@
                                         <LayoutTemplate>
                                             <table>
                                                 <tr class="tr_subhead">
-                                                    <th>
+                                                    <th style="padding:0;">
                                                         Step #
                                                     </th>
-                                                    <th>
+                                                    <th style="padding:0;">
                                                         Annual
                                                     </th>
-                                                    <th>
+                                                    <th style="padding:0;">
                                                         Monthly
                                                     </th>
-                                                    <th>
+                                                    <th style="padding:0 0 0 5px;">
                                                         Hourly
                                                     </th>
                                                     <td style="border:none;">
@@ -83,9 +84,10 @@
                                                 </tr>
                                                 <asp:PlaceHolder ID="DataSection" runat="server"></asp:PlaceHolder>
                                                 <tr>
-                                                    <td colspan="5" style="border:none;">
-                                                        <asp:LinkButton ID="lbtnAddAnotherSalaryStep" runat="server" Text="Add Another Salary Step"
-                                                            OnClick="lbtnAddAnotherSalaryStep_Click" CausesValidation="false"></asp:LinkButton>
+                                                    <td colspan="5" style="border:none;"><br />
+                                                    <span class="green_hover">
+                                                        <asp:LinkButton ID="lbtnAddAnotherSalaryStep" Font-Underline="true" runat="server" Text="Add Another Salary Step"
+                                                            OnClick="lbtnAddAnotherSalaryStep_Click" CausesValidation="false"></asp:LinkButton></span>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -93,12 +95,12 @@
                                         <ItemTemplate>
                                             <tr>
                                                 <td>
-                                                    <asp:TextBox ID="tbStepNumber2" runat="server" Text='<%# Bind("StepNumber") %>' OnTextChanged="tbStepNumber_OnTextChanged" />
+                                                    <asp:TextBox ID="tbStepNumber2" Width="50px" runat="server" Text='<%# Bind("StepNumber") %>' OnTextChanged="tbStepNumber_OnTextChanged" />
                                                     <asp:RequiredFieldValidator
                                                             ID="tbStepNumber2RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber2" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
-                                                    <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
+                                                    <asp:TextBox ID="tbAnnual2" Width="50px" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
                                                         OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox><asp:RequiredFieldValidator
                                                             ID="tbSalaryAmountRequiredFieldValidator" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual2" InitialValue="$0.00" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
@@ -170,7 +172,7 @@
             </asp:GridView>
         </asp:View>
         <asp:View ID="vDisplaySalaryScale" runat="server">
-        <p style="margin:20px;">
+        <p style="margin:0 20px 20px 20px;">
             You have chosen to add new or edit Salary Steps to<br />
             <br />
             &nbsp;&nbsp;Title Code:
@@ -206,7 +208,7 @@
                     <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" ReadOnly="True"
                         SortExpression="BargainingCode" />
                     <asp:BoundField DataField="NumSalarySteps" HeaderText="# Salary Steps" ReadOnly="True"
-                        SortExpression="NumSalarySteps" />
+                        SortExpression="NumSalarySteps" ItemStyle-Width="70px"/>
                     <asp:TemplateField HeaderText="Salary Steps" SortExpression="SalarySteps" ItemStyle-Width="50%">
                         <EditItemTemplate>
                             <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:TextBox></EditItemTemplate>

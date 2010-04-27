@@ -14,19 +14,16 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
-    <center>
-        <asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis Editor"
-            Font-Bold="True" Font-Size="Larger"></asp:Label></center>
-    <br />
+<h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis Editor"></asp:Label></h1>
+<div class="right_col">
+<div id="SRA_scale">
     <div id="divSalaryDetails">
-        <hr />
-        <br />
         <center>
             <asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" Font-Bold="True"
                 Font-Size="Large"></asp:Label></center>
         <br />
         <asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
-            HeaderStyle-HorizontalAlign="Center" EnableViewState="False" DataSource='<%# Titles %>'>
+            HeaderStyle-HorizontalAlign="Center" GridLines="None" EnableViewState="False" DataSource='<%# Titles %>'>
             <Columns>
                 <asp:TemplateField>
                     <HeaderTemplate>
@@ -286,7 +283,7 @@
         </asp:GridView>
         <br />
     </div>
-    <hr />
+    <div id="ESCR_table">
     <div id="divEmployeeDetails">
         <br />
         <center>
@@ -348,7 +345,7 @@
             </Columns>
         </asp:GridView>
         <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" EmptyDataText="Employee Data Unavailable."
-            DataKeyNames="ID" EnableViewState="False" EnableTheming="False" DataSource='<%# Employees %>'>
+            DataKeyNames="ID" EnableViewState="False" EnableTheming="False" Width="100%" DataSource='<%# Employees %>'>
             <HeaderStyle CssClass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -570,7 +567,7 @@
                
             </asp:View>
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
-                <table id="tblSRAMain" border="1" cellpadding="2" cellspacing="0" width="100%">
+                <table id="tblSRAMain" style="border: none;" width="100%"">
                     <%--<th colspan="2">Abbreviated Name</th>--%>
                     <%--<tr>
                         <td>
@@ -581,20 +578,17 @@
                     </tr>--%>
                     <asp:Panel ID="pnlProposedTitle" runat="server">
                     <tr>
-                        <td>
+                        <td style="border:none;">
                             <asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title:"
                                 Font-Bold="True"></asp:Label>&nbsp;
                             <asp:Label ID="lblTblSRAMain_TitleCode" runat="server"></asp:Label>
                         </td>
                     </tr>
                     </asp:Panel>
+                    <div>
                     <tr>
-                        <td>
-                            <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" AutoGenerateColumns="False"
-                                DataSourceID="odsSalaryReviewAnalysis"
-                                 EmptyDataText="Salary Review Analysis has yet to be saved."
-                                Width="100%"
-                                OnRowUpdating="gvSalaryReviewAnaysis_OnRowUpdating">
+                        <td style="border:none;">
+                            <asp:GridView ID="gvSalaryReviewAnaysis" GridLines="None" BorderStyle="None" runat="server" AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" EmptyDataText="Salary Review Analysis has yet to be saved." Width="100%" OnRowUpdating="gvSalaryReviewAnaysis_OnRowUpdating">
                                 <HeaderStyle CssClass="tr_head" />
                                 <AlternatingRowStyle CssClass="tr_alt" />
                                 <Columns>
@@ -631,7 +625,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td  style="border:none;">
                             <asp:UpdatePanel runat="server" ID="upScenarios">
                                 <ContentTemplate>
                                     <asp:Repeater runat="server" ID="rptScenarios">
@@ -742,10 +736,10 @@
                                             </tr>
                                             <asp:Panel ID="pnlDeansOfficeComments" runat="server" Visible='<%# !IsDepartmentUser() %>'>
                                                 <tr>
-                                                    <td>
+                                                    <td style="border:none;">
                                                         <asp:Label ID="lblCommentFooter" runat="server" Font-Bold="True">Comments:</asp:Label>
                                                     </td>
-                                                    <td colspan="5">
+                                                    <td colspan="5" style="border:none;">
                                                         <asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeCommentsFooter" runat="server"
                                                             TextMode="MultiLine" CssClass="comments" Text='<%# ViewState[KEY_DEANS_OFFICE_COMMENTS] %>'
                                                             OnTextChanged="tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged" AutoPostBack="True"></asp:TextBox>
@@ -753,7 +747,7 @@
                                                 </tr>
                                             </asp:Panel>
                                             <tr>
-                                                <td colspan="6">
+                                                <td colspan="6" style="border:none;">
                                                     <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario"
                                                         OnClick="btnAddAnotherScenario_Click" />
                                                 </td>
@@ -766,7 +760,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style="border:none;">
                             <br />
                             <%--&nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
                                 Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis"
@@ -779,6 +773,7 @@
                                 Text="Cancel/Back" />
                         </td>
                     </tr>
+                    </div>
                 </table>
             </asp:View>
         </asp:MultiView>
@@ -798,12 +793,11 @@
             </SelectParameters>
         </asp:ObjectDataSource>
     </div>
+    </div>
+    </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" runat="server" ContentPlaceHolderID="head">
     <style type="text/css">
-        #tblTitleHeader
-        {
-            width: 1219px;
-        }
     </style>
 </asp:Content>

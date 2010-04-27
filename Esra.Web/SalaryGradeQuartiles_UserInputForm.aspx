@@ -7,6 +7,7 @@
   <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Grade Quartiles Maintenance"></asp:Label></h1>
  <div class="right_col_med">
 <div id="ESCR_table">
+    <div id="SGQUIF">
     <asp:ObjectDataSource ID="odsSalaryGradeQuartiles" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
         TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL" 
@@ -43,7 +44,6 @@
             SelectMethod="GetDistinctSalaryGrades" 
             TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL" ></asp:ObjectDataSource>
     </div>
-    <div id="SGQUIF">
     <h2 class="h2_black">&nbsp</h2>
     <asp:GridView ID="gvSalaryGradeQuartiles" runat="server" 
         DataSourceID="odsSalaryGradeQuartiles" AutoGenerateColumns="False" 
@@ -68,7 +68,7 @@
                 <EditItemTemplate>
                     <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="true" 
                         CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons" ValidationGroup="UpdateRecord"><img src="images/common/disk4.jpg" alt="Save" width="21px" height="21px" class="save_button"/></asp:LinkButton>
-                    <br /><asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
+                    <asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
                         CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" width="21px" height="21px" class="cancel_button"/></asp:LinkButton>
                 </EditItemTemplate>
                 </asp:TemplateField>
@@ -87,7 +87,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Min Annual" SortExpression="MinAnnual">
                 <InsertItemTemplate>
-                    <asp:Label ID="lblMinAnnualHeader" runat="server" Text="Min <br /> Annual:" CssClass="edit_header"/><br />
+                    <asp:Label ID="lblMinAnnualHeader" runat="server" Text="Min Annual:" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbMinAnnual" runat="server" Text='<%# Bind("MinAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Bad Number Format!" Display="Dynamic" 
@@ -100,11 +100,11 @@
                     <asp:Label ID="lblMinAnnual" runat="server" Text='<%# Bind("MinAnnual", "{0:c}") %>' ></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:Label ID="lblMinAnnualHeader" runat="server" Text="Min <br /> Annual:" CssClass="edit_header"/><br />
-                    <asp:TextBox ID="tbMinAnnual" runat="server" Text='<%# Bind("MinAnnual", "{0:#.##}") %>'></asp:TextBox>
+                    <asp:Label ID="lblMinAnnualHeader" runat="server" Text="Min Annual:<br />&nbsp" CssClass="edit_header"/><br />
+                    <asp:TextBox ID="tbMinAnnual" Width="100px" runat="server" Text='<%# Bind("MinAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Bad Number Format!" Display="Dynamic" 
-                            ControlToValidate="tbMinAnnual" Operator="DataTypeCheck" 
+                            ControlToValidate="tbMinAnnual" Operator="DataTypeCheck"
                             Type="Currency" ValidationGroup="UpdateRecord"></asp:CompareValidator>
                             <asp:RequiredFieldValidator
                                 ID="rfvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMinAnnual" ValidationGroup="UpdateRecord"></asp:RequiredFieldValidator>
@@ -128,8 +128,8 @@
                         Text='<%# Bind("FirstQrtleAnnual", "{0:c}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:Label ID="lblFirstQrtleAnnualHeader" runat="server" Text="First Qrtle Annual:" CssClass="edit_header"/><br />
-                    <asp:TextBox ID="tbFirstQrtleAnnual" runat="server" 
+                    <asp:Label ID="lblFirstQrtleAnnualHeader" runat="server" Text="First Qrtle Annual:<br />&nbsp" CssClass="edit_header"/><br />
+                    <asp:TextBox ID="tbFirstQrtleAnnual"  Width="120px" runat="server" 
                         Text='<%# Bind("FirstQrtleAnnual", "{0:#.##}") %>'></asp:TextBox><asp:CompareValidator
                             ID="cvFirstQrtleAnnual" runat="server" ErrorMessage="First Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbFirstQrtleAnnual" Operator="DataTypeCheck" 
@@ -141,7 +141,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Mid Annual" SortExpression="MidAnnual">
                 <InsertItemTemplate>
-                    <asp:Label ID="lblMidAnnualHeader" runat="server" Text="Mid <br /> Annual:" CssClass="edit_header"/><br />
+                    <asp:Label ID="lblMidAnnualHeader" runat="server" Text="Mid Annual:<br />&nbsp" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbMidAnnual" runat="server" Text='<%# Bind("MidAnnual", "{0:#.##}") %>'></asp:TextBox>
                      <asp:CompareValidator
                             ID="cvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Bad Number Format!" Display="Dynamic" 
@@ -155,8 +155,8 @@
                     <asp:Label ID="lblMidAnnual" runat="server" Text='<%# Bind("MidAnnual", "{0:c}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:Label ID="lblMidAnnualHeader" runat="server" Text="Mid <br /> Annual:" CssClass="edit_header"/><br />
-                    <asp:TextBox ID="tbMidAnnual" runat="server" Text='<%# Bind("MidAnnual", "{0:#.##}") %>'></asp:TextBox>
+                    <asp:Label ID="lblMidAnnualHeader" runat="server" Text="Mid Annual:<br />&nbsp" CssClass="edit_header"/><br />
+                    <asp:TextBox ID="tbMidAnnual"  Width="100px" runat="server" Text='<%# Bind("MidAnnual", "{0:#.##}") %>'></asp:TextBox>
                      <asp:CompareValidator
                             ID="cvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMidAnnual" Operator="DataTypeCheck" 
@@ -185,8 +185,8 @@
                         Text='<%# Bind("ThirdQrtleAnnual", "{0:c}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:Label ID="lblThirdQrtleAnnualHeader" runat="server" Text="Third Qrtle Annual:" CssClass="edit_header"/><br />
-                    <asp:TextBox ID="tbThirdQrtleAnnual" runat="server" 
+                    <asp:Label ID="lblThirdQrtleAnnualHeader" runat="server" Text="Third Qrtle Annual:<br />&nbsp" CssClass="edit_header"/><br />
+                    <asp:TextBox ID="tbThirdQrtleAnnual"  Width="130px" runat="server" 
                         Text='<%# Bind("ThirdQrtleAnnual", "{0:#.##}") %>'></asp:TextBox>
                         <asp:CompareValidator
                             ID="cvThirdQrtleAnnual" runat="server" ErrorMessage="Third Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
@@ -199,7 +199,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Max Annual" SortExpression="MaxAnnual">
                 <InsertItemTemplate>
-                    <asp:Label ID="lblMaxAnnualHeader" runat="server" Text="Max <br /> Annual:" CssClass="edit_header"/><br />
+                    <asp:Label ID="lblMaxAnnualHeader" runat="server" Text="Max Annual:" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbMaxAnnual" runat="server" Text='<%# Bind("MaxAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMaxAnnual" runat="server" ErrorMessage="Max Annual" Text="Bad Number Format!" Display="Dynamic" 
@@ -213,8 +213,8 @@
                     <asp:Label ID="lblMaxAnnual" runat="server" Text='<%# Bind("MaxAnnual", "{0:c}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:Label ID="lblMaxAnnualHeader" runat="server" Text="Max <br /> Annual:" CssClass="edit_header"/><br />
-                    <asp:TextBox ID="tbMaxAnnual" runat="server" Text='<%# Bind("MaxAnnual", "{0:#.##}") %>'></asp:TextBox>
+                    <asp:Label ID="lblMaxAnnualHeader" runat="server" Text="Max Annual:<br />&nbsp" CssClass="edit_header"/><br />
+                    <asp:TextBox ID="tbMaxAnnual" Width="50px" runat="server" Text='<%# Bind("MaxAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMaxAnnual" runat="server" ErrorMessage="Max Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMaxAnnual" Operator="DataTypeCheck" 
@@ -248,12 +248,13 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
-    </div>
         </asp:View>
         <asp:View ID="vInsertQuartile" runat="server" EnableViewState="false">
-            <table>
+        <br />
+        <h2 class="h2_black">&nbsp</h2>
+            <table style="border-collapse: collapse;">
             <tr class="tr_head">
-            <th class="tr_head">&nbsp;</th>
+            <th class="tr_head" style="width:50px;">&nbsp;</th>
             <th class="tr_head">Salary Grade</th>
             <th class="tr_head">Min Annual</th>
             <th class="tr_head">First Qrtle Annual</th>
@@ -266,14 +267,14 @@
             <td>
                         <asp:LinkButton ID="lbtnSave" runat="server" CommandName="save" 
                             CssClass="buttons" oncommand="btnClick_Command" Text="Save" ToolTip="Save" ValidationGroup="InsertRecord">
-                    <img alt="Save" class="save_button" src="images/common/disk4.jpg"/></asp:LinkButton><br />
-                        <asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="false" 
+                    <img alt="Save" class="save_button" src="images/common/disk4.jpg" width="21px" height="21px"/></asp:LinkButton>
+                    <asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="false" 
                             CommandName="cancel" CssClass="buttons" oncommand="btnClick_Command" 
                             Text="Cancel" ToolTip="Cancel"><img 
-                        alt="Cancel" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
+                        alt="Cancel" class="cancel_button" src="images/common/Cancel.png" width="21px" height="21px"/></asp:LinkButton>
             </td>
             <td><asp:Label ID="lblSalaryGrade" runat="server"></asp:Label></td>
-            <td><asp:TextBox ID="tbMinAnnual" runat="server" Text='<%# Bind("MinAnnual", "{0:#.##}") %>'></asp:TextBox>
+            <td><asp:TextBox  Width="80px" ID="tbMinAnnual" runat="server" Text='<%# Bind("MinAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMinAnnual" Operator="DataTypeCheck" 
@@ -281,7 +282,7 @@
                             <asp:RequiredFieldValidator
                                 ID="rfvMinAnnual" runat="server" ErrorMessage="Min Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMinAnnual" ValidationGroup="InsertRecord"></asp:RequiredFieldValidator>
             </td>
-            <td><asp:TextBox ID="tbFirstQrtleAnnual" runat="server" 
+            <td><asp:TextBox ID="tbFirstQrtleAnnual" width="130px" runat="server" 
                         Text='<%# Bind("FirstQrtleAnnual", "{0:#.##}") %>'></asp:TextBox><asp:CompareValidator
                             ID="cvFirstQrtleAnnual" runat="server" ErrorMessage="First Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbFirstQrtleAnnual" Operator="DataTypeCheck" 
@@ -289,7 +290,7 @@
                             <asp:RequiredFieldValidator
                                 ID="rfvFirstQrtleAnnual" runat="server" ErrorMessage="First Qrtle Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbFirstQrtleAnnual" ValidationGroup="InsertRecord"></asp:RequiredFieldValidator>
             </td>
-            <td><asp:TextBox ID="tbMidAnnual" runat="server" Text='<%# Bind("MidAnnual", "{0:#.##}") %>'></asp:TextBox>
+            <td><asp:TextBox ID="tbMidAnnual" Width="80px" runat="server" Text='<%# Bind("MidAnnual", "{0:#.##}") %>'></asp:TextBox>
                      <asp:CompareValidator
                             ID="cvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMidAnnual" Operator="DataTypeCheck" 
@@ -297,7 +298,7 @@
                             <asp:RequiredFieldValidator
                                 ID="rfvMidAnnual" runat="server" ErrorMessage="Mid Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbMidAnnual" ValidationGroup="InsertRecord"></asp:RequiredFieldValidator>
                 </td>
-                <td><asp:TextBox ID="tbThirdQrtleAnnual" runat="server" 
+                <td><asp:TextBox ID="tbThirdQrtleAnnual" runat="server" width="130px"
                         Text='<%# Bind("ThirdQrtleAnnual", "{0:#.##}") %>'></asp:TextBox>
                         <asp:CompareValidator
                             ID="cvThirdQrtleAnnual" runat="server" ErrorMessage="Third Qrtle Annual" Text="Bad Number Format!" Display="Dynamic" 
@@ -306,7 +307,7 @@
                             <asp:RequiredFieldValidator
                                 ID="rfvThirdQrtleAnnual" runat="server" ErrorMessage="Third Qrtle Annual" Text="Amount Required!" Display="Dynamic" ControlToValidate="tbThirdQrtleAnnual" ValidationGroup="InsertRecord"></asp:RequiredFieldValidator>
                 </td>
-                <td><asp:TextBox ID="tbMaxAnnual" runat="server" Text='<%# Bind("MaxAnnual", "{0:#.##}") %>'></asp:TextBox>
+                <td><asp:TextBox ID="tbMaxAnnual" Width="80px" runat="server" Text='<%# Bind("MaxAnnual", "{0:#.##}") %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvMaxAnnual" runat="server" ErrorMessage="Max Annual" Text="Bad Number Format!" Display="Dynamic" 
                             ControlToValidate="tbMaxAnnual" Operator="DataTypeCheck" 
@@ -316,7 +317,7 @@
                 </td>
                 <td><ajax:CalendarExtender ID="ceEffectiveDate" runat="server" CssClass="calendar" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" >
                     </ajax:CalendarExtender>
-                    <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}" ) %>'></asp:TextBox>
+                    <asp:TextBox ID="tbEffectiveDate" Width="100px" runat="server" Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}" ) %>'></asp:TextBox>
                     <asp:CompareValidator
                             ID="cvEffectiveDate" runat="server" ErrorMessage="Effective Date" Text="Bad Date Format!" Display="Dynamic" 
                             ControlToValidate="tbEffectiveDate" Operator="DataTypeCheck" 
@@ -330,6 +331,7 @@
         </asp:View>
     </asp:MultiView>
 
-</div>    
+</div> 
+</div>   
     
 </asp:Content>

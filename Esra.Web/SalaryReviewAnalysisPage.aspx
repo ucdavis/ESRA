@@ -658,7 +658,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound" GridLines="None">
+                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound">
                     <HeaderStyle CssClass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>

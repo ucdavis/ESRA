@@ -667,3 +667,8 @@ option:hover
     margin-top:-10px;
     margin-bottom:10px;
 } 
+
+.green_hover a:hover
+{
+    color:#7bcc12;
+}

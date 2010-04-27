@@ -125,11 +125,11 @@
                          <asp:Label ID="lblEditNumSalarySteps" runat="server" Text='<%# Bind("NumSalarySteps") %>'></asp:Label>
                      </EditItemTemplate>
                      <ItemTemplate>
-                         <asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
+                         <asp:Label ID="lblNumSalarySteps" Font-Underline="true" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
                          <%--<asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Visible='<%# (Convert.ToInt32(Eval("NumSalarySteps")) > 0 ? false : true)%>'
                          Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add Steps" :  "Edit Steps") %>'>
                          </asp:LinkButton>--%>
-                         <asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' 
+                         <asp:LinkButton ID="lbtnAddSteps" Font-Underline="true" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' 
                          Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add" :  "<br />view") %>' 
                          ToolTip='<%# (Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add Salary Steps" :  "View/Edit Salary Steps") %>'>
                          </asp:LinkButton>
@@ -139,7 +139,7 @@
             <asp:TemplateField HeaderText="Labor Market WAS" 
                 SortExpression="LaborMarketWAS">
                 <EditItemTemplate>
-                <asp:Label ID="lblLaborMarketWASHeader" runat="server" Text="Labor Market WAS:" CssClass="edit_header"/><br />
+                <asp:Label ID="lblLaborMarketWASHeader" runat="server" Text="Labor Market WAS:<br />&nbsp" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbLaborMarketWAS" runat="server" Text='<%# Bind("LaborMarketWAS") %>'></asp:TextBox>
                     <asp:CompareValidator ID="cvLaborMarketWAS" runat="server" ErrorMessage="CompareValidator" Display="Dynamic"
                     Text="Bad Number Format!" ControlToValidate="tbLaborMarketWAS" Operator="DataTypeCheck" 
@@ -153,10 +153,10 @@
             <asp:TemplateField HeaderText="Labor Market Mid (Annual)" 
                 SortExpression="LaborMarketMidAnnual">
                 <EditItemTemplate>
-                <asp:Label ID="lblLaborMarketMidAnnualHeader" runat="server" Text="Labor Market Mid (Annual):" CssClass="edit_header"/><br />
+                <asp:Label ID="lblLaborMarketMidAnnualHeader" runat="server" Text="Labor Market Mid<br />(Annual):" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbLaborMarketMidAnnual" runat="server" 
                         Text='<%# Bind("LaborMarketMidAnnual") %>'></asp:TextBox>
-                        <asp:CompareValidator ID="cvLaborMarketMidAnnual" runat="server" ErrorMessage="Labor Market Mid (Annual)" Display="Dynamic"
+                        <asp:CompareValidator ID="cvLaborMarketMidAnnual" runat="server" ErrorMessage="Labor Market Mid <br /> (Annual)" Display="Dynamic"
                     Text="Bad Number Format!" ControlToValidate="tbLaborMarketMidAnnual" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
                 </EditItemTemplate>
                 <ItemTemplate>
@@ -174,7 +174,7 @@
             <asp:TemplateField HeaderText="Campus Average (Annual)" 
                 SortExpression="CampusAverageAnnual">
                 <EditItemTemplate>
-                <asp:Label ID="lblCampusAverageAnnualHeader" runat="server" Text="Campus Average (Annual):" CssClass="edit_header"/><br />
+                <asp:Label ID="lblCampusAverageAnnualHeader" runat="server" Text="Campus Average <br />(Annual):" CssClass="edit_header"/><br />
                     <asp:TextBox ID="tbCampusAverageAnnual" runat="server" 
                         Text='<%# Bind("CampusAverageAnnual") %>'></asp:TextBox>
                          <asp:CompareValidator ID="cvCampusAverageAnnual" runat="server" ErrorMessage="Campus Average (Annual)" Display="Dynamic"
