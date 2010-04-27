@@ -32,13 +32,31 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlTitleCode;
         
         /// <summary>
-        /// ddlDepartment control.
+        /// gvTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDepartment;
+        protected global::System.Web.UI.WebControls.GridView gvTitle;
+        
+        /// <summary>
+        /// lbxTitleCodes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lbxTitleCodes;
+        
+        /// <summary>
+        /// lbxDepartment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lbxDepartment;
         
         /// <summary>
         /// ddlEmployee control.
@@ -57,15 +75,6 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch;
-        
-        /// <summary>
-        /// gvTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvTitle;
         
         /// <summary>
         /// MultiView1 control.

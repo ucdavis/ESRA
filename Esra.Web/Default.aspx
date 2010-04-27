@@ -9,31 +9,14 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        
-        Title Code:
+    Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
             onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
-        
-        &nbsp;<asp:DropDownList ID="ddlDepartment" runat="server" AppendDataBoundItems="True" 
-            AutoPostBack="True" DataSourceID="odsDepartments" DataTextField="Name" 
-            DataValueField="ID">
-            <asp:ListItem Value="0">-- Select a Department --</asp:ListItem>
-        </asp:DropDownList>
-        
-        &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" 
-            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
-            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
-            >
-            <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
-        </asp:DropDownList>
-&nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
-            Text="Get Employee" />
-        
-        &nbsp;&nbsp;<br />
+        <br />
         
         <asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
             AutoGenerateColumns="False" EmptyDataText="No Title Code selected.">
@@ -161,6 +144,34 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
+        
+    </div>
+    <hr />
+    <div>
+         &nbsp;&nbsp;<asp:ListBox ID="lbxTitleCodes" runat="server" 
+            AppendDataBoundItems="True" DataSourceID="odsTitles" 
+            DataTextField="TitleCode_Name" DataValueField="ID" 
+             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
+             SelectionMode="Multiple">
+            <asp:ListItem Value="0">-- Select Title Code(s) --</asp:ListItem>
+        </asp:ListBox>
+        
+        &nbsp;&nbsp;<asp:ListBox ID="lbxDepartment" runat="server" 
+            AppendDataBoundItems="True" DataSourceID="odsDepartments" 
+            DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
+            onselectedindexchanged="lbxDepartments_SelectedValues">
+            <asp:ListItem Value="0">-- Select Department(s) --</asp:ListItem>
+        </asp:ListBox>
+        <asp:DropDownList ID="ddlEmployee" runat="server" 
+            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
+            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
+            >
+            <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
+        </asp:DropDownList>
+&nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
+            Text="Get Employee(s)" />
+            <br />
+        <br />
         
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
@@ -315,12 +326,12 @@ document.write(month+"/"+today+"/"+year)
             <SelectParameters>
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-                <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
-                    Name="titleCode" PropertyName="SelectedValue" Type="String" />
+                <asp:SessionParameter DefaultValue="0" Name="titleCodes" 
+                    SessionField="selectedTitles" Type="Object" />
                 <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
                     Name="pkEmployee" PropertyName="SelectedValue" Type="String" />
-                <asp:ControlParameter ControlID="ddlDepartment" DefaultValue="0" 
-                    Name="departmentID" PropertyName="SelectedValue" Type="String" />
+                <asp:SessionParameter DefaultValue="" Name="departmentIDs" 
+                    SessionField="selectedDepartments" Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
         
