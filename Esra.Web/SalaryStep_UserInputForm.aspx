@@ -30,8 +30,8 @@
                             ToolTip="Copy" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/Document-new.png" alt="New" class="new_button" /></asp:LinkButton>
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Update"
-                            Text="Update" ToolTip="Save" CssClass="buttons"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
+                        <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Save" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>'
+                            Text="Update" ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
                         &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False"
                             CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
                     </EditItemTemplate>
@@ -43,9 +43,17 @@
                         <asp:Label ID="lblTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
-                    SortExpression="EffectiveDate" ApplyFormatInEditMode="true" />
-                <asp:BoundField DataField="NumSalarySteps" HeaderText="# Salary Steps" SortExpression="NumSalarySteps" />
+                <asp:TemplateField HeaderText="EffectiveDate" SortExpression="EffectiveDate">
+                    <ItemTemplate>
+                        <asp:Label ID="lblEffectiveDate" runat="server" Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                         <asp:Label ID="lblEffectiveDate" runat="server" Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                    </EditItemTemplate>
+                </asp:TemplateField>
+                <%--<asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
+                    SortExpression="EffectiveDate" ApplyFormatInEditMode="true" />--%>
+                <asp:BoundField DataField="NumSalarySteps" HeaderText="# Salary Steps" SortExpression="NumSalarySteps" ReadOnly="true"/>
                 <asp:TemplateField HeaderText="SalarySteps">
                     <ItemTemplate>
                         <asp:Panel ID="pnlNoStepDetails" runat="server">
@@ -103,7 +111,7 @@
                             AutoExpand="false" SuppressPostBack="true" />
                     </ItemTemplate>
                     <EditItemTemplate>
-                        <asp:ListView ID="lvSalarySteps" runat="server" ItemContainerId="DataSection" DataSource='<%# Eval("SalarySteps")%>'
+                        <asp:ListView ID="lvSalarySteps" runat="server" ItemPlaceholderID="DataSection" DataSource='<%# Eval("SalarySteps")%>'
                             OnItemEditing="lvSalarySteps_ItemEditing">
                             <LayoutTemplate>
                                 <table>
@@ -121,29 +129,51 @@
                                             Hourly
                                         </th>
                                     </tr>
-                                    <asp:PlaceHolder ID="itemPlaceholder" runat="server"></asp:PlaceHolder>
+                                    <asp:PlaceHolder ID="DataSection" runat="server"></asp:PlaceHolder>
                                 </table>
                             </LayoutTemplate>
                             <ItemTemplate>
                                 <asp:UpdatePanel runat="server" ID="upSalaryStep">
                                     <ContentTemplate>
                                         <tr>
-                                            <td>
+                                            <th>
                                                 <asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
+                                            </th>
+                                            <td>
+                                                <asp:TextBox ID="tbAnnual" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
+                                            AutoPostBack="true"></asp:TextBox>
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="tbAnnual" runat="server" Text='<%# Bind("Annual") %>'></asp:TextBox>
+                                                <asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>'></asp:Label>
                                             </td>
                                             <td>
-                                                <asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly") %>'></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:Label ID="lblHourly" runat="server" Text='<%# Eval("Hourly") %>'></asp:Label>
+                                                <asp:Label ID="lblHourly" runat="server" Text='<%# Eval("Hourly", "{0:c}") %>'></asp:Label>
                                             </td>
                                         </tr>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </ItemTemplate>
+                            <AlternatingItemTemplate>
+                                <asp:UpdatePanel runat="server" ID="upSalaryStepAlt">
+                                    <ContentTemplate>
+                                        <tr class="tr_alt">
+                                            <th>
+                                                <asp:Label ID="lblStepNumberAlt" runat="server" Text='<%# Eval("StepNumber") %>' CssClass="tb_alt"></asp:Label>
+                                            </th>
+                                            <td>
+                                                <asp:TextBox ID="tbAnnualAlt" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged"
+                                            AutoPostBack="true"></asp:TextBox>
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="lblMonthlyAlt" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>' CssClass="tb_alt"></asp:Label>
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="lblHourlyAlt" runat="server" Text='<%# Eval("Hourly", "{0:c}") %>' CssClass="tb_alt"></asp:Label>
+                                            </td>
+                                        </tr>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </AlternatingItemTemplate>
                         </asp:ListView>
                     </EditItemTemplate>
                 </asp:TemplateField>
@@ -161,8 +191,8 @@
             <ItemTemplate>
                 <tr style="">
                     <td>
-                        <asp:Button ID="UpdateButton" runat="server" CommandName="Update" CommandArgument='<%# Container %>' Text="Update" OnCommand="lvNewSalaryScale_OnCommand"/>
-                        <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
+                        <asp:Button ID="SaveButton" runat="server" CommandName="Update" CommandArgument='<%# Container %>' Text="Save" OnCommand="lvNewSalaryScale_OnCommand"/>
+                        <asp:Button ID="CancelButton" runat="server" CommandName="Close" Text="Cancel" OnCommand="lvNewSalaryScale_OnCommand"/>
                     </td>
                     <td>
                         <asp:Label ID="TitleLabel" runat="server" Text='<%# Eval("Title.PayrollTitle") %>' />
@@ -177,7 +207,7 @@
                         <asp:Label ID="NumSalaryStepsLabel" runat="server" Text='<%# Eval("SalarySteps.Count") %>' />
                     </td>
                     <td>
-                        <asp:ListView ID="lvSalarySteps" runat="server" ItemContainerId="DataSection" DataSource='<%# Eval("SalarySteps")%>'
+                        <asp:ListView ID="lvSalarySteps" runat="server" ItemPlaceholderID="DataSection" DataSource='<%# Eval("SalarySteps")%>'
                             OnItemEditing="lvSalarySteps_ItemEditing">
                            
                                     <LayoutTemplate>
@@ -198,7 +228,7 @@
                                                 </th>
                                             </tr>
                                            
-                                            <asp:PlaceHolder ID="itemPlaceholder" runat="server"></asp:PlaceHolder>
+                                            <asp:PlaceHolder ID="DataSection" runat="server"></asp:PlaceHolder>
                                            
                                         </table>
                                     </LayoutTemplate>
@@ -206,34 +236,34 @@
                             <ItemTemplate>
                                 <tr>
                                     <td>
-                                        <asp:Label ID="lblStepNumber2" runat="server" Text='<%# Bind("StepNumber") %>' />
+                                        <asp:Label ID="lblStepNumber2" runat="server" Text='<%# Eval("StepNumber") %>' />
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
+                                        <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
                                             AutoPostBack="true"></asp:TextBox>
                                     </td>
                                     <td>
-                                        <asp:Label ID="lblMonthly2" runat="server" Text='<%# Bind("Monthly") %>'></asp:Label>
+                                        <asp:Label ID="lblMonthly2" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:Label ID="lblHourly2" runat="server" Text='<%# Bind("Hourly") %>'></asp:Label>
+                                        <asp:Label ID="lblHourly2" runat="server" Text='<%# Eval("Hourly" ,"{0:c}") %>'></asp:Label>
                                     </td>
                                 </tr>
                             </ItemTemplate>
                             <AlternatingItemTemplate>
                                 <tr class="tr_alt">
                                     <td>
-                                        <asp:Label ID="lblStepNumber3" runat="server" Text='<%# Bind("StepNumber") %>' />
+                                        <asp:Label ID="lblStepNumber3" runat="server" Text='<%# Eval("StepNumber") %>' />
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual") %>' CssClass="tb_alt"
+                                        <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' CssClass="tb_alt"
                                             OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                     </td>
                                     <td>
-                                        <asp:Label ID="lblMonthly3" runat="server" Text='<%# Bind("Monthly") %>' CssClass="tb_alt"></asp:Label>
+                                        <asp:Label ID="lblMonthly3" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>' CssClass="tb_alt"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:Label ID="lblHourly3" runat="server" Text='<%# Bind("Hourly") %>' CssClass="tb_alt"></asp:Label>
+                                        <asp:Label ID="lblHourly3" runat="server" Text='<%# Eval("Hourly" ,"{0:c}") %>' CssClass="tb_alt"></asp:Label>
                                     </td>
                                 </tr>
                             </AlternatingItemTemplate>
@@ -375,7 +405,10 @@
     <asp:ObjectDataSource ID="odsSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL"></asp:ObjectDataSource>
         <asp:ObjectDataSource ID="odsSalaryScale" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAllSalaryScaleWithSalarySteps" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
+            SelectMethod="GetAllSalaryScaleWithSalarySteps" 
+            TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
+            DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
+            UpdateMethod="UpdateRecord">
             <SelectParameters>
                 <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />

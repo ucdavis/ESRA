@@ -5,7 +5,7 @@ using System.Text;
 namespace CAESDO.Esra.Core.Domain
 {
     [Serializable]
-    public class SalaryStep : DomainObject<SalaryStep, int>
+    public class SalaryStep : DomainObject<SalaryStep, int>, IComparable<SalaryStep>
     {
         private SalaryScale _SalaryScale;
 
@@ -79,6 +79,11 @@ namespace CAESDO.Esra.Core.Domain
                 retval = true;
             }
             return retval;
+        }
+
+        public virtual int CompareTo(SalaryStep item)
+        {
+            return this.StepNumber.CompareTo(item.StepNumber);
         }
 
         public override int GetHashCode()
