@@ -15,7 +15,10 @@ namespace CAESDO.Esra.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                ResetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME);
+            }
         }
 
         protected void gvSalaryGradeQuartiles_Sorting(object sender, GridViewSortEventArgs e)
@@ -30,7 +33,7 @@ namespace CAESDO.Esra.Web
 
         protected void gvSalaryGradeQuartiles_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-
+            SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_UPDATED_SUCCESS);
         }
     }
 }

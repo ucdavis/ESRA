@@ -252,7 +252,7 @@ a:link .title
 #nav li li a:hover {padding: 0px; font-weight: bold}
 #nav li {float: left; position: relative; text-align: left; padding: 0px;}
 #nav > ul li {padding: 0px 15px;}
-#nav > ul > li:hover {background: url(../images/common/nav_bg.jpg) repeat-x left bottom;}
+#nav > ul > li:hover {background: url(../images/common/nav_bg.jpg) repeat-x left bottom; font-weight:bold;}
 #nav li ul {display: none; position: absolute; top: 100%; left: 0; font-weight: normal; padding: 4px 0px 15px;
      background: url(../images/common/navddsm_bg.png) no-repeat left bottom; margin-left: -15px; min-width: 170px;}
 #nav li ul.reports {background: url(../images/common/navdd_bg.png) no-repeat left bottom;}     
