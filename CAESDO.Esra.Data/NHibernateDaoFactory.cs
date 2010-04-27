@@ -349,7 +349,7 @@ namespace CAESDO.Esra.Data
 
                     if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
                     {
-                        conjunction.Add(Expression.Eq("Employee.id", employeeID));
+                        conjunction.Add(Expression.Eq("Employee.PkEmployee", employeeID));
                     }
                     if (String.IsNullOrEmpty(reviewerLogin) == false && reviewerLogin.Equals("0") == false)
                     {
