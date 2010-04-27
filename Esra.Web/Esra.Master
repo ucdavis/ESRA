@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Esra.master.cs" Inherits="CAESDO.Esra.Web.Esra" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
+<%@ Import Namespace="System.Web.Configuration" %>
+<%@ Import Namespace="System.Reflection" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Employee Salary Review Analysis - Home</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <div id="all">
+        <div id="mainwrap">
+            <div id="main">
+                <div class="title">
+                    <asp:Label ID="lbl_Message" runat="server" Text="Label" Visible="False" Font-Bold="False"
+                        Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;
+                    <asp:ContentPlaceHolder ID="ContentHeader" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+                <asp:ContentPlaceHolder ID="ContentBody" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+            <p class="bbox">
+                <em>&nbsp;</em></p>
+        </div>
+    </div>
+    <br style="clear: left;" />
+    <hr style="clear: left;" />
+    <div id="footer">
+        <div id="nav_bottom">
+            <p>
+                Ken Taylor --
+                <asp:Label ID="lbl_Version" runat="server"></asp:Label>
+                -- Revision 0 | <a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
+                    Questions Or Suggestions?</a>
+            </p>
+        </div>
+    </div>
+    </form>
+</body>
+</html>
