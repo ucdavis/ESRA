@@ -11,11 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esra.Web", "Esra.Web\Esra.W
 EndProject
 Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "Esra.Web.csproj_deploy", "Esra.Web.csproj_deploy\Esra.Web.csproj_deploy.wdproj", "{7E905724-F196-4FA8-81DC-CA99C2B248C9}"
 EndProject
+Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "Esra.Database", "Esra.Database\Esra.Database.dbp", "{0DDE7FD8-215F-4030-A000-8C68B40846E9}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://cubert:8080/
+		SccTeamFoundationServer = http://1x:8080/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = CAESDO.Esra.BLL\\CAESDO.Esra.BLL.csproj
 		SccProjectName1 = CAESDO.Esra.BLL
@@ -32,6 +34,9 @@ Global
 		SccProjectUniqueName5 = Esra.Web.csproj_deploy\\Esra.Web.csproj_deploy.wdproj
 		SccProjectName5 = Esra.Web.csproj_deploy
 		SccLocalPath5 = Esra.Web.csproj_deploy
+		SccProjectUniqueName6 = Esra.Database\\Esra.Database.dbp
+		SccProjectName6 = Esra.Database
+		SccLocalPath6 = Esra.Database
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -41,6 +41,9 @@ Begin DataProject = "Esra.Database"
          Script = "dbo.vUserUnit.sql"
       End
    End
+   Begin Folder = "Database Diagrams"
+      Node = "Esra.vsd"
+   End
    Begin DBRefFolder = "Database References"
       Begin DBRefNode = "vogel.ESRA.dbo"
          ConnectStr = "Data Source=vogel;Initial Catalog=ESRA;Integrated Security=True"
