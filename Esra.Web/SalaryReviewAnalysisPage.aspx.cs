@@ -29,6 +29,7 @@ namespace CAESDO.Esra.Web
             {
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
+                Session.Remove(KEY_TITLE_ID);
                 tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
             }
         }
@@ -44,6 +45,7 @@ namespace CAESDO.Esra.Web
         protected void btnFindSRA_Click(object sender, EventArgs e)
         {
             ddlReferenceNumber.SelectedIndex = -1;
+            ddlNewSAREmployee.SelectedIndex = -1;
             gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetAll(ddlEmployee.SelectedValue, ddlCreatedBy.SelectedValue, tbCreationDate.Text, "Employee.FullName", true);
             gvSalaryReviewAnalysis.DataBind();
         }
@@ -53,12 +55,15 @@ namespace CAESDO.Esra.Web
             List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis> items = new List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis>();
             ddlEmployee.SelectedIndex = -1;
             ddlCreatedBy.SelectedIndex = -1;
+            ddlNewSAREmployee.SelectedIndex = -1;
             //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
             if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
             {
                 CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
                 items.Add(item);
             }
+
+            //lbtnBack_Click(null, null);
             gvSalaryReviewAnalysis.DataSource = items;
             gvSalaryReviewAnalysis.DataBind();
         }

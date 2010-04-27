@@ -353,17 +353,41 @@ namespace CAESDO.Esra.Web
             }
             return searchEmployee;
         }
+
+        protected bool IsMiddleStep(object sender)
+        {
+            bool retval = false;
+            RepeaterItem item = (RepeaterItem)sender;  
+            SalaryStep step = (SalaryStep)item.DataItem;
+            SalaryScale ss = step.SalaryScale;
+            int numSteps = ss.SalarySteps.Count;
+            int midStepIndex = numSteps / 2;
+
+            // select next lower step if even number of steps.
+            if (numSteps % 2 == 0)
+            {
+                midStepIndex--;
+            }
+            
+            string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
+            string currentStepNumString = step.StepNumber;
+
+            if(midStepNumbString.Equals(step.StepNumber))
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
         
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
         {
            Repeater rpt = (Repeater)sender;
-           if (rpt.Items.Count > 0)
+           int numSteps = ((IList<SalaryStep>)rpt.DataSource as IList<SalaryStep>).Count;
+           rpt.Visible = false;  // assume no salary steps present
+           if (numSteps > 0)
            {
                rpt.Visible = true;
-           }
-           else
-           {
-               rpt.Visible = false;
            }
         }
 
@@ -421,6 +445,20 @@ namespace CAESDO.Esra.Web
                 selectedDepartmentStrings.Add(dept.ID);
             }
             Session.Add("selectedDepartmentStrings", selectedDepartmentStrings.ToArray());
+        }
+
+        protected bool HasSalarySteps(object sender)
+        {
+            bool retval = false;
+            RepeaterItem item = (RepeaterItem)sender;
+            SalaryScale ss = (SalaryScale)item.DataItem;
+
+            if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
+            {
+                retval = true;
+            }
+
+            return retval;
         }
     }
 }

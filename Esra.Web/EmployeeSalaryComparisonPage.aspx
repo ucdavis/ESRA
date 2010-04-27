@@ -50,8 +50,6 @@
                                                 <th colspan="2">Effective Date:</th>
                                                 <td colspan="3"><asp:Label ID="lblEffectiveDate" runat="server" 
                                                         Text='<%# Eval("SalaryGradeQuartiles.EffectiveDate","{0:MM/dd/yyyy}") %>'></asp:Label></td>
-                                            
-                                            
                                             </tr>
                                             <tr>
                                                 <th>Salary Grade:</th>
@@ -64,6 +62,7 @@
                                             <tr>
                                                 <td colspan="5">
                                                     <table>
+                                                    <asp:Panel ID="pnlQuartiles" runat="server" Visible='<%# !HasSalarySteps(Container) %>'>
                                                         <tr>
                                                             <th>Quartile</th><th>Annual</th><th>Monthly</th><th>Hourly</th>
                                                         </tr>
@@ -96,11 +95,11 @@
                                                         Text='<%# Eval("SalaryGradeQuartiles.MaxAnnual","{0:c}") %>'></asp:Label></td><td><asp:Label ID="Label15" runat="server" 
                                                         Text='<%# Eval("SalaryGradeQuartiles.MaxMonthly","{0:c}") %>'></asp:Label></td><td><asp:Label ID="Label16" runat="server" 
                                                         Text='<%# Eval("SalaryGradeQuartiles.MaxHourly","{0:c}") %>'></asp:Label></td>
-                                                        </tr>
+                                                        </tr></asp:Panel>
                                                         <tr>
                                                         <td colspan="5">
                                                             <table>
-                                                                <asp:Panel ID="LM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
+                                                                <asp:Panel ID="pnlLM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
                                                                 <tr>
                                                                     <th>Labor Market WAS:</th><td><asp:Label ID="Label17" runat="server" 
                                                         Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label></td>
@@ -131,13 +130,13 @@
                                                         <asp:Repeater runat="server" ID="rptSalarySteps"  OnItemDataBound="rtpSalary_OnItemDataBound" DataSource='<%# Eval("SalarySteps") %>'><HeaderTemplate><tr><th>Step</th><th>Annual</th><th>Monthly</th><th>Hourly</th></tr></HeaderTemplate>
                                                             <ItemTemplate>
                                                                 <tr>
-                                                                    <th><asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label></th>
+                                                                    <th><asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>' ></asp:Label></th>
                                                                     <td><asp:Label ID="lblStepAnnual" runat="server" 
-                                                                            Text='<%# Eval("Annual","{0:c}") %>'></asp:Label></td>
+                                                                            Text='<%# Eval("Annual","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label></td>
                                                                     <td><asp:Label ID="lblStepMonthly" runat="server" 
-                                                                            Text='<%# Eval("Monthly","{0:c}") %>'></asp:Label></td>
+                                                                            Text='<%# Eval("Monthly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label></td>
                                                                    <td><asp:Label ID="lblStepHourly" runat="server" 
-                                                                           Text='<%# Eval("Hourly","{0:c}") %>'></asp:Label></td></tr>
+                                                                           Text='<%# Eval("Hourly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label></td></tr>
                                                             </ItemTemplate> 
                                                         </asp:Repeater>
                                                     </table>
