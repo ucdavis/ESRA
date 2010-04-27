@@ -32,33 +32,6 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.UpdatePanel updateAddUser;
         
         /// <summary>
-        /// lbxUnits control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbxUnits;
-        
-        /// <summary>
-        /// btnGetUnitUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGetUnitUsers;
-        
-        /// <summary>
-        /// odsUnits control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsUnits;
-        
-        /// <summary>
         /// btnAddUser control.
         /// </summary>
         /// <remarks>

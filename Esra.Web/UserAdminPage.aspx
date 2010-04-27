@@ -4,32 +4,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-<div> <center><asp:Label ID="lblPageTitle" runat="server" 
-            Text="User Administration" Font-Bold="True" 
-            Font-Size="Larger"></asp:Label></center>
- <br />
-    <hr />
-    <br />
+<div> <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" 
+            Text="User Administration"></asp:Label></h1>
+<div class="left_col_empty"></div>
+<div class="right_col_med"><div id="UAP">
+<div>
     <asp:UpdatePanel ID="updateAddUser" runat="server" UpdateMode="Conditional">
 <ContentTemplate>
-<div>
-    <asp:ListBox ID="lbxUnits" runat="server" AppendDataBoundItems="True" 
-        DataSourceID="odsUnits" DataTextField="Unit" 
-        DataValueField="UnitID" SelectionMode="Multiple"
-        onselectedindexchanged="lbxUnits_SelectedValues" Rows="5" >
-        <asp:ListItem Value="">-- All Units --</asp:ListItem>
-    </asp:ListBox> &nbsp;&nbsp;<asp:Button ID="btnGetUnitUsers" runat="server" Text="Get Users" 
-    OnClick="btnGetUnitUsers_Click"/> 
-    
-    <asp:ObjectDataSource ID="odsUnits" runat="server" 
-        OldValuesParameterFormatString="original_{0}" SelectMethod="GetUnits" 
-        TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
-</div>
-<br />
-  <asp:ImageButton ID="btnAddUser" runat="server" ImageUrl="~/images/ibAddUser.gif" />
+  <p><asp:ImageButton ID="btnAddUser" runat="server" ImageUrl="~/images/common/adduser.png" Width="17" Height="21"/> Add User</p>
  <asp:Panel ID="pnlAddUser" runat="server" CssClass="modalPopup" style="display:none;">
                 <span class="modalTitle">Add A User</span>
-    <div style="padding-left: 15px; padding-right: 15px; padding-bottom: 30px; max-width: 860px;">
+    <div>
      Search For New User:<br />
      <br />
      EmployeeID:
@@ -55,7 +40,7 @@
      <asp:GridView ID="gViewAddUserSearch" skinID="gridViewUserManagement" runat="server" DataKeyNames="Login" CellPadding="4" DataSourceID="ObjectDataUserSearch" 
                     EmptyDataText="No Matching Users Found" ForeColor="#333333" GridLines="None" Visible="False" AutoGenerateColumns="False"
                     OnSelectedIndexChanged="gViewAddUserSearch_SelectedIndexChanged">
-         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+         <FooterStyle BackColor="#000000" Font-Bold="True" ForeColor="White" />
          <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
          <Columns>
              <asp:CommandField ShowSelectButton="True" SelectText="Add" />
@@ -81,7 +66,7 @@
          </Columns>
          <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
          <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-         <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+         <HeaderStyle BackColor="#000000" Font-Bold="True" ForeColor="White" />
          <EditRowStyle BackColor="#999999" />
          <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
      </asp:GridView>
@@ -103,10 +88,12 @@
  </ajax:ModalPopupExtender>
 </ContentTemplate>
 </asp:UpdatePanel>
- 
-        <br />
-        User List:
         
+       
+        
+        <p>User List:</p>
+        <h2 class="h2_black">&nbsp</h2>
+        <div id="ESCR_table">
         <asp:UpdatePanel ID="updateUserGrid" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
         
@@ -114,17 +101,14 @@
                 CellPadding="4" ForeColor="#333333" GridLines="None" DataSourceID="ObjectDataSource1"
                 AllowPaging="True" PageSize="25"
                 AutoGenerateColumns="False" 
-                OnSelectedIndexChanged="GViewUsers_SelectedIndexChanged"
-                EmptyDataText="No Users Found.">
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                OnSelectedIndexChanged="GViewUsers_SelectedIndexChanged">
+                <HeaderStyle CssClass="tr_head" />
                 <EditRowStyle BackColor="#999999" />
                 <SelectedRowStyle Font-Bold="True" ForeColor="#333333" />
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                <AlternatingRowStyle CssClass="tr_alt" />
                 <Columns>
-                    <asp:CommandField ShowSelectButton="True" ButtonType="Image" SelectImageUrl="images/select.gif">
-                        <ItemStyle CssClass="paddingLeft" />
+                    <asp:CommandField ShowSelectButton="True" ButtonType="Image" SelectImageUrl="~/Images/common/edit.png">
+                        <ItemStyle CssClass="paddingRight" />
                     </asp:CommandField>
                     <asp:TemplateField>
                         <HeaderTemplate>Units</HeaderTemplate>
@@ -174,23 +158,24 @@
             </asp:ObjectDataSource>
         </ContentTemplate>
         </asp:UpdatePanel>
-
+        </div>
+</div>
         <asp:UpdatePanel ID="updateUserInfo" runat="server" UpdateMode="conditional" >
         <ContentTemplate>
             <asp:Button ID="btnHiddenSelectUser" runat="server" style="display:none; visibility:hidden;" />       
             <asp:Panel ID="pnlUserInfo" runat="server" style="display:none" CssClass="modalPopup" >
             <span class="modalTitle">User Information for <asp:Label ID="lblUserInfoName" runat="server" Text="" ></asp:Label></span>
-            <div style="height:410px; width: 500px; overflow:auto; padding: 20px;">  
+            <div>  
             <span style="font-weight:bold;">LoginID:</span> <asp:Label ID="lblUserInfoLoginID" runat="server" Text=""></asp:Label>
             <br />
             <span style="font-weight:bold;">EmployeeID:</span> <asp:Label ID="lblUserInfoEmployeeID" runat="server" Text=""></asp:Label>
             <br /><br />
                 <asp:GridView ID="gViewUserUnits" SkinID="gridViewUserManagement" runat="server" DataKeyNames="UnitID" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" OnRowDeleting="gViewUserUnits_RowDeleting">
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <FooterStyle BackColor="#000000" Font-Bold="True" ForeColor="White" />
                     <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
                     <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
+                    <HeaderStyle BackColor="#000000" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                     <EditRowStyle BackColor="#999999" />
                     <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                     <Columns>
@@ -210,7 +195,7 @@
                 <br />
                 <asp:GridView ID="gViewUserRoles" SkinID="gridViewUserManagement" runat="server" AutoGenerateColumns="False" CellPadding="4"
                     DataKeyNames="RoleID" ForeColor="#333333" GridLines="None" OnRowDeleting="gViewUserRoles_RowDeleting">
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <FooterStyle BackColor="#000000" Font-Bold="True" ForeColor="White" />
                     <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
                     <Columns>
                         <asp:BoundField DataField="Role" HeaderText="Role:" />
@@ -221,7 +206,7 @@
                     </Columns>
                     <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
                     <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
+                    <HeaderStyle BackColor="#000000" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                     <EditRowStyle BackColor="#999999" />
                     <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 </asp:GridView>
@@ -245,5 +230,7 @@
             </ajax:ModalPopupExtender>
         </ContentTemplate>
         </asp:UpdatePanel>  
+  </div>
+  </div>
   </div>
 </asp:Content>
