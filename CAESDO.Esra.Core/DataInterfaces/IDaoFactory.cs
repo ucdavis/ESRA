@@ -9,6 +9,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     public interface IDaoFactory
     {
         IGenericDao<T, IdT> GetGenericDao<T, IdT>();
+        IEmployeeDao GetEmployeeDao();
     }
 
     // There's no need to declare each of the DAO interfaces in its own file, so just add them inline here.
@@ -16,6 +17,11 @@ namespace CAESDO.Esra.Core.DataInterfaces
     #region Inline interface declarations
 
     public interface IGenericDao<T, IdT> : IDao<T, IdT> { }
+
+    public interface IEmployeeDao : IDao<Employee, int>
+    {
+        IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
+    }
 
     #endregion
 }
