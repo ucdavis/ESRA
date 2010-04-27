@@ -202,7 +202,8 @@
                             DataFormatString="{0:MM/dd/yyyy}" />
                         <asp:BoundField DataField="InitiatedByReviewerName" HeaderText="Initiated By Reviewer Name"
                             SortExpression="InitiatedByReviewerName" />
-                        <asp:BoundField DataField="DateApproved" HeaderText="Date Approved" SortExpression="DateApproved" />
+                        <asp:BoundField DataField="DateApproved" HeaderText="Date Approved" SortExpression="DateApproved"
+                         DataFormatString="{0:MM/dd/yyyy}" />
                         <asp:TemplateField HeaderText="Approved Scenario" SortExpression="ApprovedScenario">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("ApprovedScenario.ScenarioNumber") %>'></asp:TextBox>

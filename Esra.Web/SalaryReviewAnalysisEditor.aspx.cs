@@ -5,6 +5,7 @@ using CAESDO.Esra.BLL;
 using System.Collections.Generic;
 using CAESDO.Core.Domain;
 using System.Globalization;
+using System.Web.UI;
 
 
 namespace CAESDO.Esra.Web
@@ -615,31 +616,66 @@ namespace CAESDO.Esra.Web
             Response.Redirect(redirectURL);
         }
 
+        /// <summary>
+        /// This method is supposed to check if a check box
+        /// has been changed to "checked" and uncheck all other
+        /// check boxes.
+        /// It should also handle the situation of a person "unchecking" a
+        /// check box and not re-check it, but leave it unchecked, as-is.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void cbxApproved_CheckChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
-            RepeaterItem item = cb.Parent as RepeaterItem;
-            object parent = item.NamingContainer;
-            Repeater rpt = parent as Repeater;
-            RepeaterItemCollection items = rpt.Items;
-            /*
-           HiddenField idField = item.FindControl("scenarioId") as HiddenField;
-           if (idField == null)
-           {
-               idField = item.FindControl("scenarioIdAlt") as HiddenField;
-           }
-           String id = idField.Value;
-           */
-            foreach (RepeaterItem rptItem in items)
+            
+            // if cb has just been unchecked, then just exit the method.
+            if (cb.Checked)
             {
-                CheckBox ckBox = rptItem.FindControl("cbxApproved") as CheckBox;
-                if (ckBox == null)
+                RepeaterItem item = cb.Parent as RepeaterItem;
+                object parent = item.NamingContainer;
+                Repeater rpt = parent as Repeater;
+                RepeaterItemCollection items = rpt.Items;
+                /*
+               HiddenField idField = item.FindControl("scenarioId") as HiddenField;
+               if (idField == null)
+               {
+                   idField = item.FindControl("scenarioIdAlt") as HiddenField;
+               }
+               String id = idField.Value;
+               */
+                foreach (RepeaterItem rptItem in items)
                 {
-                    ckBox = rptItem.FindControl("cbxApprovedAlt") as CheckBox;
+                    CheckBox ckBox = rptItem.FindControl("cbxApproved") as CheckBox;
+                    if (ckBox == null)
+                    {
+                        ckBox = rptItem.FindControl("cbxApprovedAlt") as CheckBox;
+                    }
+                    ckBox.Checked = false;
                 }
-                ckBox.Checked = false;
+                cb.Checked = true;
+
+                GridViewRow gvr = gvSalaryReviewAnaysis.Rows[0];  // There's always only one row.
+                TextBox tb = gvr.FindControl("tbDateApproved") as TextBox;
+                if (tb != null && String.IsNullOrEmpty(tb.Text))
+                {
+                    // if blank, set the approved date with today's date.
+                    tb.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+                    ((UpdatePanel)gvr.FindControl("upDateApproved")).Update();
+                }
             }
-            cb.Checked = true;
+            else
+            {
+                GridViewRow gvr = gvSalaryReviewAnaysis.Rows[0];  // There's always only one row.
+                TextBox tb = gvr.FindControl("tbDateApproved") as TextBox;
+                if (tb != null && String.IsNullOrEmpty(tb.Text) == false)
+                {
+                    // Perhaps clear the date approved field?
+                    tb.Text = null;
+                    ((UpdatePanel)gvr.FindControl("upDateApproved")).Update();
+                }
+            }
+            
         }
 
         protected Scenario UpdateScenarioValues(RepeaterItem item)
