@@ -299,7 +299,7 @@ namespace CAESDO.Esra.Web
             if (IsDepartmentUser())
             {
                 GridView gv = sender as GridView;
-                gv.Columns[10].Visible = false;
+                gv.Columns[11].Visible = false;
             }
         }
 
