@@ -417,105 +417,49 @@
         <br />
     </div>
     <div id="divSAR">
+        <center><asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" 
+                Text="Salary Review Analysis" Font-Bold="True" Font-Size="Larger" ></asp:Label>
+        </center><br />
         <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
-           <%-- <tr>
-                <th>
-                    TitleCode
-                </th>
-                <th colspan="4">
-                    Payroll Title
-                </th>
-                <th>
-                    Salary Grade
-                </th>
-                <th>
-                    Salary Step
-                </th>
-                <th>
-                    Bargaining Unit
-                </th>
-                <th class="style1">
-                    Report Date
-                </th>
-            </tr>
+            <%--<th colspan="2">Abbreviated Name</th>--%>
+            
             <tr>
-                <td>
-                    <asp:Label runat="server" ID="lblTblTitleHeaderTitleCode"></asp:Label>
-                </td>
-                <td colspan="4">
-                    <asp:Label runat="server" ID="lblTblTitleHeaderPayrollTitle"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblTitleHeaderSalaryGrade"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblTitleHeaderSalaryStep"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblTitleHeaderBargainingUnit"></asp:Label>
-                </td>
-                <td class="style1">
-                    <asp:Label runat="server" ID="lblTblTitleHeaderReportDate"></asp:Label>
-                </td>
+            <td>
+                <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" 
+                    AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis">
+                    <HeaderStyle cssclass="tr_head"/>
+                    <AlternatingRowStyle CssClass="tr_alt" />
+                    <Columns>
+                        <asp:BoundField DataField="ReferenceNumber" HeaderText="Reference Number" 
+                            SortExpression="ReferenceNumber" />
+                        <asp:BoundField DataField="DateInitiated" DataFormatString="{0:MM/dd/yyyy}" 
+                            HeaderText="Date Initiated" SortExpression="DateInitiated" />
+                        <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="tbDataApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>' ReadOnly="true"></asp:TextBox>
+                                <%--<asp:Label ID="lblDateApproved" runat="server" 
+                                    Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:Label>--%>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Initiated By (ReviewerName)" 
+                            SortExpression="InitiatedByReviewerName">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="TextBox2" runat="server" 
+                                    Text='<%# Bind("InitiatedByReviewerName") %>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label2" runat="server" 
+                                    Text='<%# Bind("InitiatedByReviewerName") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </td>
             </tr>
-            <tr>
-                <th>
-                    Department Name
-                </th>
-                <th>
-                    Employee Name
-                </th>
-                <th>
-                    Hire Date
-                </th>
-                <th>
-                    Years of Service
-                </th>
-                <th>
-                    Begin Date (in Title)
-                </th>
-                <th>
-                    Tile in Title
-                </th>
-                <th>
-                    Pay Rate
-                </th>
-                <th>
-                    Department Comments
-                </th>
-                <th>
-                    Dean's Office Comments
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsDeptName"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsEmpName"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsHireDate"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsYearsOfService"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsBeginDate"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsTimeInTitle"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsPayRate"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsDepartmentComments"></asp:Label>
-                </td>
-                <td>
-                    <asp:Label runat="server" ID="lblTblEmpDetailsDeansOfficeComments"></asp:Label>
-                </td>
-            </tr>--%>
+            
             <tr>
                 <td colspan="9">
                     <asp:UpdatePanel runat="server" ID="upScenarios">
@@ -523,7 +467,7 @@
                             <asp:Repeater runat="server" ID="rptScenarios">
                                 <HeaderTemplate>
                                     <table border="1" cellpadding="2" cellspacing="0">
-                                        <tr>
+                                        <tr class="tr_subhead">
                                             <th>
                                                 Scenario No.
                                             </th>
@@ -549,14 +493,14 @@
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
-                                                DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged"><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
+                                                DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" SelectedValue='<%# GetSelectedValue(Container) %>'><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
                                             <asp:UpdatePanel ID="upRBApproved" runat="server">
@@ -575,14 +519,14 @@
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
-                                                DataTextField="Key" DataValueField="Value"  AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" ><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
+                                                DataTextField="Key" DataValueField="Value"  AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" SelectedValue='<%# GetSelectedValue(Container) %>'><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
                                             <asp:UpdatePanel ID="upRBApprovedAlt" runat="server">
@@ -599,7 +543,7 @@
                                             Comments
                                         </th>
                                         <td colspan="4">
-                                            <asp:TextBox ID="tbDeansOfficeComments" runat="server" TextMode="MultiLine"></asp:TextBox>
+                                            <asp:TextBox ID="tbDeansOfficeComments" runat="server" TextMode="MultiLine" CssClass="comments"></asp:TextBox>
                                         </td>
                                     </tr>
                                     </table>
@@ -616,6 +560,16 @@
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="TitleCode" 
                     Type="String" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetByProperty" 
+            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" 
+                    Type="String" />
+                <asp:QueryStringParameter DefaultValue="0" Name="propertyValue" 
+                    QueryStringField="ReferenceNumber" Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
     </div>

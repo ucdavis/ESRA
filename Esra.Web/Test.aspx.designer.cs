@@ -77,6 +77,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.ObjectDataSource odsTitle;
         
         /// <summary>
+        /// lblSalaryReviewAnalysisTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSalaryReviewAnalysisTitle;
+        
+        /// <summary>
+        /// gvSalaryReviewAnaysis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvSalaryReviewAnaysis;
+        
+        /// <summary>
         /// upScenarios control.
         /// </summary>
         /// <remarks>
@@ -102,5 +120,14 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsCriteria;
+        
+        /// <summary>
+        /// odsSalaryReviewAnalysis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsSalaryReviewAnalysis;
     }
 }

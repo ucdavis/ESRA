@@ -11,17 +11,53 @@ namespace CAESDO.Esra.Web
 {
     public partial class Test : ApplicationPage
     {
-        protected static readonly string KEY_REFERENCE_NUM = "ReferenceNum";
+        protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
         protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
+
+        protected string EmployeeID
+        {
+            get
+            {
+                string retval = Request.QueryString[KEY_EMPLOYEE_ID];
+                long temp = 0;
+
+                if (String.IsNullOrEmpty(retval) || retval.Length != 13 || long.TryParse(retval, out temp) == false)
+                {
+                    retval = null;
+                }
+                
+                return retval;
+            }
+        }
+
+        protected string ReferenceNum
+        {
+            get
+            {
+                string retval = Request.QueryString[KEY_REFERENCE_NUM];
+                long temp = 0;
+
+                // ###20081001 min length = 11
+                if (String.IsNullOrEmpty(retval) || retval.Length < 11 || long.TryParse(retval, out temp) == false)
+                {
+                    retval = null;
+                }
+
+                return retval;
+            }
+        }
 
         protected void Page_Init(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                string referenceNum = Request.QueryString["ReferenceNum"];
-                Session.Remove(
+                // Clear out any previous values.
+                Session.Remove(KEY_TITLE_CODE);
+                Session.Remove(KEY_EMPLOYEE_ID);
+                Session.Remove(KEY_EMPLOYEE_PAY_RATE);
+                Session.Remove(KEY_REFERENCE_NUM);
             }
         }
 
@@ -30,26 +66,35 @@ namespace CAESDO.Esra.Web
             //MultiView1.SetActiveView(vEmployees);
             if (!IsPostBack)
             {
-                long temp = 0;
-                string employeeID = Request.QueryString["EmployeeID"];
-                Session.Remove("TitleCode");
-                Session.Remove("Employee.PayRate");
                 List<Employee> empList = new List<Employee>();
                 List<Title> titleList = new List<Title>();
-                if (String.IsNullOrEmpty(employeeID) == false && employeeID.Length == 13 && long.TryParse(employeeID, out temp))
+                SalaryReviewAnalysis sra = null;
+                Employee emp = null;
+                IList<Scenario> scenarios = null;
+
+                if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
-                    Employee emp = EmployeeBLL.GetByID(employeeID);
-                    if (emp != null)
+                    sra = SalaryReviewAnalysisBLL.GetByProperty(KEY_REFERENCE_NUM, ReferenceNum);
+                    if (sra != null)
                     {
-                        empList.Add(emp);
-                        titleList.Add(emp.Title);
-                        //tblEmpDetails_Init(emp);
-                        //tblTitleHeader_Init(emp);
-                        Session.Add("Employee.PayRate", emp.PayRate);
-                        Session.Add("TitleCode", emp.Title.TitleCode);
-                        rptScenarios_Init();
+                        emp = sra.Employee;
+                        scenarios = sra.Scenarios;
                     }
                 }
+                else if (String.IsNullOrEmpty(EmployeeID) == false )
+                {
+                    emp = EmployeeBLL.GetByID(EmployeeID);
+                }
+
+                if (emp != null)
+                {
+                    empList.Add(emp);
+                    titleList.Add(emp.Title);
+                    Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
+                    Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
+                    rptScenarios_Init(scenarios);
+                }
+               
                 gvEmployees.DataSource = empList;
                 gvEmployees.DataBind();
                 gvTitle.DataSource = titleList;
@@ -104,10 +149,20 @@ namespace CAESDO.Esra.Web
             lblTblEmpDetailsDeansOfficeComments.Text = emp.DeansOfficeComments;
         }
         */
+
         protected void rptScenarios_Init()
         {
-            List<Scenario> scenarios = new List<Scenario>();
-            scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType =  SelectionTypeBLL.GetByType(SelectionType.NONE).Type});            rptScenarios.DataSource = scenarios;
+            rptScenarios_Init(null);
+        }
+
+        protected void rptScenarios_Init(IList<Scenario> scenarios)
+        {
+            if (scenarios == null)
+            {
+                scenarios = new List<Scenario>();
+                scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType = SelectionTypeBLL.GetByType(SelectionType.NONE).Type });
+            }
+            rptScenarios.DataSource = scenarios;
             rptScenarios.DataBind();
         }
 
@@ -206,6 +261,22 @@ namespace CAESDO.Esra.Web
             double newSalary = oldSalary * (1 + (percentIncrease / 100));
             TextBox tbSalaryAmount = (TextBox)item.FindControl("tbSalaryAmount");
             tbSalaryAmount.Text = String.Format("{0:c}", newSalary);
+         }
+
+        protected decimal? GetSelectedValue(RepeaterItem item)
+        {
+            decimal? retval = null;
+
+            Scenario scenario = item.DataItem as Scenario;
+            if (scenario != null)
+            {
+                if (scenario.SelectionType.Equals(SelectionType.NONE) == false)
+                {
+                    retval = SalaryScaleBLL.GetCriteriaListItems(Session[KEY_TITLE_CODE] as String)[scenario.SelectionType];
+                }
+            }
+
+            return retval;
         }
     }
 }
