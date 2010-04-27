@@ -500,7 +500,7 @@
                                 <ItemTemplate>
                                 <tr>
                                         <th>
-                                            <asp:Label ID="lblScenarioNumber" runat="server" Text='<%# Eval("ScenarioNumber") + "."%>'></asp:Label><asp:HiddenField ID="scenarioId" runat="server"
+                                            <asp:Label ID="lblScenarioNumber" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'></asp:Label><asp:HiddenField ID="scenarioId" runat="server"
                                                 Value='<%# Eval("ID") %>' />
                                         </th>
                                         <td>
@@ -527,7 +527,7 @@
                                 <AlternatingItemTemplate>
                                  <tr>
                                         <th>
-                                             <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%#Eval("ScenarioNumber") + "."%>'/><asp:HiddenField ID="scenarioIdAlt" runat="server"
+                                             <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'/><asp:HiddenField ID="scenarioIdAlt" runat="server"
                                                 Value='<%# Eval("ID") %>.' />
                                         </th>
                                         <td>
