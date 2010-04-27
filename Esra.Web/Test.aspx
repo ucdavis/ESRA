@@ -257,7 +257,7 @@
         <center>
             <asp:Label ID="Label1" Font-Bold="True" runat="server" Text="Employee Details" Font-Size="Large"></asp:Label></center>
         <br />
-        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Title Data Unavailable.">
+        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False">
             <HeaderStyle cssclass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -417,8 +417,9 @@
         <br />
     </div>
     <div id="divSAR">
-        <center><asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" 
-                Text="Salary Review Analysis" Font-Bold="True" Font-Size="Larger" ></asp:Label>
+        <center>
+            <asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" 
+                Text="Salary Review Analysis" Font-Bold="True" Font-Size="Large" ></asp:Label>
         </center><br />
         <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
             <%--<th colspan="2">Abbreviated Name</th>--%>
@@ -426,7 +427,8 @@
             <tr>
             <td>
                 <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" 
-                    AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis">
+                    AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" 
+                    EmptyDataText="Salary Review Analysis Data Unavailable." Width="717px">
                     <HeaderStyle cssclass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -439,7 +441,11 @@
                                 <asp:TextBox ID="tbDataApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>' ReadOnly="true"></asp:TextBox>
+                                <img id="button_calendar" alt="Calendar" src="images/common/Calendar_scheduleHS.png" />&nbsp;
+                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
+                                <ajax:CalendarExtender ID="tbDateApproved_CalendarExtender" runat="server" 
+                                    Format="MM/dd/yyyy" TargetControlID="tbDateApproved" CssClass="calendar" PopupButtonID="button_calendar">
+                                </ajax:CalendarExtender>
                                 <%--<asp:Label ID="lblDateApproved" runat="server" 
                                     Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:Label>--%>
                             </ItemTemplate>
