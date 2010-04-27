@@ -31,7 +31,7 @@
         </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="odsGvSalaryReviewAnalysis" runat="server" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
-            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
+            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL" DeleteMethod="Delete">
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="" Name="userId" SessionField="UserID" 
                     Type="String" />
@@ -157,8 +157,10 @@
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnSelect" runat="server" CausesValidation="False" CommandName="Select"
                                     Text="Select" ToolTip="Select" CssClass="buttons"></asp:LinkButton>
-                                &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False" CommandName="Delete"
-                                    Text="Delete" ToolTip="Delete" CssClass="buttons" OnClientClick="return confirm('Are you sure you want to delete this analysis?');"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False"
+                                 CommandName="Delete" CommandArgument='<%# ((CAESDO.Esra.Core.Domain.SalaryReviewAnalysis)Container.DataItem).ID %>'
+                                    Text="Delete" ToolTip="Delete" CssClass="buttons" OnClientClick="return confirm('Are you sure you want to delete this analysis?');" OnClick="gvSalaryReviewAnalysis_OnRowDeleting">
+                                    <img src="images/common/delete.png" alt="Delete" class="delete_button" /></asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Reference Number" SortExpression="ReferenceNumber">

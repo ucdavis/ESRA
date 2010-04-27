@@ -229,10 +229,14 @@ namespace CAESDO.Esra.Web
 
         protected void lbtnEdit_Click(object sender, EventArgs e)
         {
-            Session.Add(KEY_REFERENCE_NUM_INDEX, (int)ViewState[KEY_REFERENCE_NUM_INDEX]);
-            Session.Add(KEY_EMPLOYEE_ID_INDEX, (int)ViewState[KEY_EMPLOYEE_ID_INDEX]);
-            Session.Add(KEY_REVIEWER_NAME_INDEX, (int)ViewState[KEY_REVIEWER_NAME_INDEX]);
-            Session.Add(KEY_CREATION_DATE, (string)ViewState[KEY_CREATION_DATE]);
+            if (Session[KEY_REFERENCE_NUM_INDEX] == null)
+                Session.Add(KEY_REFERENCE_NUM_INDEX, (int)ViewState[KEY_REFERENCE_NUM_INDEX]);
+            if (Session[KEY_EMPLOYEE_ID_INDEX] == null)
+                Session.Add(KEY_EMPLOYEE_ID_INDEX, (int)ViewState[KEY_EMPLOYEE_ID_INDEX]);
+            if (Session[KEY_REVIEWER_NAME_INDEX] == null)
+                Session.Add(KEY_REVIEWER_NAME_INDEX, (int)ViewState[KEY_REVIEWER_NAME_INDEX]);
+            if (Session[KEY_CREATION_DATE] == null)
+                Session.Add(KEY_CREATION_DATE, (string)ViewState[KEY_CREATION_DATE]);
 
             int id = (int)Session[KEY_SALARY_REVIEW_ANALYSIS_ID];
             SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
@@ -241,13 +245,29 @@ namespace CAESDO.Esra.Web
         }
 
         protected void gvSalaryReviewAnalysis_OnRowDeleting(object sender, EventArgs e)
-        {
+        { 
+            /*
             GridView gv = sender as GridView;
-            GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
-            Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
+            if (gv != null)
+            {
+                GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
+                Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
 
-            SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
-
+                SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
+            }
+            else
+             * */
+            {
+                LinkButton button = sender as LinkButton;
+                if (button != null)
+                {
+                    int id = Convert.ToInt32(button.CommandArgument);
+                    SalaryReviewAnalysisBLL.DeleteRecord(id);
+                }
+            }
+            //GridViewDeleteEventArgs deleteEventArgs = e as GridViewDeleteEventArgs;
+            //deleteEventArgs.Cancel = true;
+           
             SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_DELETED_SUCCESS);
 
             ListItem item = ddlReferenceNumber.Items[0];
