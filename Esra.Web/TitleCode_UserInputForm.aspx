@@ -70,8 +70,8 @@
                         Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
                 </EditItemTemplate>
             </asp:TemplateField>
-             <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
-                SortExpression="TitleCode" ReadOnly="true"/>
+            <%-- <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
+                SortExpression="TitleCode" ReadOnly="true"/>--%>
             <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
                 SortExpression="BargainingCode"  ReadOnly="true"/>
             <asp:TemplateField HeaderText="Labor Market WAS" 
