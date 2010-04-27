@@ -292,7 +292,8 @@ document.write(month+"/"+today+"/"+year)
                     </Columns>
                 </asp:GridView>
                 <br />
-                Note: Highlighted dates have been altered from their PPS values.
+                <i style="background-color: #FFFF00">Note: Highlighted dates have been altered 
+                from their PPS values.</i>
                 <br />
                 <center>
                     <asp:Label runat="server" Font-Bold="true" Font-Size="Large" 
