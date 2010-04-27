@@ -27,7 +27,13 @@
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsCreatedBy" runat="server"></asp:ObjectDataSource>
+        
+         <asp:ObjectDataSource ID="odsCreatedBy" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetUsersInApplication" 
+            TypeName="CAESDO.Esra.Web.CatbertManager">
+           
+        </asp:ObjectDataSource>
+       
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
@@ -65,15 +71,16 @@
                             </asp:DropDownList>
                         </td>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AutoPostBack="True" DataSourceID="odsCreatedBy"
-                                DataTextField="FullName" DataValueField="ID">
+                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AutoPostBack="True" 
+                                DataTextField="FullName" DataValueField="EmployeeID" 
+                                DataSourceID="odsCreatedBy">
                                 <asp:ListItem>-- Select Created By --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td><ajax:CalendarExtender
-                                ID="ceCreationDate" runat="server" TargetControlID="lblCreationDate">
+                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate">
                             </ajax:CalendarExtender>
-                            &nbsp;<asp:Label ID="lblCreationDate" runat="server" Text=""/>
+                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" Text="" ReadOnly="true"/>
                         </td>
                     </tr>
                 </table>

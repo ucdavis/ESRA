@@ -104,13 +104,13 @@ namespace CAESDO.Esra.Web {
         protected global::AjaxControlToolkit.CalendarExtender ceCreationDate;
         
         /// <summary>
-        /// lblCreationDate control.
+        /// tbCreationDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreationDate;
+        protected global::System.Web.UI.WebControls.TextBox tbCreationDate;
         
         /// <summary>
         /// GridView1 control.

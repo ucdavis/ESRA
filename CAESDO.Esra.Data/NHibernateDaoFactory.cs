@@ -25,12 +25,15 @@ namespace CAESDO.Esra.Data
 
         public IEmployeeDao GetEmployeeDao() { return new EmployeeDao(); }
         public ISalaryScaleDao GetSalaryScaleDao() { return new SalaryScaleDao(); }
-
+        public IUnitDao GetUnitDao() { return new UnitDao(); }
+        public IUserDao GetUserDao() { return new UserDao(); }
+        
         #endregion
 
         #region Inline DAO implementations
 
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
+        public class UnitDao : AbstractNHibernateDao<Unit, string>, IUnitDao { }
 
         public class EmployeeDao : AbstractNHibernateDao<Employee, string>, IEmployeeDao
         {
@@ -142,6 +145,29 @@ namespace CAESDO.Esra.Data
             }
         }
 
+        public class UserDao : AbstractNHibernateDao<User, int>, IUserDao
+        {
+            public User GetUserByLogin(string LoginID)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Login))
+                    .Add(Expression.Eq("id", LoginID));
+
+                Login login = criteria.UniqueResult<Login>();
+
+                if (login == null)
+                    return null;
+
+                return login.User;
+            }
+
+            public User GetUserBySID(string SID)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(User))
+                    .Add(Expression.Eq("SID", SID));
+
+                return criteria.UniqueResult<User>();
+            }
+        }
         #endregion
     }
 }

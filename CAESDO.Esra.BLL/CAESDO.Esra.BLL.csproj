@@ -40,12 +40,15 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppExceptionBLL.cs" />
+    <Compile Include="UserBLL.cs" />
     <Compile Include="DepartmentBLL.cs" />
     <Compile Include="SalaryReviewAnalysisBLL.cs" />
+    <Compile Include="SelectionTypeBLL.cs" />
     <Compile Include="TitleBLL.cs" />
     <Compile Include="SalaryScaleBLL.cs" />
     <Compile Include="EmployeeBLL.cs" />

@@ -12,6 +12,8 @@ namespace CAESDO.Esra.Core.DataInterfaces
         IGenericDao<T, IdT> GetGenericDao<T, IdT>();
         IEmployeeDao GetEmployeeDao();
         ISalaryScaleDao GetSalaryScaleDao();
+        IUserDao GetUserDao();
+        IUnitDao GetUnitDao();
     }
 
     // There's no need to declare each of the DAO interfaces in its own file, so just add them inline here.
@@ -30,6 +32,14 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
     }
+
+    public interface IUserDao : IDao<User, int>
+    {
+        User GetUserByLogin(string LoginID);
+        User GetUserBySID(string SID);
+    }
+
+    public interface IUnitDao : IDao<Unit, string> { }
 
     #endregion
 }
