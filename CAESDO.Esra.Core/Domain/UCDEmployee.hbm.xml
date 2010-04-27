@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" dynamic-update="true">
+	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployees" dynamic-update="true">
 		<id name="id" access="field" column="EmployeeID" unsaved-value="0">
 			<generator class="assigned" />
 		</id>
@@ -12,22 +12,24 @@
 		<property name="FirstName" column="FirstName"  insert="false" update="false"/>
 		<property name="MiddleName" column="MiddleName"  insert="false" update="false"/>
 		<property name="LastName" column="LastName"  insert="false" update="false"/>
-		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TC"  insert="false" update="false"/>
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false" column="TC" foreign-key="TitleCode"/>
 		<property name="HireDate" column="HireDate"  insert="false" update="false"/>
 		<property name="BeginDate" column="BeginDate"  insert="false" update="false"/>
-		<property name="YearsInTitle" column="YearsInTitle"  insert="false" update="false"/>
+		<property name="YearsInTitle" column="YearsInTitle" insert="false" update="false"/>
 		<property name="PayRate" column="PayRate"  insert="false" update="false"/>
 		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"  insert="false" update="false"/>
 		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
 		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
-		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
+		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee_V">
 			<key column="EmployeeID"/>
-			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted"/>
-			<property name="CareerHireDate" column="CareerHireDate"/>
-			<property name="ApptHireDate" column="ApptHireDate" />
-			<property name="DepartmentComments" column="DepartmentComments" />
-			<property name="DeansOfficeComments" column="DeansOfficeComments" />
+			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" update="false"/>
+			<property name="CareerHireDate" column="CareerHireDate" update="false"/>
+			<property name="ApptHireDate" column="ApptHireDate" update="false"/>
+			<property name="DepartmentComments" column="DepartmentComments" update="false"/>
+			<property name="DeansOfficeComments" column="DeansOfficeComments" update="false"/>
+			<property name="YearsOfService" column="YearsOfService" update="false"/>
+			<property name="TimeInTitle" column="TimeInTitle" update="false"/>
 		</joined-subclass>
 	</class>
 </hibernate-mapping>
