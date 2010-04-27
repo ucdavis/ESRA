@@ -370,8 +370,6 @@ namespace CAESDO.Esra.Web
             }
             
             string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
-            string currentStepNumString = step.StepNumber;
-
             if(midStepNumbString.Equals(step.StepNumber))
             {
                 retval = true;
