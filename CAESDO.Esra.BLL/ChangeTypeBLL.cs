@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using CAESArch.BLL;
-using CAESDO.Esra.Core.DataInterfaces;
+﻿using System.ComponentModel;
 using CAESDO.Esra.Core.Domain;
 
 namespace CAESDO.Esra.BLL

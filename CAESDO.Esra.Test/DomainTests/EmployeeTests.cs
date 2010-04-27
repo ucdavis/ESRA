@@ -1,7 +1,4 @@
-﻿using CAESArch.BLL;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CAESDO.Esra.BLL;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CAESDO.Esra.Test.DomainTests
 {

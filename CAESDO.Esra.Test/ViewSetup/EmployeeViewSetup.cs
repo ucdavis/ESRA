@@ -1,5 +1,4 @@
 ﻿using CAESArch.Data.NHibernate;
-using System;
 
 namespace CAESDO.Esra.Test.ViewSetup
 {

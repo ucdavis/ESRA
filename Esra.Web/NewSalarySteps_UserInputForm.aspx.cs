@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
-using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.Web
 {

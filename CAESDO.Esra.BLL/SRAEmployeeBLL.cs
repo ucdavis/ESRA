@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
-using CAESArch.BLL;
-using CAESDO.Esra.Core.DataInterfaces;
+﻿using CAESArch.BLL;
 using CAESDO.Esra.Core.Domain;
-using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {

@@ -37,23 +37,19 @@
   <ItemGroup>
     <Reference Include="CAESArch.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dlls\CAESArch.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\Castle.DynamicProxy.dll</HintPath>
+      <HintPath>..\Bin\CAESArch.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>W:\Devel\Shared Libraries\Enterprise Library 3.0\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+      <HintPath>..\Bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=1.2.0.3001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="NHibernate, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\NHibernate.dll</HintPath>
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.Mapping.Attributes, Version=1.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\net 2.0\NHibernate\NHibernate.Mapping.Attributes.dll</HintPath>
+      <HintPath>..\Bin\NHibernate.Mapping.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
