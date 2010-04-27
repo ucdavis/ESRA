@@ -9,7 +9,7 @@ using CAESDO.Core.Domain;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
 using CAESOps;
-using CAESArch.BLL;
+
 
 namespace CAESDO.Esra.Web
 {
@@ -388,7 +388,7 @@ namespace CAESDO.Esra.Web
                             Title = emp.Title
                         };
 
-                    using (var ts = new TransactionScope())
+                    using (var ts = new CAESArch.BLL.TransactionScope())
                     {
                         EmployeeChangesBLL.EnsurePersistent(record);
                         ts.CommitTransaction();
