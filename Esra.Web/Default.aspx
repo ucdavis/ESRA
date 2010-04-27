@@ -122,9 +122,9 @@
                                                         </tr>
                                                     </table>
                                                 </td>
-                                            </tr>
+                                            <%--</tr>
                                             
-                                            <tr>
+                                            <tr>--%>
                                                 <td colspan="5">
                                                     <table>
                                                         <asp:Repeater runat="server" ID="rptSalarySteps"  OnItemDataBound="rtpSalary_OnItemDataBound" DataSource='<%# Eval("SalarySteps") %>'><HeaderTemplate><tr><th>Step</th><th>Annual</th><th>Monthly</th><th>Hourly</th></tr></HeaderTemplate>
