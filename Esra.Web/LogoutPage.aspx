@@ -13,6 +13,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
+    <center><asp:Label ID="lblPageTitle" runat="server" Text="ESRA Logout" Font-Bold="true" Font-Size="Larger" ></asp:Label></center>
+ <br />
+ <hr />
     <div id="cas">
         <div id="dialog">
             <div id="innerborder">
@@ -69,6 +72,8 @@
         </div>
     </div>
     <div id="divReturnToLoginPage">
+    <br />
+    <hr />
     <br />
         <p>
             &nbsp;<asp:HyperLink ID="hlLoginPage" runat="server" NavigateUrl="~/Default.aspx">Click here to be redirected to the Login Page.</asp:HyperLink>

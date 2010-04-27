@@ -17,6 +17,22 @@
 	text-align: left;
 }
 
+#master_header {
+	height: 124px;
+	width: 1000px;
+	/*margin: 0 auto;*/
+	padding: 0 0 0 10px;
+	text-align: left;
+}
+
+#.master_p 
+    {
+    	/* margin: 10px 0px 0px 39px !important; */
+		/* padding: 19px 39px 0 39px !important; */
+		margin: 0;
+		padding: 0.2em 0 0.3em;
+}
+
 /* table formatting */
 table {border-collapse: collapse;}
 tbody, table, tr {border: 0px none;}
@@ -50,7 +66,7 @@ tr.pagingnum td {padding: 5px 0 0 0;}
 tr.pagingnum td span, tr.pagingnum td a {padding: 0 0 0 10px;}
 
 
-#footer {
+#master_footer {
 	/*margin: 0 auto;*/
 	padding: 0 20px;
 	width: 935px;
