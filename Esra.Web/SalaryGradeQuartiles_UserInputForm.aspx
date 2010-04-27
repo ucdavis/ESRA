@@ -4,10 +4,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-  <center><asp:Label ID="lblPageTitle" runat="server" Text="Salary Grade Quartiles Maintenance" Font-Bold="true" Font-Size="Larger"></asp:Label></center>
- <br />
- <hr />
- <br />
+  <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Grade Quartiles Maintenance"></asp:Label></h1>
+ <div class="right_col_med">
+<div id="ESCR_table">
     <asp:ObjectDataSource ID="odsSalaryGradeQuartiles" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
         TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL" 
@@ -43,8 +42,9 @@
             OldValuesParameterFormatString="original_{0}" 
             SelectMethod="GetDistinctSalaryGrades" 
             TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL" ></asp:ObjectDataSource>
-        <br /><br />
     </div>
+    <div id="SGQUIF">
+    <h2 class="h2_black">&nbsp</h2>
     <asp:GridView ID="gvSalaryGradeQuartiles" runat="server" 
         DataSourceID="odsSalaryGradeQuartiles" AutoGenerateColumns="False" 
         AllowSorting="True" onrowdatabound="gvSalaryGradeQuartiles_OnRowDataBound" 
@@ -52,23 +52,24 @@
         OnRowUpdating="gvSalaryGradeQuartiles_RowUpdating" 
         onrowcommand="gvSalaryGradeQuartiles_RowCommand" 
         DataKeyNames="SalaryGrade,EffectiveDate" 
-        onselectedindexchanged="gvSalaryGradeQuartiles_SelectedIndexChanged">
+        onselectedindexchanged="gvSalaryGradeQuartiles_SelectedIndexChanged" GridLines="None">
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
             <%--<asp:CommandField ShowEditButton="True" ShowSelectButton="true" CausesValidation="true" ValidationGroup="UpdateRecord"/>
             --%><asp:TemplateField>
+            <ItemStyle Width="50px" />
             <ItemTemplate>
                     <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                        CommandName="Edit" Text="Edit" ToolTip="Edit" CssClass="buttons"><img src="images/common/edit.png" alt="Edit" class="edit_button"/></asp:LinkButton>
-                    <br /><asp:LinkButton ID="lbtnNew" runat="server" CausesValidation="False" 
-                        CommandName="Select" Text="New" ToolTip="New" CssClass="buttons"><img src="images/common/Document-new.png" alt="New" class="new_button"/></asp:LinkButton>
+                        CommandName="Edit" Text="Edit" ToolTip="Edit" CssClass="buttons"><img src="images/common/edit.png" alt="Edit" width="21px" height="21px" class="edit_button"/></asp:LinkButton>
+                    <asp:LinkButton ID="lbtnNew" runat="server" CausesValidation="False" 
+                        CommandName="Select" Text="New" ToolTip="New" CssClass="buttons"><img src="images/common/Document-new.png" alt="New" width="21px" height="21px" class="new_button"/></asp:LinkButton>
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="true" 
-                        CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons" ValidationGroup="UpdateRecord"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
+                        CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons" ValidationGroup="UpdateRecord"><img src="images/common/disk4.jpg" alt="Save" width="21px" height="21px" class="save_button"/></asp:LinkButton>
                     <br /><asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
-                        CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
+                        CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" width="21px" height="21px" class="cancel_button"/></asp:LinkButton>
                 </EditItemTemplate>
                 </asp:TemplateField>
             <asp:TemplateField HeaderText="Salary Grade" SortExpression="SalaryGrade">
@@ -247,6 +248,7 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+    </div>
         </asp:View>
         <asp:View ID="vInsertQuartile" runat="server" EnableViewState="false">
             <table>
@@ -327,5 +329,7 @@
             </table>
         </asp:View>
     </asp:MultiView>
+
+</div>    
     
 </asp:Content>
