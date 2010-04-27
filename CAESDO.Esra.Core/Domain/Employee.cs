@@ -6,16 +6,16 @@ using System.Globalization;
 namespace CAESDO.Esra.Core.Domain
 {
     [Serializable]
-    public class Employee : UCDEmployee, IComparable<Employee>
+    public class Employee : UCDEmployee, IComparable<UCDEmployee>
     {
         // Beginning of nested classes.
 
         // Nested class to do ascending sort on Home Department property.
-        private class sortHomeDepartmentAscendingHelper : IComparer<Employee>
+        protected class sortHomeDepartmentAscendingHelper : IComparer<UCDEmployee>
         {
-            #region IComparer<Employee> Members
+            #region IComparer<UCDEmployee> Members
 
-            public int Compare(Employee x, Employee y)
+            public int Compare(UCDEmployee x, UCDEmployee y)
             {
                 /*
                 * 
@@ -36,11 +36,11 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         // Nested class to do descending sort on on Home Department property.
-        private class sortHomeDepartmentDescendingHelper : IComparer<Employee>
+        protected class sortHomeDepartmentDescendingHelper : IComparer<UCDEmployee>
         {
-            #region IComparer<Employee> Members
+            #region IComparer<UCDEmployee> Members
 
-            public int Compare(Employee x, Employee y)
+            public int Compare(UCDEmployee x, UCDEmployee y)
             {
                 int deptOrder = String.Compare(y.HomeDepartment.Name, x.HomeDepartment.Name);
                 if (deptOrder == 0)
@@ -53,11 +53,11 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         // Nested class to do ascending sort on on Title.TitleCode property.
-        private class sortTitleAscendingHelper : IComparer<Employee>
+        protected class sortTitleAscendingHelper : IComparer<UCDEmployee>
         {
-            #region IComparer<Employee> Members
+            #region IComparer<UCDEmployee> Members
 
-            public int Compare(Employee x, Employee y)
+            public int Compare(UCDEmployee x, UCDEmployee y)
             {
                 int titleOrder = String.Compare(x.Title.TitleCode, y.Title.TitleCode);
                 if (titleOrder == 0)
@@ -70,11 +70,11 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         // Nested class to do descending sort on on Title.TitleCode property.
-        private class sortTitleDescendingHelper : IComparer<Employee>
+        protected class sortTitleDescendingHelper : IComparer<UCDEmployee>
         {
-            #region IComparer<Employee> Members
+            #region IComparer<UCDEmployee> Members
 
-            public int Compare(Employee x, Employee y)
+            public int Compare(UCDEmployee x, UCDEmployee y)
             {
                 int titleOrder = String.Compare(y.Title.TitleCode, x.Title.TitleCode);
                 if (titleOrder == 0)
@@ -88,7 +88,7 @@ namespace CAESDO.Esra.Core.Domain
 
         // End of nested classes.
 
-        private bool _CareerDateHasBeenAdjusted;
+        protected bool _CareerDateHasBeenAdjusted;
         // Not a database field.
         public virtual bool CareerDateHasBeenAdjusted
         {
@@ -121,7 +121,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _CareerHireDate = value; }
         }
 
-        private bool _ApptDateHasBeenAdjusted;
+        protected bool _ApptDateHasBeenAdjusted;
         // Not a database field.
         public virtual bool ApptDateHasBeenAdjusted
         {
@@ -153,7 +153,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _ApptHireDate = value; }
         }
 
-        private bool _DatesHaveBeenAdjusted;
+        protected bool _DatesHaveBeenAdjusted;
 
         public virtual bool DatesHaveBeenAdjusted
         {
@@ -161,7 +161,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _DatesHaveBeenAdjusted = value; }
         }
 
-        private DateTime? _CareerHireDate;
+        protected DateTime? _CareerHireDate;
 
         public virtual DateTime? CareerHireDate
         {
@@ -169,7 +169,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _CareerHireDate = value; }
         }
 
-        private DateTime? _ApptHireDate;
+        protected DateTime? _ApptHireDate;
 
         public virtual DateTime? ApptHireDate
         {
@@ -177,7 +177,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _ApptHireDate = value; }
         }
 
-        private DateTime? _ExperienceBeginDate;
+        protected DateTime? _ExperienceBeginDate;
 
         public virtual DateTime? ExperienceBeginDate
         {
@@ -185,34 +185,34 @@ namespace CAESDO.Esra.Core.Domain
             set { _ExperienceBeginDate = value; }
         }
 
-        private double? _YearsOfService;
+        protected double? _YearsOfService;
 
         public virtual double? YearsOfService
         {
             get { return _YearsOfService; }
             set { _YearsOfService = value; }
         }
-        private double? _TimeInTitle;
+        protected double? _TimeInTitle;
         public virtual double? TimeInTitle
         {
             get { return _TimeInTitle; }
             set { _TimeInTitle = value; }
         }
-        private double? _YearsOfExperience;
+        protected double? _YearsOfExperience;
         public virtual double? YearsOfExperience
         {
             get { return _YearsOfExperience; }
             set { _YearsOfExperience = value; }
         }
 
-        private string _DepartmentComments;
+        protected string _DepartmentComments;
 
         public virtual string DepartmentComments
         {
             get { return _DepartmentComments; }
             set { _DepartmentComments = value; }
         }
-        private string _DeansOfficeComments;
+        protected string _DeansOfficeComments;
 
         public virtual string DeansOfficeComments
         {
@@ -220,36 +220,36 @@ namespace CAESDO.Esra.Core.Domain
             set { _DeansOfficeComments = value; }
         }
 
-        public virtual int CompareTo(Employee item)
+        public virtual int CompareTo(UCDEmployee item)
         {
             return String.Compare(this.FullName, item.FullName);
         }
 
         // Method to return IComparer object for sort helper.
-        public static IComparer<Employee> sortHomeDepartmentAscending()
+        public static IComparer<UCDEmployee> sortHomeDepartmentAscending()
         {
-            return (IComparer<Employee>)new sortHomeDepartmentAscendingHelper();
+            return (IComparer<UCDEmployee>)new sortHomeDepartmentAscendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        public static IComparer<Employee> sortHomeDepartmentDescending()
+        public static IComparer<UCDEmployee> sortHomeDepartmentDescending()
         {
-            return (IComparer<Employee>)new sortHomeDepartmentDescendingHelper();
+            return (IComparer<UCDEmployee>)new sortHomeDepartmentDescendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        public static IComparer<Employee> sortTitleAscending()
+        public static IComparer<UCDEmployee> sortTitleAscending()
         {
-            return (IComparer<Employee>)new sortTitleAscendingHelper();
+            return (IComparer<UCDEmployee>)new sortTitleAscendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        public static IComparer<Employee> sortTitleDescending()
+        public static IComparer<UCDEmployee> sortTitleDescending()
         {
-            return (IComparer<Employee>)new sortTitleDescendingHelper();
+            return (IComparer<UCDEmployee>)new sortTitleDescendingHelper();
         }
 
-        public virtual bool Equals(Employee other)
+        public virtual bool Equals(UCDEmployee other)
         {
             if (this.FullName == other.FullName)
             {
