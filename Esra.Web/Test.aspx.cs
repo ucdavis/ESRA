@@ -11,6 +11,20 @@ namespace CAESDO.Esra.Web
 {
     public partial class Test : ApplicationPage
     {
+        protected static readonly string KEY_REFERENCE_NUM = "ReferenceNum";
+        protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
+        protected static readonly string KEY_TITLE_CODE = "TitleCode";
+        protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
+
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                string referenceNum = Request.QueryString["ReferenceNum"];
+                Session.Remove(
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //MultiView1.SetActiveView(vEmployees);
