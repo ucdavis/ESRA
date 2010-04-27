@@ -6,9 +6,9 @@ namespace CAESDO.Esra.Core.Domain
 {
     public class SalaryReviewAnalysis : DomainObject<SalaryReviewAnalysis, int>
     {
-        private string _ReferenceNumber;
+        private int _ReferenceNumber;
 
-        public virtual string ReferenceNumber
+        public virtual int ReferenceNumber
         {
             get { return _ReferenceNumber; }
             set { _ReferenceNumber = value; }
@@ -71,11 +71,20 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private string _InitiatedByReviewerName;
-
+        // The name of the reviewer who first begin this analysis.
         public virtual string InitiatedByReviewerName
         {
             get { return _InitiatedByReviewerName; }
             set { _InitiatedByReviewerName = value; }
+        }
+
+        private Department _OriginatingDepartment;
+        // The department whom originated this request, probably the same department as  
+        // one for which the "InitiatedByReviewerName" works.
+        public virtual Department OriginatingDepartment
+        {
+            get { return _OriginatingDepartment; }
+            set { _OriginatingDepartment = value; }
         }
 
         public SalaryReviewAnalysis()
