@@ -29,7 +29,7 @@
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Save"
                                 CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Text="Update"
-                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>&nbsp;<asp:LinkButton
+                                ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand" ValidationGroup="Update"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>&nbsp;<asp:LinkButton
                                     ID="lbtnCancelUpdate" runat="server" CausesValidation="False" CommandName="Exit"
                                     Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
@@ -94,12 +94,12 @@
                                                 <td>
                                                     <asp:TextBox ID="tbStepNumber2" runat="server" Text='<%# Bind("StepNumber") %>' OnTextChanged="tbStepNumber_OnTextChanged" />
                                                     <asp:RequiredFieldValidator
-                                                            ID="tbStepNumber2RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber2" ></asp:RequiredFieldValidator>
+                                                            ID="tbStepNumber2RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber2" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
                                                         OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox><asp:RequiredFieldValidator
-                                                            ID="tbSalaryAmountRequiredFieldValidator" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual2" InitialValue="$0.00"></asp:RequiredFieldValidator>
+                                                            ID="tbSalaryAmountRequiredFieldValidator" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual2" InitialValue="$0.00" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblMonthly2" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'></asp:Label>
@@ -119,13 +119,13 @@
                                                     <asp:TextBox ID="tbStepNumber3" runat="server" Text='<%# Bind("StepNumber") %>' CssClass="tb_alt"
                                                         OnTextChanged="tbStepNumber_OnTextChanged" />
                                                          <asp:RequiredFieldValidator
-                                                            ID="tbStepNumber3RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber3" ></asp:RequiredFieldValidator>
+                                                            ID="tbStepNumber3RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber3" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
                                                         CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                                         <asp:RequiredFieldValidator
-                                                            ID="tbSalaryAmountRequiredFieldValidator2" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual3" InitialValue="$0.00"></asp:RequiredFieldValidator>
+                                                            ID="tbSalaryAmountRequiredFieldValidator2" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual3" InitialValue="$0.00" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
                                                     <asp:Label ID="lblMonthly3" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'
@@ -189,7 +189,7 @@
                     <asp:TemplateField ShowHeader="false">
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" OnClick="lbtnEdit_Click"
-                                Text="Edit" ToolTip="Edit" CssClass="buttons"><%--<img src="images/common/edit.png" alt="Edit" class="edit_button"/>--%></asp:LinkButton></ItemTemplate>
+                                Text="Edit" ToolTip="Edit" CssClass="buttons"><img src="images/common/edit.png" alt="Edit" class="edit_button"/></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title">
                         <EditItemTemplate>
@@ -275,8 +275,9 @@
         </asp:View>
     </asp:MultiView>
     <p>
-        &nbsp;&nbsp;<asp:ImageButton ID="imgBackButton" runat="server" CssClass="back_button" ImageUrl="images/common/arrow_left.jpg" alt="Back" OnClick="lbtnBack_Click"/>&nbsp;<asp:LinkButton ID="lbtnBack" runat="server" ToolTip="Back" CssClass="buttons"
-            OnClick="lbtnBack_Click" Text="Back"/></p>
+        &nbsp;&nbsp;<asp:ImageButton ID="imgBackButton" runat="server" CssClass="back_button" ImageUrl="images/common/arrow_left.jpg" alt="Back" OnClick="lbtnBack_Click"/>&nbsp;<asp:LinkButton 
+            ID="lbtnBack" runat="server" ToolTip="Back" CssClass="buttons"
+            OnClick="lbtnBack_Click" Text="Back" CausesValidation="false"/></p>
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL"
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScale">
         <SelectParameters>

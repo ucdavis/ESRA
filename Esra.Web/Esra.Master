@@ -22,22 +22,23 @@
 	    <asp:ImageButton ID="imgBtn" runat="server" 
                             ImageUrl="~/images/common/home_icon-full.jpg"  
                             Height="22px" Width="22px" BackColor="Transparent" 
-                    PostBackUrl="~/Default.aspx" ToolTip="Home"></asp:ImageButton>
+                    PostBackUrl="~/Default.aspx" ToolTip="Home" 
+            CausesValidation="False"></asp:ImageButton>
 	</div>
 	<asp:Panel ID="pnlNav" runat="server">
 	<div id="nav">
 	<ul id="ul_nav">
 	    <li>
-            <center><asp:ImageButton ID="ImageButton6" runat="server" ImageUrl="~/images/common/salary_scales.png" AlternateText="Employee Salary Comparison" PostBackUrl="~/EmployeeSalaryComparisonPage.aspx" ToolTip="Salary Scales & Employee Salary Comparison"/></center>
+            <center><asp:ImageButton ID="ImageButton6" runat="server" ImageUrl="~/images/common/salary_scales.png" AlternateText="Employee Salary Comparison" PostBackUrl="~/EmployeeSalaryComparisonPage.aspx" ToolTip="Salary Scales & Employee Salary Comparison" CausesValidation="false"/></center>
             <br /><a href="EmployeeSalaryComparisonPage.aspx">Employee Salary Comparison</a></li>
         <li>
-            <center><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis"/></center>
+            <center><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis" CausesValidation="false"/></center>
             <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review Analysis</a></li>
             <asp:Panel ID="pnlAdminMaintenance" runat="server" >
             
             
 	    <li class="nav2">
-	         <center><asp:ImageButton ID="ImageButton5" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance"/></center><br />
+	         <center><asp:ImageButton ID="ImageButton5" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance" CausesValidation="false"/></center><br />
 	            <asp:HyperLink ID="HyperLink1" runat="server">Maintenance</asp:HyperLink>
 	            <ul>
 	                <li><a href="TitleCode_UserInputForm.aspx">Title Codes</a></li>
@@ -46,7 +47,7 @@
 	            </ul>
 	    </li>
 	    <li class="nav2">
-            <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx"/></center>
+            <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx" CausesValidation="false"/></center>
             <br /><a href="UserAdminPage.aspx">User Administration</a>
         </li>
         
@@ -59,8 +60,8 @@
         <li>
             <center><asp:ImageButton ID="ImageButton4" runat="server" ImageUrl="~/images/common/logout.png" AlternateText="Logout" 
                     ToolTip="Logout" 
-                    onclick="imgBtnLogout_Click"/></center>
-            <br /><asp:LinkButton ID="lbtnLogout" runat="server" ToolTip="CAS Logout" OnClick="imgBtnLogout_Click" >CAS Logout</asp:LinkButton>
+                    onclick="imgBtnLogout_Click" CausesValidation="false"/></center>
+            <br /><asp:LinkButton ID="lbtnLogout" runat="server" ToolTip="CAS Logout" OnClick="imgBtnLogout_Click" CausesValidation="false">CAS Logout</asp:LinkButton>
        </li>
 	</ul>
 	</div>
@@ -108,7 +109,7 @@
             <div id="main">
                 <div class="title">
                <center><p class="master_p">
-                    <asp:LinkButton ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger" PostBackUrl="~/Default.aspx" ToolTip="Home" CssClass="title"></asp:LinkButton></p></center>
+                    <asp:LinkButton ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger" PostBackUrl="~/Default.aspx" ToolTip="Home" CssClass="title" CausesValidation="false"></asp:LinkButton></p></center>
                     <asp:Label ID="lbl_Message" runat="server" Text="Unable to delete record: Child records exist." Visible="False" Font-Bold="False"
                         Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;
                     <ajax:AnimationExtender ID="AutomationExtender1" runat="server" TargetControlID="lbl_Message">

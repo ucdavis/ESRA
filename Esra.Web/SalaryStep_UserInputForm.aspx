@@ -31,7 +31,7 @@
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Save" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>'
-                            Text="Update" ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
+                            Text="Update" ToolTip="Save" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand" ValidationGroup="Update"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
                         &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False"
                             CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
                     </EditItemTemplate>
@@ -142,6 +142,13 @@
                                             <td>
                                                 <asp:TextBox ID="tbAnnual" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
                                             AutoPostBack="true"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="tbAnnualRequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Annual $"
+                                                             Display="Dynamic" Text="Amount > $0 Required!"
+                                                             ControlToValidate="tbAnnual"
+                                                             InitialValue="$0.00"
+                                                             ValidationGroup="Update">
+                                                </asp:RequiredFieldValidator>
                                             </td>
                                             <td>
                                                 <asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>'></asp:Label>
@@ -163,6 +170,13 @@
                                             <td>
                                                 <asp:TextBox ID="tbAnnualAlt" runat="server" Text='<%# Bind("Annual", "{0:c}") %>' CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged"
                                             AutoPostBack="true"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="tbAnnualAltRequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Annual $"
+                                                             Display="Dynamic" Text="Amount > $0 Required!"
+                                                             ControlToValidate="tbAnnualAlt"
+                                                             InitialValue="$0.00"
+                                                             ValidationGroup="Update">
+                                                </asp:RequiredFieldValidator>
                                             </td>
                                             <td>
                                                 <asp:Label ID="lblMonthlyAlt" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>' CssClass="tb_alt"></asp:Label>
@@ -191,8 +205,17 @@
             <ItemTemplate>
                 <tr style="">
                     <td>
-                        <asp:Button ID="SaveButton" runat="server" CommandName="Update" CommandArgument='<%# Container %>' Text="Save" OnCommand="lvNewSalaryScale_OnCommand"/>
-                        <asp:Button ID="CancelButton" runat="server" CommandName="Close" Text="Cancel" OnCommand="lvNewSalaryScale_OnCommand"/>
+                     <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Update" 
+                            Text="Save" ToolTip="Save" CssClass="buttons" OnCommand="lvNewSalaryScale_OnCommand"
+                            CommandArgument='<%# Container %>'><img src="images/common/disk4.jpg" alt="Save"
+                             class="save_button"/></asp:LinkButton>
+                        &nbsp;
+                        <asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False"
+                            CommandName="Close" Text="Cancel" ToolTip="Close" CssClass="buttons"
+                            OnCommand="lvNewSalaryScale_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
+                        
+                        <%--<asp:Button ID="SaveButton" runat="server" CommandName="Update" CommandArgument='<%# Container %>' Text="Save" OnCommand="lvNewSalaryScale_OnCommand"/>
+                        <asp:Button ID="CancelButton" runat="server" CommandName="Close" Text="Cancel" OnCommand="lvNewSalaryScale_OnCommand"/>--%>
                     </td>
                     <td>
                         <asp:Label ID="TitleLabel" runat="server" Text='<%# Eval("Title.PayrollTitle") %>' />
@@ -202,6 +225,12 @@
                     </td>
                     <td>
                         <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>' />
+                         <asp:CompareValidator ID="cvEffectiveDate" runat="server" ErrorMessage="Effective Date" Display="Dynamic"
+                    Text="Bad Date Format!" ControlToValidate="tbEffectiveDate" Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
+                    <asp:RequiredFieldValidator ID="tbEffectiveDateRequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Effective Date"
+                                                             Display="Dynamic" Text="Date Required!"
+                                                             ControlToValidate="tbEffectiveDate"></asp:RequiredFieldValidator>
                     </td>
                     <td>
                         <asp:Label ID="NumSalaryStepsLabel" runat="server" Text='<%# Eval("SalarySteps.Count") %>' />
@@ -241,6 +270,12 @@
                                     <td>
                                         <asp:TextBox ID="tbAnnual2" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged"
                                             AutoPostBack="true"></asp:TextBox>
+                                            <asp:CompareValidator ID="cvAnnual2" runat="server" ErrorMessage="Annual $" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbAnnual2" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
+                    <asp:RequiredFieldValidator ID="tbAnnual2RequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Annual $"
+                                                             Display="Dynamic" Text="Value Required!"
+                                                             ControlToValidate="tbAnnual2"></asp:RequiredFieldValidator>
                                     </td>
                                     <td>
                                         <asp:Label ID="lblMonthly2" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>'></asp:Label>
@@ -258,6 +293,12 @@
                                     <td>
                                         <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>' CssClass="tb_alt"
                                             OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:CompareValidator ID="cvAnnual3" runat="server" ErrorMessage="Annual $" Display="Dynamic"
+                    Text="Bad Number Format!" ControlToValidate="tbAnnual3" Operator="DataTypeCheck" Type="Currency"></asp:CompareValidator>
+                    <asp:RequiredFieldValidator ID="tbAnnual3RequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Annual $"
+                                                             Display="Dynamic" Text="Value Required!"
+                                                             ControlToValidate="tbAnnual3"></asp:RequiredFieldValidator>
                                     </td>
                                     <td>
                                         <asp:Label ID="lblMonthly3" runat="server" Text='<%# Eval("Monthly" ,"{0:c}") %>' CssClass="tb_alt"></asp:Label>
@@ -371,6 +412,12 @@
                     </td>
                     <td>
                         <asp:TextBox ID="EffectiveDateTextBox" runat="server" Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>' />
+                        <asp:CompareValidator ID="cvEffectiveDateTextBox" runat="server" ErrorMessage="Effective Date" Display="Dynamic"
+                    Text="Bad Date Format!" ControlToValidate="EffectiveDateTextBox" Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
+                    <asp:RequiredFieldValidator ID="EffectiveDateTextBoxRequiredFieldValidator" runat="server"
+                                                             ErrorMessage="Effective Date"
+                                                             Display="Dynamic" Text="Date Required!"
+                                                             ControlToValidate="EffectiveDateTextBox"></asp:RequiredFieldValidator>
                     </td>
                     <td>
                         <asp:TextBox ID="NumSalaryStepsTextBox" runat="server" Text='<%# Bind("NumSalarySteps") %>' />
