@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppExceptionBLL.cs" />
+    <Compile Include="EmployeeBLL.cs" />
     <Compile Include="GenericBLL.cs" />
     <Compile Include="GenericId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

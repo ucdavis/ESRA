@@ -65,9 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\NHibernateSessionModule.cs" />
+    <Content Include="App_Code\ApplicationPage.cs" />
     <Compile Include="Default.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -78,6 +79,14 @@
     <ProjectReference Include="..\CAESDO.Esra.BLL\CAESDO.Esra.BLL.csproj">
       <Project>{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}</Project>
       <Name>CAESDO.Esra.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAESDO.Esra.Core\CAESDO.Esra.Core.csproj">
+      <Project>{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}</Project>
+      <Name>CAESDO.Esra.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAESDO.Esra.Data\CAESDO.Esra.Data.csproj">
+      <Project>{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}</Project>
+      <Name>CAESDO.Esra.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

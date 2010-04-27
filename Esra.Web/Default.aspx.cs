@@ -11,7 +11,6 @@ using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
-using CAESDO.Esra.BLL;
 using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.Web
@@ -20,10 +19,11 @@ namespace CAESDO.Esra.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
             AppException exception = AppExceptionBLL.GetByID(21);
 
             Response.Write(string.Format("{0}: {1}", exception.ID, exception.DateException.ToShortDateString()));
-
+            */
             /*
             exception.DateException = DateTime.Now;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public class UCDEmployee : DomainObject<UCDEmployee, int>
+    public abstract class UCDEmployee : DomainObject<UCDEmployee, int>
     {
         protected string _EmployeeID;
 
@@ -94,13 +94,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _BeginDate = value; }
         }
 
-        protected decimal _YearsInTitle;
+        protected double _YearsInTitle;
 
-        public virtual decimal YearsInTitle
+        public virtual double YearsInTitle
         {
             get { return _YearsInTitle; }
             set { _YearsInTitle = value; }
         }
+
         protected double _PayRate;
 
         public virtual double PayRate

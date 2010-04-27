@@ -51,7 +51,7 @@ namespace CAESDO.Esra.Data
         private void InitSessionFactory()
         {
             Configuration NHibernateConfig = new Configuration().Configure();
-            System.Reflection.Assembly coreAssembly = System.Reflection.Assembly.Load("CAESDO.NHibernatev2.Core");
+            System.Reflection.Assembly coreAssembly = System.Reflection.Assembly.Load("CAESDO.Esra.Core");
 
             NHibernateConfig.AddInputStream(NHibernate.Mapping.Attributes.HbmSerializer.Default.Serialize(coreAssembly));
 
