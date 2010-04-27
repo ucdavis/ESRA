@@ -54,12 +54,12 @@ namespace CAESDO.Esra.Data
                 return retval;
             }
 
-            public IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string employeeID, string departmentID)
+            public IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, int? pkEmployee, string departmentID)
             {
                 IList<Employee> retval = null;
 
-                if ((String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))&& 
-                    (String.IsNullOrEmpty(employeeID) || employeeID.Equals("0")) &&
+                if ((String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))&&
+                    ((pkEmployee == null) || pkEmployee == 0) &&
                     (String.IsNullOrEmpty(departmentID) || departmentID.Equals("0")))
                 {
                     retval = GetAll(propertyName, ascending);
@@ -74,14 +74,14 @@ namespace CAESDO.Esra.Data
                         criteria.CreateAlias("Title", "Title");
                         conjunction.Add(Expression.Eq("Title.TitleCode", titleCode));
                     }
-                    if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
+                    if (pkEmployee != null && pkEmployee != 0)
                     {
-                         conjunction.Add(Expression.Eq("id", employeeID));
+                         conjunction.Add(Expression.Eq("id", pkEmployee));
                     }
                     if (String.IsNullOrEmpty(departmentID) == false && departmentID.Equals("0") == false)
                     {
                         criteria.CreateAlias("HomeDepartment", "Department");
-                        conjunction.Add(Expression.Eq("Department.id", Convert.ToInt32(departmentID)));
+                        conjunction.Add(Expression.Eq("Department.id", departmentID));
                     }
                     criteria.Add(conjunction);
 
