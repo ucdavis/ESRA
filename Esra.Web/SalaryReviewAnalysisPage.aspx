@@ -566,7 +566,7 @@
                                 <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Title Code">
+                        <%--<asp:TemplateField HeaderText="Title Code">
                             <EditItemTemplate>
                                 <asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>' />
                             </EditItemTemplate>
@@ -581,7 +581,7 @@
                             <ItemTemplate>
                                 <asp:Label ID="Label2" runat="server" Text='<%# Eval("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
-                        </asp:TemplateField>
+                        </asp:TemplateField>--%>
                         <asp:TemplateField HeaderText="Employee Name">
                             <EditItemTemplate>
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
