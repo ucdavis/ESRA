@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public class Department : DomainObject<Department, int>
+    public class Department : DomainObject<Department, string>
     {
         private string _DepartmentNumber;
 
