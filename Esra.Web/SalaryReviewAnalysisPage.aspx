@@ -328,14 +328,14 @@
                             <ItemTemplate>
                                 <asp:Repeater runat="server" DataSource='<%# Eval("Scenarios") %>'>
                                 <HeaderTemplate><table>
-                                <tr><th>Scenario #</th>
+                                <tr class="tr_subhead"><th>Scenario</th>
                                 <th>Criteria</th>
                                 <th>% Increase</th>
-                                <th>New Salary Amount</th>
+                                <th>New Salary $</th>
                                 <th>Approved</th></tr></HeaderTemplate>
                                 
                                 <ItemTemplate>
-                                <tr><td><%# Eval("ScenarioNumber") %></td>
+                                <tr><td style="font-weight:bold"><%# Eval("ScenarioNumber") %>.</td>
                                 <td><asp:DropDownList runat="server" ID="ddlSelectionType"  DataValueField="Key" DataTextField="Key" DataSourceID="odsCriteria" Enabled="false" SelectedValue='<%# Eval("SelectionType") %>'></asp:DropDownList></td>
                                 <td><%# Eval("PercentIncrease", "{0:p}") %></td>
                                 <td><%# Eval("SalaryAmount", "{0:c}") %></td>
