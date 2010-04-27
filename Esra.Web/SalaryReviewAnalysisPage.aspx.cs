@@ -14,14 +14,20 @@ using System.Collections.Generic;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class SalaryReviewAnalysis : ApplicationPage
+    public partial class SalaryReviewAnalysisPage : ApplicationPage
     {
+        protected static readonly string KEY_SALARY_REVIEW_ANALYSIS_ID = "CurrentSarID";
+        protected static readonly string KEY_EMPLOYEE_ID = "CurrentEmployeeID";
+        protected static readonly string KEY_TITLE_ID = "CurrentTitleCode";
+
         protected void Page_Init(object sender, EventArgs e)
         {
             // Scott says to put logic for query string parsing in the Page_Init method.
 
             if (!IsPostBack)
             {
+                Session.Remove(KEY_EMPLOYEE_ID);
+                Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
                 tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
             }
         }
@@ -61,6 +67,24 @@ namespace CAESDO.Esra.Web
             string id = ddl.SelectedValue;
             string redirectURL = "~/Test.aspx?EmployeeID=" + id;
             Response.Redirect(redirectURL);
+        }
+
+        protected void gvSalaryReviewAnalysis_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int id = (int)((GridView)sender).SelectedValue;
+            if (id > 0)
+            {
+                Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
+                CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sar = SalaryReviewAnalysisBLL.GetByID(id);
+                Session.Add(KEY_EMPLOYEE_ID, sar.Employee.ID);
+                //odsSAREmployee.DataBind();
+                //odsTitle.DataBind();
+                MultiView1.SetActiveView(vSalaryReviewAnalysis);
+            }
+            else
+            {
+                MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
+            }
         }
     }
 }
