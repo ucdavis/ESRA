@@ -390,7 +390,7 @@ namespace CAESDO.Esra.Web
                             createChangeRecord = true;
                         }
                     }
-                    else if (!oldValue.Equals(newValue))
+                    else if (!newValue.Equals(oldValue.ToString()))
                     {
                         // create change record
                         createChangeRecord = true;
