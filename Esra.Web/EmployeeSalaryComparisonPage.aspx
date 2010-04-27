@@ -315,10 +315,11 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-</li></ul __designer:mapid="d80">                
+</li></ul __designer:mapid="2be">                
 <%--</td></tr></tbody></table> --%>
 <p class="note">Items highlighted in <span class="light_green">light green</span> indicate a 
-    change from pps.</p>
+    change from PPS.<br />
+    Dates with <span class="bold">bolded</span> text have been validated to be correct in PPS.</p>
 <h2 class="h2_black"><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" ></asp:Label>
 <asp:Button ID="btnExportToExcel" runat="server" OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" /></h2>
 
