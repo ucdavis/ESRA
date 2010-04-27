@@ -1,7 +1,15 @@
 ﻿USE [ESRA]
 GO
 
-/****** Object:  View [dbo].[UCDEmployee]    Script Date: 07/01/2009 13:35:51 ******/
+/****** Object:  View [dbo].[UCDEmployee]    Script Date: 03/24/2010 11:27:06 ******/
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[UCDEmployee]'))
+DROP VIEW [dbo].[UCDEmployee]
+GO
+
+USE [ESRA]
+GO
+
+/****** Object:  View [dbo].[UCDEmployee]    Script Date: 03/24/2010 11:27:07 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,32 +19,33 @@ GO
 CREATE VIEW [dbo].[UCDEmployee]
 AS
 SELECT DISTINCT 
-                      TOP (100) PERCENT APTDIS_V.EmployeeID + APTDIS_V.TitleCode AS PkEmployee, APTDIS_V.EmployeeID, APTDIS_V.HomeDepartment AS HomeDept, 
-                      APTDIS_V.WorkDepartment AS WorkDept, CASE APTDIS_V.HOMEDEPARTMENT WHEN APTDIS_V.WORKDEPARTMENT THEN '' ELSE 1 END AS Different, 
-                      APTDIS_V.FullName AS EmpName, Persons.FirstName, Persons.MiddleName, Persons.LastName, APTDIS_V.TitleCode AS TC, CONVERT(varchar(10), 
-                      APTDIS_V.HireDate, 101) AS HireDate, CONVERT(varchar(10), APTDIS_V.ApptBeginDate, 101) AS BeginDate, 
-                      CASE APTDIS_V.RATECODE WHEN 'H' THEN APTDIS_V.PAYRATE * 2080 WHEN 'B' THEN APTDIS_V.PAYRATE * 12 ELSE APTDIS_V.PAYRATE END AS PayRate, 
-                      APTDIS_V.TypeCode AS ApptType, APTDIS_V.Grade AS SalaryGrade, APTDIS_V.TitleUnitCode AS BargainingUnit, APTDIS_V.Step AS SalaryStep
-FROM         PPSDataMart.dbo.APTDIS_V AS APTDIS_V INNER JOIN
-                      PPSDataMart.dbo.Persons AS Persons ON APTDIS_V.EmployeeID = Persons.EmployeeID
-WHERE     (APTDIS_V.PayRate IN
-                          (SELECT     MAX(PayRate) AS Expr1
-                            FROM          PPSDataMart.dbo.APTDIS_V AS adv
-                            WHERE      (APTDIS_V.EmployeeID = EmployeeID) AND (ApptEndDate IS NULL OR
-                                                   ApptEndDate > GETDATE()) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
-                                                   PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7')))) AND 
-                      (APTDIS_V.DistNo IN
-                          (SELECT     TOP (1) DistNo
-                            FROM          PPSDataMart.dbo.APTDIS_V AS APTDIS_V_1
-                            WHERE      (ApptEndDate IS NULL OR
-                                                   ApptEndDate > GETDATE()) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
-                                                   PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7')))) AND 
-                      (APTDIS_V.ApptBeginDate IN
-                          (SELECT     MAX(ApptBeginDate) AS Expr1
-                            FROM          PPSDataMart.dbo.APTDIS_V AS APTDIS_V_2
-                            WHERE      (ApptBeginDate <= GETDATE()) AND (ApptEndDate IS NULL OR
-                                                   ApptEndDate > GETDATE()) AND (EmployeeID = APTDIS_V.EmployeeID) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
-                                                   PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7'))))
+                         TOP (100) PERCENT APTDIS_V.EmployeeID + APTDIS_V.TitleCode AS PkEmployee, APTDIS_V.EmployeeID, APTDIS_V.AdministrativeDepartment AS AdminDept, 
+                         APTDIS_V.HomeDepartment AS HomeDept, APTDIS_V.WorkDepartment AS WorkDept, 
+                         CASE APTDIS_V.HOMEDEPARTMENT WHEN APTDIS_V.WORKDEPARTMENT THEN '' ELSE 1 END AS Different, APTDIS_V.FullName AS EmpName, 
+                         Persons.FirstName, Persons.MiddleName, Persons.LastName, APTDIS_V.TitleCode AS TC, CONVERT(varchar(10), APTDIS_V.HireDate, 101) AS HireDate, 
+                         CONVERT(varchar(10), APTDIS_V.ApptBeginDate, 101) AS BeginDate, 
+                         CASE APTDIS_V.RATECODE WHEN 'H' THEN APTDIS_V.PAYRATE * 2080 WHEN 'B' THEN APTDIS_V.PAYRATE * 12 ELSE APTDIS_V.PAYRATE END AS PayRate, 
+                         APTDIS_V.TypeCode AS ApptType, APTDIS_V.Grade AS SalaryGrade, APTDIS_V.TitleUnitCode AS BargainingUnit, APTDIS_V.Step AS SalaryStep
+FROM            PPSDataMart.dbo.APTDIS_V AS APTDIS_V INNER JOIN
+                         PPSDataMart.dbo.Persons AS Persons ON APTDIS_V.EmployeeID = Persons.EmployeeID
+WHERE        (APTDIS_V.PayRate IN
+                             (SELECT        MAX(PayRate) AS Expr1
+                               FROM            PPSDataMart.dbo.APTDIS_V AS adv
+                               WHERE        (APTDIS_V.EmployeeID = EmployeeID) AND (ApptEndDate IS NULL OR
+                                                         ApptEndDate > GETDATE()) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
+                                                         PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7')))) AND 
+                         (APTDIS_V.DistNo IN
+                             (SELECT        TOP (1) DistNo
+                               FROM            PPSDataMart.dbo.APTDIS_V AS APTDIS_V_1
+                               WHERE        (ApptEndDate IS NULL OR
+                                                         ApptEndDate > GETDATE()) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
+                                                         PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7')))) AND 
+                         (APTDIS_V.ApptBeginDate IN
+                             (SELECT        MAX(ApptBeginDate) AS Expr1
+                               FROM            PPSDataMart.dbo.APTDIS_V AS APTDIS_V_2
+                               WHERE        (PayRate > 0) AND (ApptBeginDate <= GETDATE()) AND (ApptEndDate IS NULL OR
+                                                         ApptEndDate > GETDATE()) AND (EmployeeID = APTDIS_V.EmployeeID) AND (PayBegin <= GETDATE()) AND (PayEnd IS NULL OR
+                                                         PayEnd > GETDATE()) AND (DOSCode = 'REG') AND (EmployeeID = APTDIS_V.EmployeeID) AND (TypeCode IN ('2', '7'))))
 ORDER BY PkEmployee
 
 GO
@@ -139,8 +148,18 @@ Begin DesignProperties =
    Begin DataPane = 
       Begin ParameterDefaults = ""
       End
-      Begin ColumnWidths = 9
+      Begin ColumnWidths = 19
          Width = 284
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
          Width = 1500
          Width = 1500
          Width = 1500
@@ -154,7 +173,7 @@ Begin DesignProperties =
    Begin CriteriaPane = 
       Begin ColumnWidths = 11
          Column = 1440
-         Alias = 900
+         Alias = 1290
          Table = 1170
          Output = 720
          Append = 1400
