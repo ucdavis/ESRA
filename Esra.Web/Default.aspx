@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CAESDO.Esra.Web._Default" %>
 
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
@@ -9,6 +11,8 @@
 <body>
     <form id="form1" runat="server">
     <div>
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
     Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
@@ -148,32 +152,46 @@
     </div>
     <hr />
     <div>
-         &nbsp;&nbsp;<asp:ListBox ID="lbxTitleCodes" runat="server" 
+                <cc1:ListSearchExtender ID="ListSearchExtender1" runat="server" 
+             TargetControlID="lbxTitleCodes" >
+                    </cc1:ListSearchExtender>
+                <cc1:ListSearchExtender ID="ListSearchExtender2" runat="server" 
+             TargetControlID="lbxDepartment">
+         </cc1:ListSearchExtender>
+         <cc1:ListSearchExtender ID="ListSearchExtender3" runat="server" 
+             TargetControlID="ddlEmployee" >
+         </cc1:ListSearchExtender>
+         <br />
+         <table>
+            <tr>
+                <td rowspan="2"><asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple">
             <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
-        </asp:ListBox>
-        
-        &nbsp;&nbsp;<asp:ListBox ID="lbxDepartment" runat="server" 
+        </asp:ListBox></td>
+                <td rowspan="2"><asp:ListBox ID="lbxDepartment" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsDepartments" 
             DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
-        </asp:ListBox>
-        <asp:DropDownList ID="ddlEmployee" runat="server" 
+        </asp:ListBox></td>
+                <td><asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
-            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
-            >
+            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Any Employee --</asp:ListItem>
-        </asp:DropDownList>
-&nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
-            Text="Get Employee Salary Report" />
-            <br />
-        <br />
+        </asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td><asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
+            Text="Get Employee Salary Report" /></td>
+            </tr>
         
+         </table>
+         
         <br />
+       
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vEmployees" runat="server" >
                 <center><asp:Label ID="lblEmployeeSalaryReportTitle" runat="server" Font-Bold="True" 
