@@ -29,6 +29,7 @@
 		<property name="PayRate" column="PayRate"  insert="false" update="false"/>
 		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"  insert="false" update="false"/>
 		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
+		<property name="SalaryStep" column="SalaryStep"  insert="false" update="false"/>
 		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
 		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee" >

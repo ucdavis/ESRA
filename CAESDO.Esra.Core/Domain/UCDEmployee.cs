@@ -125,6 +125,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryGrade = value; }
         }
 
+        protected string _SalaryStep;
+
+        public virtual string SalaryStep
+        {
+            get { return _SalaryStep; }
+            set { _SalaryStep = value; }
+        }
+
         protected string _BargainingUnitCode;
 
         public virtual string BargainingUnitCode
