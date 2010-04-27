@@ -1,7 +1,15 @@
 <%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="SalaryReviewAnalysisEditor.aspx.cs"
-    Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisEditor" Title="ESRA - Salary Review Analysis Editor Page" %>
+    Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisEditor" Title="ESRA - Salary Review Analysis Editor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
+    <script type="text/javascript">
+        function ConfirmMe() {
+            //if (Page_ClientValidate())
+                return confirm('Are you sure you want to save this salary review analysis?');
+
+            return false;
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
     <center><asp:Label ID="lblPageTitle" runat="server" 
@@ -13,7 +21,7 @@
         <center><asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" 
                 Font-Bold="True" Font-Size="Large"></asp:Label></center><br />
         <asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
-            HeaderStyle-HorizontalAlign="Center" EnableViewState="False">
+            HeaderStyle-HorizontalAlign="Center" EnableViewState="False" DataSource='<%# Titles %>'>
             <Columns>
                 <asp:TemplateField>
                     <HeaderTemplate>
@@ -262,7 +270,7 @@
             <asp:Label ID="Label1" Font-Bold="True" runat="server" Text="Employee Details" Font-Size="Large"></asp:Label></center>
         <br />
         <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" 
-            Width="100%">
+            Width="100%" DataSource='<%# Employees %>'>
             <HeaderStyle cssclass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -299,7 +307,7 @@
              </Columns>
         </asp:GridView>
         <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" EmptyDataText="Employee Data Unavailable."
-            DataKeyNames="ID" EnableViewState="False" EnableTheming="False">
+            DataKeyNames="ID" EnableViewState="False" EnableTheming="False" DataSource='<%# Employees %>'>
             <HeaderStyle cssclass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -521,7 +529,7 @@
                                         <td >
                                             <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
                                             <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="remove"
-                                    CommandArgument='<%# Container.ItemIndex %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
+                                    CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
                                     </tr>
                                 </ItemTemplate>
                                 <AlternatingItemTemplate>
@@ -549,7 +557,7 @@
                                         <td>
                                             <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
                                             <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="remove"
-                                    CommandArgument='<%# Container.ItemIndex %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
+                                    CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button" /></asp:LinkButton></td>
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>

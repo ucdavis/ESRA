@@ -32,13 +32,13 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Label lblSalaryDetails;
         
         /// <summary>
-        /// gvTitle control.
+        /// gvSalaryScale control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvTitle;
+        protected global::System.Web.UI.WebControls.GridView gvSalaryScale;
         
         /// <summary>
         /// Label1 control.

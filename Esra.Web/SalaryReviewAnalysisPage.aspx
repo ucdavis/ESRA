@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="SalaryReviewAnalysisPage.aspx.cs"
-    Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisPage" Title="ESRA - Salary Review Analysis Page" %>
+    Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisPage" Title="ESRA - Salary Review Analysis" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
@@ -174,7 +174,250 @@
                 <%--&nbsp;<asp:Button ID="btnCreateNewSalaryReviewAnalysis" runat="server" Text="Create New Salary Review Analysis" OnClick="btnCreateNewSalaryReviewAnalysis_Click"/>--%>
                 <%--<asp:LinkButton ID="lbtnCreateNewSalaryReviewAnalysis" runat="server" CssClass="buttons"><img alt="Create New SRA" class="new_button" src="images/common/120px-Document_new_svg.png"/></asp:LinkButton>--%>
             </asp:View>
+            
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
+            <div id="divSalaryDetails">
+        
+        <asp:GridView ID="gvSalaryScale" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
+            HeaderStyle-HorizontalAlign="Center" EnableViewState="False">
+            <Columns>
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        Campus-wide Salary Scale</HeaderTemplate>
+                    <ItemTemplate>
+                        <table>
+                            <tr>
+                                <th>
+                                    Title Code
+                                </th>
+                                <th colspan="2">
+                                    Payroll Title
+                                </th>
+                                <%--<th colspan="2">Abbreviated Name</th>--%></tr>
+                            <tr>
+                                <td>
+                                    <asp:Label ID="lblTitle" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label>
+                                </td>
+                                <td colspan="2">
+                                    <asp:Label ID="lblPayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
+                                </td>
+                                <%--<td colspan="2"><asp:Label ID="lblAbbreviatedName" runat="server" 
+                                            Text='<%# Eval("AbbreviatedName") %>'></asp:Label></td>--%>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    
+                                            <tr>
+                                                <th colspan="5">
+                                                    Salary Scales
+                                                </th>
+                                            </tr>
+                                        
+                                            <table>
+                                                <tr>
+                                                    <th colspan="2">
+                                                        Effective Date:
+                                                    </th>
+                                                    <td colspan="3">
+                                                        <asp:Label ID="lblEffectiveDate" runat="server" Text='<%# Eval("SalaryGradeQuartiles.EffectiveDate","{0:MM/dd/yyyy}") %>'></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        Salary Grade:
+                                                    </th>
+                                                    <td>
+                                                        <asp:Label ID="lblSalaryGrade" runat="server" Text='<%# Eval("SalaryGradeQuartiles.SalaryGrade") %>'></asp:Label>
+                                                    </td>
+                                                    <th colspan="2">
+                                                        Bargaining Unit:
+                                                    </th>
+                                                    <td>
+                                                        <asp:Label ID="lblBargainingUnitCode" runat="server" Text='<%# Eval("BargainingCode") %>'></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <table>
+                                                            <tr>
+                                                                <th>
+                                                                    Quartile
+                                                                </th>
+                                                                <th>
+                                                                    Annual
+                                                                </th>
+                                                                <th>
+                                                                    Monthly
+                                                                </th>
+                                                                <th>
+                                                                    Hourly
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    Min
+                                                                </th>
+                                                                <td>
+                                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinAnnual","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label4" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinMonthly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label5" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinHourly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    First
+                                                                </th>
+                                                                <td>
+                                                                    <asp:Label ID="Label3" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleAnnual","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleMonthly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleHourly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    Mid
+                                                                </th>
+                                                                <td>
+                                                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidAnnual","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label9" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidMonthly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label10" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidHourly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    Third
+                                                                </th>
+                                                                <td>
+                                                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleAnnual","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleMonthly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label13" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleHourly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>
+                                                                    Max
+                                                                </th>
+                                                                <td>
+                                                                    <asp:Label ID="Label14" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxAnnual","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label15" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxMonthly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="Label16" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxHourly","{0:c}") %>'></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <th>
+                                                                                Labor Market WAS:
+                                                                            </th>
+                                                                            <td>
+                                                                                <asp:Label ID="Label17" runat="server" Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>
+                                                                                Labor Market Mid:
+                                                                            </th>
+                                                                            <td>
+                                                                                <asp:Label ID="Label18" runat="server" Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>
+                                                                                College Average:
+                                                                            </th>
+                                                                            <td>
+                                                                                <asp:Label ID="Label19" runat="server" Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>
+                                                                                Campus Average:
+                                                                            </th>
+                                                                            <td>
+                                                                                <asp:Label ID="Label20" runat="server" Text='<%# Eval("CampusAverageAnnual","{0:c}") %>'></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <%--</tr>
+                                            
+                                            <tr>--%>
+                                                    <td colspan="5">
+                                                        <table>
+                                                            <asp:Repeater runat="server" ID="rptSalarySteps" OnItemDataBound="rtpSalary_OnItemDataBound"
+                                                                DataSource='<%# Eval("SalarySteps") %>'>
+                                                                <HeaderTemplate>
+                                                                    <tr>
+                                                                        <th>
+                                                                            Step
+                                                                        </th>
+                                                                        <th>
+                                                                            Annual
+                                                                        </th>
+                                                                        <th>
+                                                                            Monthly
+                                                                        </th>
+                                                                        <th>
+                                                                            Hourly
+                                                                        </th>
+                                                                    </tr>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <tr>
+                                                                        <th>
+                                                                            <asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
+                                                                        </th>
+                                                                        <td>
+                                                                            <asp:Label ID="lblStepAnnual" runat="server" Text='<%# Eval("Annual","{0:c}") %>'></asp:Label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Label ID="lblStepMonthly" runat="server" Text='<%# Eval("Monthly","{0:c}") %>'></asp:Label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Label ID="lblStepHourly" runat="server" Text='<%# Eval("Hourly","{0:c}") %>'></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+        </asp:GridView>
+        <br />
+    </div>
+            
                 <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" 
                     EmptyDataText="Title Data Unavailable." DataSourceID="odsSAREmployee" Width="100%">
             <HeaderStyle cssclass="tr_head" />

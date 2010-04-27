@@ -16,6 +16,8 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
         protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
+        protected static readonly string KEY_TITLES = "Titles";
+        protected static readonly string KEY_EMPLOYEES = "Employees";
 
         protected string EmployeeID
         {
@@ -91,19 +93,33 @@ namespace CAESDO.Esra.Web
                 if (emp != null)
                 {
                     empList.Add(emp);
+                    Employees = empList; // Save the employees list to the ViewState recall later.
                     titleList.Add(emp.Title);
+                    Titles = titleList;// Save the Titles list to the ViewState for recall later.
                     Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
                     Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
                     rptScenarios_Init(scenarios);
                 }
-               
-                gvEmployees.DataSource = empList;
+
+                //gvEmployees.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployees.DataBind();
-                gvTitle.DataSource = titleList;
+                //gvTitle.DataSource = titleList;  // Changed this to use ViewState collection.
                 gvTitle.DataBind();
-                gvEmployeeTitle.DataSource = empList;
+                //gvEmployeeTitle.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployeeTitle.DataBind();
             }
+        }
+
+        protected List<Title> Titles
+        {
+            get { return ViewState[KEY_TITLES] as List<Title>; }
+            set { ViewState[KEY_TITLES] = value; }
+        }
+
+        protected List<Employee> Employees
+        {
+            get { return ViewState[KEY_EMPLOYEES] as List<Employee>; }
+            set { ViewState[KEY_EMPLOYEES] = value; }
         }
 
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
@@ -327,9 +343,9 @@ namespace CAESDO.Esra.Web
 
             // get the percentage:
             // For some reason the space percent sign is not converting properly.
-            tb.Text = tb.Text.Replace("%", "");
+            string percentIncreaseString = tb.Text.Replace("%", "");
             double percentIncrease = 0;
-            double.TryParse(tb.Text, styles, numberFormatInfo, out percentIncrease);
+            double.TryParse(percentIncreaseString, styles, numberFormatInfo, out percentIncrease);
             tb.Text = String.Format("{0:p}", (percentIncrease/100));
 
             // get old salary amount:
@@ -434,6 +450,11 @@ namespace CAESDO.Esra.Web
             sra.Scenarios = scenarios;
 
             SalaryReviewAnalysisBLL.UpdateRecord(sra);
+            // This data binding is needed here because we're using a DataSource vs a DataSourceID,
+            // and the DataBinding is not automatic.
+            gvEmployees.DataBind();
+            gvTitle.DataBind();
+            gvEmployeeTitle.DataBind();
 
             // TODO: Figure where to redirect the user to upon a successful save.
         }
@@ -523,9 +544,9 @@ namespace CAESDO.Esra.Web
                 tbPercentIncrease = item.FindControl("tbPercentIncreaseAlt") as TextBox;
             }
             // For some reason the space percent sign is not converting properly.
-            tbPercentIncrease.Text = tbPercentIncrease.Text.Replace("%", "");
+            string percentIncreaseString = tbPercentIncrease.Text.Replace("%", "");
             double percentIncrease = 0;
-            double.TryParse(tbPercentIncrease.Text, styles, numberFormatInfo, out percentIncrease);
+            double.TryParse(percentIncreaseString, styles, numberFormatInfo, out percentIncrease);
             scenario.PercentIncrease = percentIncrease / 100;
 
             TextBox tbSalaryAmount = item.FindControl("tbSalaryAmount") as TextBox;

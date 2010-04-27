@@ -42,6 +42,19 @@ namespace CAESDO.Esra.Web
             }
         }
 
+        protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
+        {
+            Repeater rpt = (Repeater)sender;
+            if (rpt.Items.Count > 0)
+            {
+                rpt.Visible = true;
+            }
+            else
+            {
+                rpt.Visible = false;
+            }
+        }
+
         protected void btnFindSRA_Click(object sender, EventArgs e)
         {
             ddlReferenceNumber.SelectedIndex = -1;
@@ -86,6 +99,11 @@ namespace CAESDO.Esra.Web
                 CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
                 Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
                 Session.Add(KEY_TITLE_ID, sra.Title.ID);
+
+                List<SalaryScale> salaryScales = new List<SalaryScale>();
+                salaryScales.Add(sra.SalaryScale);
+                gvSalaryScale.DataSource = salaryScales;
+                gvSalaryScale.DataBind();
  
                 MultiView1.SetActiveView(vSalaryReviewAnalysis);
             }
