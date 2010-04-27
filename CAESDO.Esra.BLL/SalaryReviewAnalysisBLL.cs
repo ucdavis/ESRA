@@ -121,7 +121,7 @@ namespace CAESDO.Esra.BLL
                     IList<SalaryReviewAnalysis> tempList = new List<SalaryReviewAnalysis>();
                     foreach (SalaryReviewAnalysis sra in analyses)
                     {
-                        if (EmployeeBLL.IsDepartmentEmployee(user, sra.Employee))
+                        if (SRAEmployeeBLL.IsDepartmentEmployee(user, sra.Employee))
                         {
                             tempList.Add(sra);
                         }
@@ -223,6 +223,11 @@ namespace CAESDO.Esra.BLL
                 }
                 
                 EnsurePersistent(ref record);
+
+                if (record.Employee.CorrespondingAnalysisID != record.ID)
+                {
+                    record.Employee.CorrespondingAnalysisID = record.ID;
+                }
 
                 if (String.IsNullOrEmpty(record.ReferenceNumber))
                 {

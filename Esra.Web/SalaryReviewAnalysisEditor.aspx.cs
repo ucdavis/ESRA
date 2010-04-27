@@ -508,7 +508,7 @@ namespace CAESDO.Esra.Web
                 if (sra == null)
                 {
                     User user = UserBLL.GetCurrent();
-                    SRAEmployee emp = SRAEmployeeBLL.GetByID(EmployeeID);
+                    SRAEmployee emp = sra.Employee;
                     string titleCode = Titles[0].TitleCode;
                     bool isReclass = false;
                     if (titleCode.Equals(emp.TitleCode) == false)

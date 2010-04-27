@@ -87,6 +87,7 @@
     <Compile Include="Domain\ValidateBO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DesignByContract.cs" />
+    <Compile Include="Utils\RandomNum.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\ApptType.hbm.xml" />

@@ -73,7 +73,7 @@ namespace CAESDO.Esra.Web
                     {
                         int id = sra.ID;
                         Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-                        Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
+                        Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
                         Session.Add(KEY_TITLE_ID, sra.Title.ID);
 
                         List<SalaryScale> salaryScales = new List<SalaryScale>();
@@ -156,7 +156,7 @@ namespace CAESDO.Esra.Web
             {
                 Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
                 CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
-                Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
+                Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
                 Session.Add(KEY_TITLE_ID, sra.Title.ID);
 
                 List<SalaryScale> salaryScales = new List<SalaryScale>();
@@ -187,6 +187,7 @@ namespace CAESDO.Esra.Web
             Session.Remove(KEY_TITLE_ID);
             Session.Remove(KEY_REFERENCE_NUM);
 
+            //TODO: Add logic to clear out the query string.
             MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
         }
 

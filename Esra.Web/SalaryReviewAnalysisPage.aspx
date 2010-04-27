@@ -716,15 +716,17 @@
                     SelectMethod="GetByID" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
                     <SelectParameters>
                         <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" Type="Int32" />
-                    </SelectParameters>
+                    </SelectParameters> 
                 </asp:ObjectDataSource>
+                
                 &nbsp;<asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.SRAEmployeeBLL"
-                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetByID">
+                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetBySalaryReviewAnalysisID">
                     <SelectParameters>
                         <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" 
-                            Type="String" />
+                            Type="Int32" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
+                
                 <asp:ObjectDataSource ID="odsTitle" runat="server" TypeName="CAESDO.Esra.BLL.TitleBLL"
                     OldValuesParameterFormatString="original_{0}" SelectMethod="GetByTitleCode">
                     <SelectParameters>

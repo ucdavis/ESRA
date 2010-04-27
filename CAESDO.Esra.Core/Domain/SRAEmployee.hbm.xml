@@ -2,8 +2,8 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
   <class name="CAESDO.Esra.Core.Domain.SRAEmployee, CAESDO.Esra.Core" table="SRAEmployee">
 
-    <id name="id" access="field" column="SalaryReviewAnalysisID" unsaved-value="0">
-      <generator class="assigned">
+    <id name="id" access="field" column="PkSRAEmployee" unsaved-value="0">
+      <generator class="identity">
 
       </generator>
     </id>
@@ -21,6 +21,7 @@
     <property name="YearsOfExperience" column="YearsOfExperience"/>
 
     <property name="PkEmployee" column="PkEmployee"/>
+    <property name="Created" column="Created" />
     <property name="EmployeeID" column="EmployeeID"/>
     <property name="PayRate" column="PayRate"/>
     <property name="SalaryGrade" column="SalaryGrade"/>
@@ -46,7 +47,7 @@
     <many-to-one name="CorrespondingAnalysis"
                  class="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core"
                  column="SalaryReviewAnalysisID"  foreign-key="SalaryReviewAnalysisID" update="false" insert="false"/>
-    <property name="CorrespondingAnalysisID" column="SalaryReviewAnalysisID" update="false" insert="false"/>
+    <property name="CorrespondingAnalysisID" column="SalaryReviewAnalysisID"/>
   </class>
 </hibernate-mapping>
 
