@@ -24,14 +24,15 @@ namespace CAESDO.Esra.Core.Domain
         {
             get 
             {
-                if (_CareerHireDate != null)
-                {
-                    return (DateTime)_CareerHireDate;
-                }
-                else
-                {
-                    return _HireDate;
-                }
+                //if (_CareerHireDate != null)
+                //{
+                //    return (DateTime)_CareerHireDate;
+                //}
+                //else
+                //{
+                //    return _HireDate;
+                //}
+                return _CareerHireDate;
             }
             set
             {
@@ -50,14 +51,15 @@ namespace CAESDO.Esra.Core.Domain
         {
             get
             {
-                if (_ApptHireDate != null)
-                {
-                    return (DateTime)_ApptHireDate;
-                }
-                else
-                {
-                    return _BeginDate;
-                }
+                //if (_ApptHireDate != null)
+                //{
+                //    return (DateTime)_ApptHireDate;
+                //}
+                //else
+                //{
+                //    return _BeginDate;
+                //}
+                return _ApptHireDate;
             }
             set 
             {
@@ -72,27 +74,29 @@ namespace CAESDO.Esra.Core.Domain
 
         private double? _YearsOfService;
 
-        public virtual double YearsOfService
+        public virtual double? YearsOfService
         {
             get
             {
-                return (DateTime.Today - (DateTime)CareerHireDate).TotalDays / 365.25;
+                //return (DateTime.Today - (DateTime)CareerHireDate).TotalDays / 365.25;
+                return _YearsOfService;
             }
             set
             {
                 _YearsOfService = value;
             }
         }
-
-        public virtual double TimeInTitle
+        private double? _TimeInTitle;
+        public virtual double? TimeInTitle
         {
             get
             {
-                return (DateTime.Today - (DateTime)ApptHireDate).TotalDays / 365.25;
+                //return (DateTime.Today - (DateTime)ApptHireDate).TotalDays / 365.25;
+                return _TimeInTitle;
             }
             set
             {
-                _YearsInTitle = value;
+                _TimeInTitle = value;
             }
         }
 
