@@ -34,10 +34,10 @@
            
         </asp:ObjectDataSource>
        
-        <br />
+ 
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
-                &nbsp;<table style="width: 100%;" id="tblSearchCriteria">
+                &nbsp;<table style="width: 75%;" id="tblSearchCriteria" border="1" cellpadding="2" cellspacing="0">
                     <tr>
                         <th>
                             &nbsp;Reference Number
@@ -45,11 +45,12 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" AutoPostBack="True"
                                 DataSourceID="odsESRAs" DataTextField="ReferenceNumber" 
-                                DataValueField="ID" AppendDataBoundItems="True" >
+                                DataValueField="ID" AppendDataBoundItems="True" 
+                                onselectedindexchanged="ddlReferenceNumber_SelectedIndexChanged" >
                                 <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
-                        <td>
+                        <td colspan="2">
                             &nbsp;
                         </td>
                     </tr>
@@ -63,28 +64,35 @@
                         <th>
                             &nbsp;Creation Date
                         </th>
+                        <td rowspan="2"><center><asp:Button ID="btnFindSRA" runat="server" 
+                                Text="Find Salary Review Analysis" onclick="btnFindSRA_Click" /></center></td>
                     </tr>
                     <tr>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" DataSourceID="odsEmployee"
+                            &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" DataSourceID="odsEmployee"
                                 DataTextField="FullName" DataValueField="ID" AppendDataBoundItems="True">
                                 <asp:ListItem Value="">-- Select an Employee --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AutoPostBack="True" 
-                                DataTextField="FullName" DataValueField="EmployeeID" 
+                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server"  
+                                DataTextField="FullName" DataValueField="Login" 
                                 DataSourceID="odsCreatedBy" AppendDataBoundItems="True">
                                 <asp:ListItem Value="">-- Select Created By --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td><ajax:CalendarExtender
-                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate"></ajax:CalendarExtender>
-                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" Text="" ReadOnly="true"/>
+                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate" Format="MM/dd/yyyy" ></ajax:CalendarExtender>
+                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" ReadOnly="true"/>
                         </td>
+                        
                     </tr>
+                  
                 </table>
-                <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis">
+                <br />
+                <asp:GridView ID="gvSalaryReviewAnalysis" runat="server" 
+                    AutoGenerateColumns="False" 
+                    EmptyDataText="No Data Found." >
                     <Columns>
                         <asp:CommandField ShowSelectButton="True" />
                         <asp:TemplateField HeaderText="Reference Number" SortExpression="ReferenceNumber">

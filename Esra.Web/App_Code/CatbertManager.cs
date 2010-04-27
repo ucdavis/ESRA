@@ -184,25 +184,20 @@ namespace CAESDO.Esra.Web
             {
                 if (String.IsNullOrEmpty(roleName) == false && roleName.Equals(user.Role) == false)
                 {
-                    continue; // skip to next user.
+                    retval.Add(new CatbertUsersRev(user)); // add the user regardless of their role(s).
                 }
-
-                CatbertUsersRev revdUser = new CatbertUsersRev()
+                else
                 {
-                    Department = user.Department,
-                    Email = user.Email,
-                    EmployeeID = user.EmployeeID,
-                    FirstName = user.FirstName,
-                    FullName = user.LastName + ", " + user.FirstName,
-                    LastName = user.LastName,
-                    Login = user.Login,
-                    Role = user.Role,
-                    RoleID = user.RoleID,
-                    SID = user.SID,
-                    UserID = user.UserID
-                };
-
-                retval.Add(revdUser);
+                    Roles[] roles = GetRolesByUser(user.Login);
+                    foreach (Roles role in roles)
+                    {
+                        if (role.Role.Equals(roleName))
+                        {
+                            retval.Add(new CatbertUsersRev(user, roles));
+                            break;
+                        }
+                    }
+                }
             }
             return retval.ToArray();
         }
