@@ -702,3 +702,9 @@ option:hover
 	height:0px;
 	overflow:hidden;
 }
+
+.watermark
+{
+    color: #aaa;
+    font-style:italic;
+}
