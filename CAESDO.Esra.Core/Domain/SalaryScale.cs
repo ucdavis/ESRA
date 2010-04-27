@@ -128,6 +128,15 @@ namespace CAESDO.Esra.Core.Domain
                 SalaryGrade = this.SalaryGrade
             };
 
+            // Create a new SalaryGradeQuartiles and add it to the SalaryScale:
+            retval.SalaryGradeQuartiles = new SalaryGradeQuartiles()
+            {
+                EffectiveDate = DateTime.Today,
+                SalaryGrade = this.SalaryGrade
+            };
+            // Not sure if I need this or NHibernate will take care of this for me.
+            //retval.SalaryGradeQuartiles.SalaryScales.Add(retval); 
+
             // Take care of creating initialized copies of the salary steps:
             List<SalaryStep> ss = new List<SalaryStep>();
             foreach (SalaryStep step in this.SalarySteps)

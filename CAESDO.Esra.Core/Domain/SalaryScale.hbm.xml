@@ -42,7 +42,7 @@
 			<column name="EffectiveDate"/>
 		</many-to-one>
 					
-		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="delete-orphan" order-by="Annual">
+		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="all" order-by="Annual">
 			<key>
 				<column name="TitleCode" />
 				<column name="EffectiveDate"/>

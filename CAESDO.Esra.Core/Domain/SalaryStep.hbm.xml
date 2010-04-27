@@ -5,20 +5,21 @@
 			<generator class="identity" />
 		</id>-->
 		
-		<composite-id>
+		<composite-id unsaved-value="any">
 			<key-property name="TitleCode" column="TitleCode"/>
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 			<key-property name="StepNumber" column="Step"/>
 		</composite-id>
 		
-		<property name="TitleCode" column="TitleCode" />
-		<property name="EffectiveDate" column="EffectiveDate" />
-		<property name="StepNumber" column ="Step" />
+		<property name="TitleCode" column="TitleCode" insert="false" update="false"/>
+		<property name="EffectiveDate" column="EffectiveDate" insert="false" update="false"/>
+		<property name="StepNumber" column ="Step" insert="false" update="false"/>
 		<property name="Annual" column="Annual" />
 		<property name="Monthly" column="Monthly" />
 		<property name="Hourly" column="Hourly" />
 
-		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core">
+		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" 
+                 insert="false" update="false" cascade="none" unique="true">
 			<column name="TitleCode"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>
