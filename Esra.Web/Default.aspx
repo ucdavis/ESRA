@@ -169,14 +169,16 @@
             <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
         </asp:DropDownList>
 &nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
-            Text="Get Employee(s)" />
+            Text="Get Employee Salary Report" />
             <br />
         <br />
         
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vEmployees" runat="server" >
-                Report Date:
+                <center><asp:Label ID="lblEmployeeSalaryReportTitle" runat="server" Font-Bold="True" 
+                    Font-Size="Larger" Text="Employee Salary Report"></asp:Label></center>
+                <%--Report Date:
 
                 <script type="text/javascript" language="JavaScript">
 <!-- //Script courtesy of http://www.web-source.net - Your Guide to Professional Web Site Design and Development -->
@@ -186,10 +188,58 @@ var today=today_date.getDate()
 var year=today_date.getYear() + 1900
 //document.write("Today's date is: ")
 document.write(month+"/"+today+"/"+year)
-</script> 
+</script> --%>
 
                 <br />
-                Employees:<br />
+                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False">
+                
+                    <Columns>
+                    
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                             <table border="1">
+                             <tr >
+                                <td rowspan="2">
+                                    <table border="1">
+                                        <tr>
+                                            <th>Title Code:</th>
+                                            <th>Payroll Title:</th>
+                                            <th>Salary Grade:</th>
+                                            <th>Bargaining Unit:</th>
+                                        </tr>
+                                 <asp:Repeater ID="Repeater2" runat="server" DataSource='<%# Eval("SearchTitles")%>'>
+                             
+                                     <ItemTemplate>
+                                        <tr>
+                                    
+                                            <td><asp:Label ID="lblSearchTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label></td>
+                                            <td><asp:Label ID="lblSearchTitleName" runat="server" Text='<%# Eval("PayrollTitle") %>'></asp:Label></td>
+                                            <td><asp:Label ID="lblSearchTitleSalaryGrade" runat="server" Text='<%# Eval("SalaryScales[0].SalaryGrade") %>'></asp:Label></td>
+                                            <td><asp:Label ID="lblSearchTitleBargainingUnit" runat="server" Text='<%# Eval("BargainingCode") %>'></asp:Label></td> 
+                                        </tr>
+                                    </ItemTemplate>
+
+                                </asp:Repeater>
+                                    </table>
+                                </td>
+                                <th>Department(s)</th>
+                                <th>Employee(s)</th>
+                                <th>Report Date</th>
+                            </tr>
+                            <tr>
+                                
+                                <td><asp:Repeater runat="server" ID="rptDepartments" DataSource='<%# Eval("SearchDepartments")%>'><ItemTemplate><asp:Label runat="server" ID="lblSearchDepartment" Text='<%# Eval("Name") %>'></asp:Label></ItemTemplate>
+                                <SeparatorTemplate><br /></SeparatorTemplate></asp:Repeater></td>
+                                <td><asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("SearchEmployee.FullName") %>'></asp:Label></td>
+                                <td><asp:Label ID="lblReportDate" runat="server" Text='<%# Eval("ReportDate", "{0:MM/dd/yyyy}") %>'></asp:Label></td>
+                            </tr>
+                        </table>
+                            </ItemTemplate>
+                           
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                <br />
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
@@ -327,11 +377,11 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
                 <asp:SessionParameter DefaultValue="0" Name="titleCodes" 
-                    SessionField="selectedTitles" Type="Object" />
+                    SessionField="selectedTitleStrings" Type="Object" />
                 <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
                     Name="pkEmployee" PropertyName="SelectedValue" Type="String" />
                 <asp:SessionParameter DefaultValue="" Name="departmentIDs" 
-                    SessionField="selectedDepartments" Type="Object" />
+                    SessionField="selectedDepartmentStrings" Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
         

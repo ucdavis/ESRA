@@ -14,6 +14,7 @@ using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
 using System.Collections;
 using System.Collections.Generic;
+using CAESDO.Core.Domain;
 
 namespace CAESDO.Esra.Web
 {
@@ -48,6 +49,9 @@ namespace CAESDO.Esra.Web
                 //lbxDepartments_SelectedValues(null, null);
                 lbxDepartments_ClearSelectedValues();
                 lbxTitleCodes_ClearSelectedValues();
+                ddlEmployee_ClearSelectedValue();
+
+                gvESRSearchParams_Init();
                 
             }
 
@@ -98,6 +102,7 @@ namespace CAESDO.Esra.Web
                 lbxDepartments_ClearSelectedValues();
                 //ddlDepartment.SelectedIndex = -1;
             }
+            gvESRSearchParams_Load();
             //ddlTitleCode.SelectedIndex = -1;
            
             //gvEmployees.DataBind();
@@ -128,28 +133,34 @@ namespace CAESDO.Esra.Web
             else if (lbxTitleCodes.SelectedIndex > 0 && lbxDepartment.SelectedIndex > 0)
             {
                 // Get all the employees for a given department with the matching title code.
-                ddlEmployee.SelectedIndex = -1;
+                //ddlEmployee.SelectedIndex = -1;
+                ddlEmployee_ClearSelectedValue();
             }
             
             else if (lbxDepartment.SelectedIndex > 0)
             {
                 // Get all employees in the given departments with any title code.
-                ddlEmployee.SelectedIndex = -1;
+                //ddlEmployee.SelectedIndex = -1;
+                ddlEmployee_ClearSelectedValue();
                 lbxTitleCodes_ClearSelectedValues();
             }
             else if (lbxTitleCodes.SelectedIndex > 0)
             {
                 // Get all employees with the given title codes in any department.
-                ddlEmployee.SelectedIndex = -1;
+                //ddlEmployee.SelectedIndex = -1;
+                ddlEmployee_ClearSelectedValue();
                 lbxDepartments_ClearSelectedValues();
             }
             else
             {
                 // Get all employees regardless of their department or title code.
                 lbxTitleCodes_ClearSelectedValues();
-                ddlEmployee.SelectedIndex = -1;
+                ddlEmployee_ClearSelectedValue();
+                //ddlEmployee.SelectedIndex = -1;
                 lbxDepartments_ClearSelectedValues();
             }
+
+            gvESRSearchParams_Load();
             //gvEmployees.DataBind();
         }
 
@@ -179,9 +190,16 @@ namespace CAESDO.Esra.Web
              * */
         }
 
+        protected Employee ddlEmployee_ClearSelectedValue()
+        {
+            ddlEmployee.SelectedIndex = -1;
+            return GetAllNamedEmployee();
+        }
+
         protected void lbxDepartments_ClearSelectedValues()
         {
-            Session.Add("selectedDepartments", new string[] {"0"});
+            Session.Add("selectedDepartmentStrings", new string[] {"0"});
+            Session.Add("selectedDepartments", new List<Department>(){ GetAllNamedDepartment()});
             lbxDepartment.SelectedIndex = -1;
         }
 
@@ -189,18 +207,30 @@ namespace CAESDO.Esra.Web
         {
             ddlEmployee.SelectedIndex = -1;
             List<string> selected = new List<string>();
+            List<Department> selectedDepartments = new List<Department>();
             
             foreach (int i in lbxDepartment.GetSelectedIndices())
             {
-                selected.Add(lbxDepartment.Items[i].Value);
+                string value = lbxDepartment.Items[i].Value;
+                selected.Add(value);
+                if (value.Equals("0") == false)
+                {
+                    selectedDepartments.Add(DepartmentBLL.GetByID(value));
+                }
+                else
+                {
+                    selectedDepartments.Add(GetAllNamedDepartment());
+                }
             }
             string[] retval = selected.ToArray();
-            Session.Add("selectedDepartments", retval);
+            Session.Add("selectedDepartmentStrings", retval);
+            Session.Add("selectedDepartments", selectedDepartments);
         }
 
         protected void lbxTitleCodes_ClearSelectedValues()
         {
-            Session.Add("selectedTitles", new string[] { "0" });
+            Session.Add("selectedTitleStrings", new string[] { "0" });
+            Session.Add("selectedTitles", new List<Title>() { GetAllNamedTitle() });
             lbxTitleCodes.SelectedIndex = -1;
         }
 
@@ -208,18 +238,96 @@ namespace CAESDO.Esra.Web
         {
             ddlEmployee.SelectedIndex = -1;
             List<string> selected = new List<string>();
+            List<Title> selectedTitles = new List<Title>();
 
             foreach (int i in lbxTitleCodes.GetSelectedIndices())
             {
-                selected.Add(lbxTitleCodes.Items[i].Value);
+                string value = lbxTitleCodes.Items[i].Value;
+                selected.Add(value);
+                if (value.Equals("0") == false)
+                {
+                    selectedTitles.Add(TitleBLL.GetByID(value));
+                }
+                else
+                {
+                    selectedTitles.Add(GetAllNamedTitle());
+                }
             }
             string[] retval = selected.ToArray();
-            Session.Add("selectedTitles", retval);
+            Session.Add("selectedTitleStrings", retval);
+            Session.Add("selectedTitles", selectedTitles);
 
             if (retval.Length == 1 && retval[0].Equals("0") == false)
             {
                 ddlTitleCode.SelectedValue = retval[0];
             }
+        }
+
+        protected void gvESRSearchParams_Init()
+        {
+            ESRSearchParameters sp = new ESRSearchParameters()
+            {
+                SearchTitles = new List<Title>() { GetAllNamedTitle() },
+                SearchDepartments = new List<Department>() { GetAllNamedDepartment() },
+                SearchEmployee = GetAllNamedEmployee()
+            };
+            List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
+            esParams.Add(sp);
+
+            gvESRSearchParams.DataSource = esParams;
+            gvESRSearchParams.DataBind();
+        }
+
+        protected void gvESRSearchParams_Load()
+        {
+            ESRSearchParameters sp = new ESRSearchParameters()
+            {
+                // Get the selected titles:
+                SearchTitles = Session["selectedTitles"] as List<Title>,
+                SearchDepartments = (List<Department>)Session["selectedDepartments"] as List<Department>,
+                SearchEmployee = GetSelectedEmployee()
+            };
+            List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
+            esParams.Add(sp);
+
+            gvESRSearchParams.DataSource = esParams;
+            gvESRSearchParams.DataBind();
+        }
+
+        protected Title GetAllNamedTitle()
+        {
+            return new Title()
+            {
+                TitleCode = "Any",
+                PayrollTitle = "Any",
+                BargainingCode = "Any",
+                SalaryScales =
+                    new List<SalaryScale>() { new SalaryScale() { SalaryGrade="Any" } }
+            };
+        }
+
+        protected Department GetAllNamedDepartment()
+        {
+            return new Department() { Name = "Any" };
+        }
+
+        protected Employee GetAllNamedEmployee()
+        {
+            return new Employee() { FullName = "Any" };
+        }
+
+        protected Employee GetSelectedEmployee()
+        {
+            Employee searchEmployee = null;
+            if (ddlEmployee.SelectedIndex > 0)
+            {
+                searchEmployee = EmployeeBLL.GetByID(ddlEmployee.SelectedValue);
+            }
+            else
+            {
+                searchEmployee = GetAllNamedEmployee();
+            }
+            return searchEmployee;
         }
     }
 }
