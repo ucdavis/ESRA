@@ -8,45 +8,6 @@
 <%--<div class="left_col_empty"></div>--%>
 <div class="right_col">
 <div id="SRA_scale">
-        <%--<asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetByProperty" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
-            <SelectParameters>
-                <asp:ControlParameter ControlID="ddlReferenceNumber" DefaultValue="ReferenceNumber"
-                    Name="propertyName" PropertyName="SelectedValue" Type="String" />
-                <asp:Parameter DefaultValue="" Name="propertyValue" Type="Object" />
-            </SelectParameters>
-        </asp:ObjectDataSource>--%>
-        <%--<asp:ObjectDataSource ID="odsESRAs" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAllSalaryReviewAnalysis" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
-            <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" Type="String" />
-                <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" SessionField="IsDepartmentUser"
-                    Type="Boolean" />
-                <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" Type="String" />
-                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-            </SelectParameters>
-        </asp:ObjectDataSource>--%>
-        <%--<asp:ObjectDataSource ID="odsGvSalaryReviewAnalysis" runat="server" 
-            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
-            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL" DeleteMethod="Delete">
-            <SelectParameters>
-                <asp:SessionParameter DefaultValue="" Name="userId" SessionField="UserID" 
-                    Type="String" />
-                <asp:SessionParameter DefaultValue="false" Name="isDepartmentUser" 
-                    SessionField="IsDepartmentUser" Type="Boolean" />
-                <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="" Name="employeeID" 
-                    PropertyName="SelectedValue" Type="String" />
-                <asp:ControlParameter ControlID="ddlCreatedBy" Name="reviewerLogin" 
-                    PropertyName="SelectedValue" Type="String" />
-                <asp:ControlParameter ControlID="tbCreationDate" Name="creationDate" 
-                    PropertyName="Text" Type="String" />
-                <asp:ControlParameter ControlID="ddlReferenceNumber" 
-                    Name="salaryReviewAnalysisID" PropertyName="SelectedValue" Type="String" />
-                <asp:Parameter DefaultValue="Employee.FullName" Name="propertyName" 
-                    Type="String" />
-                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-            </SelectParameters>
-        </asp:ObjectDataSource>--%>
         <asp:ObjectDataSource ID="odsEmployee" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetEmployees" TypeName="CAESDO.Esra.BLL.EmployeeBLL">
             <SelectParameters>
