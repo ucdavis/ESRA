@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core" table="SalaryReviewAnalysis" dynamic-update="true">
+		<id name="id" access="field" column="SalaryReviewAnalysisID" unsaved-value="0">
+			<generator class="identity" />
+		</id>
+
+		<property name="ReferenceNumber" column="ReferenceNumber" />
+		<!--<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>-->
+		<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" column="EmployeeID" />
+		<property name="DateInitiated" column="DateInitiated" />
+		<property name="DateApproved" column="DateApproved" />
+		<property name="DepartmentComments" column="DepartmentComments" />
+		<property name="DeansOfficeComments" column="DeansOfficeComments" />
+		<property name="InitiatedByReviewerName" column="InitiatedByReviewerName" />
+		<!--<property name="DepartmentNumber" column="DepartmentNumber" insert="false" update="false"/>-->
+		<many-to-one name="OriginatingDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="DepartmentNumber" />
+		<many-to-one name="ApprovedScenario" class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" column="ApprovedScenarioID" foreign-key="ScenarioID"/>
+		<bag name="Scenarios" table="Scenario" inverse="true" cascade="none">
+			<key column="SalaryReviewAnalysisID"/>
+			<one-to-many class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" />
+		</bag>
+	</class>
+</hibernate-mapping>
