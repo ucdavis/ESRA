@@ -400,7 +400,7 @@
                 <ContentTemplate>
                 <div id="ESCR_table">
                  <asp:HiddenField ID="hiddenSortPropertyName" runat="server" />
-                 <asp:HiddenField ID="hiddenAscending" runat="server" />
+                 <asp:HiddenField ID="hiddenAscending" Value="true" runat="server" />
                  <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
