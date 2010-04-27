@@ -149,10 +149,6 @@ namespace CAESDO.Esra.Web
 
                     if (emp != null)
                     {
-                        lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
-                        ddlProposedTitleCode.SelectedValue = emp.TitleCode;
-                        lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
-
                         empList.Add(emp);
                         Employees = empList; // Save the employees list to the ViewState recall later.
 
@@ -160,10 +156,23 @@ namespace CAESDO.Esra.Web
                         titleList.Add(emp.Title);
 
                         Titles = titleList;// Save the Titles list to the ViewState for recall later.
+
                         Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
                         Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
 
-                        MultiView1.SetActiveView(vSelectSalaryReviewType);
+                        if (emp.Title.SalaryScales == null ||
+                            emp.Title.SalaryScales.Count == 0)
+                        {
+                            MultiView1.SetActiveView(vNoSalaryDataAvailable);
+                        }
+                        else
+                        {
+                            lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
+                            ddlProposedTitleCode.SelectedValue = emp.TitleCode;
+                            lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
+
+                            MultiView1.SetActiveView(vSelectSalaryReviewType);
+                        }
                     }
                 }
 

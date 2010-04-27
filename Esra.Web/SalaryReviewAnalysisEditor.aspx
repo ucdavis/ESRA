@@ -51,6 +51,16 @@
                                 <%--<td colspan="2"><asp:Label ID="lblAbbreviatedName" runat="server" 
                                             Text='<%# Eval("AbbreviatedName") %>'></asp:Label></td>--%>
                             </tr>
+                             <asp:Panel ID="pnlNoSalaryScale" runat="server" Visible='<%# ((int)Eval("SalaryScales.Count") == 0 ? true : false) %>'>
+                            <tr><th colspan="5">Salary Scales</th></tr>
+                            <tr>
+                            <td colspan="5">
+                                No Data Available.
+                            </td>
+                            </tr>
+                            </asp:Panel>
+                            <asp:Panel ID="pnlSalaryScale" runat="server" Visible='<%# ((int)Eval("SalaryScales.Count") > 0 ? true : false) %>'>
+                            
                             <tr>
                                 <td colspan="5">
                                     <asp:Repeater runat="server" ID="rptSalaryScale" DataSource='<%# Eval("SalaryScales") %>'>
@@ -267,6 +277,7 @@
                                     </asp:Repeater>
                                 </td>
                             </tr>
+                            </asp:Panel>
                         </table>
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -470,6 +481,23 @@
         </center>
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
+            <asp:View ID="vNoSalaryDataAvailable" runat="server">
+            <table>
+            <tr><td rowspan="2"><asp:Image ID="Image2" runat="server" 
+                    AlternateText="back arrow" CssClass="buttons" 
+                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />&nbsp;&nbsp;
+                <asp:Button ID="Button2" runat="server" 
+                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" /></td><td>Error: Salary Scale Data Unavailable for this Title Code.</td></tr>
+            <tr><td>Unable to perform a Salary Review Analysis on this Individual.</td></tr>
+            </table>
+                <%--Error: Salary Scale Data Unavailable for this Title Code.<br />
+                Unable to perform a Salary Review Analysis on this Individual.<br /><br />
+                <asp:Image ID="imgArrowBack" runat="server" 
+                    AlternateText="back arrow" CssClass="buttons" 
+                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />&nbsp;&nbsp;
+                <asp:Button ID="btnCancelSalaryReviewAnalysis1" runat="server" 
+                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />--%>
+            </asp:View>
             <asp:View ID="vSelectSalaryReviewType" runat="server">
                 <asp:Label ID="lblOriginalTitleCodeLabel" runat="server" Font-Bold="true">Current Title Code:</asp:Label> <asp:Label ID="lblOriginalTitleCode" runat="server" Text="Title Code"></asp:Label>
                 <br />
