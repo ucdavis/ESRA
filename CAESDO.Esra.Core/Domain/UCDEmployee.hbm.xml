@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
 	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" dynamic-update="true">
-		<id name="id" access="field" column="EmployeeID" unsaved-value="0"/>
+		<id name="id" access="field" column="EmployeeID" unsaved-value="0">
+			<generator class="assigned" />
+		</id>
 
 		<many-to-one name="HomeDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept" />
 		<many-to-one name="WorkDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept" />
