@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Web.UI.WebControls;
-using CAESDO.Esra.Core.Domain;
-using CAESDO.Esra.BLL;
 using System.Collections.Generic;
-using CAESDO.Core.Domain;
 using System.Globalization;
 using System.Web.UI;
+using System.Web.UI.WebControls;
+using CAESDO.Esra.BLL;
+using CAESDO.Esra.Core.Domain;
 
 
 namespace CAESDO.Esra.Web
@@ -13,8 +12,6 @@ namespace CAESDO.Esra.Web
     public partial class SalaryReviewAnalysisEditor : ApplicationPage
     {
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
-        //protected static readonly string KEY_TITLE_CODE = "TitleCode";
-        protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
         protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
         protected static readonly string KEY_DEPARTMENT_COMMENTS = "DepartmentComments";
         protected static readonly string KEY_TITLES = "Titles";
@@ -26,10 +23,6 @@ namespace CAESDO.Esra.Web
             get
             {
                 string retval = Request.QueryString[KEY_EMPLOYEE_ID];
-                if (String.IsNullOrEmpty(retval))
-                {
-                    retval = Session[KEY_EMPLOYEE_ID] as string;
-                }
 
                 long temp = 0;
                 if (String.IsNullOrEmpty(retval) || retval.Length != 13 || long.TryParse(retval, out temp) == false)
@@ -41,15 +34,14 @@ namespace CAESDO.Esra.Web
             }
         }
 
+        protected static double EmployeePayRate { get; set; }  // This needs to be static so that its value is retained
+                                                               //throughout the session until the page is reloaded.
+
         protected string ReferenceNum
         {
             get
             {
                 string retval = Request.QueryString[KEY_REFERENCE_NUM];
-                if (String.IsNullOrEmpty(retval))
-                {
-                    retval = Session[KEY_REFERENCE_NUM] as string;
-                }
 
                 long temp = 0;
                 // ###20081001 min length = 11
@@ -87,10 +79,7 @@ namespace CAESDO.Esra.Web
             if (!IsPostBack)
             {
                 // Clear out any previous values.
-                Session.Remove(KEY_TITLE_CODE);
-                Session.Remove(KEY_EMPLOYEE_ID);
-                Session.Remove(KEY_EMPLOYEE_PAY_RATE);
-                Session.Remove(KEY_REFERENCE_NUM);
+                EmployeePayRate = 0;
             }
         }
 
@@ -106,7 +95,7 @@ namespace CAESDO.Esra.Web
                 SRAEmployee emp = null;
                 IList<Scenario> scenarios = null;
                 pnlProposedTitle.Visible = false;
-                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+
                 // Revised to use Catbert user.
                 User user = UserBLL.GetCurrent();
                 
@@ -114,7 +103,7 @@ namespace CAESDO.Esra.Web
                 {
                     // Set the session reference number so that it can be
                     // used by the datasource select method.
-                    Session[KEY_REFERENCE_NUM] = ReferenceNum;
+                    hiddenReferenceNumber.Value = ReferenceNum;
 
                     sra = SalaryReviewAnalysisBLL.GetByProperty(KEY_REFERENCE_NUM, ReferenceNum);
                     if (sra != null)
@@ -131,8 +120,6 @@ namespace CAESDO.Esra.Web
 
                             rptScenarios_Init(scenarios);
 
-                            //lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
-
                             lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
                             if (sra.IsReclass)
                             {
@@ -146,8 +133,10 @@ namespace CAESDO.Esra.Web
                             titleList.Add(sra.Title);
 
                             Titles = titleList;// Save the Titles list to the ViewState for recall later.
-                            Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
-                            Session.Add(KEY_TITLE_CODE, sra.Title.TitleCode);
+                            
+                            EmployeePayRate = emp.PayRate;
+
+                            hiddenTitleCode.Value = sra.Title.TitleCode;
 
                             MultiView1.SetActiveView(vSalaryReviewAnalysis);
                         }
@@ -173,8 +162,9 @@ namespace CAESDO.Esra.Web
 
                             Titles = titleList;// Save the Titles list to the ViewState for recall later.
 
-                            Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
-                            Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
+                            EmployeePayRate = emp.PayRate;
+                            
+                            hiddenTitleCode.Value = emp.Title.TitleCode;
 
                             if (emp.Title.SalaryScales == null ||
                                 emp.Title.SalaryScales.Count == 0)
@@ -256,7 +246,7 @@ namespace CAESDO.Esra.Web
                 {
                     ScenarioNumber = 1,
                     SelectionType = SelectionTypeBLL.GetByType(SelectionType.NONE).Type,
-                    SalaryAmount = (double)Session["Employee.PayRate"],
+                    SalaryAmount = EmployeePayRate,
                     Approved = false
                 });
             }
@@ -309,7 +299,7 @@ namespace CAESDO.Esra.Web
                 {
                     tbSalaryAmount = args.Item.FindControl("tbSalaryAmountAlt") as TextBox;
                 }
-                tbSalaryAmount.Text = String.Format("{0:c}", (double)Session["Employee.PayRate"]);
+                tbSalaryAmount.Text = String.Format("{0:c}", EmployeePayRate);
             }
             else if (args.CommandName.Equals("remove"))
             {
@@ -349,7 +339,7 @@ namespace CAESDO.Esra.Web
             {
                 tbSalaryAmount = item.FindControl("tbSalaryAmountAlt") as TextBox;
             }
-            double oldSalary = (double)Session["Employee.PayRate"];
+            double oldSalary = EmployeePayRate;
             
             if (newSalary == 0)
             {
@@ -388,7 +378,7 @@ namespace CAESDO.Esra.Web
             tb.Text = String.Format("{0:c}", newSalary);
 
             // get old salary amount:
-            double oldSalary = (double)Session["Employee.PayRate"];
+            double oldSalary = EmployeePayRate;
   
             // calculate percent increase up or down:
             double percentIncrease = (newSalary / oldSalary - 1);
@@ -422,7 +412,7 @@ namespace CAESDO.Esra.Web
             tb.Text = String.Format("{0:p}", (percentIncrease/100));
 
             // get old salary amount:
-            double oldSalary = (double)Session["Employee.PayRate"];
+            double oldSalary = EmployeePayRate;
 
             // calculate new salary amount based on percent increase up or down:
             double newSalary = oldSalary * (1 + (percentIncrease / 100));
@@ -443,7 +433,6 @@ namespace CAESDO.Esra.Web
             {
                 if (scenario.SelectionType.Equals(SelectionType.NONE) == false)
                 {
-                    //retval = SalaryScaleBLL.GetCriteriaListItems(Session[KEY_TITLE_CODE] as String)[scenario.SelectionType];
                     retval = Criteria[scenario.SelectionType];
                 }
             }
@@ -464,7 +453,7 @@ namespace CAESDO.Esra.Web
             {
                 ScenarioNumber = items.Count + 1,
                 SelectionType = SelectionType.NONE,
-                SalaryAmount = Session[KEY_EMPLOYEE_PAY_RATE] as Double?,
+                SalaryAmount = EmployeePayRate as Double?,
                 Approved = false
             });
             

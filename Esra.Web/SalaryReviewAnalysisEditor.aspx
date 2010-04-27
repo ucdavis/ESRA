@@ -720,19 +720,22 @@
             </asp:View>
             
         </asp:MultiView>
-  
+        
+        <asp:HiddenField ID="hiddenTitleCode" runat="server" />
         <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" SelectMethod="GetCriteriaListItems">
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="TitleCode"
+                <asp:ControlParameter DefaultValue="0" Name="titleCode" ControlID="hiddenTitleCode"
                     Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
+        <asp:HiddenField ID="hiddenReferenceNumber" runat="server" />
         <asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetByProperty" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
             <SelectParameters>
                 <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" Type="String" />
-                <asp:SessionParameter DefaultValue="0" Name="propertyValue" SessionField="ReferenceNumber"
+                <asp:ControlParameter DefaultValue="0" Name="propertyValue" ControlID="hiddenReferenceNumber"
                     Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>

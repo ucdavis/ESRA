@@ -239,6 +239,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Button btnCancelSalaryReviewAnalysis;
         
         /// <summary>
+        /// hiddenTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenTitleCode;
+        
+        /// <summary>
         /// odsCriteria control.
         /// </summary>
         /// <remarks>
@@ -246,6 +255,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsCriteria;
+        
+        /// <summary>
+        /// hiddenReferenceNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenReferenceNumber;
         
         /// <summary>
         /// odsSalaryReviewAnalysis control.
