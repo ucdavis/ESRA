@@ -4,13 +4,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
-    <center>
-        <asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis" Font-Bold="true"
-            Font-Size="Larger"></asp:Label></center>
-    <br />
-    <hr />
-    <br />
-    <div>
+<h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis"></asp:Label></h1>
+<%--<div class="left_col_empty"></div>--%>
+<div class="right_col">
+<div id="SRA_scale">
         <asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetByProperty" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
             <SelectParameters>
@@ -65,14 +62,11 @@
         </asp:ObjectDataSource>
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
-                &nbsp;<table style="width: 75%;" id="tblSearchCriteria" border="1" cellpadding="2"
-                    cellspacing="0">
+                &nbsp;<table id="SRA_table">
                     <tr>
-                        <td colspan="4">
-                            <center>
-                                <asp:Label ID="lblTblSearchCriteriaTitle" runat="server" Text="Search Parameters"
-                                    Font-Size="Large" Font-Bold="True"></asp:Label></center>
-                        </td>
+                        <th colspan="4">
+                                <h2><asp:Label ID="lblTblSearchCriteriaTitle" runat="server" Text="Search Parameters"></asp:Label></h2>
+                        </th>
                     </tr>
                     <tr>
                         <th>
@@ -121,7 +115,6 @@
                             </ajax:ListSearchExtender>
                         </td>
                         <td>
-                            &nbsp;<br />
                             <asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" DataSourceID="odsCreatedBy"
                                 DataTextField="FullName" DataValueField="Login"
                                 ondatabound="ddlCreatedBy_DataBound">
@@ -141,7 +134,7 @@
                         </td>
                     </tr>
                 </table>
-                <br />
+                <div id="ESCR_table">
                 <asp:GridView ID="gvSalaryReviewAnalysis" runat="server" AutoGenerateColumns="False"
                     EmptyDataText="No Data Found." OnSelectedIndexChanged="gvSalaryReviewAnalysis_SelectedIndexChanged"
                     DataKeyNames="ID" OnRowDeleting="gvSalaryReviewAnalysis_OnRowDeleting" 
@@ -154,9 +147,10 @@
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
                         <asp:TemplateField ShowHeader="false">
+                        <ItemStyle Width="50px" />
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnSelect" runat="server" CausesValidation="False" CommandName="Select"
-                                    Text="Select" ToolTip="Select" CssClass="buttons"></asp:LinkButton>
+                                    Text="Select" ToolTip="Select" CssClass="buttons"><img src="images/common/edit.png" alt="select" /></asp:LinkButton>
                                 &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False"
                                  CommandName="Delete" CommandArgument='<%# ((CAESDO.Esra.Core.Domain.SalaryReviewAnalysis)Container.DataItem).ID %>'
                                     Text="Delete" ToolTip="Delete" CssClass="buttons" OnClientClick="return confirm('Are you sure you want to delete this analysis?');" OnClick="gvSalaryReviewAnalysis_OnRowDeleting">
@@ -225,14 +219,11 @@
                     </Columns>
                     
                 </asp:GridView>
+                </div>
                 
                 <asp:Panel ID="pnlProposedTitleCodeNote" runat="server">
-                <br />
-                <asp:Label ID="lblProposedTitleCodeNote" runat="server" Text="*Proposed Title Code." ></asp:Label><br />
+                <asp:Label ID="lblProposedTitleCodeNote" runat="server" Text="*Proposed Title Code." ></asp:Label>
                 </asp:Panel>
-                
-                <br />
-                <hr />
                 <br />
                 &nbsp;<asp:DropDownList ID="ddlNewSAREmployee" runat="server" AppendDataBoundItems="True"
                     DataTextField="FullName" DataValueField="ID" AutoPostBack="true" OnSelectedIndexChanged="ddlNewSAREmployee_SelectedIndexChanged"
@@ -258,7 +249,7 @@
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
                 <div id="divSalaryDetails">
                     <asp:GridView ID="gvSalaryScale" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
-                        HeaderStyle-HorizontalAlign="Center" EnableViewState="False">
+                        HeaderStyle-HorizontalAlign="Center" EnableViewState="False" GridLines="None">
                         <Columns>
                             <asp:TemplateField>
                                 <HeaderTemplate>
@@ -500,17 +491,14 @@
                         </Columns>
                         <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
                     </asp:GridView>
-                    
                 </div>
                 <asp:Panel ID="pnlProposedTitle" runat="server">
-                <br />
                 <asp:Label ID="lblCurrentTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title:</asp:Label> <asp:Label ID="lblCurrentTitleCode" runat="server" Text="[ProposedTitle]"></asp:Label>
-                <br />
                 </asp:Panel>
-                
-                <br />
+</div>
+<div id="SARP_table">             
                 <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Title Data Unavailable."
-                    DataSourceID="odsSAREmployee" Width="100%">
+                    DataSourceID="odsSAREmployee" >
                     <HeaderStyle CssClass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -670,8 +658,8 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound">
-                    <HeaderStyle CssClass="tr_head" />
+                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound" GridLines="None">
+                    <HeaderStyle CssClass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
                         <asp:BoundField DataField="ReferenceNumber" HeaderText="Reference Number" SortExpression="ReferenceNumber" />
@@ -756,6 +744,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                </div>
                 <asp:ObjectDataSource ID="odsSARDetails" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="GetByID" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
                     <SelectParameters>
@@ -778,7 +767,6 @@
                             Type="String" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
-                <br />
                 <asp:LinkButton runat="server" ID="lbtnBack" OnClick="lbtnBack_Click" ToolTip="Back"
                     CssClass="buttons" Text="&lt;img alt=&quot;Back&quot; class=&quot;back_button&quot; 
                     src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
@@ -941,7 +929,6 @@
                 </table>--%>
             </asp:View>
         </asp:MultiView>
-    </div>
     <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
         SelectMethod="GetCriteriaListItems" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
         <SelectParameters>
