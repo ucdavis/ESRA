@@ -230,7 +230,7 @@ namespace CAESDO.Esra.Web
             gvSalaryScale.DataSource = scales;
             gvSalaryScale.DataBind();
 
-            (gvSalaryScale.FindControl("upNumSalarySteps") as UpdatePanel).Update();
+            //(gvSalaryScale.FindControl("upNumSalarySteps") as UpdatePanel).Update();
         }
 
         protected void gvSalaryScales_OnCommand(object sender, CommandEventArgs e)
