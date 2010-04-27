@@ -35,5 +35,13 @@ namespace CAESDO.Esra.Web
                 this.lbl_Message.Visible = false;
             }
         }
+
+        protected void imgBtnLogout_Click(object sender, ImageClickEventArgs e)
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            string postBackUrl = "~/LogoutPage.aspx";
+            Response.Redirect(postBackUrl);        
+        }
     }
 }

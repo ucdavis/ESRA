@@ -14,7 +14,7 @@
     <title>Employee Salary Review Analysis - Home</title>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" style="">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" >
     </asp:ScriptManager>
     <div id="all">
@@ -56,11 +56,18 @@
         <div id="nav_bottom">
             <p><asp:ImageButton ID="imgBtn" runat="server" 
                             ImageUrl="~/images/common/home_icon-full.jpg"  
-                            Height="22px" Width="22px" BackColor="Transparent" PostBackUrl="Default.aspx"></asp:ImageButton>&nbsp;
+                            Height="22px" Width="22px" BackColor="Transparent" 
+                    PostBackUrl="Default.aspx" ToolTip="Home"></asp:ImageButton>&nbsp;
                 Ken Taylor --
                 <asp:Label ID="lbl_Version" runat="server"></asp:Label>
                 -- Revision 0 | <a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
                     Questions Or Suggestions?</a>
+                &nbsp;<asp:ImageButton ID="imgBtnLogout" runat="server" 
+                    AlternateText="CAS Logout" 
+                    ImageUrl="~/images/common/Logout_Button.jpg" 
+                    Height="22px" Width="22px" BackColor="Transparent" 
+                    ToolTip="CAS Logout" 
+                    onclick="imgBtnLogout_Click" />
             </p>
         </div>
     </div>
