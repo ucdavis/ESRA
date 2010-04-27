@@ -23,9 +23,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _Title = value; }
         }
 
-        private int _TitleCode;
+        private string _TitleCode;
 
-        public virtual int TitleCode
+        public virtual string TitleCode
         {
             get { return _TitleCode; }
             set { _TitleCode = value; }
@@ -88,7 +88,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public override int GetHashCode()
         {
-            int retval = base.GetHashCode() / (_TitleCode + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
+            int retval = base.GetHashCode() / (Convert.ToInt32(_TitleCode) + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
             return retval;
         }
 
@@ -103,6 +103,14 @@ namespace CAESDO.Esra.Core.Domain
                 _SalaryScale = salaryScale
             };
             return ss;
+        }
+
+        public SalaryStep(SalaryScale salaryScale)
+        {
+                _EffectiveDate = salaryScale.EffectiveDate;
+                _Title = salaryScale.Title;
+                _TitleCode = salaryScale.TitleCode;
+                _SalaryScale = salaryScale;
         }
 
         public SalaryStep()
