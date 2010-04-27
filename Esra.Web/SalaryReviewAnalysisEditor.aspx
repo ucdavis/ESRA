@@ -520,8 +520,8 @@
                                          </td>
                                         <td >
                                             <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
-                                            <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="delete"
-                                    CommandArgument='<%# Eval("ScenarioNumber") %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
+                                            <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="remove"
+                                    CommandArgument='<%# Container.ItemIndex %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
                                     </tr>
                                 </ItemTemplate>
                                 <AlternatingItemTemplate>
@@ -548,8 +548,8 @@
                                        </td>
                                         <td>
                                             <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
-                                            <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="delete"
-                                    CommandArgument='<%# Eval("ScenarioNumber") %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
+                                            <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="remove"
+                                    CommandArgument='<%# Container.ItemIndex %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>

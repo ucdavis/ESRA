@@ -220,6 +220,29 @@ namespace CAESDO.Esra.Web
                 }
                 tbSalaryAmount.Text = String.Format("{0:c}", (double)Session["Employee.PayRate"]);
             }
+            else if (args.CommandName.Equals("remove"))
+            {
+                // The goal is to remove the particular item from the scenarios list and 
+                // renumber the ScenarioNumber appropriately.
+                Repeater rpt = sender as Repeater;
+                RepeaterItemCollection items = rpt.Items;
+
+                List<Scenario> scenarios = new List<Scenario>();
+                int i = 0;
+                foreach (RepeaterItem item in items)
+                {
+                    if (Convert.ToInt32(args.CommandArgument) != i)
+                    {
+                        // Add all but the item they desire deleted back to the
+                        // scenarios list.
+                        scenarios.Add(UpdateScenarioValues(item));
+                    }
+                    i++;
+                }
+
+                rptScenarios.DataSource = scenarios;
+                rptScenarios.DataBind();
+            }
         }
 
         protected void ddlCriteria_SelectedIndexChanged(object sender, EventArgs args)
