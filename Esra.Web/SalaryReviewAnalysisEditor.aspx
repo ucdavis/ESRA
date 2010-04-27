@@ -749,7 +749,7 @@
                                             <tr>
                                                 <td colspan="6" style="border:none;">
                                                     <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario"
-                                                        OnClick="btnAddAnotherScenario_Click" />
+                                                        OnClick="btnAddAnotherScenario_Click" Font-Underline="true"/>
                                                 </td>
                                             </tr>
                                             </table>
