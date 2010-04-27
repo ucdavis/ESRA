@@ -76,7 +76,7 @@ namespace CAESDO.Esra.Data
                     }
                     if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
                     {
-                         conjunction.Add(Expression.Eq("id", Convert.ToInt32(employeeID)));
+                         conjunction.Add(Expression.Eq("id", employeeID));
                     }
                     if (String.IsNullOrEmpty(departmentID) == false && departmentID.Equals("0") == false)
                     {
