@@ -415,5 +415,13 @@ namespace CAESDO.Esra.Web
         //    lbl.Visible = visible;
         //    lbl.Text = message;
         //}
+        protected void ddlSelectTitleCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = sender as DropDownList;
+            hiddenTitleCode.Value = ddl.SelectedValue;
+            ddlSelectPayrollTitle.SelectedValue = ddl.SelectedValue;
+            ddlSelectTitleCode.SelectedValue = ddl.SelectedValue;
+            gvSalaryScale.DataBind();
+        }
     }
 }

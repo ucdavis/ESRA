@@ -10,31 +10,59 @@
  <div class="right_col">
  <div id="ESCR_table">
   <br />
+  <asp:HiddenField ID="hiddenTitleCode" runat="server" />
+  
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScales" 
         TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
         DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
         UpdateMethod="UpdateRecord">
 <SelectParameters>
-    <asp:ControlParameter ControlID="ddlSelectTitleCode" DefaultValue="0" 
-        Name="titleCode" PropertyName="SelectedValue" Type="String" />
+    <asp:ControlParameter ControlID="hiddenTitleCode" DefaultValue="" 
+        Name="titleCode" PropertyName="Value" Type="String" />
 <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String"></asp:Parameter>
 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean"></asp:Parameter>
 </SelectParameters>
     </asp:ObjectDataSource>
+    
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vTitleCodeAverages" runat="server">
+            <asp:DropDownList ID="ddlSelectPayrollTitle" runat="server" 
+                AppendDataBoundItems="True" DataSourceID="odsPayrollTitles" 
+                DataTextField="PayrollTitle_TitleCode" DataValueField="TitleCode" 
+                AutoPostBack="True" OnSelectedIndexChanged="ddlSelectTitleCode_SelectedIndexChanged">
+                <asp:ListItem Value="">-- Select a Payroll Title --</asp:ListItem>
+                <asp:ListItem Value="0">-- All Payroll Titles --</asp:ListItem>
+            </asp:DropDownList>
+            <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectPayrollTitle">
+            </ajax:ListSearchExtender>
+            <asp:ObjectDataSource ID="odsPayrollTitles" runat="server" 
+                TypeName="CAESDO.Esra.BLL.TitleBLL" 
+                OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
+                <SelectParameters>
+                    <asp:Parameter Name="propertyName" DefaultValue="AbbreviatedName" Type="String" />
+                    <asp:Parameter Name="ascending" DefaultValue="true" Type="Boolean" />
+                </SelectParameters>
+            </asp:ObjectDataSource>
+                
             <asp:DropDownList ID="ddlSelectTitleCode" runat="server" 
-                AppendDataBoundItems="True" DataSourceID="odsTitleCode" 
-                DataTextField="TitleCode_Name" DataValueField="TitleCode" 
-                AutoPostBack="True" >
+                AppendDataBoundItems="True" DataSourceID="odsTitleCodes" 
+                DataTextField="TitleCode" DataValueField="TitleCode" 
+                AutoPostBack="True" OnSelectedIndexChanged="ddlSelectTitleCode_SelectedIndexChanged">
+                <asp:ListItem Value="">-- Select a Title Code --</asp:ListItem>
                 <asp:ListItem Value="0">-- All Title Codes --</asp:ListItem>
             </asp:DropDownList>
-            <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectTitleCode">
+            <ajax:ListSearchExtender ID="ListSearchExtender2" runat="server" TargetControlID="ddlSelectTitleCode">
             </ajax:ListSearchExtender>
-            <asp:ObjectDataSource ID="odsTitleCode" runat="server" 
+            
+            <asp:ObjectDataSource ID="odsTitleCodes" runat="server" 
                 TypeName="CAESDO.Esra.BLL.TitleBLL" 
-                OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll"></asp:ObjectDataSource>
+                OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
+                <SelectParameters>
+                    <asp:Parameter Name="propertyName" DefaultValue="TitleCode" Type="String" />
+                    <asp:Parameter Name="ascending" DefaultValue="true" Type="Boolean" />
+                </SelectParameters>
+                </asp:ObjectDataSource>
 <br />
 <br />
 
@@ -46,7 +74,8 @@
         onsorting="gvSalaryScale_Sorting" 
         OnRowDataBound="gvSalaryScale_OnRowDataBound" 
         onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="TitleCode, EffectiveDate" 
-                onrowupdating="gvSalaryScale_RowUpdating"  GridLines="None" Width="100%">
+                onrowupdating="gvSalaryScale_RowUpdating"  GridLines="None" Width="100%" 
+                EmptyDataText="No Salary Scale Data Available.">
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
@@ -183,11 +212,11 @@
                     <asp:Label ID="lblCampusAverageAnnual" runat="server" Text='<%# (Convert.ToDouble(Eval("CampusAverageAnnual")) != 0 ? Eval("CampusAverageAnnual", "{0:c}") : "") %>'></asp:Label></ItemTemplate></asp:TemplateField><asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnDeleteSalaryScaleAverages" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
-                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons" Visible='<%# CAESDO.Esra.BLL.SalaryScaleBLL.CanBeDeleted((CAESDO.Esra.Core.Domain.SalaryScale)Container.DataItem) %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></ItemTemplate></asp:TemplateField></Columns></asp:GridView></asp:View><asp:View ID="vInsertNewTitleCodeAverages" runat="server">
+                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons" Visible='<%# CAESDO.Esra.BLL.SalaryScaleBLL.CanBeDeleted((CAESDO.Esra.Core.Domain.SalaryScale)Container.DataItem) %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></ItemTemplate></asp:TemplateField></Columns>
+        </asp:GridView>
+    </asp:View>
                         
-                        
-                        
-                        
+    <asp:View ID="vInsertNewTitleCodeAverages" runat="server">
             <table id="tblNewTitleCodeAverages">
                 <tr class="tr_head">
                     <th>Title Code</th><th>Payroll Title</th><th>Effective Date</th><th>Salary Grade</th><th>Bargaining Code</th><th>Labor Market WAS</th><th>Labor Market Mid (Annual)</th><th>College Average (Annual)</th><th>Campus Average (Annual)</th></tr><tr>
@@ -260,8 +289,10 @@
                             Text="Cancel" ToolTip="Cancel"><img 
                         alt="Cancel" width="21px" height="21px" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
                         &nbsp;</td>
-                        <td colspan="8" style="border:none;"/></tr></table></asp:View></asp:MultiView>
+                        <td colspan="8" style="border:none;"/></tr>
+        </table>
+    </asp:View>
+</asp:MultiView>
                         </div>
-                        </div>
-                        </div>
-                        </asp:Content>
+                        </div>           
+</asp:Content>
