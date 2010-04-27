@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee">
+
+		<id name="id" access="field" column="PkEmployee" unsaved-value="0">
+			<generator class="assigned">
+
+			</generator>
+		</id>
+
+		<!--<composite-id>
+			<key-property name="EmployeeID" column="EmployeeID" type="string"/>
+			<key-many-to-one name="Title" column="TC" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"/>
+		</composite-id>-->
+
+		<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>
+		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept"  insert="false" update="false"/>
+		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept"  insert="false" update="false"/>
+		<property name="Different" column="Different" insert="false" update="false"/>
+		<property name="FullName" column="EmpName"  insert="false" update="false"/>
+		<property name="FirstName" column="FirstName"  insert="false" update="false"/>
+		<property name="MiddleName" column="MiddleName"  insert="false" update="false"/>
+		<property name="LastName" column="LastName"  insert="false" update="false"/>
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false" column="TC" foreign-key="TitleCode"/>
+		<property name="TitleCode" column="TC"  insert="false" update="false"/>
+		<property name="HireDate" column="HireDate"  insert="false" update="false"/>
+		<property name="BeginDate" column="BeginDate"  insert="false" update="false"/>
+		<!--<property name="YearsInTitle" column="YearsInTitle" insert="false" update="false"/>-->
+		<property name="PayRate" column="PayRate"  insert="false" update="false"/>
+		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"  insert="false" update="false"/>
+		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
+		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
+
+		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
+			<!--<key>
+				<column name="EmployeeID"/>
+				<column name="TitleCode" />
+			</key>-->
+			<!--<property name="id" column="PkEmployee" access="field" update="false" insert="false" unique="true"/>-->
+			<key>
+				<column name="PkEmployee" />
+			</key>
+
+			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
+			<property name="CareerHireDate" column="CareerHireDate" />
+			<property name="ApptHireDate" column="ApptHireDate" />
+			<property name="DepartmentComments" column="DepartmentComments" />
+			<property name="DeansOfficeComments" column="DeansOfficeComments"/>
+			<property name="YearsOfService" column="YearsOfService"/>
+			<property name="TimeInTitle" column="TimeInTitle"/>
+		</joined-subclass>
+	</class>
+</hibernate-mapping>
+
