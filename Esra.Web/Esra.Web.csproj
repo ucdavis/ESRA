@@ -285,6 +285,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\CAESOps.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.0.11211.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.MSXML2, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\Interop.MSXML2.dll</HintPath>

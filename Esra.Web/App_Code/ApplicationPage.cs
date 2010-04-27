@@ -21,6 +21,7 @@ using System.Reflection;
 using CAESOps;
 using CAESDO.Esra.Core.Domain;
 using System.Web.Configuration;
+using Elmah;
 
 
 namespace CAESDO.Esra.Web
@@ -126,6 +127,9 @@ namespace CAESDO.Esra.Web
             System.Exception ex = ctx.Server.GetLastError();
 
             //Handle Error
+
+            // Send exception to ELMAH to do its thing.
+            Elmah.ErrorLog.Default.Log(new Error(ex));
 
             base.OnError(e); //won't get called
 
