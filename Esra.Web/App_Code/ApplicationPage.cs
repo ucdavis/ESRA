@@ -16,6 +16,7 @@ using System.Threading;
 using System.Web.SessionState;
 using System.Web.Caching;
 using CAESArch.Data.NHibernate;
+using CAESDO.Esra.BLL;
 using CAESDO.Esra.Data;
 using CAESDO.Esra.Core.DataInterfaces;
 using System.Reflection;
@@ -130,7 +131,8 @@ namespace CAESDO.Esra.Web
             //Handle Error
 
             // Send exception to ELMAH to do its thing.
-            Elmah.ErrorLog.Default.Log(new Error(ex));
+            //Elmah.ErrorLog.Default.Log(new Error(ex));
+            ErrorLog.GetDefault(ctx).Log(new Error(ex));
 
             base.OnError(e); //won't get called
 
@@ -431,29 +433,73 @@ namespace CAESDO.Esra.Web
             return retval;
         }
 
+        /// <summary>
+        /// A department user is a person whose one and only role is USER.
+        /// 
+        /// First we check to see if we are trying to emulate a particular user role,
+        /// which is indicated by the KEY_IS_DEPARTMENT_USER being present in the session.
+        /// 
+        /// If the KEY_IS_DEPARTMENT_USER is not present, then we use the normal role membership
+        /// provider role checking.
+        /// </summary>
+        /// <returns>true if the user is only a departmental user; false otherwise.</returns>
         protected static bool IsDepartmentUser()
         {
             bool retval = false;
+
             bool? isDepartmentUser = HttpContext.Current.Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
             if (isDepartmentUser != null)
+            {
                 retval = (bool)isDepartmentUser;
-            //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
-            //{
-            //    retval = true;
-            //}
+            }
+            else
+            {
+                var user = System.Web.HttpContext.Current.User;
+
+                if (user != null)
+                {
+                    if ((!user.IsInRole(ROLE_ADMIN) &&
+                         !user.IsInRole(ROLE_DOUser)) &&
+                         !user.IsInRole(ROLE_REVIEWER))
+                        {
+                            retval = true;
+                        }
+                    }
+                }
             return retval;
         }
 
+        /// <summary>
+        /// A admin user is a user who has the admin role.
+        /// 
+        /// First we check to see if we are trying to emulate a particular user role,
+        /// which is indicated by the KEY_CURRENT_USER_ROLE being present in the session.
+        /// 
+        /// If the KEY_CURRENT_USER_ROLE is not present, then we use the normal role membership
+        /// provider role checking.
+        /// </summary>
+        /// <returns>true if the user is only an admin user; false otherwise.</returns>
         protected bool IsAdminUser()
         {
             bool retval = false;
+
             string role = Session[KEY_CURRENT_USER_ROLE] as String;
-            if (String.IsNullOrEmpty(role) == false && role.Equals(ROLE_ADMIN))
-                retval = true;
-      
+            if (String.IsNullOrEmpty(role) == false)
+            {
+                if (role.Equals(ROLE_ADMIN))
+                    retval = true;
+            }
+            else
+            {
+                var user = System.Web.HttpContext.Current.User;
+                if (user != null)
+                {
+                    if (user.IsInRole(ROLE_ADMIN))
+                        retval = true;
+                }
+            }
             return retval;
         }
-
 
         #endregion
     }
