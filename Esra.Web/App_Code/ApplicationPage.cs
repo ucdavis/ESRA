@@ -43,6 +43,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_CURRENT_USER_ID = "UserID";
         protected static readonly string KEY_CURRENT_USER_ROLE = "UserRole";
         protected static readonly string KEY_IS_DEPARTMENT_USER = "IsDepartmentUser";
+        protected static readonly string KEY_CURRENT_USER = "User";
 
         public ApplicationPage()
         {
