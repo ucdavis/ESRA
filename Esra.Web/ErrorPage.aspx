@@ -1,16 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="CAESDO.Esra.Web.ErrorPage" %>
+﻿<%@ Page Title="ESRA - Error Page" Language="C#" MasterPageFile="~/Esra.Master" ValidateRequest="false" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="CAESDO.Esra.Web.ErrorPage" %>
+    <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    </asp:Content>
+    <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
+    </asp:Content>
+    <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
+        <div>
+            <p>
+                Error: <asp:Label ID="lit_ErrorType" runat="server"></asp:Label>
+            </p>
+        </div>
+    </asp:Content>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head runat="server">
-    <title>Error Page</title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    Error: <asp:Label ID="lit_ErrorType" runat="server"></asp:Label>
-    </div>
-    </form>
-</body>
-</html>
+    
+    
