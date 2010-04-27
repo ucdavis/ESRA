@@ -467,7 +467,7 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter Name="ExperienceBeginDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
-                <asp:Parameter Name="IsDepartmentUser" Type="String" />
+                <asp:SessionParameter DefaultValue="false" Name="IsDepartmentUser" SessionField="IsDepartmentUser" Type="String" />
                 <asp:Parameter Name="original_ID" Type="String" />
             </UpdateParameters>
             <SelectParameters>

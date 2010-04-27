@@ -462,20 +462,23 @@ namespace CAESDO.Esra.Web
             GridViewRowEventArgs args = (GridViewRowEventArgs)e;
             GridViewRow gvr = args.Row;
 
-            if (gvr.RowType.Equals(DataControlRowType.DataRow))
+            if ((bool)Session[KEY_IS_DEPARTMENT_USER])
             {
-                UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
-                if (user != null)
+                if (gvr.RowType.Equals(DataControlRowType.DataRow))
                 {
-                    Employee employee = gvr.DataItem as Employee;
-
-                    if (!EmployeeBLL.IsDepartmentEmployee(user, employee))
+                    UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
+                    if (user != null)
                     {
-                        ((Label)gvr.FindControl("lblDeptName")).Text = null;
-                        ((Label)gvr.FindControl("lblFullName")).Text = null;
-                        ((Label)gvr.FindControl("lblDepartmentComments")).Text = null;
-                        ((Label)gvr.FindControl("lblDeansOfficeComments")).Text = null;
-                        ((LinkButton)gvr.FindControl("lbtnEdit")).Visible = false;
+                        Employee employee = gvr.DataItem as Employee;
+
+                        if (!EmployeeBLL.IsDepartmentEmployee(user, employee))
+                        {
+                            ((Label)gvr.FindControl("lblDeptName")).Text = null;
+                            ((Label)gvr.FindControl("lblFullName")).Text = null;
+                            ((Label)gvr.FindControl("lblDepartmentComments")).Text = null;
+                            ((Label)gvr.FindControl("lblDeansOfficeComments")).Text = null;
+                            ((LinkButton)gvr.FindControl("lbtnEdit")).Visible = false;
+                        }
                     }
                 }
             }
