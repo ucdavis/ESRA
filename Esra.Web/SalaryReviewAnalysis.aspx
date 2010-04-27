@@ -45,7 +45,7 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" AutoPostBack="True"
                                 DataSourceID="odsESRAs" DataTextField="ReferenceNumber" DataValueField="ID">
-                                <asp:ListItem>-- Select a Reference Number --</asp:ListItem>
+                                <asp:ListItem Value="0">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
@@ -67,19 +67,18 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" DataSourceID="odsEmployee"
                                 DataTextField="FullName" DataValueField="ID">
-                                <asp:ListItem>-- Select an Employee --</asp:ListItem>
+                                <asp:ListItem Value="0">-- Select an Employee --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AutoPostBack="True" 
                                 DataTextField="FullName" DataValueField="EmployeeID" 
                                 DataSourceID="odsCreatedBy">
-                                <asp:ListItem>-- Select Created By --</asp:ListItem>
+                                <asp:ListItem Value="0">-- Select Created By --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td><ajax:CalendarExtender
-                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate">
-                            </ajax:CalendarExtender>
+                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate"></ajax:CalendarExtender>
                             &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" Text="" ReadOnly="true"/>
                         </td>
                     </tr>
