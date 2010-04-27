@@ -14,6 +14,7 @@ using System.Collections;
 using System.Threading;
 using System.Web.SessionState;
 using System.Web.Caching;
+using CAESArch.Data.NHibernate;
 using CAESDO.Esra.Data;
 using CAESDO.Esra.Core.DataInterfaces;
 using System.Reflection;
