@@ -61,18 +61,10 @@ namespace CAESDO.Esra.Web
             }
         }
 
-        protected List<Title> Titles
-        {
-            get { return ViewState[KEY_TITLES] as List<Title>; }
-            set { ViewState[KEY_TITLES] = value; }
-        }
+        protected List<Title> Titles { get; set; }
 
-        protected List<SRAEmployee> Employees
-        {
-            get { return ViewState[KEY_EMPLOYEES] as List<SRAEmployee>; }
-            set { ViewState[KEY_EMPLOYEES] = value; }
-        }
-
+        protected List<SRAEmployee> Employees { get; set; }
+        
         protected Dictionary<string, decimal?> Criteria
         {
             get { return ViewState[KEY_CRITERIA] as Dictionary<string, decimal?>; }
