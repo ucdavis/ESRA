@@ -9,6 +9,10 @@ Begin DataProject = "Esra.Database"
    Begin Folder = "Change Scripts"
    End
    Begin Folder = "Create Scripts"
+      Script = "Create database and insert all data.sql"
+      Begin Folder = "Insert Data"
+         Script = "Insert into SelectionType, ApptType, PayRateType, QuartileType.sql"
+      End
       Begin Folder = "SQL Server Agent Jobs"
          Script = "ESRA.dbo.Employee_TimeLengthsRefresher_Job.sql"
       End
