@@ -18,5 +18,10 @@ namespace CAESDO.Esra.Web
         {
             gridView_Sorting((GridView)sender, e, odsSalaryScale, "SalaryStep_UserInputForm");
         }
+
+        protected void lvSalarySteps_ItemEditing(object sender, EventArgs e)
+        {
+            ResetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME);
+        }
     }
 }
