@@ -420,7 +420,7 @@ document.write(month+"/"+today+"/"+year)
                             <ItemTemplate>
                                 <asp:Label ID="Label4" runat="server" 
                                     Text='<%# Eval("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' 
-                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White ) %>'></asp:Label>
+                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.White ) %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Years Of Service" 
@@ -445,7 +445,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblAdjustedApptHireDate" runat="server" 
-                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White )  %>'></asp:Label>
+                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.White )  %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Time In Title" SortExpression="TimeInTitle">
