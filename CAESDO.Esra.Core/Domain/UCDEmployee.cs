@@ -15,12 +15,28 @@ namespace CAESDO.Esra.Core.Domain
             set { _EmployeeID = value; }
         }
 
+        protected string _HomeDepartmentID;
+
+        public virtual string HomeDepartmentID
+        {
+            get { return _HomeDepartmentID; }
+            set { _HomeDepartmentID = value; }
+        }
+
         protected Department _HomeDepartment;
 
         public virtual Department HomeDepartment
         {
             get { return _HomeDepartment; }
             set { _HomeDepartment = value; }
+        }
+
+        protected string _WorkDepartmentID;
+
+        public virtual string WorkDepartmentID
+        {
+            get { return _WorkDepartmentID; }
+            set { _WorkDepartmentID = value; }
         }
 
         protected Department _WorkDepartment;

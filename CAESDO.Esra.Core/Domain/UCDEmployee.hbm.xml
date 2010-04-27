@@ -15,7 +15,9 @@
 
 		<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>
 		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept"  insert="false" update="false"/>
+    <property name="HomeDepartmentID" column="HomeDept" insert="false" update="false"/>
 		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept"  insert="false" update="false"/>
+    <property name="WorkDepartmentID" column="WorkDept" insert="false" update="false"/>
 		<property name="Different" column="Different" insert="false" update="false"/>
 		<property name="FullName" column="EmpName"  insert="false" update="false"/>
 		<property name="FirstName" column="FirstName"  insert="false" update="false"/>
