@@ -14,9 +14,10 @@ using Esra.Web.CatOps;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 //using CAESDO.Esra.Core.DataInterfaces;
 //using CAESDO.Esra.Data;
-
 
 namespace CAESDO.Esra.Web
 {
@@ -29,7 +30,29 @@ namespace CAESDO.Esra.Web
         static readonly string HASH = WebConfigurationManager.AppSettings["CatbertHash"];
         static readonly string AppName = WebConfigurationManager.AppSettings["AppName"];
 
-        public static CatbertWebService catops = new CatbertWebService();
+        public static CatbertWebService catops = new CatbertWebService() {};
+
+        // This is the 3.5 equivalant to needing to implement the 2.0 System.Net.ICertificatePolicy.
+        // The following method is invoked by the RemoteCertificateValidationDelegate.
+        public static bool ValidateServerCertificate(
+              object sender,
+              X509Certificate certificate,
+              X509Chain chain,
+              SslPolicyErrors sslPolicyErrors)
+        {
+            // This is the original certificate checking code.
+            /*
+            if (sslPolicyErrors == SslPolicyErrors.None)
+                return true;
+
+            Console.WriteLine("Certificate error: {0}", sslPolicyErrors);
+
+            // Do not allow this client to communicate with unauthenticated servers.
+            return false;
+             */
+            // We're going to replace it with this trust everything logic:
+            return true;
+        }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
         public static Units[] GetUnits()
@@ -139,6 +162,8 @@ namespace CAESDO.Esra.Web
         [DataObjectMethod(DataObjectMethodType.Select)]
         public static CatbertUsersRev[] GetUsersInApplication(string[] pUnits)
         {
+            SetSecurityContext();
+
             CatbertUsersRev[] retval = GetUsersWithFullName(catops.GetUsersByApplications(AppName), "Reviewer");
 
             if (pUnits != null && pUnits.Length > 0 && String.IsNullOrEmpty(pUnits[0]) == false)
@@ -208,8 +233,11 @@ namespace CAESDO.Esra.Web
             sc.userID = username;
             sc.password = user.UserKey.ToString();
 
-            System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
-
+            // old 2.0 way
+            //System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+            // new 3.5 way (uses deligate):
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateServerCertificate);
+            
             catops.SecurityContextValue = sc;
         }
 
@@ -247,6 +275,8 @@ namespace CAESDO.Esra.Web
         }
     }
 
+    // It doesn't appear that this method is currently being called by anything.
+    /*
     [AttributeUsage(AttributeTargets.Method)]
     public class SetCabertSecurityContextAttribute : Attribute
     {
@@ -257,23 +287,25 @@ namespace CAESDO.Esra.Web
             sc.userID = HttpContext.Current.User.Identity.Name;
             sc.password = "02188896-cb85-41a4-a2a3-060aeec2975b";
 
-            System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+            //System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateCertificate);
 
             service.SecurityContextValue = sc;
         }
     }
+*/
+    // This method has been replaced by the 3.5 RemoteCertificateValidationCallback deligate.
+    //// Accept all certificates even self signed
+    //public class TrustAllCertificatePolicy : System.Net.ICertificatePolicy
+    //{
+    //    public TrustAllCertificatePolicy()
+    //    { }
 
-    // Accept all certificates even self signed
-    public class TrustAllCertificatePolicy : System.Net.ICertificatePolicy
-    {
-        public TrustAllCertificatePolicy()
-        { }
-
-        public bool CheckValidationResult(ServicePoint sp,
-         System.Security.Cryptography.X509Certificates.X509Certificate cert, WebRequest req, int problem)
-        {
-            return true;
-        }
-    }
+    //    public bool CheckValidationResult(ServicePoint sp,
+    //     System.Security.Cryptography.X509Certificates.X509Certificate cert, WebRequest req, int problem)
+    //    {
+    //        return true;
+    //    }
+    //}
 }
 
