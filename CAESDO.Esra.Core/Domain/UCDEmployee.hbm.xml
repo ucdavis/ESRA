@@ -5,21 +5,21 @@
 			<generator class="assigned" />
 		</id>
 
-		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept" />
-		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept" />
-		<property name="Different" column="Different" />
-		<property name="FullName" column="EmpName" />
-		<property name="FirstName" column="FirstName" />
-		<property name="MiddleName" column="MiddleName" />
-		<property name="LastName" column="LastName" />
-		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TC"/>
-		<property name="HireDate" column="HireDate" />
-		<property name="BeginDate" column="BeginDate" />
-		<property name="YearsInTitle" column="YearsInTitle" />
-		<property name="PayRate" column="PayRate" />
-		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"/>
-		<property name="SalaryGrade" column="SalaryGrade" />
-		<property name="BargainingUnitCode" column="BargainingUnit" />
+		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept"  insert="false" update="false"/>
+		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept"  insert="false" update="false"/>
+		<property name="Different" column="Different" insert="false" update="false"/>
+		<property name="FullName" column="EmpName"  insert="false" update="false"/>
+		<property name="FirstName" column="FirstName"  insert="false" update="false"/>
+		<property name="MiddleName" column="MiddleName"  insert="false" update="false"/>
+		<property name="LastName" column="LastName"  insert="false" update="false"/>
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TC"  insert="false" update="false"/>
+		<property name="HireDate" column="HireDate"  insert="false" update="false"/>
+		<property name="BeginDate" column="BeginDate"  insert="false" update="false"/>
+		<property name="YearsInTitle" column="YearsInTitle"  insert="false" update="false"/>
+		<property name="PayRate" column="PayRate"  insert="false" update="false"/>
+		<many-to-one name="ApptType" class="CAESDO.Esra.Core.Domain.ApptType, CAESDO.Esra.Core" column="ApptType"  insert="false" update="false"/>
+		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
+		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
 		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
 			<key column="EmployeeID"/>
