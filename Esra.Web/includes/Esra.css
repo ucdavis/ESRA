@@ -148,6 +148,10 @@ p.bbox em {
 {
 	border: 0;
 }
+.buttons .back_button
+{
+	border: 0;
+}
 
 .comments
 {
