@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
-using CAESDO.Esra.Core.Domain;
 
 namespace CAESDO.Esra.Web
 {
@@ -11,7 +10,7 @@ namespace CAESDO.Esra.Web
     {
         public static readonly string KEY_CURRENT_SALARY_SCALE = "CurrentSalaryScale";
 
-        protected SalaryScale CurrentSalaryScale
+        protected CAESDO.Esra.Core.Domain.SalaryScale CurrentSalaryScale
         {
             get { return ViewState[KEY_CURRENT_SALARY_SCALE] as SalaryScale; }
             set { ViewState.Add(KEY_CURRENT_SALARY_SCALE, value); }
@@ -102,7 +101,7 @@ namespace CAESDO.Esra.Web
 
             // Get the Step # or the item index:
             int dataItemIndex = item.DataItemIndex;
-            SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
+            CAESDO.Esra.Core.Domain.SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
 
             ss.StepNumber = tb.Text;
         }
@@ -116,7 +115,7 @@ namespace CAESDO.Esra.Web
 
             // Get the Step # or the item index:
             int dataItemIndex = item.DataItemIndex;
-            SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
+            CAESDO.Esra.Core.Domain.SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
 
             // get new salary amount:
             double newSalary = 0;
@@ -184,9 +183,9 @@ namespace CAESDO.Esra.Web
         protected void lbtnAddAnotherSalaryStep_Click(object sender, EventArgs e)
         {
             int nextStepNumber = CurrentSalaryScale.SalarySteps.Count + 1;
-            CurrentSalaryScale.SalarySteps.Add(new SalaryStep(CurrentSalaryScale) { StepNumber = nextStepNumber.ToString() });
+            CurrentSalaryScale.SalarySteps.Add(new CAESDO.Esra.Core.Domain.SalaryStep(CurrentSalaryScale) { StepNumber = nextStepNumber.ToString() });
 
-            IList<SalaryScale> scales = new List<SalaryScale>();
+            IList<CAESDO.Esra.Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             scales.Add(CurrentSalaryScale);
 
             gvSalaryScale.DataSource = scales;
@@ -195,15 +194,15 @@ namespace CAESDO.Esra.Web
 
         protected void lbtnEdit_Click(object sender, EventArgs e)
         {
-            SalaryScale ss = SalaryScaleBLL.GetSalaryScale(TitleCode, Convert.ToDateTime(EffectiveDate));
+            CAESDO.Esra.Core.Domain.SalaryScale ss = SalaryScaleBLL.GetSalaryScale(TitleCode, Convert.ToDateTime(EffectiveDate));
             if (ss.SalarySteps == null || ss.SalarySteps.Count == 0)
             {
-                ss.SalarySteps.Add(new SalaryStep(ss) { StepNumber = "1" });
+                ss.SalarySteps.Add(new CAESDO.Esra.Core.Domain.SalaryStep(ss) { StepNumber = "1" });
             }
 
             CurrentSalaryScale = ss; // Save current Salary Scale to View State.
 
-            IList<SalaryScale> list = new List<SalaryScale>();
+            IList<CAESDO.Esra.Core.Domain.SalaryScale> list = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             list.Add(ss);
 
             gvSalaryScale.DataSource = list;
@@ -221,7 +220,7 @@ namespace CAESDO.Esra.Web
             int dataItemIndex = item.DataItemIndex;
             CurrentSalaryScale.SalarySteps.Remove(CurrentSalaryScale.SalarySteps[dataItemIndex]);
 
-            IList<SalaryScale> scales = new List<SalaryScale>();
+            IList<CAESDO.Esra.Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             scales.Add(CurrentSalaryScale);
 
             gvSalaryScale.DataSource = scales;
