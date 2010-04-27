@@ -256,8 +256,8 @@ document.write(month+"/"+today+"/"+year)
                                         <tr>
                                             <th>Title Code:</th>
                                             <th>Payroll Title:</th>
-                                            <th>Salary Grade:</th>
-                                            <th>Bargaining Unit:</th>
+                                            <%--<th>Salary Grade:</th>
+                                            <th>Bargaining Unit:</th>--%>
                                         </tr>
                                  <asp:Repeater ID="Repeater2" runat="server" DataSource='<%# Eval("SearchTitles")%>'>
                              
@@ -266,8 +266,8 @@ document.write(month+"/"+today+"/"+year)
                                     
                                             <td><asp:Label ID="lblSearchTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label></td>
                                             <td><asp:Label ID="lblSearchTitleName" runat="server" Text='<%# Eval("PayrollTitle") %>'></asp:Label></td>
-                                            <td><asp:Label ID="lblSearchTitleSalaryGrade" runat="server" Text='<%# Eval("SalaryGrade") %>'></asp:Label></td>
-                                            <td><asp:Label ID="lblSearchTitleBargainingUnit" runat="server" Text='<%# Eval("BargainingCode") %>'></asp:Label></td> 
+                                            <%--<td><asp:Label ID="lblSearchTitleSalaryGrade" runat="server" Text='<%# Eval("SalaryGrade") %>'></asp:Label></td>
+                                            <td><asp:Label ID="lblSearchTitleBargainingUnit" runat="server" Text='<%# Eval("BargainingCode") %>'></asp:Label></td>--%> 
                                         </tr>
                                     </ItemTemplate>
 
@@ -388,7 +388,18 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Eval("TitleCode") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Bargaining Unit">
+                        <asp:TemplateField HeaderText="Salary Grade" SortExpression="SalaryGrade">
+                            <EditItemTemplate>
+                                <asp:Label ID="lblSalaryGradeHeader" runat="server" Text="Salary Grade:" CssClass="edit_header"/><br />
+                                <asp:Label ID="lblSalaryGrade" runat="server" 
+                                    Text='<%# Eval("SalaryGrade", "{0:0.00}") %>'></asp:Label>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblSalaryGrade" runat="server" 
+                                    Text='<%# Eval("SalaryGrade", "{0:0.00}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Bargaining Unit" SortExpression="BargainingUnitCode">
                             <EditItemTemplate>
                                 <asp:Label ID="lblBargainingUnitHeader" runat="server" Text="Bargaining Unit:" CssClass="edit_header"/><br />
                                 <asp:Label ID="Label2" runat="server" 

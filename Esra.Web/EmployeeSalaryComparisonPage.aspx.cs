@@ -139,6 +139,7 @@ namespace CAESDO.Esra.Web
             DataTable dt = new DataTable();
             dt.Columns.Add("Department Name", Type.GetType("System.String"));
             dt.Columns.Add("Title Code", Type.GetType("System.String"));
+            dt.Columns.Add("Salary Grade", Type.GetType("System.String"));
             dt.Columns.Add("Bargaining Unit", Type.GetType("System.String"));
             dt.Columns.Add("Employee Name", Type.GetType("System.String"));
             dt.Columns.Add("Hire Date", Type.GetType("System.String"));
@@ -162,6 +163,7 @@ namespace CAESDO.Esra.Web
                 row["Department Comments"] = emp.DepartmentComments;
                 row["Deans Office Comments"] = emp.DeansOfficeComments;
                 row["Title Code"] = emp.TitleCode;
+                row["Salary Grade"] = emp.SalaryGrade;
                 row["Bargaining Unit"] = emp.BargainingUnitCode;
                 row["Hire Date"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
                 row["Years Of Service"] = emp.YearsOfService;

@@ -243,16 +243,24 @@ namespace CAESDO.Esra.Web
 
         protected void HidePanel(string panelName)
         {
-            Panel pnl = Page.Master.FindControl(panelName) as Panel;
-            if (pnl != null)
-                pnl.Visible = false;
+            MasterPage mp = Page.Master;
+            if (mp != null)
+            {
+                Panel pnl = mp.FindControl(panelName) as Panel;
+                if (pnl != null)
+                    pnl.Visible = false;
+            }
         }
 
         protected void ShowPanel(string panelName)
         {
-            Panel pnl = Page.Master.FindControl(panelName) as Panel;
-            if (pnl != null)
-                pnl.Visible = true;
+            MasterPage mp = Page.Master;
+            if (mp != null)
+            {
+                Panel pnl = mp.FindControl(panelName) as Panel;
+                if (pnl != null)
+                    pnl.Visible = true;
+            }
         }
 
         protected void ResetMasterPageLabel(string labelName)

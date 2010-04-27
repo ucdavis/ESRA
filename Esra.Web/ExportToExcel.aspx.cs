@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class ExportToExcel : ApplicationPage
+    public partial class ExportToExcel : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
