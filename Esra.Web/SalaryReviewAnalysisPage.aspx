@@ -51,7 +51,7 @@
                                 AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsESRAs" 
                                 DataTextField="ReferenceNumber" DataValueField="ID" 
                                 onselectedindexchanged="ddlReferenceNumber_SelectedIndexChanged">
-                            <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
+                            <asp:ListItem Value="0">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                             <ajax:ListSearchExtender ID="ddlReferenceNumber_ListSearchExtender" 
                                 runat="server" TargetControlID="ddlReferenceNumber">
@@ -99,9 +99,9 @@
                             </ajax:ListSearchExtender>
                         </td>
                         <td>
-                            <ajax:CalendarExtender ID="ceCreationDate" runat="server" CssClass="calendar" 
+                            <ajax:CalendarExtender ID="ceCreationDate" runat="server"  
                                 Format="MM/dd/yyyy" TargetControlID="tbCreationDate" 
-                                PopupPosition="BottomRight" PopupButtonID="btn_calendar">
+                                PopupPosition="BottomRight" PopupButtonID="btn_calendar" CssClass="calendar">
                             </ajax:CalendarExtender><img id="btn_calendar" alt="Calendar" longdesc="images/common/Calendar_scheduleHS.png" 
                                 src="images/common/Calendar_scheduleHS.png" style="width: 16px; height: 16px" />&nbsp;
                             <asp:TextBox ID="tbCreationDate" runat="server" />
@@ -153,7 +153,7 @@
                                 <asp:Label ID="lblApprovedScenario" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />
+                        <%--<asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />--%>
                         <asp:BoundField DataField="DeansOfficeComments" HeaderText="Deans Office Comments"
                             SortExpression="DeansOfficeComments" />
                     </Columns>
@@ -172,7 +172,7 @@
             </asp:View>
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
                 <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" 
-                    EmptyDataText="Title Data Unavailable." DataSourceID="odsSAREmployee">
+                    EmptyDataText="Title Data Unavailable." DataSourceID="odsSAREmployee" Width="100%">
             <HeaderStyle cssclass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -312,7 +312,7 @@
             </Columns>
         </asp:GridView>
                 <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" 
-                    DataSourceID="odsSARDetails">
+                    DataSourceID="odsSARDetails" >
                      <HeaderStyle cssclass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -355,8 +355,8 @@
                                 </asp:Repeater>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" 
-                            SortExpression="DepartmentComments" />
+                       <%-- <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" 
+                            SortExpression="DepartmentComments" />--%>
                         <asp:BoundField DataField="DeansOfficeComments" 
                             HeaderText="Deans Office Comments" SortExpression="DeansOfficeComments" />
                         <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
@@ -405,6 +405,7 @@
          <asp:LinkButton runat="server" ID="lbtnBack" 
                     onclick="lbtnBack_Click" ToolTip="Back" CssClass="buttons" Text="&lt;img alt=&quot;Back&quot; class=&quot;back_button&quot; 
                     src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnEdlt" runat="server" onclick="lbtnEdit_Click" ToolTip="Edit" CssClass="buttons">Edit <img id="imgEditButton" alt="Edit" class="edit_button" src="images/common/edit.png"/></asp:LinkButton>
                     
                 <%--<table style="width: 100%;">
                     <tr>

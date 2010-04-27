@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using CAESDO.Esra.BLL;
 using System.Collections.Generic;
+using CAESDO.Esra.Core.Domain;
 
 
 namespace CAESDO.Esra.Web
@@ -53,9 +54,11 @@ namespace CAESDO.Esra.Web
             ddlEmployee.SelectedIndex = -1;
             ddlCreatedBy.SelectedIndex = -1;
             //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
-            CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
-            items.Add(item);
-            //items = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
+            if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
+            {
+                CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
+                items.Add(item);
+            }
             gvSalaryReviewAnalysis.DataSource = items;
             gvSalaryReviewAnalysis.DataBind();
         }
@@ -94,6 +97,14 @@ namespace CAESDO.Esra.Web
             Session.Remove(KEY_TITLE_ID);
 
             MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
+        }
+
+        protected void lbtnEdit_Click(object sender, EventArgs e)
+        {
+            int id = (int)Session[KEY_SALARY_REVIEW_ANALYSIS_ID];
+            SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
+            string redirectURL = "~/Test.aspx?ReferenceNumber=" + sra.ReferenceNumber;
+            Response.Redirect(redirectURL);
         }
     }
 }
