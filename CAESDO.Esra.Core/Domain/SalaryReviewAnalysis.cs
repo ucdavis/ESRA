@@ -6,9 +6,9 @@ namespace CAESDO.Esra.Core.Domain
 {
     public class SalaryReviewAnalysis : DomainObject<SalaryReviewAnalysis, int>
     {
-        private int _ReferenceNumber;
+        private string _ReferenceNumber;
 
-        public virtual int ReferenceNumber
+        public virtual string ReferenceNumber
         {
             get { return _ReferenceNumber; }
             set { _ReferenceNumber = value; }
@@ -46,9 +46,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _ApprovedScenario = value; }
         }
 
-        private List<Scenario> _Scenarios;
+        private IList<Scenario> _Scenarios;
 
-        public virtual List<Scenario> Scenarios
+        public virtual IList<Scenario> Scenarios
         {
             get { return _Scenarios; }
             set { _Scenarios = value; }
