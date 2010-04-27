@@ -6,21 +6,24 @@
     <script type="text/javascript">
         function ConfirmMe() {
             //if (Page_ClientValidate())
-                return confirm('Are you sure you want to save this salary review analysis?');
+            return confirm('Are you sure you want to save this salary review analysis?');
 
             return false;
         }
     </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
-    <center><asp:Label ID="lblPageTitle" runat="server" 
-            Text="Salary Review Analysis Editor" Font-Bold="True" 
-            Font-Size="Larger"></asp:Label></center>
- <br />
+    <center>
+        <asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis Editor"
+            Font-Bold="True" Font-Size="Larger"></asp:Label></center>
+    <br />
     <div id="divSalaryDetails">
-        <hr /><br />
-        <center><asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" 
-                Font-Bold="True" Font-Size="Large"></asp:Label></center>
+        <hr />
+        <br />
+        <center>
+            <asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" Font-Bold="True"
+                Font-Size="Large"></asp:Label></center>
         <br />
         <asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
             HeaderStyle-HorizontalAlign="Center" EnableViewState="False" DataSource='<%# Titles %>'>
@@ -85,113 +88,112 @@
                                                 <tr>
                                                     <td colspan="5">
                                                         <table>
-                                                         <asp:Panel ID="pnlQuartiles" runat="server" Visible='<%# !HasSalarySteps(Container) %>'>
-                                                            <tr>
-                                                                <th>
-                                                                    Quartile
-                                                                </th>
-                                                                <th>
-                                                                    Annual
-                                                                </th>
-                                                                <th>
-                                                                    Monthly
-                                                                </th>
-                                                                <th>
-                                                                    Hourly
-                                                                </th>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    Min
-                                                                </th>
-                                                                <td>
-                                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinAnnual","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label4" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinMonthly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label5" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinHourly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    First
-                                                                </th>
-                                                                <td>
-                                                                    <asp:Label ID="Label3" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleAnnual","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleMonthly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleHourly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    Mid
-                                                                </th>
-                                                                <td>
-                                                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidAnnual","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label9" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidMonthly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label10" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidHourly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    Third
-                                                                </th>
-                                                                <td>
-                                                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleAnnual","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleMonthly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label13" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleHourly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    Max
-                                                                </th>
-                                                                <td>
-                                                                    <asp:Label ID="Label14" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxAnnual","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label15" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxMonthly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                                <td>
-                                                                    <asp:Label ID="Label16" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxHourly","{0:c}") %>'></asp:Label>
-                                                                </td>
-                                                            </tr>
+                                                            <asp:Panel ID="pnlQuartiles" runat="server" Visible='<%# !HasSalarySteps(Container) %>'>
+                                                                <tr>
+                                                                    <th>
+                                                                        Quartile
+                                                                    </th>
+                                                                    <th>
+                                                                        Annual
+                                                                    </th>
+                                                                    <th>
+                                                                        Monthly
+                                                                    </th>
+                                                                    <th>
+                                                                        Hourly
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        Min
+                                                                    </th>
+                                                                    <td>
+                                                                        <asp:Label ID="Label2" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinAnnual","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label4" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinMonthly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MinHourly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        First
+                                                                    </th>
+                                                                    <td>
+                                                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleAnnual","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label6" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleMonthly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label7" runat="server" Text='<%# Eval("SalaryGradeQuartiles.FirstQrtleHourly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        Mid
+                                                                    </th>
+                                                                    <td>
+                                                                        <asp:Label ID="Label8" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidAnnual","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label9" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidMonthly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label10" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MidHourly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        Third
+                                                                    </th>
+                                                                    <td>
+                                                                        <asp:Label ID="Label11" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleAnnual","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label12" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleMonthly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label13" runat="server" Text='<%# Eval("SalaryGradeQuartiles.ThirdQrtleHourly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>
+                                                                        Max
+                                                                    </th>
+                                                                    <td>
+                                                                        <asp:Label ID="Label14" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxAnnual","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label15" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxMonthly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="Label16" runat="server" Text='<%# Eval("SalaryGradeQuartiles.MaxHourly","{0:c}") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
                                                             </asp:Panel>
                                                             <tr>
                                                                 <td colspan="5">
                                                                     <table>
-                                                                    <asp:Panel ID="pnlLM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
-                                                                        <tr>
-                                                                            <th>
-                                                                                Labor Market WAS:
-                                                                            </th>
-                                                                            <td>
-                                                                                <asp:Label ID="Label17" runat="server" Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        <tr>
-                                                                            <th>
-                                                                                Labor Market Mid:
-                                                                            </th>
-                                                                            <td>
-                                                                                <asp:Label ID="Label18" runat="server" Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label>
-                                                                            </td>
-                                                                        </tr>
+                                                                        <asp:Panel ID="pnlLM_CollegeAverages" runat="server" Visible='<%# !IsDepartmentUser() %>'>
+                                                                            <tr>
+                                                                                <th>
+                                                                                    Labor Market WAS:
+                                                                                </th>
+                                                                                <td>
+                                                                                    <asp:Label ID="Label17" runat="server" Text='<%# Eval("LaborMarketWAS","{0:c}") %>'></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>
+                                                                                    Labor Market Mid:
+                                                                                </th>
+                                                                                <td>
+                                                                                    <asp:Label ID="Label18" runat="server" Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label>
+                                                                                </td>
+                                                                            </tr>
                                                                         </asp:Panel>
                                                                         <tr>
                                                                             <th>
@@ -243,13 +245,16 @@
                                                                             <asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
                                                                         </th>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepAnnual" runat="server" Text='<%# Eval("Annual","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepAnnual" runat="server" Text='<%# Eval("Annual","{0:c}") %>'
+                                                                                Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepMonthly" runat="server" Text='<%# Eval("Monthly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepMonthly" runat="server" Text='<%# Eval("Monthly","{0:c}") %>'
+                                                                                Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                         <td>
-                                                                            <asp:Label ID="lblStepHourly" runat="server" Text='<%# Eval("Hourly","{0:c}") %>' Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
+                                                                            <asp:Label ID="lblStepHourly" runat="server" Text='<%# Eval("Hourly","{0:c}") %>'
+                                                                                Font-Bold='<%# IsMiddleStep(Container) %>'></asp:Label>
                                                                         </td>
                                                                     </tr>
                                                                 </ItemTemplate>
@@ -276,46 +281,64 @@
         <center>
             <asp:Label ID="Label1" Font-Bold="True" runat="server" Text="Employee Details" Font-Size="Large"></asp:Label></center>
         <br />
-        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" 
-            Width="100%" DataSource='<%# Employees %>'>
-            <HeaderStyle cssclass="tr_head" />
+        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" Width="100%"
+            DataSource='<%# Employees %>'>
+            <HeaderStyle CssClass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
                 <asp:TemplateField>
-                    <HeaderTemplate>Title Code</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeeTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label></ItemTemplate>
+                    <HeaderTemplate>
+                        Title Code</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeeTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label></ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
-                    <HeaderTemplate>Payroll Title</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeePayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
+                    <HeaderTemplate>
+                        Payroll Title</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeePayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
-                    <HeaderTemplate>Salary Grade</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeeSalaryGrade" runat="server" Text='<%# Eval("Title.SalaryGrade") %>'></asp:Label></ItemTemplate>
+                    <HeaderTemplate>
+                        Salary Grade</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeeSalaryGrade" runat="server" Text='<%# Eval("Title.SalaryGrade") %>'></asp:Label></ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
-                    <HeaderTemplate>Salary Step</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeeSalaryStep" runat="server" Text='<%# Eval("SalaryStep") %>'></asp:Label></ItemTemplate>
-                </asp:TemplateField>
-                 <asp:TemplateField>
-                    <HeaderTemplate>Bargaining Unit</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeeBargainingUnit" runat="server" Text='<%# Eval("Title.BargainingCode") %>'></asp:Label></ItemTemplate>
+                    <HeaderTemplate>
+                        Salary Step</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeeSalaryStep" runat="server" Text='<%# Eval("SalaryStep") %>'></asp:Label></ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
-                    <HeaderTemplate>Report Date</HeaderTemplate>
-                    <EditItemTemplate></EditItemTemplate>
-                    <ItemTemplate><asp:Label ID="lblEmployeeReportDate" runat="server" Text='<%# String.Format("{0:MM/dd/yyyy}", DateTime.Today) %>'></asp:Label></ItemTemplate>
+                    <HeaderTemplate>
+                        Bargaining Unit</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeeBargainingUnit" runat="server" Text='<%# Eval("Title.BargainingCode") %>'></asp:Label></ItemTemplate>
                 </asp:TemplateField>
-             </Columns>
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        Report Date</HeaderTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblEmployeeReportDate" runat="server" Text='<%# String.Format("{0:MM/dd/yyyy}", DateTime.Today) %>'></asp:Label></ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
         </asp:GridView>
         <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" EmptyDataText="Employee Data Unavailable."
             DataKeyNames="ID" EnableViewState="False" EnableTheming="False" DataSource='<%# Employees %>'>
-            <HeaderStyle cssclass="tr_head" />
+            <HeaderStyle CssClass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
                 <asp:TemplateField HeaderText="Department Name">
@@ -353,9 +376,11 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Hire Date">
                     <EditItemTemplate>
-                     <ajax:CalendarExtender ID="ceAdjustedCareerHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedCareerHireDate" Format="MM/dd/yyyy">
+                        <ajax:CalendarExtender ID="ceAdjustedCareerHireDate" runat="server" CssClass="calendar"
+                            TargetControlID="tbAdjustedCareerHireDate" Format="MM/dd/yyyy">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbAdjustedCareerHireDate" runat="server" Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' ReadOnly="true"></asp:TextBox>
+                        <asp:TextBox ID="tbAdjustedCareerHireDate" runat="server" Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'
+                            ReadOnly="true"></asp:TextBox>
                     </EditItemTemplate>
                     <ItemTemplate>
                         <asp:Label ID="lblAdjustedCareerHireDate" runat="server" Text='<%# Eval("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'
@@ -372,9 +397,11 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Begin Date (in Title)">
                     <EditItemTemplate>
-                        <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedApptHireDate" Format="MM/dd/yyyy">
+                        <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar"
+                            TargetControlID="tbAdjustedApptHireDate" Format="MM/dd/yyyy">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbAdjustedApptHireDate" runat="server" Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' ReadOnly="true"></asp:TextBox>
+                        <asp:TextBox ID="tbAdjustedApptHireDate" runat="server" Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'
+                            ReadOnly="true"></asp:TextBox>
                     </EditItemTemplate>
                     <ItemTemplate>
                         <asp:Label ID="lblAdjustedApptHireDate" runat="server" Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'
@@ -437,222 +464,252 @@
         <br />
     </div>
     <div id="divSAR">
-    <center>
-            <asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" 
-                Text="Salary Review Analysis" Font-Bold="True" Font-Size="Large" ></asp:Label>
+        <center>
+            <asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" Text="Salary Review Analysis"
+                Font-Bold="True" Font-Size="Large"></asp:Label>
         </center>
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
-        <asp:View ID="vSelectSalaryReviewType" runat="server">
-    Current Title Code:
-        <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
-        <br />
-        <br />
-        Proposed Title Code:
-        
-        <asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" 
-            DataSourceID="odsProposedTitleCodes" DataTextField="TitleCode_Name" 
-            DataValueField="TitleCode" 
-            onselectedindexchanged="ddlProposedTitleCode_SelectedIndexChanged">
-        </asp:DropDownList>&nbsp;&nbsp;<br />
-        <br />
-        Select a different Proposed Title Code (above) to conduct a Reclassification Review.<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- or --<br />
-        Select &quot;Perform Equity Review&quot; (below) to conduct an Equity Review.<br />
-        <br />
-        <asp:Button ID="btnDoEquityReview" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click"/>
-        
-        <asp:ObjectDataSource ID="odsProposedTitleCodes" runat="server" 
-            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
-            TypeName="CAESDO.Esra.BLL.TitleBLL">
-            <SelectParameters>
-                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
-                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-            </SelectParameters>
-        </asp:ObjectDataSource>
-        </asp:View>
-    <asp:View ID="vSalaryReviewAnalysis" runat="server">
-        
-        <table id="tblSRAMain" border="1" cellpadding="2" cellspacing="0" width="100%">
-            <%--<th colspan="2">Abbreviated Name</th>--%>
-            <tr>
-                <td><asp:Label ID="lblTblSRAMain_CurrentTitleCodeTitle" runat="server" Text="Original Title Code:" Font-Bold="True"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <asp:Label ID="lblTblSRAMain_CurrentTitleCode" runat="server"></asp:Label></td>
-            </tr>
-            <tr>
-                <td><asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title Code:" Font-Bold="True"></asp:Label>&nbsp;
-                <asp:Label ID="lblTblSRAMain_TitleCode" runat="server"></asp:Label></td>
-            </tr>
-            
-            <tr>
-            <td>
-                <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" 
-                    AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" 
-                    EmptyDataText="Salary Review Analysis has yet to be saved." Width="100%">
-                    <HeaderStyle cssclass="tr_head"/>
-                    <AlternatingRowStyle CssClass="tr_alt" />
-                    <Columns>
-                        <asp:BoundField DataField="ReferenceNumber" HeaderText="Reference Number" 
-                            SortExpression="ReferenceNumber" />
-                        <asp:BoundField DataField="DateInitiated" DataFormatString="{0:MM/dd/yyyy}" 
-                            HeaderText="Date Initiated" SortExpression="DateInitiated" />
-                        <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
-                            <EditItemTemplate>
-                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
-                            </EditItemTemplate>
-                            <ItemTemplate>
-                                <img id="button_calendar" alt="Calendar" src="images/common/Calendar_scheduleHS.png" />&nbsp;
-                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
-                                <ajax:CalendarExtender ID="tbDateApproved_CalendarExtender" runat="server" 
-                                    Format="MM/dd/yyyy" TargetControlID="tbDateApproved" CssClass="calendar" PopupButtonID="button_calendar">
-                                </ajax:CalendarExtender>
-                                <%--<asp:Label ID="lblDateApproved" runat="server" 
+            <asp:View ID="vSelectSalaryReviewType" runat="server">
+                Current Title Code:
+                <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
+                <br />
+                <br />
+                Proposed Title Code:
+                <asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" DataSourceID="odsProposedTitleCodes"
+                    DataTextField="TitleCode_Name" DataValueField="TitleCode" OnSelectedIndexChanged="ddlProposedTitleCode_SelectedIndexChanged">
+                </asp:DropDownList>
+                &nbsp;&nbsp;<br />
+                <br />
+                Select a different Proposed Title Code (above) to conduct a Reclassification Review.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- or --<br />
+                Select &quot;Perform Equity Review&quot; (below) to conduct an Equity Review.<br />
+                <br />
+                <asp:Button ID="btnDoEquityReview" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click" />
+                <asp:ObjectDataSource ID="odsProposedTitleCodes" runat="server" OldValuesParameterFormatString="original_{0}"
+                    SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.TitleBLL">
+                    <SelectParameters>
+                        <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                        <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+            </asp:View>
+            <asp:View ID="vSalaryReviewAnalysis" runat="server">
+                <table id="tblSRAMain" border="1" cellpadding="2" cellspacing="0" width="100%">
+                    <%--<th colspan="2">Abbreviated Name</th>--%>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblTblSRAMain_CurrentTitleCodeTitle" runat="server" Text="Original Title Code:"
+                                Font-Bold="True"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <asp:Label ID="lblTblSRAMain_CurrentTitleCode" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title Code:"
+                                Font-Bold="True"></asp:Label>&nbsp;
+                            <asp:Label ID="lblTblSRAMain_TitleCode" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" AutoGenerateColumns="False"
+                                DataSourceID="odsSalaryReviewAnalysis" EmptyDataText="Salary Review Analysis has yet to be saved."
+                                Width="100%">
+                                <HeaderStyle CssClass="tr_head" />
+                                <AlternatingRowStyle CssClass="tr_alt" />
+                                <Columns>
+                                    <asp:BoundField DataField="ReferenceNumber" HeaderText="Reference Number" SortExpression="ReferenceNumber" />
+                                    <asp:BoundField DataField="DateInitiated" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Date Initiated"
+                                        SortExpression="DateInitiated" />
+                                    <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemTemplate>
+                                            <img id="button_calendar" alt="Calendar" src="images/common/Calendar_scheduleHS.png" />&nbsp;
+                                            <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
+                                            <ajax:CalendarExtender ID="tbDateApproved_CalendarExtender" runat="server" Format="MM/dd/yyyy"
+                                                TargetControlID="tbDateApproved" CssClass="calendar" PopupButtonID="button_calendar">
+                                            </ajax:CalendarExtender>
+                                            <%--<asp:Label ID="lblDateApproved" runat="server" 
                                     Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:Label>--%>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Initiated By (Reviewer Name)" 
-                            SortExpression="InitiatedByReviewerName">
-                            <EditItemTemplate>
-                                <asp:TextBox ID="TextBox2" runat="server" 
-                                    Text='<%# Bind("InitiatedByReviewerName") %>'></asp:TextBox>
-                            </EditItemTemplate>
-                            <ItemTemplate>
-                                <asp:Label ID="Label2" runat="server" 
-                                    Text='<%# Bind("InitiatedByReviewerName") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
-                </asp:GridView>
-            </td>
-            </tr>
-            
-            <tr>
-                <td colspan="9">
-                    <asp:UpdatePanel runat="server" ID="upScenarios" >
-                        <ContentTemplate>
-                            <asp:Repeater runat="server" ID="rptScenarios" >
-                                <HeaderTemplate>
-                                    <table border="1" cellpadding="2" cellspacing="0" width="100%">
-                                        <tr class="tr_subhead">
-                                            <th>
-                                                Scenario No.
-                                            </th>
-                                            <th>
-                                                Criteria
-                                            </th>
-                                            <th>
-                                                Percent Increase (%)
-                                            </th>
-                                            <th>
-                                                New Annual Salary ($)
-                                            </th>
-                                            <th>
-                                                Approved
-                                            </th>
-                                            <th>&nbsp</th>
-                                        </tr>
-                                </HeaderTemplate>
-                                <ItemTemplate>
-                                <tr>
-                                        <th>
-                                            <asp:Label ID="lblScenarioNumber" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'></asp:Label><asp:HiddenField ID="scenarioId" runat="server"
-                                                Value='<%# Eval("ID") %>' />
-                                        </th>
-                                        <td>
-                                            <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSource='<%# Criteria %>'
-                                                DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" SelectedValue='<%# GetSelectedValue(Container) %>'><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
-                                            </asp:DropDownList>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
-                                        </td>
-                                        <td>
-                                            <%--<asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
-                                            <asp:CheckBox ID="cbxApproved" runat="server" OnCheckedChanged="cbxApproved_CheckChanged" Checked='<%# Eval("Approved") %>' AutoPostBack="true"/>
-                                         </td>
-                                        <td >
-                                            <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
-                                            <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="remove"
-                                    CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
-                                    </tr>
-                                </ItemTemplate>
-                                <AlternatingItemTemplate>
-                                 <tr>
-                                        <th>
-                                             <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'/><asp:HiddenField ID="scenarioIdAlt" runat="server"
-                                                Value='<%# Eval("ID") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Initiated By (Reviewer Name)" SortExpression="InitiatedByReviewerName">
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("InitiatedByReviewerName") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("InitiatedByReviewerName") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <asp:UpdatePanel runat="server" ID="upScenarios">
+                                <ContentTemplate>
+                                    <asp:Repeater runat="server" ID="rptScenarios">
+                                        <HeaderTemplate>
+                                            <table border="1" cellpadding="2" cellspacing="0" width="100%">
+                                                <tr class="tr_subhead">
+                                                    <th>
+                                                        Scenario No.
+                                                    </th>
+                                                    <th>
+                                                        Criteria
+                                                    </th>
+                                                    <th>
+                                                        Percent Increase (%)
+                                                    </th>
+                                                    <th>
+                                                        New Annual Salary ($)
+                                                    </th>
+                                                    <th>
+                                                        Approved
+                                                    </th>
+                                                    <th>
+                                                        &nbsp
+                                                    </th>
+                                                </tr>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr>
+                                                <th>
+                                                    <asp:Label ID="lblScenarioNumber" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>'></asp:Label><asp:HiddenField
+                                                        ID="scenarioId" runat="server" Value='<%# Eval("ID") %>' />
+                                                </th>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSource='<%# Criteria %>'
+                                                        DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged"
+                                                        SelectedValue='<%# GetSelectedValue(Container) %>'>
+                                                        <%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>'
+                                                        OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>'
+                                                        OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                </td>
+                                                <td>
+                                                    <%--<asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
+                                                    <asp:CheckBox ID="cbxApproved" runat="server" OnCheckedChanged="cbxApproved_CheckChanged"
+                                                        Checked='<%# Eval("Approved") %>' AutoPostBack="true" />
+                                                </td>
+                                                <td>
+                                                    <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand"
+                                                        CommandArgument="resetFields" />&nbsp;
+                                                    <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="remove"
+                                                        CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <AlternatingItemTemplate>
+                                            <tr>
+                                                <th>
+                                                    <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%# (Container.ItemIndex + 1) + "."%>' /><asp:HiddenField
+                                                        ID="scenarioIdAlt" runat="server" Value='<%# Eval("ID") %>
                                                 ' />
-                                        </th>
-                                        <td>
-                                            <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
-                                                DataTextField="Key" DataValueField="Value"  AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" SelectedValue='<%# GetSelectedValue(Container) %>'><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
-                                            </asp:DropDownList>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbPercentIncreaseAlt" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbSalaryAmountAlt" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
-                                        </td>
-                                        <td>
-                                           <%-- <asp:RadioButton ID="rbApprovedAlt" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
-                                            <asp:CheckBox ID="cbxApprovedAlt" runat="server" OnCheckedChanged="cbxApproved_CheckChanged" Checked='<%# Eval("Approved") %>' AutoPostBack="true"/>
-                                       </td>
-                                        <td>
-                                            <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
-                                            <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="remove"
-                                    CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button" /></asp:LinkButton></td>
-                                    </tr>
-                                </AlternatingItemTemplate>
-                                <FooterTemplate>
-                                <tr>   
-                                        <td><asp:Label ID="lblCommentFooter" runat="server" Font-Bold="True" >Comments:</asp:Label></td>
-                                        <td colspan="5">
-                                            <asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeCommentsFooter" runat="server" TextMode="MultiLine" CssClass="comments" Text='<%# ViewState[KEY_DEANS_OFFICE_COMMENTS] %>' OnTextChanged="tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged" AutoPostBack="True"></asp:TextBox>
-                                        </td>
-                                    </tr>
-            
-                                    <tr><td colspan="6">
-                        <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario" OnClick="btnAddAnotherScenario_Click" /></td>
-                        </tr>
-                                    </table>
-                                </FooterTemplate>
-                            </asp:Repeater>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                </td>
-            </tr>
-            <tr>
-           <td><br />
-                &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
-        Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis" OnClientClick="return ConfirmMe()"/>
-                &nbsp;
-                <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClick="btnCancelSalaryReviewAnalysis_Click"
-        Text="Cancel/Back" />
-     </td> 
-    </tr>
-        </table>
-        </asp:View>
+                                                </th>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
+                                                        DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged"
+                                                        SelectedValue='<%# GetSelectedValue(Container) %>'>
+                                                        <%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="tbPercentIncreaseAlt" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>'
+                                                        OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="tbSalaryAmountAlt" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>'
+                                                        OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                                </td>
+                                                <td>
+                                                    <%-- <asp:RadioButton ID="rbApprovedAlt" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
+                                                    <asp:CheckBox ID="cbxApprovedAlt" runat="server" OnCheckedChanged="cbxApproved_CheckChanged"
+                                                        Checked='<%# Eval("Approved") %>' AutoPostBack="true" />
+                                                </td>
+                                                <td>
+                                                    <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand"
+                                                        CommandArgument="resetFields" />&nbsp;
+                                                    <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="remove"
+                                                        CommandArgument='<%# Container.ItemIndex %>' OnClientClick="return confirm('Are you sure you want to delete this scenario?');"><img src="images/common/delete.png" alt="Delete" class="delete_button" /></asp:LinkButton>
+                                                </td>
+                                            </tr>
+                                        </AlternatingItemTemplate>
+                                        <FooterTemplate>
+                                            <tr>
+                                                <td>
+                                                    <asp:Label ID="lblDepartmentCommentsFooter" runat="server" Font-Bold="True" Text='<%# (IsDepartmentUser() ? "Comments:" : "Department Comments:") %>'></asp:Label>
+                                                </td>
+                                                <td colspan="5">
+                                                    <asp:TextBox ID="tbSalaryReviewAnalysisDepartmentCommentsFooter" runat="server" TextMode="MultiLine"
+                                                        CssClass="comments" Text='<%# ViewState[KEY_DEPARTMENT_COMMENTS] %>' OnTextChanged="tbSalaryReviewAnalysisDepartmentCommentsFooter_TextChanged"
+                                                        AutoPostBack="True" Visible='<%# IsDepartmentUser() %>'></asp:TextBox>
+                                                    <asp:Label ID="lblSalaryReviewAnalysisDepartmentCommentsFooter" runat="server" CssClass="comments"
+                                                        Visible='<%# !IsDepartmentUser() %>'></asp:Label>
+                                                </td>
+                                            </tr>
+                                            <asp:Panel ID="pnlDeansOfficeComments" runat="server" Visible='<%# !IsDepartmentUser() %>'>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="lblCommentFooter" runat="server" Font-Bold="True">Comments:</asp:Label>
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeCommentsFooter" runat="server"
+                                                            TextMode="MultiLine" CssClass="comments" Text='<%# ViewState[KEY_DEANS_OFFICE_COMMENTS] %>'
+                                                            OnTextChanged="tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged" AutoPostBack="True"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                            </asp:Panel>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario"
+                                                        OnClick="btnAddAnotherScenario_Click" />
+                                                </td>
+                                            </tr>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br />
+                            &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
+                                Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis"
+                                OnClientClick="return ConfirmMe()" />
+                            &nbsp;
+                            <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClick="btnCancelSalaryReviewAnalysis_Click"
+                                Text="Cancel/Back" />
+                        </td>
+                    </tr>
+                </table>
+            </asp:View>
         </asp:MultiView>
         <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
-            TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
-            SelectMethod="GetCriteriaListItems">
+            TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" SelectMethod="GetCriteriaListItems">
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="TitleCode" 
+                <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="TitleCode"
                     Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" 
-            OldValuesParameterFormatString="original_{0}" SelectMethod="GetByProperty" 
-            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
+        <asp:ObjectDataSource ID="odsSalaryReviewAnalysis" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetByProperty" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
             <SelectParameters>
-                <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" 
-                    Type="String" />
-                <asp:SessionParameter DefaultValue="0" Name="propertyValue" 
-                    SessionField="ReferenceNumber" Type="Object" />
+                <asp:Parameter DefaultValue="ReferenceNumber" Name="propertyName" Type="String" />
+                <asp:SessionParameter DefaultValue="0" Name="propertyValue" SessionField="ReferenceNumber"
+                    Type="Object" />
             </SelectParameters>
         </asp:ObjectDataSource>
     </div>
@@ -663,5 +720,5 @@
         {
             width: 1219px;
         }
-        </style>
+    </style>
 </asp:Content>

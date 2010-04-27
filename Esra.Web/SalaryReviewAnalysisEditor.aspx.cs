@@ -15,6 +15,7 @@ namespace CAESDO.Esra.Web
         //protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
         protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
+        protected static readonly string KEY_DEPARTMENT_COMMENTS = "DepartmentComments";
         protected static readonly string KEY_TITLES = "Titles";
         protected static readonly string KEY_EMPLOYEES = "Employees";
         protected static readonly string KEY_CRITERIA = "Criteria";
@@ -112,6 +113,7 @@ namespace CAESDO.Esra.Web
                         emp = sra.Employee;
                         scenarios = sra.Scenarios;
                         ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
+                        ViewState.Add(KEY_DEPARTMENT_COMMENTS, sra.DepartmentComments);
 
                         // Code for setting the correct criteria list items:
                         Criteria = SalaryScaleBLL.GetCriteriaListItems(sra.SalaryScale.TitleCode, sra.SalaryScale.EffectiveDate);
@@ -551,6 +553,12 @@ namespace CAESDO.Esra.Web
         {
             // Allows us to be able to save the updated dean's office comments.
             ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, ((TextBox)sender).Text);
+        }
+
+        protected void tbSalaryReviewAnalysisDepartmentCommentsFooter_TextChanged(object sender, EventArgs e)
+        {
+            // Allows us to be able to save the updated dean's office comments.
+            ViewState.Add(KEY_DEPARTMENT_COMMENTS, ((TextBox)sender).Text);
         }
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
