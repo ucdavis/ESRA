@@ -122,6 +122,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Repeater rptScenarios;
         
         /// <summary>
+        /// lblCommentHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCommentHeader;
+        
+        /// <summary>
+        /// tbSalaryReviewAnalysisDeansOfficeComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbSalaryReviewAnalysisDeansOfficeComments;
+        
+        /// <summary>
         /// btnSubmitSalaryReviewAnalysis control.
         /// </summary>
         /// <remarks>

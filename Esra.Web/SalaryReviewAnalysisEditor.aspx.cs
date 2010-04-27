@@ -58,6 +58,11 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_EMPLOYEE_PAY_RATE);
                 Session.Remove(KEY_REFERENCE_NUM);
+                SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
+                if (sra != null)
+                {
+                    tbSalaryReviewAnalysisDeansOfficeComments.Text = sra.DeansOfficeComments;
+                }
             }
         }
 
@@ -383,7 +388,42 @@ namespace CAESDO.Esra.Web
 
         protected void btnSubmitSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
-            // TODO: Add logic to save the updated SalaryReviewAnalysis and Scenarios.
+            // Let's handle saving an existing one first.  
+            // If it's an existing, the 
+
+            List<Scenario> scenarios = new List<Scenario>();
+            foreach (RepeaterItem item in rptScenarios.Items)
+            {
+                scenarios.Add(UpdateScenarioValues(item));
+            }
+
+            string dateApproved = null;
+            if (gvSalaryReviewAnaysis.Rows.Count ==1)
+            {
+                // Get date approved:
+                TextBox tbDateApproved = gvSalaryReviewAnaysis.Rows[0].FindControl("tbDateApproved") as TextBox;
+                if (tbDateApproved != null)
+                {
+                    dateApproved = tbDateApproved.Text;
+                }
+            }
+
+             string deansOfficeComments = tbSalaryReviewAnalysisDeansOfficeComments.Text;
+             
+            SalaryReviewAnalysis sra = null;
+            if (String.IsNullOrEmpty(ReferenceNum) == false)
+            {
+                sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
+                if (sra != null)
+                {
+                    // TODO: Add code to update existing one.
+                }
+                else
+                {
+                    // TODO: Add code to create new Salary Review Analysis.
+                }
+            }
+            // TODO: Figure where to redirect the user to upon a successful save.
         }
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
@@ -480,6 +520,20 @@ namespace CAESDO.Esra.Web
             scenario.SalaryAmount = newSalary;
 
             return scenario;
+        }
+
+        protected string GetComments()
+        {
+            string retval = null;
+            if (String.IsNullOrEmpty(ReferenceNum) == false)
+            {
+                SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
+                if (sra != null)
+                {
+                    retval = sra.DeansOfficeComments;
+                }
+            }
+            return retval;
         }
     }
 }

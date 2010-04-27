@@ -392,10 +392,10 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Dean's Office Comments">
                     <EditItemTemplate>
-                        <asp:TextBox ID="TextBox5" runat="server" Text='<%# Bind("DeansOfficeComments") %>'></asp:TextBox>
+                        <asp:TextBox ID="tbEmployeeDeansOfficeCommentsEdit" runat="server" Text='<%# Bind("DeansOfficeComments") %>'></asp:TextBox>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        <asp:Label ID="Label9" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
+                        <asp:Label ID="tbEmployeeDeansOfficeComments" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -443,7 +443,7 @@
                             HeaderText="Date Initiated" SortExpression="DateInitiated" />
                         <asp:TemplateField HeaderText="Date Approved" SortExpression="DateApproved">
                             <EditItemTemplate>
-                                <asp:TextBox ID="tbDataApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
+                                <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <img id="button_calendar" alt="Calendar" src="images/common/Calendar_scheduleHS.png" />&nbsp;
@@ -553,14 +553,6 @@
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>
-                                    <tr>
-                                        <th>
-                                            Comments
-                                        </th>
-                                        <td colspan="5">
-                                            <asp:TextBox ID="tbDeansOfficeComments" runat="server" TextMode="MultiLine" CssClass="comments"></asp:TextBox>
-                                        </td>
-                                    </tr>
                                     <tr><td colspan="6">
                         <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario" OnClick="btnAddAnotherScenario_Click" /></td>
                         </tr>
@@ -571,6 +563,11 @@
                     </asp:UpdatePanel>
                 </td>
             </tr>
+            <tr>   
+                                        <td >
+                                            <asp:Label ID="lblCommentHeader" runat="server" Font-Bold="True" >Comments:</asp:Label>&nbsp;<asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeComments" runat="server" TextMode="MultiLine" CssClass="comments" Text='<%# GetComments() %>'></asp:TextBox>
+                                        </td>
+                                    </tr>
             <%--<tr><td>&nbsp;</td></tr>--%>
             <tr>
            <td><br />
