@@ -153,20 +153,20 @@
             DataTextField="TitleCode_Name" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple">
-            <asp:ListItem Value="0">-- Select Title Code(s) --</asp:ListItem>
+            <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
         </asp:ListBox>
         
         &nbsp;&nbsp;<asp:ListBox ID="lbxDepartment" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsDepartments" 
             DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues">
-            <asp:ListItem Value="0">-- Select Department(s) --</asp:ListItem>
+            <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
         </asp:ListBox>
         <asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
             DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
             >
-            <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
+            <asp:ListItem Value="0">-- Any Employee --</asp:ListItem>
         </asp:DropDownList>
 &nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
             Text="Get Employee Salary Report" />
@@ -214,7 +214,7 @@ document.write(month+"/"+today+"/"+year)
                                     
                                             <td><asp:Label ID="lblSearchTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label></td>
                                             <td><asp:Label ID="lblSearchTitleName" runat="server" Text='<%# Eval("PayrollTitle") %>'></asp:Label></td>
-                                            <td><asp:Label ID="lblSearchTitleSalaryGrade" runat="server" Text='<%# Eval("SalaryScales[0].SalaryGrade") %>'></asp:Label></td>
+                                            <td><asp:Label ID="lblSearchTitleSalaryGrade" runat="server" Text='<%# Eval("SalaryGrade") %>'></asp:Label></td>
                                             <td><asp:Label ID="lblSearchTitleBargainingUnit" runat="server" Text='<%# Eval("BargainingCode") %>'></asp:Label></td> 
                                         </tr>
                                     </ItemTemplate>
