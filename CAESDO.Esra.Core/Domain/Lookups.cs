@@ -41,7 +41,13 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual string PPSCode
         {
-            get { return _PPSCode; }
+            get
+            {
+                if (!String.IsNullOrEmpty(_PPSCode))
+                    return _PPSCode.Trim();
+
+                return _PPSCode;
+            }
             set { _PPSCode = value; }
         }
 
@@ -49,7 +55,13 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual string FISCode
         {
-            get { return _FISCode; }
+            get
+            {
+                if (!String.IsNullOrEmpty(_FISCode))
+                    return _FISCode.Trim();
+
+                return _FISCode;
+            }
             set { _FISCode = value; }
         }
 
