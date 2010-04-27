@@ -18,7 +18,7 @@
 		<property name="Monthly" column="Monthly" />
 		<property name="Hourly" column="Hourly" />
 
-		<many-to-one name="SalaryScale" class="CAESDO.TPS3.Core.Domain.SalaryScale, CAESDO.Esra.Core">
+		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core">
 			<column name="TitleCode"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>

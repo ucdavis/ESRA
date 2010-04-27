@@ -85,7 +85,7 @@
     <EmbeddedResource Include="Domain\SalaryStep.hbm.xml" />
     <EmbeddedResource Include="Domain\SalaryGradeQuartiles.hbm.xml" />
     <EmbeddedResource Include="Domain\SalaryScale.hbm.xml" />
-    <EmbeddedResource Include="Domain\Title.hbm..xml" />
+    <EmbeddedResource Include="Domain\Title.hbm.xml" />
     <EmbeddedResource Include="Domain\SelectionType.hbm.xml" />
     <EmbeddedResource Include="Domain\QuartileType.hbm.xml" />
     <EmbeddedResource Include="Domain\PayRateType.hbm.xml" />

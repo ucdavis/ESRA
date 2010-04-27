@@ -71,7 +71,7 @@ namespace CAESDO.Esra.Core.Domain
 
         private double? _YearsOfService;
 
-        public double YearsOfService
+        public virtual double YearsOfService
         {
             get
             {
@@ -84,7 +84,7 @@ namespace CAESDO.Esra.Core.Domain
             }
         }
 
-        public double TimeInTitle
+        public virtual double TimeInTitle
         {
             get
             {

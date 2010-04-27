@@ -149,6 +149,22 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryScales = value; }
         }
 
+        public override bool Equals(object obj)
+        {
+            bool retval = false;
+            if ((this.EffectiveDate.ToShortDateString()).Equals(((SalaryGradeQuartiles)obj).EffectiveDate.ToShortDateString()) && this.SalaryGrade.Equals(((SalaryGradeQuartiles)obj).SalaryGrade))
+            {
+                retval = true;
+            }
+            return retval;
+        }
+
+        public override int GetHashCode()
+        {
+            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _SalaryGrade.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            return retval;
+        }
+
         public SalaryGradeQuartiles()
         {
       

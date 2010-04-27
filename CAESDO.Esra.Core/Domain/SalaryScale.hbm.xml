@@ -10,7 +10,7 @@
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 		</composite-id>
 		
-		<many-to-one name="Title" class="CAESDO.TPS3.Core.Domain.Title, CAESDO.Esra.Core" column="TitleCode"/>
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TitleCode"/>
 			
 		<property name="TitleCode" column="TitleCode" />
 		<property name="EffectiveDate" column="EffectiveDate" />
@@ -18,10 +18,10 @@
 		<property name="BargainingCode" column="BargainingCode" />
 		<property name="LaborMarketWAS" column="LaborMarketWAS" />
 		<property name="LaborMarketMidAnnual" column="LaborMarketMidAnnual" />
-		<property name="CollegeAvgAnnual" column="CollegeAvgAnnual" />
-		<property name="CampusAvgAnnual" column="CampusAvgAnnual" />
+		<property name="CollegeAverageAnnual" column="CollegeAvgAnnual" />
+		<property name="CampusAverageAnnual" column="CampusAvgAnnual" />
 
-		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.TPS3.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core">
+		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.Esra.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core">
 			<column name="SalaryGrade"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>

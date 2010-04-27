@@ -22,6 +22,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _Title = value; }
         }
 
+        private int _TitleCode;
+
+        public virtual int TitleCode
+        {
+            get { return _TitleCode; }
+            set { _TitleCode = value; }
+        }
+
         private decimal _StepNumber;
 
         public virtual decimal StepNumber
@@ -60,6 +68,22 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _EffectiveDate; }
             set { _EffectiveDate = value; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool retval = false;
+            if ((this.EffectiveDate.ToShortDateString()).Equals(((SalaryStep)obj).EffectiveDate.ToShortDateString()) && this.TitleCode.Equals(((SalaryStep)obj).TitleCode))
+            {
+                retval = true;
+            }
+            return retval;
+        }
+
+        public override int GetHashCode()
+        {
+            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _TitleCode.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            return retval;
         }
 
         public SalaryStep()

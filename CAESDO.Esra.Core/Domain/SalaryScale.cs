@@ -30,6 +30,8 @@ namespace CAESDO.Esra.Core.Domain
             set { _EffectiveDate = value; }
         }
 
+        public virtual string SalaryGrade { get; set; }
+        
         private string _BargainingCode;
 
         public virtual string BargainingCode
@@ -62,28 +64,44 @@ namespace CAESDO.Esra.Core.Domain
             set { _LaborMarketWAS = value; }
         }
 
-        private double _LaborMarketMid;
+        private double _LaborMarketMidAnnual;
 
-        public virtual double LaborMarketMid
+        public virtual double LaborMarketMidAnnual
         {
-            get { return _LaborMarketMid; }
-            set { _LaborMarketMid = value; }
+            get { return _LaborMarketMidAnnual; }
+            set { _LaborMarketMidAnnual = value; }
         }
 
-        private double _CollegeAverage;
+        private double _CollegeAverageAnnual;
 
-        public virtual double CollegeAverage
+        public virtual double CollegeAverageAnnual
         {
-            get { return _CollegeAverage; }
-            set { _CollegeAverage = value; }
+            get { return _CollegeAverageAnnual; }
+            set { _CollegeAverageAnnual = value; }
         }
 
-        private double _CampusAverage;
+        private double _CampusAverageAnnual;
 
-        public virtual double CampusAverage
+        public virtual double CampusAverageAnnual
         {
-            get { return _CampusAverage; }
-            set { _CampusAverage = value; }
+            get { return _CampusAverageAnnual; }
+            set { _CampusAverageAnnual = value; }
+        }
+
+        public override bool  Equals(object obj)
+        {
+            bool retval = false;
+            if ((this.EffectiveDate.ToShortDateString()).Equals(((SalaryScale)obj).EffectiveDate.ToShortDateString()) && this.TitleCode.Equals(((SalaryScale)obj).TitleCode))
+            {
+                retval = true;
+            }
+            return retval;
+        }
+
+        public override int GetHashCode()
+        {
+            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _TitleCode.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            return retval;
         }
 
         public SalaryScale()

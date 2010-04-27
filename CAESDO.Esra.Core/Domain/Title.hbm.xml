@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
 	<class name="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" table="Tile" dynamic-update="true">
-		<id name="id" access="field" column="TitleCode" unsaved-value="0"/>
+		<id name="id" access="field" column="TitleCode" unsaved-value="0">
+			<generator class="assigned" />
+		</id>
 			
 		<property name="TitleCode" column="TitleCode" />
 		<property name="PayrollTitle" column="PayrollTitle" />
@@ -9,7 +11,10 @@
 		<property name="BargainingCode" column="BargainingCode" />
 
 		<bag name="SalaryScales" table="SalaryScale" inverse="true" cascade="none">
-			<key column="TitleCode" />
+			<key>
+				<column name="TitleCode"/>
+				<column name="EffectiveDate"/>
+			</key> 
 			<one-to-many class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" />
 		</bag>
 		
