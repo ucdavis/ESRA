@@ -22,6 +22,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _Employee = value; }
         }
 
+        private Title _Title;
+
+        public virtual Title Title
+        {
+            get { return _Title; }
+            set { _Title = value; }
+        }
+
         private Scenario _ApprovedScenario;
 
         public virtual Scenario ApprovedScenario
