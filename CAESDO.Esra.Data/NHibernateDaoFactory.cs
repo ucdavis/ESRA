@@ -133,7 +133,7 @@ namespace CAESDO.Esra.Data
 
                     criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
                         .Add(Expression.Eq("TitleCode", titleCode))
-                        .Add(Subqueries.Eq("EffectiveDate", maxEffectiveDateForDate));
+                        .Add(Subqueries.PropertyEq("EffectiveDate", maxEffectiveDateForDate));
 
                     retval = criteria.List<SalaryScale>()[0];
                 }
