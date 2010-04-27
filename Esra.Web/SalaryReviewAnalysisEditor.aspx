@@ -588,7 +588,7 @@
                     <div>
                     <tr>
                         <td style="border:none;">
-                            <asp:GridView ID="gvSalaryReviewAnaysis" GridLines="None" BorderStyle="None" runat="server" AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" EmptyDataText="Salary Review Analysis has yet to be saved." Width="100%" OnRowUpdating="gvSalaryReviewAnaysis_OnRowUpdating">
+                            <asp:GridView ID="gvSalaryReviewAnaysis" GridLines="Both" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" runat="server" AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" EmptyDataText="Salary Review Analysis has yet to be saved." Width="100%" OnRowUpdating="gvSalaryReviewAnaysis_OnRowUpdating">
                                 <HeaderStyle CssClass="tr_head" />
                                 <AlternatingRowStyle CssClass="tr_alt" />
                                 <Columns>
@@ -625,13 +625,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td  style="border:none;">
-                            <asp:UpdatePanel runat="server" ID="upScenarios">
+                        <td  style="border:none #000000;">
+                            <asp:UpdatePanel runat="server" ID="upScenarios" >
                                 <ContentTemplate>
-                                    <asp:Repeater runat="server" ID="rptScenarios">
+                                    <asp:Repeater runat="server" ID="rptScenarios" >
                                         <HeaderTemplate>
-                                            <table border="1" cellpadding="2" cellspacing="0" width="100%">
-                                                <tr class="tr_subhead">
+                                            <table border="solid 1px #000000" style="border:solid 1px #000000;" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr class="tr_subhead" style="border:solid 1px #000000;">
                                                     <th>
                                                         Scenario No.
                                                     </th>

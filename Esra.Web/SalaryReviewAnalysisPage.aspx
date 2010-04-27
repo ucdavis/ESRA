@@ -499,8 +499,8 @@
 </div>
 <div id="SARP_table">             
                 <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Title Data Unavailable."
-                    DataSourceID="odsSAREmployee" >
-                    <HeaderStyle CssClass="tr_head" />
+                    DataSourceID="odsSAREmployee" GridLines="Both" BorderColor="Black" BorderStyle="Solid">
+                    <HeaderStyle CssClass="tr_head" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
                         <asp:TemplateField>
@@ -554,7 +554,7 @@
                     </Columns>
                 </asp:GridView>
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" EmptyDataText="Employee Data Unavailable."
-                    DataKeyNames="ID" EnableViewState="False" EnableTheming="False" DataSourceID="odsSAREmployee">
+                    DataKeyNames="ID" EnableViewState="False" EnableTheming="False" DataSourceID="odsSAREmployee" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" >
                     <HeaderStyle CssClass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -659,7 +659,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound">
+                <asp:GridView ID="gvSARDetails" runat="server" AutoGenerateColumns="False" DataSourceID="odsSARDetails" OnRowDataBound="gvSARDetails_OnRowDataBound" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" >
                     <HeaderStyle CssClass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>

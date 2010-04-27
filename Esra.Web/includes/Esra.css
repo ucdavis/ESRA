@@ -1,6 +1,11 @@
 ﻿* {
 	padding: 0;
 	margin: 0;
+	border-color:#000000;
+}
+input, select, textarea
+{
+    border-color:#f0f0f0;
 }
 body
 {
@@ -141,7 +146,8 @@ select
 #nav li {float: left; position: relative; text-align: center; padding: 0px; font-size:0.8em;}
 #nav > ul li {padding: 22px 5px;}
 #nav > ul li li {padding: 0 5px;}
-#nav li ul {display: none; position: absolute; top: 100%; right:-5px; font-weight: normal; width:100%;}    
+html>/**/body #nav li ul {display: none; position: absolute; margin-top:0em; right:-5px; font-weight: normal; width:100%;}  /* Only FireFox 3 */
+#nav li ul {display: none; position: absolute; margin-top:1.2em; right:-5px; font-weight: normal; width:100%;}    
 #nav li > ul {top: auto; left: auto;}
 #nav li li {display: block; float: none; background-color: #242424; border: 0; font-size:1em; text-align:left;}
 #nav li:hover ul, li.over ul {display: block;}	
@@ -216,7 +222,7 @@ select
     color:#FFFFFF;
     font-size:1.5em;
     margin-left:360px;
-    margin-top:-10px;
+    margin-top:50px;
     margin-bottom:10px;
 }
 
@@ -322,13 +328,21 @@ ul#ESCR_criteria,
 ul#ESCR_criteria{
 /*	display: table; */
 }
-ul#ESCR_criteria>li{
+/* ul#ESCR_criteria>li{
 	display: table-cell;
 	position: relative;
 	padding: 0 50px 0 0;
 	text-align: left;
 
 }
+*/
+ul#ESCR_criteria>li
+{
+    text-align: left;
+    margin-left:20px;
+    float:left;
+}
+
 ul #ESCR_criteria td
 {
     text-align:left;
@@ -618,6 +632,7 @@ option:hover
 }
 .note
 {
+    clear:both;
     margin-left:20px;
     margin-bottom:20px;
 }
