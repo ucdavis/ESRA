@@ -477,6 +477,12 @@ namespace CAESDO.Esra.Data
                         .AddOrder(((bool)ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
                         .AddOrder(Order.Asc("Employee.FullName"));
                     }
+                    else if (propertyName.Equals("Employee.HomeDepartment"))
+                    {
+                        criteria.CreateAlias("Employee.HomeDepartment", "t2")
+                        .AddOrder(((bool)ascending ? Order.Asc("t2.Name") : Order.Desc("t2.Name")))
+                        .AddOrder(Order.Asc("Employee.FullName"));
+                    }
                     else
                     {
                         criteria.AddOrder(((bool)ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
@@ -510,6 +516,16 @@ namespace CAESDO.Esra.Data
                       .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
 
                     retval = criteria.List<SalaryReviewAnalysis>();                    
+                }
+                else if (propertyName.Equals("Employee.HomeDepartment"))
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis))
+                    .CreateAlias("Employee", "t1")
+                    .CreateAlias("t1.HomeDepartment", "t2")
+                    .AddOrder(((bool)ascending ? Order.Asc("t2.Name") : Order.Desc("t2.Name")))
+                    .AddOrder(Order.Asc("t1.FullName"));
+
+                    retval = criteria.List<SalaryReviewAnalysis>();
                 }
                 else
                 {

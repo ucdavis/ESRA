@@ -175,6 +175,11 @@
                                 <asp:Label ID="lblOriginatingDepartment" runat="server" Text='<%# Eval("OriginatingDepartment.Name") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Home Department" SortExpression="Employee.HomeDepartment">
+                            <ItemTemplate>
+                                <asp:Label ID="lblEmployee_HomeDepartment" runat="server" Text='<%# Eval("Employee.HomeDepartment.Name") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Employee" SortExpression="Employee.FullName">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Employee") %>'></asp:TextBox>
