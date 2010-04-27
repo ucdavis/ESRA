@@ -154,12 +154,21 @@
                                 <asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("Employee.FullName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Title Code" SortExpression="Title.TitleCode">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="tbTitleCode" runat="server" Text='<%# Bind("Title.TitleCode") %>'></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") +"*" %>' Visible='<%# ((bool)Eval("IsReclass") ? true : false ) %>' Font-Bold="true"></asp:Label>
+                                <asp:Label ID="lblOriginalTitleCode" runat="server" Text='<%# Eval("CurrentTitleCode") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="DateInitiated" HeaderText="Date Initiated" SortExpression="DateInitiated"
                             DataFormatString="{0:MM/dd/yyyy}" />
                         <asp:BoundField DataField="InitiatedByReviewerName" HeaderText="Initiated By Reviewer Name"
                             SortExpression="InitiatedByReviewerName" />
                         <asp:BoundField DataField="DateApproved" HeaderText="Date Approved" SortExpression="DateApproved" />
-                        <asp:TemplateField HeaderText="ApprovedScenario" SortExpression="ApprovedScenario">
+                        <asp:TemplateField HeaderText="Approved Scenario" SortExpression="ApprovedScenario">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("ApprovedScenario.ScenarioNumber") %>'></asp:TextBox>
                             </EditItemTemplate>
@@ -179,6 +188,8 @@
                         
                     </Columns>
                 </asp:GridView>
+                <br />
+                *Proposed Title Code.
                 <br />
                 <hr />
                 <br />
