@@ -141,7 +141,7 @@
         </asp:View>
         <asp:View ID="vInsertNewTitleCodeAverages" runat="server">
             <table style="width:100%;" id="tblNewTitleCodeAverages">
-                <tr>
+                <tr class="tr_head">
                     <th>Title Code</th>
                     <th>Payroll Title</th>
                     <th>Effective Date</th>
