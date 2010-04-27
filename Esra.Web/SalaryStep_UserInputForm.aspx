@@ -25,7 +25,10 @@
         </SelectParameters>
     </asp:ObjectDataSource>
       <asp:GridView ID="gvSalaryScales" runat="server" DataSourceID="odsSalaryScale" 
-          AutoGenerateColumns="False" AllowSorting="true" OnSorting="gvSalaryScales_Sorting">
+          AutoGenerateColumns="False" AllowSorting="True" 
+          OnSorting="gvSalaryScales_Sorting">
+          <HeaderStyle cssclass="tr_head" />
+          <AlternatingRowStyle CssClass="tr_alt" />
           <Columns>
               <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
                   SortExpression="TitleCode" />
@@ -33,9 +36,26 @@
                   HeaderText="Effective Date" SortExpression="EffectiveDate" />
               <asp:BoundField DataField="NumSalarySteps" HeaderText="# Salary Steps" 
                   SortExpression="NumSalarySteps" />
-              <asp:TemplateField HeaderText="SalarySteps" SortExpression="SalarySteps">
+              <asp:TemplateField HeaderText="SalarySteps">
                   <ItemTemplate>
-                      <asp:Label ID="Label1" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:Label>
+                      <asp:Repeater ID="rptSalarySteps" runat="server" DataSource='<%# Eval("SalarySteps") %>'>
+                        <HeaderTemplate>
+                            <table>
+                                <tr class="tr_subhead">
+                                    <th>Step #</th><th>Annual</th><th>Mounthly</th><th>Hourly</th>
+                                </tr>
+                        </HeaderTemplate>
+                            
+                        <ItemTemplate>
+                            <tr>
+                            <td><asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label></td><td><asp:Label ID="lblAnnual" runat="server" Text='<%# Eval("Annual", "{0:c}") %>'></asp:Label></td><td><asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>'></asp:Label></td><td><asp:Label ID="lblHourly" runat="server" Text='<%# Eval("Hourly", "{0:c}") %>'></asp:Label></td>
+                            </tr>
+                        </ItemTemplate>
+                        
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                        </asp:Repeater>
                   </ItemTemplate>
                   <EditItemTemplate>
                       <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:TextBox>
