@@ -24,6 +24,7 @@ namespace CAESDO.Esra.Data
         }
 
         public IEmployeeDao GetEmployeeDao() { return new EmployeeDao(); }
+        public ISalaryScaleDao GetSalaryScaleDao() { return new SalaryScaleDao(); }
 
         #endregion
 
@@ -106,7 +107,41 @@ namespace CAESDO.Esra.Data
             }
         }
 
-        #endregion
+        public class SalaryScaleDao : AbstractNHibernateDao<SalaryScale, int>, ISalaryScaleDao
+        {
+            public SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate)
+            {
+                // get salary scale whose effective date is 
+                SalaryScale retval = null;
 
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                .Add(Expression.Eq("TitleCode", titleCode))
+                .SetProjection(Projections.RowCount());
+
+                if (criteria.UniqueResult<int>() == 1)
+                {
+                   criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                       .Add(Expression.Eq("TitleCode", titleCode));
+                   retval = criteria.UniqueResult<SalaryScale>();
+                }
+                else if (criteria.UniqueResult<int>() > 1)
+                {
+                    DetachedCriteria maxEffectiveDateForDate = DetachedCriteria.For(typeof(SalaryScale))
+                        .SetProjection(Projections.Max("EffectiveDate"))
+                        .Add(Expression.Le("EffectiveDate", effectiveDate))
+                        .Add(Expression.Eq("TitleCode", titleCode));
+
+                    criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                        .Add(Expression.Eq("TitleCode", titleCode))
+                        .Add(Subqueries.Eq("EffectiveDate", maxEffectiveDateForDate));
+
+                    retval = criteria.List<SalaryScale>()[0];
+                }
+
+                return retval;
+            }
+        }
+
+        #endregion
     }
 }
