@@ -5,8 +5,6 @@ using System.Reflection;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI.WebControls;
-using CAESArch.BLL.Repositories;
-using CAESArch.Core;
 using CAESDO.Core.Domain;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
