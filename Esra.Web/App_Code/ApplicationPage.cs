@@ -51,6 +51,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
         protected static readonly string KEY_EFFECTIVE_DATE = "EffectiveDate";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
+        protected static readonly string KEY_RETURN_PAGE = "ReturnPage";
 
         public ApplicationPage()
         {

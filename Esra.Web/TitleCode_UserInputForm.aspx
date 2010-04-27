@@ -81,7 +81,12 @@
                      </EditItemTemplate>
                      <ItemTemplate>
                          <asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? String.Empty :  Eval("NumSalarySteps")) %>'></asp:Label>
-                         <asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Visible='<%# (Convert.ToInt32(Eval("NumSalarySteps")) > 0 ? false : true)%>'>Add Steps</asp:LinkButton>
+                         <%--<asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' Visible='<%# (Convert.ToInt32(Eval("NumSalarySteps")) > 0 ? false : true)%>'
+                         Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add Steps" :  "Edit Steps") %>'>
+                         </asp:LinkButton>--%>
+                         <asp:LinkButton ID="lbtnAddSteps" runat="server" OnCommand="btnClick_Command" CommandName="add_steps" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate") %>' 
+                         Text='<%# ( Convert.ToInt32(Eval("NumSalarySteps")) == 0 ? "Add Steps" :  "view") %>'>
+                         </asp:LinkButton>
                      </ItemTemplate>
             </asp:TemplateField>
                 
