@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public class Title : DomainObject<Title, int>
+    public class Title : DomainObject<Title, string>
     {
         private string _TitleCode;
         // i.e. 9614, etc.
@@ -44,6 +44,11 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _BargainingCode; }
             set { _BargainingCode = value; }
+        }
+
+        public virtual string TitleCode_Name
+        {
+            get { return _TitleCode + " - " + _AbbreviatedName; }
         }
 
         public Title()
