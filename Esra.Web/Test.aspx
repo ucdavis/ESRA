@@ -257,7 +257,8 @@
         <center>
             <asp:Label ID="Label1" Font-Bold="True" runat="server" Text="Employee Details" Font-Size="Large"></asp:Label></center>
         <br />
-        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False">
+        <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" 
+            Width="100%">
             <HeaderStyle cssclass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -428,7 +429,7 @@
             <td>
                 <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" 
                     AutoGenerateColumns="False" DataSourceID="odsSalaryReviewAnalysis" 
-                    EmptyDataText="Salary Review Analysis Data Unavailable." Width="717px">
+                    EmptyDataText="Salary Review Analysis Data Unavailable." Width="100%">
                     <HeaderStyle cssclass="tr_head"/>
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -472,7 +473,7 @@
                         <ContentTemplate>
                             <asp:Repeater runat="server" ID="rptScenarios">
                                 <HeaderTemplate>
-                                    <table border="1" cellpadding="2" cellspacing="0">
+                                    <table border="1" cellpadding="2" cellspacing="0" width="100%">
                                         <tr class="tr_subhead">
                                             <th>
                                                 Scenario No.
