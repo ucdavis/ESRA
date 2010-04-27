@@ -15,6 +15,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
+        protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
 
         protected string EmployeeID
         {
@@ -58,11 +59,6 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_EMPLOYEE_PAY_RATE);
                 Session.Remove(KEY_REFERENCE_NUM);
-                SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                if (sra != null)
-                {
-                    tbSalaryReviewAnalysisDeansOfficeComments.Text = sra.DeansOfficeComments;
-                }
             }
         }
 
@@ -84,6 +80,7 @@ namespace CAESDO.Esra.Web
                     {
                         emp = sra.Employee;
                         scenarios = sra.Scenarios;
+                        ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
                     }
                 }
                 else if (String.IsNullOrEmpty(EmployeeID) == false )
@@ -408,22 +405,43 @@ namespace CAESDO.Esra.Web
                 }
             }
 
-             string deansOfficeComments = tbSalaryReviewAnalysisDeansOfficeComments.Text;
-             
             SalaryReviewAnalysis sra = null;
             if (String.IsNullOrEmpty(ReferenceNum) == false)
             {
                 sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                if (sra != null)
+                if (sra == null)
                 {
-                    // TODO: Add code to update existing one.
-                }
-                else
-                {
-                    // TODO: Add code to create new Salary Review Analysis.
+                    sra = new SalaryReviewAnalysis() {
+                        ReferenceNumber = ReferenceNum,
+                        DateInitiated = DateTime.Today,
+                        InitiatedByReviewerName = UserBLL.GetCurrent().FullName,
+                        Title = TitleBLL.GetByTitleCode(Session[KEY_TITLE_CODE] as string),
+                        Employee = EmployeeBLL.GetByID(EmployeeID),
+                        SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
+                    };
                 }
             }
+            else
+            {
+                sra = new SalaryReviewAnalysis();
+            }
+
+            if (String.IsNullOrEmpty(dateApproved) == false)
+                sra.DateApproved = Convert.ToDateTime(dateApproved);
+
+            sra.DeansOfficeComments = ViewState[KEY_DEANS_OFFICE_COMMENTS] as string;
+
+            sra.Scenarios = scenarios;
+
+            SalaryReviewAnalysisBLL.UpdateRecord(sra);
+
             // TODO: Figure where to redirect the user to upon a successful save.
+        }
+
+        protected void tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged(object sender, EventArgs e)
+        {
+            // Allows us to be able to save the updated dean's office comments.
+            ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, ((TextBox)sender).Text);
         }
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
@@ -520,20 +538,6 @@ namespace CAESDO.Esra.Web
             scenario.SalaryAmount = newSalary;
 
             return scenario;
-        }
-
-        protected string GetComments()
-        {
-            string retval = null;
-            if (String.IsNullOrEmpty(ReferenceNum) == false)
-            {
-                SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                if (sra != null)
-                {
-                    retval = sra.DeansOfficeComments;
-                }
-            }
-            return retval;
         }
     }
 }

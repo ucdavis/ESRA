@@ -151,10 +151,10 @@
                         <asp:BoundField DataField="DateApproved" HeaderText="Date Approved" SortExpression="DateApproved" />
                         <asp:TemplateField HeaderText="ApprovedScenario" SortExpression="ApprovedScenario">
                             <EditItemTemplate>
-                                <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:TextBox>
+                                <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("ApprovedScenario.ScenarioNumber") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="lblApprovedScenario" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:Label>
+                                <asp:Label ID="lblApprovedScenario" runat="server" Text='<%# Bind("ApprovedScenario.ScenarioNumber") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <%--<asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />--%>

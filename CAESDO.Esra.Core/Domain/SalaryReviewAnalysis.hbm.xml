@@ -19,7 +19,7 @@
 		<!--<property name="DepartmentNumber" column="DepartmentNumber" insert="false" update="false"/>-->
 		<many-to-one name="OriginatingDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="DepartmentNumber" />
 		<many-to-one name="ApprovedScenario" class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" column="ApprovedScenarioID" foreign-key="ScenarioID"/>
-		<bag name="Scenarios" table="Scenario" inverse="true" cascade="none">
+		<bag name="Scenarios" table="Scenario" inverse="true"  cascade="all">
 			<key column="SalaryReviewAnalysisID"/>
 			<one-to-many class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" />
 		</bag>

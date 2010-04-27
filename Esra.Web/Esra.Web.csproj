@@ -164,6 +164,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\common\home_icon-full.jpg" />
     <Content Include="images\common\loading.gif" />
     <Content Include="includes\jsUpdateProgress.js" />
     <Content Include="ModalConfirm.aspx" />

@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="SalaryReviewAnalysisEditor.aspx.cs"
+<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="SalaryReviewAnalysisEditor.aspx.cs"
     Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisEditor" Title="ESRA - Salary Review Analysis Editor Page" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
-<center><asp:Label ID="lblPageTitle" runat="server" 
+    <center><asp:Label ID="lblPageTitle" runat="server" 
             Text="Salary Review Analysis Editor" Font-Bold="True" 
             Font-Size="Larger"></asp:Label></center>
  <br />
@@ -553,6 +553,13 @@
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>
+                                <tr>   
+                                        <td><asp:Label ID="lblCommentFooter" runat="server" Font-Bold="True" >Comments:</asp:Label></td>
+                                        <td colspan="5">
+                                            <asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeCommentsFooter" runat="server" TextMode="MultiLine" CssClass="comments" Text='<%# ViewState[KEY_DEANS_OFFICE_COMMENTS] %>' OnTextChanged="tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged" AutoPostBack="True"></asp:TextBox>
+                                        </td>
+                                    </tr>
+            
                                     <tr><td colspan="6">
                         <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario" OnClick="btnAddAnotherScenario_Click" /></td>
                         </tr>
@@ -563,18 +570,12 @@
                     </asp:UpdatePanel>
                 </td>
             </tr>
-            <tr>   
-                                        <td >
-                                            <asp:Label ID="lblCommentHeader" runat="server" Font-Bold="True" >Comments:</asp:Label>&nbsp;<asp:TextBox ID="tbSalaryReviewAnalysisDeansOfficeComments" runat="server" TextMode="MultiLine" CssClass="comments" Text='<%# GetComments() %>'></asp:TextBox>
-                                        </td>
-                                    </tr>
-            <%--<tr><td>&nbsp;</td></tr>--%>
             <tr>
            <td><br />
-    <asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
+                &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
         Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis" OnClientClick="return ConfirmMe()"/>
-    &nbsp;
-    <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClientClick="history.go(-1);return false;"
+                &nbsp;
+                <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClientClick="history.go(-1);return false;"
         Text="Cancel/Back" />
      </td> 
     </tr>

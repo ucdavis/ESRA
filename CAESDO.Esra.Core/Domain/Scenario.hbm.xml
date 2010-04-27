@@ -9,8 +9,9 @@
 		<property name="PercentIncrease" column="PercentIncrease" />
 		<property name="SalaryAmount" column="SalaryAmount" />
 		<property name="Approved" column="Approved"/>
-    <!--<property name="SalaryReviewAnalysisID" column="SalaryReviewAnalysisID" update="false" insert="false"/>-->
+    <property name="SalaryReviewAnalysisID" column="SalaryReviewAnalysisID" update="false" insert="false"/>
     <property name="SelectionType" column="SelectionType"/>
 		<many-to-one name="SalaryReviewAnalysis" class="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core" column="SalaryReviewAnalysisID"/>
+    
     </class>
 </hibernate-mapping>
