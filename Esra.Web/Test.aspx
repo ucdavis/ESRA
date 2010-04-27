@@ -374,7 +374,7 @@
         <br />
     </div>
     <div id="divSAR">
-        <table id="tblSARMain" border="1">
+        <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" >
             <tr>
                 <th>
                     TitleCode
@@ -473,7 +473,7 @@
                         <ContentTemplate>
                             <asp:Repeater runat="server" ID="rptScenarios">
                                 <HeaderTemplate>
-                                    <table>
+                                    <table border="1" cellpadding="2" cellspacing="0">
                                         <tr>
                                             <th>
                                                 Scenario No.
@@ -500,17 +500,21 @@
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
-                                                DataTextField="Key" DataValueField="Value" SelectedValue='<%# Eval("SelectionType.Type") %>'>
+                                                DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged"><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("") %>'></asp:TextBox>
+                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("") %>'></asp:TextBox>
+                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />
+                                            <asp:UpdatePanel ID="upRBApproved" runat="server">
+                                            <ContentTemplate><asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />
+                                            <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetApproved" /></ContentTemplate>
+                                            
+                                            </asp:UpdatePanel>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
@@ -521,25 +525,29 @@
                                                 Value='<%# Eval("ID") %>' />--%>
                                         </th>
                                         <td>
-                                            <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
-                                                DataTextField="Key" DataValueField="Value" SelectedValue='<%# Eval("SelectionType.Type") %>'>
+                                            <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
+                                                DataTextField="Key" DataValueField="Value"  AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" ><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("") %>'></asp:TextBox>
+                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("") %>'></asp:TextBox>
+                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />
+                                            <asp:UpdatePanel ID="upRBApprovedAlt" runat="server">
+                                            <ContentTemplate><asp:RadioButton ID="rbApprovedAlt" runat="server" GroupName="rbApproved" Text="" />
+                                            <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetApproved" /></ContentTemplate>
+                                            
+                                            </asp:UpdatePanel>
                                         </td>
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>
                                     <tr>
                                         <th>
-                                            Dean's Office Comments
+                                            Comments
                                         </th>
                                         <td colspan="4">
                                             <asp:TextBox ID="tbDeansOfficeComments" runat="server" TextMode="MultiLine"></asp:TextBox>
@@ -557,8 +565,8 @@
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
             SelectMethod="GetCriteriaListItems">
             <SelectParameters>
-                <asp:SessionParameter DefaultValue="0" Name="id" SessionField="TitleCode" 
-                    Type="Int32" />
+                <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="TitleCode" 
+                    Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
     </div>
