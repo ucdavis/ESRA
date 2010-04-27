@@ -1,6 +1,7 @@
 ﻿using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel;
 
 namespace CAESDO.Esra.Core.DataInterfaces
 {
@@ -27,12 +28,12 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
-
     }
 
     public interface ISalaryScaleDao : IDao<SalaryScale, int>
     {
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
+        IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending);
     }
 
     public interface IUserDao : IDao<User, int>
@@ -45,7 +46,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
 
     public interface ISalaryReviewAnalysisDao : IDao<SalaryReviewAnalysis, int>
     {
-        new IList<SalaryReviewAnalysis> GetAll(string propertyName, bool ascending);
+        IList<SalaryReviewAnalysis> GetAllSalaryReviewAnalysis(string propertyName, bool ascending);
         IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool? ascending);
     }
 

@@ -144,6 +144,30 @@ namespace CAESDO.Esra.Data
 
                 return retval;
             }
+
+            public IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending)
+            {
+                IList<SalaryScale> retval = null;
+
+                if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
+                {
+                    propertyName = "TitleCode";
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryScale>();
+                }
+                else 
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                      .CreateAlias("Title", "Title")
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryScale>();
+                }
+                
+                return retval;
+            }
         }
 
         public class UserDao : AbstractNHibernateDao<User, int>, IUserDao
@@ -195,7 +219,7 @@ namespace CAESDO.Esra.Data
                     if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
                     {
 
-                        conjunction.Add(Expression.Eq("Employee.ID", employeeID));
+                        conjunction.Add(Expression.Eq("Employee.id", employeeID));
                     }
                     if (String.IsNullOrEmpty(reviewerLogin) == false && reviewerLogin.Equals("0") == false)
                     {
@@ -227,7 +251,7 @@ namespace CAESDO.Esra.Data
                 return retval;
         }
 
-        public new IList<SalaryReviewAnalysis> GetAll(string propertyName, bool ascending)
+        public IList<SalaryReviewAnalysis> GetAllSalaryReviewAnalysis(string propertyName, bool ascending)
         {
              IList<SalaryReviewAnalysis> retval = null;
 

@@ -19,7 +19,7 @@ namespace CAESDO.Esra.BLL
                 && (String.IsNullOrEmpty(creationDate) 
                     || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))
             {
-                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(propertyName, ascending);
+                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAllSalaryReviewAnalysis(propertyName, ascending);
             }
             else
             {
@@ -31,6 +31,11 @@ namespace CAESDO.Esra.BLL
         public static SalaryReviewAnalysis GetByReferenceNumber(string referenceNumber)
         {
             return GetByProperty("ReferenceNumber", referenceNumber);
+        }
+
+        public static IList<SalaryReviewAnalysis> GetAllSalaryReviewAnalysis(string propertyName, bool ascending)
+        {
+            return daoFactory.GetSalaryReviewAnalysisDao().GetAllSalaryReviewAnalysis(propertyName, ascending);
         }
     }
 }

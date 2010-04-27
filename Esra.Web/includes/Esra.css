@@ -1,0 +1,96 @@
+﻿body
+{
+	margin: 10px 0px 0px;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	min-width: 1000px;
+	background: #f5f6f8;
+	text-align: left;
+}
+
+#header {
+	height: 124px;
+	width: 1000px;
+	/*margin: 0 auto;*/
+	padding: 0 0 0 10px;
+	text-align: left;
+}
+
+/* table formatting */
+table {border-collapse: collapse;}
+tbody, table, tr {border: 0px none;}
+th, td {border: 0.1em solid #DDDDDD}
+table table th, table table td {border: none 0px}
+td, th {padding: 0.2em 0.5em;}
+
+tr.tr_head {background: #e58718; color: #fff;}
+tr.tr_head h2 {color: #fff; padding-top: 20px;}
+tr.tr_head a {text-decoration: underline; color: #fff;}
+tr.tr_head a:hover {text-decoration: none;}
+tr.tr_head th:hoverblah {background: #11398a}
+.tr_head th {padding-top: 20px; padding-right: 10px;}
+
+.tr_subhead {background: #eee;}
+.tr_subhead th {padding-top: 10px; padding-right: 10px;}
+
+tr.tr_addform {height: 80px;}
+
+tr.tr_alt {background: #efefef;}
+
+tr.pagingnum, tr.pagingnum table, tr.pagingnum tr, tr.pagingnum td, tr.pagingnum tbody
+{
+    border: none 0px;
+}
+tr.pagingnum table 
+{
+    float: right;
+}
+tr.pagingnum td {padding: 5px 0 0 0;}
+tr.pagingnum td span, tr.pagingnum td a {padding: 0 0 0 10px;}
+
+
+#footer {
+	/*margin: 0 auto;*/
+	padding: 0 20px;
+	width: 935px;
+}
+
+.edit_header {font-weight: bold; font-size: 0.9em; 
+    padding: 4px 0px 6px 10px; margin: 0px 5px; 
+    width: 85%; display: block;
+    background: url(../images/common/edit_stripe.png);}
+    
+    .title 
+    {
+    	margin: 0;
+		padding: 0.2em 0em 0.3em 0em;
+		font-family: georgia, "times new roman", times, serif;
+		font-weight: normal;
+		font-size: 1em;
+        font-style: italic;
+		color: #ffffff;
+}
+
+#mainwrap 
+{
+    min-width: 935px;
+	float: left;
+	background: url(../images/common/bigboxg_right.jpg) no-repeat right top;
+	padding: 0 0 0 0;
+}
+#main {
+	background: url(../images/common/bigboxg_left.jpg) no-repeat left top;
+	padding: 19px 39px 0 39px;
+}
+p.bbox {
+	background: url(../images/common/bigboxg_left.jpg) no-repeat left bottom;
+	padding: 0 0 0 39px;
+	margin: 0px;
+}
+p.bbox em {
+	font-style: normal;
+	display: block;
+	background: url(../images/common/bigboxg_right.jpg) no-repeat right bottom;
+	padding: 0 39px 39px 0;
+}
+
+

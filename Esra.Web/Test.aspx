@@ -5,9 +5,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
     <div id="divSalaryDetails">
-        <br />
-        <br />
-        &nbsp;<asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
+        <hr /><br />
+        <center><asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" 
+                Font-Bold="True" Font-Size="Large"></asp:Label></center><br />
+        <asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
             HeaderStyle-HorizontalAlign="Center" EnableViewState="False">
             <Columns>
                 <asp:TemplateField>

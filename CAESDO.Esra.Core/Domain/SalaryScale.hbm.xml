@@ -12,7 +12,7 @@
 		
 		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TitleCode"/>
 			
-		<property name="TitleCode" column="TitleCode" />
+		<property name="TitleCode" column="TitleCode" update="false" insert="false"/>
 		<property name="EffectiveDate" column="EffectiveDate" />
 		<property name="SalaryGrade" column ="SalaryGrade" />
 		<property name="BargainingCode" column="BargainingCode" />

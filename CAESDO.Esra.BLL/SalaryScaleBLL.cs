@@ -44,5 +44,25 @@ namespace CAESDO.Esra.BLL
         {
             return daoFactory.GetSalaryScaleDao().GetEffectiveSalaryScale(titleCode, effectiveDate);
         }
+
+        public static IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending)
+        {
+            return daoFactory.GetSalaryScaleDao().GetAllSalaryScale(propertyName, ascending);
+        }
+
+        public static void UpdateRecord(SalaryScale record)
+        {
+            SalaryScale _record = new SalaryScale() { EffectiveDate = record.EffectiveDate, TitleCode = record.TitleCode };
+            _record = GetByInclusionExample(_record, "EffectiveDate", "TitleCode")[0];
+            if ((record.LaborMarketWAS == 0 && _record.LaborMarketWAS > 0) || (record.LaborMarketWAS > 0)) { _record.LaborMarketWAS = Convert.ToDouble(record.LaborMarketWAS); }
+            if ((record.LaborMarketMidAnnual == 0 && _record.LaborMarketMidAnnual > 0) || (record.LaborMarketMidAnnual > 0)) { _record.LaborMarketMidAnnual = Convert.ToDouble(record.LaborMarketMidAnnual); }
+            if ((record.CampusAverageAnnual == 0 && _record.CampusAverageAnnual > 0) || (record.CampusAverageAnnual > 0)) { _record.CampusAverageAnnual = Convert.ToDouble(record.CampusAverageAnnual); }
+                 
+            using (var ts = new TransactionScope())
+            {
+                EnsurePersistent(ref _record);
+                ts.CommittTransaction();
+            }
+        }
     }
 }
