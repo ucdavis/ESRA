@@ -82,7 +82,7 @@ namespace CAESDO.Esra.Web
                 gvESRSearchParams_Init();
 
                 hiddenUserID.Value = UserBLL.GetCurrent().EmployeeID;
-                hiddenIsDepartmentUser.Value = IsDepartmentUser().ToString();
+                hiddenIsDepartmentUser.Value = IsDepartmentUser().ToString();  // This will be passed along to the datasource.
 
                 lbxDepartments_Init(null,null);
 
@@ -735,5 +735,12 @@ namespace CAESDO.Esra.Web
             hiddenSelectedDepartmentStrings.Value = string.Join("|", SelectedDepartmentStrings);
 
         }
+
+        protected void MyHiddenField_ValueChanged(object sender, EventArgs e)
+        {
+            bool retval = false;
+
+        }
+
     }
 }

@@ -438,7 +438,7 @@ namespace CAESDO.Esra.Web
         /// <returns>true if the user is only a departmental user; false otherwise.</returns>
         protected static bool IsDepartmentUser()
         {
-            bool retval = false;
+            bool retval = true;  // default on the side of more restrictive user visability.
 
             bool? isDepartmentUser = HttpContext.Current.Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
             if (isDepartmentUser != null)
@@ -451,11 +451,11 @@ namespace CAESDO.Esra.Web
 
                 if (user != null)
                 {
-                    if ((!user.IsInRole(ROLE_ADMIN) &&
-                         !user.IsInRole(ROLE_DOUser)) &&
-                         !user.IsInRole(ROLE_REVIEWER))
+                    if ((user.IsInRole(ROLE_ADMIN) ||
+                         user.IsInRole(ROLE_DOUser)) ||
+                         user.IsInRole(ROLE_REVIEWER))
                         {
-                            retval = true;
+                            retval = false;
                         }
                     }
                 }
@@ -474,7 +474,7 @@ namespace CAESDO.Esra.Web
         /// <returns>true if the user is only an admin user; false otherwise.</returns>
         protected bool IsAdminUser()
         {
-            bool retval = false;
+            bool retval = false;  // default on the more restrictive role.
 
             string role = Session[KEY_CURRENT_USER_ROLE] as String;
             if (String.IsNullOrEmpty(role) == false)

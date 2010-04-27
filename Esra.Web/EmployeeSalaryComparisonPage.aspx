@@ -625,13 +625,13 @@
             </asp:View>
         </asp:MultiView>
     
-     <asp:HiddenField ID="hiddenUserID" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hiddenIsDepartmentUser" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hiddenEmployeeID" runat="server" />
-     <asp:HiddenField ID="hiddenSelectedDepartmentStrings" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hiddenSelectedTitleStrings" runat="server" />
-    <%-- <asp:HiddenField ID="hiddenSortPropertyName" runat="server" />
-     <asp:HiddenField ID="hiddenAscending" runat="server" />--%>
+     <asp:HiddenField ID="hiddenUserID" runat="server" OnValueChanged="MyHiddenField_ValueChanged"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenIsDepartmentUser" runat="server" OnValueChanged="MyHiddenField_ValueChanged"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenEmployeeID" runat="server" OnValueChanged="MyHiddenField_ValueChanged"/>
+     <asp:HiddenField ID="hiddenSelectedDepartmentStrings" runat="server" OnValueChanged="MyHiddenField_ValueChanged"></asp:HiddenField>
+     <asp:HiddenField ID="hiddenSelectedTitleStrings" runat="server" OnValueChanged="MyHiddenField_ValueChanged"/>
+    <%-- <asp:HiddenField ID="hiddenSortPropertyName" runat="server" OnValueChanged="MyHiddenField_ValueChanged"/>
+     <asp:HiddenField ID="hiddenAscending" runat="server" OnValueChanged="MyHiddenField_ValueChanged"/>--%>
      
 <asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
@@ -655,7 +655,7 @@
                     Type="String" />
                    
                 <asp:ControlParameter DefaultValue="true" Name="isDepartmentUser" 
-                    ControlID="hiddenIsDepartmentUser" Type="Boolean" />
+                    ControlID="hiddenIsDepartmentUser" Type="Boolean"/>
                     
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 

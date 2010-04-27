@@ -369,14 +369,22 @@ namespace CAESDO.Esra.BLL
             record.PPSCareerHireDateChecked = (PPSCareerHireDateChecked == null ? false : (bool)PPSCareerHireDateChecked);
             record.PPSApptHireDateChecked = (PPSApptHireDateChecked == null ? false : (bool)PPSApptHireDateChecked);
 
+            // first reset the Experience begin date if needed.
+            if (record.ExperienceBeginDate == null)
+            {
+                record.YearsOfExperience = null;
+            }
+
             if (record.ExperienceBeginDate != experienceBeginDate)
             {
                 record.ExperienceBeginDate = experienceBeginDate;
-                if (experienceBeginDate == null && record.ExperienceBeginDate != null)
+
+                if (experienceBeginDate == null)
                 {
-                    record.YearsOfExperience = (DateTime.Today - (DateTime)record.ExperienceBeginDate).TotalDays / 365.25;
+                    // reset years of experience to null:
+                    record.YearsOfExperience = null;
                 }
-                else if (experienceBeginDate != null)
+                else
                 {
                     record.YearsOfExperience = (DateTime.Today - (DateTime)experienceBeginDate).TotalDays / 365.25;
                 }
