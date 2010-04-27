@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" table="SalaryScale_V" dynamic-update="true">
+	<class name="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" table="SalaryScale" dynamic-update="true">
 		<!--<id name="id" access="field" column="SalaryScaleID" unsaved-value="0">
 			<generator class="identity" />
 		</id>-->
