@@ -12,6 +12,12 @@ namespace CAESDO.Esra.Core.Domain
     [Serializable]
     public class SRAEmployee : Employee
     {
+        private string _PkEmployee;
+        public virtual string PkEmployee
+        {
+            get { return _PkEmployee; }
+            set { _PkEmployee = value; }
+        }
         /// <summary>
         /// The date the employee snapshot was taken.
         /// </summary>
@@ -36,7 +42,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _CorrespondingAnalysisID = value; }
         }
 
-        /* Shouldn't need theses here, since I moved the code to the base class.
+        /* Shouldn't need these because this class doesn't implement IComparable directly.
         public virtual int CompareTo(SRAEmployee item)
         {
             return String.Compare(this.ID, item.ID);
@@ -53,8 +59,7 @@ namespace CAESDO.Esra.Core.Domain
                 return false;
             }
         }
-         * */
-
+        */
         public SRAEmployee()
         {
 

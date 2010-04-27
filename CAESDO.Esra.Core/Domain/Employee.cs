@@ -6,8 +6,7 @@ using System.Globalization;
 namespace CAESDO.Esra.Core.Domain
 {
     [Serializable]
-    //public class Employee : UCDEmployee, IComparable<UCDEmployee>
-    public class Employee : UCDEmployee
+    public class Employee : UCDEmployee, IComparable<UCDEmployee>
     {
         /* Shouldn't need theses here, since I moved the code to the base class. */
         //// Beginning of nested classes.
@@ -222,47 +221,46 @@ namespace CAESDO.Esra.Core.Domain
             set { _DeansOfficeComments = value; }
         }
 
-        /* Shouldn't need theses here, since I moved the code to the base class. */
-        //public virtual int CompareTo(UCDEmployee item)
-        //{
-        //    return String.Compare(this.FullName, item.FullName);
-        //}
+        public virtual int CompareTo(Employee item)
+        {
+            return String.Compare(this.FullName, item.FullName);
+        }
 
-        //// Method to return IComparer object for sort helper.
-        //public static IComparer<UCDEmployee> sortHomeDepartmentAscending()
-        //{
-        //    return (IComparer<UCDEmployee>)new sortHomeDepartmentAscendingHelper();
-        //}
+        // Method to return IComparer object for sort helper.
+        new public static IComparer<Employee> sortHomeDepartmentAscending()
+        {
+            return (IComparer<Employee>)new sortHomeDepartmentAscendingHelper();
+        }
 
-        //// Method to return IComparer object for sort helper.
-        //public static IComparer<UCDEmployee> sortHomeDepartmentDescending()
-        //{
-        //    return (IComparer<UCDEmployee>)new sortHomeDepartmentDescendingHelper();
-        //}
+        // Method to return IComparer object for sort helper.
+        new public static IComparer<Employee> sortHomeDepartmentDescending()
+        {
+            return (IComparer<Employee>)new sortHomeDepartmentDescendingHelper();
+        }
 
-        //// Method to return IComparer object for sort helper.
-        //public static IComparer<UCDEmployee> sortTitleAscending()
-        //{
-        //    return (IComparer<UCDEmployee>)new sortTitleAscendingHelper();
-        //}
+        // Method to return IComparer object for sort helper.
+        new public static IComparer<Employee> sortTitleAscending()
+        {
+            return (IComparer<Employee>)new sortTitleAscendingHelper();
+        }
 
-        //// Method to return IComparer object for sort helper.
-        //public static IComparer<UCDEmployee> sortTitleDescending()
-        //{
-        //    return (IComparer<UCDEmployee>)new sortTitleDescendingHelper();
-        //}
+        // Method to return IComparer object for sort helper.
+        new public static IComparer<Employee> sortTitleDescending()
+        {
+            return (IComparer<Employee>)new sortTitleDescendingHelper();
+        }
 
-        //public virtual bool Equals(UCDEmployee other)
-        //{
-        //    if (this.FullName == other.FullName)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        public virtual bool Equals(Employee other)
+        {
+            if (this.FullName == other.FullName)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public Employee()
         {

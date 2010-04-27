@@ -15,9 +15,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _ReferenceNumber = value; }
         }
 
-        private Employee _Employee;
+        private SRAEmployee _Employee;
 
-        public virtual Employee Employee
+        public virtual SRAEmployee Employee
         {
             get { return _Employee; }
             set { _Employee = value; }

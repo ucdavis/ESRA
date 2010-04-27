@@ -7,7 +7,8 @@
 
 		<property name="ReferenceNumber" column="ReferenceNumber" />
 		<!--<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>-->
-		<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" column="FkEmployee" foreign-key="PkEmployee"></many-to-one>
+		<!--<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" column="FkEmployee" foreign-key="PkEmployee"></many-to-one>-->
+    <many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.SRAEmployee, CAESDO.Esra.Core" column="SalaryReviewAnalysisID" foreign-key="SalaryReviewAnalysisID"></many-to-one>
     
     <!--Set Title insert="false"; update="false" in order to be able to save the SalaryScale; otherwise TitleCode 
     shows up twice in the result list!-->
