@@ -10,10 +10,6 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
 <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
 
-
-
-
-    
     <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Scales &amp; Employee Salary Comparison"></asp:Label></h1>
 <%--    <div class="left_col">
     </div>--%>
@@ -25,21 +21,31 @@
 <tr>
 <td>--%>
 
-    
-    
     <h2><asp:Label ID="lblTitleSalaryScaleSection" runat="server" Text="Salary Scales"></asp:Label></h2>
-    &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
-            DataTextField="PayrollTitle_TitleCode" DataValueField="ID" AutoPostBack="True" 
-            AppendDataBoundItems="True" 
-            onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
-            <asp:ListItem Value="0">-- Select a Title --</asp:ListItem>
-        </asp:DropDownList>
-        <ajax:ListSearchExtender ID="ListSearchExtender4" runat="server" 
-            TargetControlID="ddlTitleCode">
-        </ajax:ListSearchExtender>
+        &nbsp;<asp:DropDownList ID="ddlSearchByTitleCode" runat="server" DataSourceID="odsTitlesByTitleCode" 
+                    DataTextField="TitleCode" DataValueField="ID"  
+                    AppendDataBoundItems="True" 
+                    onselectedindexchanged="ddlSearchByTitleCode_SelectedIndexChanged" 
+                    AutoPostBack="true">
+                    <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
+                </asp:DropDownList>
+                <ajax:ListSearchExtender ID="ListSearchExtender5" runat="server" 
+                    TargetControlID="ddlSearchByTitleCode">
+                </ajax:ListSearchExtender><br />-- or --<br />
+            &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
+                    DataTextField="PayrollTitle_TitleCode" DataValueField="ID"  
+                    AppendDataBoundItems="True" 
+                    onselectedindexchanged="ddlTitleCode_SelectedIndexChanged" 
+                    AutoPostBack="true">
+                    <asp:ListItem Value="0">-- Select a Payroll Title --</asp:ListItem>
+                </asp:DropDownList>
+                <ajax:ListSearchExtender ID="ListSearchExtender4" runat="server" 
+                    TargetControlID="ddlTitleCode">
+                </ajax:ListSearchExtender>
         <br />
         &nbsp;<asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
-            AutoGenerateColumns="False" EmptyDataText="No Title Code selected." ShowHeader="true" HeaderStyle-HorizontalAlign="Center" GridLines="None">
+            AutoGenerateColumns="False" EmptyDataText="No Title Code selected." 
+        HeaderStyle-HorizontalAlign="Center" GridLines="None">
             <Columns>
                 <asp:TemplateField>
                 <HeaderTemplate>Campus-wide Salary Scale</HeaderTemplate>
@@ -178,7 +184,11 @@
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
+
+<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
         </asp:GridView>
+          </ContentTemplate>
+        </asp:UpdatePanel>
         <br />
 </li><li>
 <%--</td><td id="before_employee_salary_comparison">--%>
@@ -303,7 +313,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-</li></ul __designer:mapid="1a7">                
+</li></ul __designer:mapid="1404">                
 <%--</td></tr></tbody></table> --%>
 <p class="note">Items highlighted in <span class="light_green">light green</span> indicate a 
     change from pps.</p>
@@ -600,6 +610,15 @@ document.write(month+"/"+today+"/"+year)
             </SelectParameters>
        </asp:ObjectDataSource>
         
+        <%--<asp:ObjectDataSource ID="odsTitle" runat="server"  
+            TypeName="CAESDO.Esra.BLL.TitleBLL" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetByTitleCode">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ddlTitleCode" Name="id" 
+                    PropertyName="SelectedValue" Type="String" DefaultValue="0" />
+            </SelectParameters>
+        </asp:ObjectDataSource>--%>
+        
         <asp:ObjectDataSource ID="odsTitle" runat="server"  
             TypeName="CAESDO.Esra.BLL.TitleBLL" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetByTitleCode">
@@ -618,6 +637,17 @@ document.write(month+"/"+today+"/"+year)
             </SelectParameters>
             
         </asp:ObjectDataSource>
+        
+        <asp:ObjectDataSource ID="odsTitlesByTitleCode" runat="server" 
+            TypeName="CAESDO.Esra.BLL.TitleBLL" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+            
+        </asp:ObjectDataSource>
+        
         <asp:ObjectDataSource ID="odsDepartments" runat="server" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
             TypeName="CAESDO.Esra.BLL.DepartmentBLL">

@@ -231,7 +231,14 @@ namespace CAESDO.Esra.Web
 
         protected void ddlTitleCode_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+                string titleCode = ((DropDownList)sender).SelectedValue;
+                ddlSearchByTitleCode.SelectedValue = titleCode;
+        }
+
+        protected void ddlSearchByTitleCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string titleCode = ((DropDownList)sender).SelectedValue;
+            ddlTitleCode.SelectedValue = titleCode;
         }
 
         protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
@@ -245,6 +252,7 @@ namespace CAESDO.Esra.Web
                 Employee emp = EmployeeBLL.GetByID(id);
 
                 ddlTitleCode.SelectedValue = emp.Title.ID;
+                ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
                 lbxTitleCodes_ClearSelectedValues();
                 lbxDepartments_ClearSelectedValues();
                 //ddlDepartment.SelectedIndex = -1;
@@ -279,6 +287,7 @@ namespace CAESDO.Esra.Web
                     Employee emp = EmployeeBLL.GetByID(id);
 
                     ddlTitleCode.SelectedValue = emp.Title.ID;
+                    ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
                     //ddlDepartment.SelectedIndex = -1;
                     lbxDepartments_ClearSelectedValues();
                 }

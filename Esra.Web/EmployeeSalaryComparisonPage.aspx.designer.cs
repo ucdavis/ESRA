@@ -32,6 +32,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Label lblTitleSalaryScaleSection;
         
         /// <summary>
+        /// ddlSearchByTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSearchByTitleCode;
+        
+        /// <summary>
+        /// ListSearchExtender5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ListSearchExtender5;
+        
+        /// <summary>
         /// ddlTitleCode control.
         /// </summary>
         /// <remarks>
@@ -282,6 +300,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsTitles;
+        
+        /// <summary>
+        /// odsTitlesByTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsTitlesByTitleCode;
         
         /// <summary>
         /// odsDepartments control.
