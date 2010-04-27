@@ -5,6 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Salary Review Analysis</title>
+    <style type="text/css">
+        .style2
+        {
+            width: 174px;
+        }
+        .style4
+        {
+            width: 74px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -39,7 +49,7 @@
         </asp:ObjectDataSource>
         <br />
         <asp:MultiView ID="MultiView1" runat="server">
-            <asp:View ID="vSalaryReviewAnalysis" runat="server">
+            <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
                 <asp:DropDownList ID="ddlReferenceNumber" runat="server" AutoPostBack="True" 
                     DataSourceID="odsESRAs" DataTextField="ReferenceNumber" DataValueField="ID">
                     <asp:ListItem>-- Select a Reference Number --</asp:ListItem>
@@ -106,9 +116,156 @@
                     </Columns>
                 </asp:GridView>
             </asp:View>
+            <asp:View ID="vSalaryReviewAnalysis" runat="server">
+                
+                    <table style="width: 100%;">
+                        <tr>
+                            <th>Scenario #</th>
+                            <th>Criteria</th>
+                            <th>% Increase</th>
+                            <th>Salary $</th>
+                            <th>Approved</th>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                1.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria1" runat="server" AutoPostBack="True" 
+                                    DataSourceID="odsCriteria" DataTextField="Key" DataValueField="Value">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease1" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount1" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved1" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                2.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria2" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease2" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount2" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved2" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                3.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria3" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease3" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount3" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved3" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                4.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria4" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease4" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount4" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved4" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                5.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria5" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease5" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount5" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved5" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                6.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria6" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease6" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount6" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved6" runat="server" GroupName="rbApproved" Text=""/>
+&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                7.</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCriteria7" runat="server">
+                                </asp:DropDownList>
+                            </td>
+                            <td >
+                                <asp:TextBox ID="tbPercentIncrease7" runat="server"></asp:TextBox>
+                            </td>
+                            <td class="style4">
+                                <asp:TextBox ID="tbSalaryAmount7" runat="server"></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:RadioButton ID="rbApproved7" runat="server" GroupName="rbApproved" Text=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dean&#39;s Office Comments:</th>
+                            <td colspan="4">
+                                <asp:TextBox ID="tbDeansOfficeComments" runat="server" Width="867px" TextMode="MultiLine"></asp:TextBox>
+                            </td>
+                        </tr>
+                    </table>
+                
+            </asp:View>
         </asp:MultiView>
     
     </div>
+    <asp:ObjectDataSource ID="odsCriteria" runat="server" 
+        OldValuesParameterFormatString="original_{0}" 
+        SelectMethod="GetCriteriaListItems" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
+        <SelectParameters>
+            <asp:SessionParameter DefaultValue="0" Name="id" SessionField="titleCode" 
+                Type="Int32" />
+        </SelectParameters>
+    </asp:ObjectDataSource>
     </form>
 </body>
 </html>
