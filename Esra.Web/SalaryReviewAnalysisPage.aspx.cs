@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using CAESDO.Esra.BLL;
-using System.Collections.Generic;
 using CAESDO.Esra.Core.Domain;
 
 
@@ -18,7 +10,6 @@ namespace CAESDO.Esra.Web
     public partial class SalaryReviewAnalysisPage : ApplicationPage
     {
         protected static readonly string KEY_SALARY_REVIEW_ANALYSIS_ID = "CurrentSarID";
-        protected static readonly string KEY_TITLE_ID = "titleCode";
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
         protected static readonly string KEY_REFERENCE_NUM_INDEX = "ReferenceNumberIndex";
         protected static readonly string KEY_EMPLOYEE_ID_INDEX = "EmployeeIDIndex";
@@ -26,17 +17,45 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_CREATION_DATE = "CreationDate";
 
         protected static Employee NewSRAEmployee { get; set; }
-        
+
+# region restore_search_control_parameters 
+        protected  int? ReferenceNumberIndex 
+        {
+            get { return Session[KEY_REFERENCE_NUM_INDEX] as int?; }
+            set { Session[KEY_REFERENCE_NUM_INDEX] = value; }
+        }
+
+        protected  int? EmployeeIDIndex 
+        {
+            get { return Session[KEY_EMPLOYEE_ID_INDEX] as int?; }
+            set { Session[KEY_EMPLOYEE_ID_INDEX] = value; }
+        }
+
+        protected  int? ReviewerNameIndex
+        {
+            get { return Session[KEY_REVIEWER_NAME_INDEX] as int?; }
+            set { Session[KEY_REVIEWER_NAME_INDEX] = value; }
+        }
+
+        protected  string CreationDateString
+        {
+            get { return Session[KEY_CREATION_DATE] as string; }
+            set { Session[KEY_CREATION_DATE] = value; }
+        }
+
+        protected string CurrentSarID
+        {
+            get { return Session[KEY_SALARY_REVIEW_ANALYSIS_ID] as string; }
+            set { Session[KEY_SALARY_REVIEW_ANALYSIS_ID] = value; }
+        }
+# endregion
+
         protected string ReferenceNum
         {
             get
             {
                 string retval = Request.QueryString[KEY_REFERENCE_NUM];
-                if (String.IsNullOrEmpty(retval))
-                {
-                    retval = Session[KEY_REFERENCE_NUM] as string;
-                }
-
+                
                 long temp = 0;
                 // ###20081001 min length = 11
                 if (String.IsNullOrEmpty(retval) || retval.Length < 11 || long.TryParse(retval, out temp) == false)
@@ -54,11 +73,11 @@ namespace CAESDO.Esra.Web
             if (!IsPostBack)
             {
                 NewSRAEmployee = null;
-                Session.Remove(KEY_EMPLOYEE_ID);
-                Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
-                Session.Remove(KEY_TITLE_ID);
-                Session.Remove(KEY_REFERENCE_NUM);
+                CurrentSarID = null;
                 tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+
+                hiddenUserID.Value = UserBLL.GetCurrent().EmployeeID;
+                hiddenIsDepartmentUser.Value = IsDepartmentUser().ToString();
             }
         }
 
@@ -67,54 +86,8 @@ namespace CAESDO.Esra.Web
             base.Page_Load(sender, e);
             if (!IsPostBack)
             {
-                pnlProposedTitleCodeNote.Visible = false;
-                pnlProposedTitle.Visible = false;
-
-                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
-                // Revised to use Catbert user.
-                User user = UserBLL.GetCurrent();
-                ViewState.Add(KEY_CURRENT_USER, user);
-
                 MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
-
-                if (String.IsNullOrEmpty(ReferenceNum) == false)
-                {
-                    SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                    if (sra != null)
-                    {
-                        if (!IsDepartmentUser() || 
-                            (IsDepartmentUser()&& SRAEmployeeBLL.IsDepartmentEmployee(user, sra.Employee)))
-                        {
-                            int id = sra.ID;
-                            Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-                            ////Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
-                            Session.Add(KEY_TITLE_ID, sra.Title.ID);
-
-                            List<SalaryScale> salaryScales = new List<SalaryScale>();
-                            salaryScales.Add(sra.SalaryScale);
-                            gvSalaryScale.DataSource = salaryScales;
-                            gvSalaryScale.DataBind();
-
-                            // new logic for setting the Proposed title as applicable:
-
-                            if (sra.IsReclass)
-                            {
-                                pnlProposedTitle.Visible = true;
-                                lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
-                            }
-                        
-                            MultiView1.SetActiveView(vSalaryReviewAnalysis);
-                        }
-                        else
-                        {
-                            MultiView1.SetActiveView(vNotAuthorized);
-                        }
-                    }
-                }
-                else
-                {
-                    Page.Form.DefaultButton = btnFindSRA.UniqueID;
-                }
+                Page.Form.DefaultButton = btnFindSRA.UniqueID;
             }
         }
 
@@ -135,59 +108,27 @@ namespace CAESDO.Esra.Web
         {
             ddlReferenceNumber.SelectedIndex = -1;
             ddlNewSAREmployee.SelectedIndex = -1;
-            Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
-            /*
-            gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetAll(
-                Session[KEY_CURRENT_USER_ID] as string,
-                IsDepartmentUser(),
-                ddlEmployee.SelectedValue,
-                ddlCreatedBy.SelectedValue,
-                tbCreationDate.Text,
-                "Employee.FullName",
-                true);
-             * */
+            CurrentSarID = null;
+            
             gvSalaryReviewAnalysis.DataBind();
         }
 
         protected void ddlReferenceNumber_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis> items = new List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis>();
             ddlEmployee.SelectedIndex = -1;
             ddlCreatedBy.SelectedIndex = -1;
             ddlNewSAREmployee.SelectedIndex = -1;
             if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
             {
-                Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, ddlReferenceNumber.SelectedValue);
+                CurrentSarID = ddlReferenceNumber.SelectedValue;
             }
             else
             {
-                Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
+                CurrentSarID = null;
             }
             
-            //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
-            /*
-            if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
-            {
-                items.Add(SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue)));
-            }
-            */
-            //lbtnBack_Click(null, null);
-            //gvSalaryReviewAnalysis.DataSource = items;
             gvSalaryReviewAnalysis.DataBind();
         }
-
-
-        //protected void ddlNewSAREmployee_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    DropDownList ddl = (DropDownList)sender;
-        //    string id = ddl.SelectedValue;
-        //    Session.Add(KEY_REFERENCE_NUM_INDEX, ddlReferenceNumber.SelectedIndex);
-        //    Session.Add(KEY_EMPLOYEE_ID_INDEX, ddlEmployee.SelectedIndex);
-        //    Session.Add(KEY_REVIEWER_NAME_INDEX, ddlCreatedBy.SelectedIndex);
-        //    Session.Add(KEY_CREATION_DATE, tbCreationDate.Text);
-
-        //    Response.Redirect(redirectURL);
-        //}
 
         protected void ddlNewSAREmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -198,7 +139,6 @@ namespace CAESDO.Esra.Web
             NewSRAEmployee = emp;
             lblNewSRAEmployee.Text = emp.FullName;
             lblOriginalTitleCode.Text = emp.TitleCode;
-            //lblProposedTitleCode.Text = emp.TitleCode;
             ddlProposedTitleCode.SelectedValue = emp.TitleCode;
 
             MultiView1.SetActiveView(vSelectReviewType);
@@ -232,102 +172,37 @@ namespace CAESDO.Esra.Web
         {
             int id = (int)((GridView)sender).SelectedValue;
             string refNumber = SalaryReviewAnalysisBLL.GetByID(id).ReferenceNumber;
+           
+            // The point of this logic is to save the control settings so they may be 
+            //restored upon return to this page.
+            if (id > 0)
+            {
+                 ReferenceNumberIndex = ddlReferenceNumber.SelectedIndex;
+                 EmployeeIDIndex = ddlEmployee.SelectedIndex;
+                 ReviewerNameIndex = ddlCreatedBy.SelectedIndex;
+                 CreationDateString = tbCreationDate.Text;
+            }
 
             Response.Redirect(buildQueryString("SalaryReviewAnalysisViewer.aspx?" + KEY_REFERENCE_NUM + "=" + refNumber));
-
-            //int? oldId = Session[KEY_SALARY_REVIEW_ANALYSIS_ID] as int?;
-            //if (id > 0)
-            //{
-            //    ViewState.Add(KEY_REFERENCE_NUM_INDEX, ddlReferenceNumber.SelectedIndex);
-            //    ViewState.Add(KEY_EMPLOYEE_ID_INDEX, ddlEmployee.SelectedIndex);
-            //    ViewState.Add(KEY_REVIEWER_NAME_INDEX, ddlCreatedBy.SelectedIndex);
-            //    ViewState.Add(KEY_CREATION_DATE, tbCreationDate.Text);
-
-            //    Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-            //    CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
-            //    ////Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
-            //    Session.Add(KEY_TITLE_ID, sra.Title.ID);
-
-            //    List<SalaryScale> salaryScales = new List<SalaryScale>();
-            //    salaryScales.Add(sra.SalaryScale);
-            //    gvSalaryScale.DataSource = salaryScales;
-            //    gvSalaryScale.DataBind();
-
-            //    // Logic to set the proposed title if recalss.
-            //    pnlProposedTitle.Visible = false;
-            //    if (sra.IsReclass)
-            //    {
-            //        pnlProposedTitle.Visible = true;
-            //        lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
-            //    }
-
-            //    if (oldId != null && oldId == id)
-            //    {
-            //        gvSARDetails.DataBind();
-            //    }
-
-            //    MultiView1.SetActiveView(vSalaryReviewAnalysis);
-            //}
-            //else
-            //{
-            //    MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
-            //}
         }
 
         protected void lbtnBack_Click(object sender, EventArgs e)
         {
-            Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
+            CurrentSarID = null;
             
-            Session.Remove(KEY_EMPLOYEE_ID);
-            Session.Remove(KEY_TITLE_ID);
-            Session.Remove(KEY_REFERENCE_NUM);
-
             //TODO Add logic to clear out the query string.
             MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
         }
 
-        protected void lbtnEdit_Click(object sender, EventArgs e)
-        {
-            
-            if (Session[KEY_REFERENCE_NUM_INDEX] == null)
-                Session.Add(KEY_REFERENCE_NUM_INDEX, (int)ViewState[KEY_REFERENCE_NUM_INDEX]);
-            if (Session[KEY_EMPLOYEE_ID_INDEX] == null)
-                Session.Add(KEY_EMPLOYEE_ID_INDEX, (int)ViewState[KEY_EMPLOYEE_ID_INDEX]);
-            if (Session[KEY_REVIEWER_NAME_INDEX] == null)
-                Session.Add(KEY_REVIEWER_NAME_INDEX, (int)ViewState[KEY_REVIEWER_NAME_INDEX]);
-            if (Session[KEY_CREATION_DATE] == null)
-                Session.Add(KEY_CREATION_DATE, (string)ViewState[KEY_CREATION_DATE]);
-
-            int id = (int)Session[KEY_SALARY_REVIEW_ANALYSIS_ID];
-            SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
-            string redirectURL = "~/SalaryReviewAnalysisEditor.aspx?ReferenceNumber=" + sra.ReferenceNumber;
-            Response.Redirect(redirectURL);
-        }
-
         protected void gvSalaryReviewAnalysis_OnRowDeleting(object sender, EventArgs e)
-        { 
-            /*
-            GridView gv = sender as GridView;
-            if (gv != null)
+        {
+            LinkButton button = sender as LinkButton;
+            if (button != null)
             {
-                GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
-                Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
+                int id = Convert.ToInt32(button.CommandArgument);
+                SalaryReviewAnalysisBLL.DeleteRecord(id);
+            }
 
-                SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
-            }
-            else
-             * */
-            {
-                LinkButton button = sender as LinkButton;
-                if (button != null)
-                {
-                    int id = Convert.ToInt32(button.CommandArgument);
-                    SalaryReviewAnalysisBLL.DeleteRecord(id);
-                }
-            }
-            //GridViewDeleteEventArgs deleteEventArgs = e as GridViewDeleteEventArgs;
-            //deleteEventArgs.Cancel = true;
-           
             SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_DELETED_SUCCESS);
 
             ListItem item = ddlReferenceNumber.Items[0];
@@ -352,7 +227,9 @@ namespace CAESDO.Esra.Web
             if (IsDepartmentUser())
             {
                 GridView gv = sender as GridView;
+// ReSharper disable PossibleNullReferenceException
                 gv.Columns[5].Visible = false;
+// ReSharper restore PossibleNullReferenceException
             }
         }
 
@@ -373,41 +250,37 @@ namespace CAESDO.Esra.Web
 
         protected void ddlReferenceNumber_DataBound(object sender, EventArgs e)
         {
-            int? id = Session[KEY_REFERENCE_NUM_INDEX] as int?;
-            if (id != null)
+            if (ReferenceNumberIndex != null)
             {
-                ((DropDownList)sender).SelectedIndex = (int)id;
-                Session.Remove(KEY_REFERENCE_NUM_INDEX);
+                ((DropDownList)sender).SelectedIndex = (int)ReferenceNumberIndex;
+                ReferenceNumberIndex = null;
             }
         }
 
         protected void tbCreationDate_DataBound(object sender, EventArgs e)
         {
-            string dateString = Session[KEY_CREATION_DATE] as string;
-            if (String.IsNullOrEmpty(dateString) == false)
+            if (String.IsNullOrEmpty(CreationDateString) == false)
             {
-                tbCreationDate.Text = dateString;
-                Session.Remove(KEY_CREATION_DATE);
+                tbCreationDate.Text = CreationDateString;
+                CreationDateString = null;
             }
         }
 
         protected void ddlCreatedBy_DataBound(object sender, EventArgs e)
         {
-            int? id = Session[KEY_REVIEWER_NAME_INDEX] as int?;
-            if (id != null)
+            if (ReviewerNameIndex != null)
             {
-                ((DropDownList)sender).SelectedIndex = (int)id;
-                Session.Remove(KEY_REVIEWER_NAME_INDEX);
+                ((DropDownList)sender).SelectedIndex = (int)ReviewerNameIndex;
+                ReviewerNameIndex = null;
             }
         }
 
         protected void ddlEmployee_DataBound(object sender, EventArgs e)
         {
-            int? id = Session[KEY_EMPLOYEE_ID_INDEX] as int?;
-            if (id != null)
+            if (EmployeeIDIndex != null)
             {
-                ((DropDownList)sender).SelectedIndex = (int)id;
-                Session.Remove(KEY_EMPLOYEE_ID_INDEX);
+                ((DropDownList)sender).SelectedIndex = (int)EmployeeIDIndex;
+                EmployeeIDIndex = null;
             }
         }
     }
