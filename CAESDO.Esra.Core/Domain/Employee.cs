@@ -96,6 +96,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _ApptHireDate = value; }
         }
 
+        private DateTime? _ExperienceBeginDate;
+
+        public virtual DateTime? ExperienceBeginDate
+        {
+            get { return _ExperienceBeginDate; }
+            set { _ExperienceBeginDate = value; }
+        }
+
         private double? _YearsOfService;
 
         public virtual double? YearsOfService
@@ -108,6 +116,12 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _TimeInTitle; }
             set { _TimeInTitle = value; }
+        }
+        private double? _YearsOfExperience;
+        public virtual double? YearsOfExperience
+        {
+            get { return _YearsOfExperience; }
+            set { _YearsOfExperience = value; }
         }
 
         private string _DepartmentComments;

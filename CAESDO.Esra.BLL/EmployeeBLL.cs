@@ -121,11 +121,33 @@ namespace CAESDO.Esra.BLL
             string original_ID
             )
         {
+            UpdateRecord(
+                AdjustedCareerHireDate,
+                AdjustedApptHireDate,
+                null,
+                DepartmentComments,
+                DeansOfficeComments,
+                null,
+                original_ID);
+        }
+
+        public static void UpdateRecord(
+            string AdjustedCareerHireDate,
+            string AdjustedApptHireDate,
+            string ExperienceBeginDate,
+            string DepartmentComments,
+            string DeansOfficeComments,
+            string IsDepartmentUser,
+            string original_ID
+            )
+        {
+            
             Employee record = GetByID(original_ID);
 
             // Career Hire Date and Appt Hire Date logic:
             DateTime? careerHireDate = (String.IsNullOrEmpty(AdjustedCareerHireDate) ? null : (DateTime?)Convert.ToDateTime(AdjustedCareerHireDate));
             DateTime? apptHireDate = (String.IsNullOrEmpty(AdjustedApptHireDate) ? null : (DateTime?)Convert.ToDateTime(AdjustedApptHireDate));
+            DateTime? experienceBeginDate = (String.IsNullOrEmpty(ExperienceBeginDate) ? null : (DateTime?)Convert.ToDateTime(ExperienceBeginDate));
             
             if (careerHireDate == null && apptHireDate == null)
                 record.DatesHaveBeenAdjusted = false;
@@ -163,8 +185,27 @@ namespace CAESDO.Esra.BLL
                 }
             }
 
-            record.DepartmentComments = (String.IsNullOrEmpty(DepartmentComments) ? null : DepartmentComments);
-            record.DeansOfficeComments = (String.IsNullOrEmpty(DeansOfficeComments) ? null : DeansOfficeComments);
+            if (record.ExperienceBeginDate != experienceBeginDate)
+            {
+                record.ExperienceBeginDate = experienceBeginDate;
+                if (experienceBeginDate == null)
+                {
+                    record.YearsOfExperience = (DateTime.Today - (DateTime)record.ExperienceBeginDate).TotalDays / 365.25;
+                }
+                else
+                {
+                    record.YearsOfExperience = (DateTime.Today - (DateTime)experienceBeginDate).TotalDays / 365.25;
+                }
+            }
+
+            if (String.IsNullOrEmpty(IsDepartmentUser) || Convert.ToBoolean(IsDepartmentUser) == false)
+            {
+                record.DeansOfficeComments = (String.IsNullOrEmpty(DeansOfficeComments) ? null : DeansOfficeComments);
+            }
+            else
+            {
+                record.DepartmentComments = (String.IsNullOrEmpty(DepartmentComments) ? null : DepartmentComments);
+            }
 
             using (var ts = new TransactionScope())
             {

@@ -45,10 +45,12 @@
 			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
 			<property name="CareerHireDate" column="CareerHireDate" />
 			<property name="ApptHireDate" column="ApptHireDate" />
+      <property name="ExperienceBeginDate" column="ExperienceBeginDate" />
 			<property name="DepartmentComments" column="DepartmentComments" />
 			<property name="DeansOfficeComments" column="DeansOfficeComments"/>
 			<property name="YearsOfService" column="YearsOfService"/>
 			<property name="TimeInTitle" column="TimeInTitle"/>
+      <property name="YearsOfExperience" column="YearsOfExperience"/>
 		</joined-subclass>
 	</class>
 </hibernate-mapping>
