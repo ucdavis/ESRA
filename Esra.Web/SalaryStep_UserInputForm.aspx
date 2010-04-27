@@ -14,16 +14,8 @@
         <hr />
         <br />
     </div>
-    <div id="divDisplaySalaryScales" visible="true">
-        <asp:ObjectDataSource ID="odsSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL"></asp:ObjectDataSource>
-        <asp:ObjectDataSource ID="odsSalaryScale" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAllSalaryScaleWithSalarySteps" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
-            <SelectParameters>
-                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
-                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-            </SelectParameters>
-        </asp:ObjectDataSource>
+    <asp:MultiView ID="MultiView1" runat="server">
+    <asp:View ID="vDisplaySalaryScales" runat="server" >
         <asp:GridView ID="gvSalaryScales" runat="server" DataSourceID="odsSalaryScale" AutoGenerateColumns="False"
             AllowSorting="True" OnSorting="gvSalaryScales_Sorting">
             <HeaderStyle CssClass="tr_head" />
@@ -137,16 +129,16 @@
                                     <ContentTemplate>
                                         <tr>
                                             <td>
-                                                <asp:TextBox ID="tbStepNumber" runat="server" Text='<%# Bind("StepNumber") %>'></asp:TextBox>
+                                                <asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
                                             </td>
                                             <td>
                                                 <asp:TextBox ID="tbAnnual" runat="server" Text='<%# Bind("Annual") %>'></asp:TextBox>
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="tbMonthly" runat="server" Text='<%# Bind("Monthly") %>'></asp:TextBox>
+                                                <asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly") %>'></asp:Label>
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="tbHourly" runat="server" Text='<%# Bind("Hourly") %>'></asp:TextBox>
+                                                <asp:Label ID="lblHourly" runat="server" Text='<%# Eval("Hourly") %>'></asp:Label>
                                             </td>
                                         </tr>
                                     </ContentTemplate>
@@ -155,15 +147,21 @@
                         </asp:ListView>
                     </EditItemTemplate>
                 </asp:TemplateField>
+                 <asp:TemplateField ShowHeader="False">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lbtnDeleteSalaryScale" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
+                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# Eval("TitleCode") + "|" + Eval("EffectiveDate")  %>' ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
             </Columns>
         </asp:GridView>
-    </div>
-    <div id="divEditNewSalaryScale" visible="true">
-        <asp:ListView ID="lvNewSalaryScale" runat="server">
+    </asp:View>
+    <asp:View ID="vEditNewSalaryScale" runat="server" >
+        <asp:ListView ID="lvNewSalaryScale" runat="server" OnItemUpdating="vNewSalaryScale_ItemUpdating">
             <ItemTemplate>
                 <tr style="">
                     <td>
-                        <asp:Button ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />
+                        <asp:Button ID="UpdateButton" runat="server" CommandName="Update" CommandArgument='<%# Container %>' Text="Update" OnCommand="lvNewSalaryScale_OnCommand"/>
                         <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
                     </td>
                     <td>
@@ -194,6 +192,7 @@
                                                 <th>
                                                     Monthly
                                                 </th>
+
                                                 <th>
                                                     Hourly
                                                 </th>
@@ -262,7 +261,7 @@
                 </tr>
             </AlternatingItemTemplate>
             <EmptyDataTemplate>
-                <table runat="server" style="">
+                <table id="Table1" runat="server" style="">
                     <tr>
                         <td>
                             No data was returned.
@@ -294,26 +293,26 @@
                 </tr>
             </InsertItemTemplate>
             <LayoutTemplate>
-                <table runat="server">
-                    <tr runat="server">
-                        <td runat="server">
+                <table id="Table2" runat="server">
+                    <tr id="Tr1" runat="server">
+                        <td id="Td1" runat="server">
                             <table id="itemPlaceholderContainer" runat="server" border="0" style="">
-                                <tr runat="server" class="tr_head">
+                                <tr id="Tr2" runat="server" class="tr_head">
                                     <th>
                                     </th>
-                                    <th runat="server">
+                                    <th id="Th1" runat="server">
                                         Payroll Title
                                     </th>
-                                    <th runat="server">
+                                    <th id="Th2" runat="server">
                                         Title Code
                                     </th>
-                                    <th runat="server">
+                                    <th id="Th3" runat="server">
                                         Effective Date
                                     </th>
-                                    <th runat="server">
+                                    <th id="Th4" runat="server">
                                         # Salary Steps
                                     </th>
-                                    <th runat="server">
+                                    <th id="Th5" runat="server">
                                         SalarySteps
                                     </th>
                                 </tr>
@@ -322,8 +321,8 @@
                             </table>
                         </td>
                     </tr>
-                    <tr runat="server">
-                        <td runat="server" style="">
+                    <tr id="Tr3" runat="server">
+                        <td id="Td2" runat="server" style="">
                         </td>
                     </tr>
                 </table>
@@ -371,5 +370,16 @@
                 </tr>
             </SelectedItemTemplate>
         </asp:ListView>
-    </div>
+    </asp:View>
+    </asp:MultiView>
+    <asp:ObjectDataSource ID="odsSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL"></asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsSalaryScale" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetAllSalaryScaleWithSalarySteps" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+    
 </asp:Content>
