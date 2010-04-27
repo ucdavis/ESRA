@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class SalaryStep : DomainObject<SalaryStep, int>
     {
         private SalaryScale _SalaryScale;

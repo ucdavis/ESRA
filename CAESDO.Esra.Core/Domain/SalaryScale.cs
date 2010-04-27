@@ -5,6 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class SalaryScale : DomainObject<SalaryScale, int>
     {
         private Title _Title;
