@@ -179,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExportToExcel.aspx" />
+    <Content Include="images\common\collapse_blue.jpg" />
+    <Content Include="images\common\expand_blue.jpg" />
     <Content Include="images\common\home_icon-full.jpg" />
     <Content Include="images\common\loading.gif" />
     <Content Include="images\common\Logout_Button.jpg" />
