@@ -18,6 +18,8 @@
         <div id="mainwrap">
             <div id="main">
                 <div class="title">
+                    <center><p>
+                    <asp:Label ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger"></asp:Label></p></center>
                     <asp:Label ID="lbl_Message" runat="server" Text="Label" Visible="False" Font-Bold="False"
                         Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;
                     <asp:ContentPlaceHolder ID="ContentHeader" runat="server">
