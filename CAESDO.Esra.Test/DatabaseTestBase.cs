@@ -17,7 +17,7 @@ namespace CAESDO.Esra.Test
 
         public virtual void LoadData()
         {
-            DatabaseHelper.LoadData();
+            
         }
     }
 }

@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CAESArch.BLL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\CAESArch.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="CAESArch.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\CAESArch.Core.dll</HintPath>
+    </Reference>
     <Reference Include="CAESArch.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dlls\CAESArch.Data.dll</HintPath>
@@ -44,14 +52,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dlls\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.ProxyGenerators.CastleDynamicProxy, Version=2.1.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\NHibernate.ProxyGenerators.CastleDynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessTests\EmployeeListTests.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DatabaseTestBase.cs" />
     <Compile Include="EntityIdSetter.cs" />
@@ -59,6 +76,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAESDO.Esra.BLL\CAESDO.Esra.BLL.csproj">
+      <Project>{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}</Project>
+      <Name>CAESDO.Esra.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAESDO.Esra.Core\CAESDO.Esra.Core.csproj">
+      <Project>{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}</Project>
+      <Name>CAESDO.Esra.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
