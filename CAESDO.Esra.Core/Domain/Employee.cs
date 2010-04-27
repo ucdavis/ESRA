@@ -110,14 +110,6 @@ namespace CAESDO.Esra.Core.Domain
             set { _TimeInTitle = value; }
         }
 
-        private string _SalaryStep;
-
-        public virtual string SalaryStep
-        {
-            get { return _SalaryStep; }
-            set { _SalaryStep = value; }
-        }
-
         private string _DepartmentComments;
 
         public virtual string DepartmentComments
