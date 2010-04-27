@@ -209,6 +209,7 @@
     <Content Include="images\delete.gif" />
     <Content Include="images\ibAddUser.gif" />
     <Content Include="images\select.gif" />
+    <Content Include="includes\Esra_print.css" />
     <Content Include="includes\exportToExcel.js" />
     <Content Include="includes\jsUpdateProgress.js" />
     <Content Include="LogoutPage.aspx" />

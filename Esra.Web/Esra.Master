@@ -9,6 +9,9 @@
 <style type="text/css">
     @import url("includes/Esra.css");
     </style>
+<style type="text/css" media="print">
+    @import url("includes/Esra_print.css");
+    </style>
     <asp:contentplaceholder id="head" runat="server">
     </asp:contentplaceholder>
     <title>Employee Salary Review Analysis - Home</title>

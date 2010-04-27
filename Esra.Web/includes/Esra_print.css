@@ -1,0 +1,40 @@
+﻿* {
+	padding: 0;
+	margin: 0;
+}
+body
+{
+    font-size:0.8em;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+#page_title
+{
+    font-size:1em;
+    font-weight:bold;
+    float:right;
+}
+#header, #nav, .buttons, .back_button, .edit_button, #master_footer, #title, .master_p, .bbox
+{
+    display:none;
+}
+.tr_head
+{
+    margin-top:5px;
+}
+#SARP_table
+{
+    margin-top:-10px;
+    width:100%;
+}
+#SRA_scale
+{
+    margin-bottom:-10px;
+}
+.tr_head th
+{
+
+}
+br
+{
+    display:none;
+}
