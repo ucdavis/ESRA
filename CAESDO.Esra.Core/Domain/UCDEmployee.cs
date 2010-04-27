@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public abstract class UCDEmployee : DomainObject<UCDEmployee, string>
     {
         protected string _EmployeeID;

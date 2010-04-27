@@ -5,6 +5,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class ApptType : DomainObject<ApptType, int>
     {
         private string _Type;

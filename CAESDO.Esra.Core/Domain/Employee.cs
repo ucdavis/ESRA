@@ -5,6 +5,7 @@ using System.Globalization;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class Employee : UCDEmployee, IComparable<Employee>
     {
         // Beginning of nested classes.
