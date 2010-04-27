@@ -5,6 +5,10 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <div>
+    <hr />
+    <br />
+    <center><asp:Label ID="lblTitleSalaryScaleSection" runat="server" Text="Title/Salary Scale" 
+                Font-Bold="True" Font-Size="Large"></asp:Label></center><br />
     &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
@@ -145,6 +149,10 @@
         <br />
     </div>
     <hr />
+    <br />
+     <center><asp:Label ID="lblTitleEmployeeSalaryComparisonSection" runat="server" Text="Employee Salary Comparison" 
+                Font-Bold="True" Font-Size="Large"></asp:Label></center>
+    <br />
     <div>
                 <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" 
              TargetControlID="lbxTitleCodes" >
@@ -265,7 +273,7 @@ document.write(month+"/"+today+"/"+year)
                 
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
                 <ProgressTemplate>
-                    Updating....
+                    Updating... <img id="process_bar" alt="process bar" src="images/common/Bright.WebControls.Resources.Progress.gif"/>
                 </ProgressTemplate>
                 </asp:UpdateProgress>
                 
@@ -400,7 +408,7 @@ document.write(month+"/"+today+"/"+year)
                 </asp:UpdatePanel>
                 <asp:UpdateProgress ID="upProgress" runat="server" AssociatedUpdatePanelID="up">
                 <ProgressTemplate>
-                    Updating....
+                    Updating...  <img id="process_bar" alt="process bar" src="images/common/Bright.WebControls.Resources.Progress.gif"/>
                 </ProgressTemplate>
                 </asp:UpdateProgress>
             </asp:View>

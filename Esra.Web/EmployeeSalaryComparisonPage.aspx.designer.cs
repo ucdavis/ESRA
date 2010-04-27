@@ -14,6 +14,15 @@ namespace CAESDO.Esra.Web {
     public partial class EmployeeSalaryComparisonPage {
         
         /// <summary>
+        /// lblTitleSalaryScaleSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTitleSalaryScaleSection;
+        
+        /// <summary>
         /// ddlTitleCode control.
         /// </summary>
         /// <remarks>
@@ -39,6 +48,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvTitle;
+        
+        /// <summary>
+        /// lblTitleEmployeeSalaryComparisonSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTitleEmployeeSalaryComparisonSection;
         
         /// <summary>
         /// ListSearchExtender1 control.
