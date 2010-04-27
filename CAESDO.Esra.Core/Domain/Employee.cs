@@ -23,7 +23,6 @@ namespace CAESDO.Esra.Core.Domain
             set { _CareerDateHasBeenAdjusted = value; }
         }
 
-        private DateTime _AdjustedCareerHireDate;
         // Not a database field.
         public virtual DateTime AdjustedCareerHireDate
         {
@@ -38,7 +37,7 @@ namespace CAESDO.Esra.Core.Domain
                     return _HireDate;
                 }
             }
-            set { _AdjustedCareerHireDate = value; }
+            set { _CareerHireDate = value; }
         }
 
         private bool _ApptDateHasBeenAdjusted;
@@ -56,9 +55,7 @@ namespace CAESDO.Esra.Core.Domain
             }
             set { _ApptDateHasBeenAdjusted = value; }
         }
-
-        private DateTime _AdjustedApptHireDate;
-        // Not a database field.
+        // Not a database field
         public virtual DateTime AdjustedApptHireDate
         {
             get
@@ -72,7 +69,7 @@ namespace CAESDO.Esra.Core.Domain
                     return _BeginDate;
                 }
             }
-            set { _AdjustedApptHireDate = value; }
+            set { _ApptHireDate = value; }
         }
 
         private bool _DatesHaveBeenAdjusted;
