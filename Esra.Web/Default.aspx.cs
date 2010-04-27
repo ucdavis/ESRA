@@ -17,7 +17,7 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
-                Session.Remove(KEY_CURRENT_USER_ID);
+                //Session.Remove(KEY_CURRENT_USER_ID);
                 Session.Remove(KEY_CURRENT_USER_ROLE);
                 Session.Remove(KEY_IS_DEPARTMENT_USER);
             }
@@ -45,7 +45,7 @@ namespace CAESDO.Esra.Web
                  * */
 
                 CAESDO.Esra.Core.Domain.User user = UserBLL.GetCurrent();
-                Session.Add(KEY_CURRENT_USER_ID, user.EmployeeID);
+                //Session.Add(KEY_CURRENT_USER_ID, user.EmployeeID);
                 //UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
                 //Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);
             }
@@ -64,28 +64,28 @@ namespace CAESDO.Esra.Web
                     //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
                     ShowPanel(KEY_ADMIN_PANEL);
                     ShowPanel(KEY_MAINTENANCE_PANEL);
-                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
-                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    //Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
+                    //Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vAdmin);
                 }
                 else if (User.IsInRole(ROLE_DOUser))
                 {
                     //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
                     ShowPanel(KEY_MAINTENANCE_PANEL);
-                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
-                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    //Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
+                    //Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vDeansOffice);
                 }
                 else if (User.IsInRole(ROLE_REVIEWER))
                 {
-                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
-                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    //Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                    //Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vReviewer);
                 }
                 else
                 {
-                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
-                    Session.Add(KEY_IS_DEPARTMENT_USER, true);
+                    //Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                    //Session.Add(KEY_IS_DEPARTMENT_USER, true);
                     MultiView1.SetActiveView(vDepartments);
                 }
             }
