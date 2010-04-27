@@ -1,7 +1,15 @@
 ﻿USE [ESRA]
 GO
 
-/****** Object:  View [dbo].[Departments]    Script Date: 07/01/2009 13:32:59 ******/
+/****** Object:  View [dbo].[Departments]    Script Date: 03/24/2010 11:24:37 ******/
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[Departments]'))
+DROP VIEW [dbo].[Departments]
+GO
+
+USE [ESRA]
+GO
+
+/****** Object:  View [dbo].[Departments]    Script Date: 03/24/2010 11:24:37 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,12 +18,12 @@ GO
 
 CREATE VIEW [dbo].[Departments]
 AS
-SELECT     TOP (100) PERCENT HomeDeptNo AS DepartmentNumber, Name, Abbreviation AS ShortName, SchoolCode
-FROM         PPSDataMart.dbo.Departments AS Departments_1
-WHERE     (HomeDeptNo IN
-                          (SELECT DISTINCT HomeDeptNo
-                            FROM          PPSDataMart.dbo.Departments AS Departments_2
-                            WHERE      (HomeDeptNo LIKE '030%') AND (SchoolCode IN ('01', '60', '75', '89', '99'))))
+SELECT        TOP (100) PERCENT HomeDeptNo AS DepartmentNumber, Name, Abbreviation AS ShortName, SchoolCode
+FROM            PPSDataMart.dbo.Departments AS Departments_1
+WHERE        (HomeDeptNo IN
+                             (SELECT DISTINCT HomeDeptNo
+                               FROM            PPSDataMart.dbo.Departments AS Departments_2
+                               WHERE        (HomeDeptNo LIKE '030%' or HomeDeptNo in ('065040', '065025') AND HomeDeptNo not IN ('036000','036005'))))
 ORDER BY Name, ShortName
 
 GO
@@ -25,7 +33,7 @@ Begin DesignProperties =
    Begin PaneConfigurations = 
       Begin PaneConfiguration = 0
          NumPanes = 4
-         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+         Configuration = "(H (1[42] 4[8] 2[8] 3) )"
       End
       Begin PaneConfiguration = 1
          NumPanes = 3
@@ -93,10 +101,10 @@ Begin DesignProperties =
       Begin Tables = 
          Begin Table = "Departments_1"
             Begin Extent = 
-               Top = 6
-               Left = 38
-               Bottom = 123
-               Right = 216
+               Top = 13
+               Left = 14
+               Bottom = 130
+               Right = 192
             End
             DisplayFlags = 280
             TopColumn = 0
@@ -110,8 +118,8 @@ Begin DesignProperties =
       End
       Begin ColumnWidths = 9
          Width = 284
-         Width = 1500
-         Width = 2955
+         Width = 1830
+         Width = 2910
          Width = 1500
          Width = 1500
          Width = 1500
@@ -131,7 +139,7 @@ Begin DesignProperties =
          SortType = 1350
          SortOrder = 1410
          GroupBy = 1350
-         Filter = 1350
+         Filter = 8865
          Or = 1350
          Or = 1350
          Or = 1350
