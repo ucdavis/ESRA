@@ -18,12 +18,12 @@
     <div style="padding-left: 15px; padding-right: 15px; padding-bottom: 30px; max-width: 860px;">
      Search For New User:<br />
      <br />
-     <%--EmployeeID:
+     EmployeeID:
      <asp:TextBox ID="txtAddUserEmployeeID" runat="server"></asp:TextBox><br />
      First Name:
      <asp:TextBox ID="txtAddUserFirstName" runat="server"></asp:TextBox><br />
      Last Name:
-     <asp:TextBox ID="txtAddUserLastName" runat="server"></asp:TextBox><br />--%>
+     <asp:TextBox ID="txtAddUserLastName" runat="server"></asp:TextBox><br />
      Login ID:
      <asp:TextBox ID="txtAddUserLoginID" runat="server"></asp:TextBox><br />
      <br />
@@ -71,16 +71,19 @@
          <EditRowStyle BackColor="#999999" />
          <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
      </asp:GridView>
-     <asp:ObjectDataSource ID="ObjectDataUserSearch" runat="server" OldValuesParameterFormatString="original_{0}"
-         SelectMethod="SearchNewUsersByLogin" TypeName="CAESDO.Esra.Web.CatbertManager">
-         <SelectParameters>
-             <asp:ControlParameter ControlID="txtAddUserLoginID" Name="login" PropertyName="Text"
-                 Type="String" />
-         </SelectParameters>
-     </asp:ObjectDataSource>
+     
      </div>
  </asp:Panel>
- 
+ <asp:ObjectDataSource ID="ObjectDataUserSearch" runat="server" OldValuesParameterFormatString="original_{0}"
+         SelectMethod="SearchNewUsersByLogin" TypeName="CAESDO.Esra.Web.CatbertManager">
+         <SelectParameters>
+             <asp:ControlParameter ControlID="txtAddUserLoginID" Name="LoginID" PropertyName="Text"
+                 Type="String" />
+             <asp:ControlParameter ControlID="txtAddUserFirstName" Name="FirstName" PropertyName="Text" Type="String" />
+             <asp:ControlParameter ControlID="txtAddUserLastName" Name="LastName" PropertyName="Text" Type="String" />
+             <asp:ControlParameter ControlID="txtAddUserEmployeeID" Name="EmployeeID" PropertyName="Text" Type="String" />
+         </SelectParameters>
+     </asp:ObjectDataSource>
  <ajax:ModalPopupExtender ID="mpopupAddUser" runat="server" BackgroundCssClass="modalBackground" 
     PopupControlID="pnlAddUser" TargetControlID="btnAddUser" CancelControlID="btnAddUserCancel" >
  </ajax:ModalPopupExtender>

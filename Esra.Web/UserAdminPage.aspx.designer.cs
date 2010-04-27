@@ -50,6 +50,33 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Panel pnlAddUser;
         
         /// <summary>
+        /// txtAddUserEmployeeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAddUserEmployeeID;
+        
+        /// <summary>
+        /// txtAddUserFirstName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAddUserFirstName;
+        
+        /// <summary>
+        /// txtAddUserLastName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAddUserLastName;
+        
+        /// <summary>
         /// txtAddUserLoginID control.
         /// </summary>
         /// <remarks>
