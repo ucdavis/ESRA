@@ -145,6 +145,7 @@ namespace CAESDO.Esra.Web
             // get new salary amount:
             double newSalary = 0;
             double.TryParse(tb.Text, styles, numberFormatInfo, out newSalary);
+            tb.Text = String.Format("{0:c}", newSalary);
 
             // get old salary amount:
             double oldSalary = 0;
