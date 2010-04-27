@@ -158,3 +158,20 @@ p.bbox em {
 	width: 575px;
 }
 
+.modalBackground
+{
+     background-color: Gray;
+     filter: alpha(opacity=50);
+     opacity: 0.50;
+}
+
+.updateProgress
+{
+	border-width: 1px;
+	border-style: solid;
+	background-color: #FFFFFF;
+	position: absolute;
+	width: 180px;
+	height: 65px;
+} 
+

@@ -1,7 +1,12 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="EmployeeSalaryComparisonPage.aspx.cs" Inherits="CAESDO.Esra.Web.EmployeeSalaryComparisonPage" Title="ESRA - Employee Salary Comparison Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
+<script type="text/javascript" language="javascript">
+    var ModalProgress = '<%= ModalProgress.ClientID %>';
+    </script>
+    <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <div> <center><asp:Label ID="lblPageTitle" runat="server" 
@@ -271,15 +276,35 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                
                 <br />
                 <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center><br />
-                
-                <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
-                <ProgressTemplate>
-                    Updating... <img id="process_bar" alt="process bar" src="images/common/Bright.WebControls.Resources.Progress.gif"/>
-                </ProgressTemplate>
-                </asp:UpdateProgress>
-                
+                <%--<asp:Panel ID="panelUpdateProgress" runat="server" >
+                    <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
+                        <ProgressTemplate>
+                            <div style="position: relative; top: 30%; text-align: left;">
+                            Processing...&nbsp;
+                                <img id="img_progress" alt="progress" src="images/common/Bright.WebControls.Resources.Progress.gif" />
+                                <br />
+                            </div>
+                            <br />
+                        </ProgressTemplate>
+                    </asp:UpdateProgress>
+                </asp:Panel>--%>
+                <asp:Panel ID="panelUpdateProgress" runat="server" CssClass="updateProgress">
+                    <asp:UpdateProgress ID="UpdateProgress" runat="server" AssociatedUpdatePanelID="up">
+                        <ProgressTemplate>
+                            <div style="position: relative; top: 30%; text-align: center;">
+                            <br />
+                            Processing...&nbsp;
+                            <img id="img_progress" alt="progress" src="images/common/Bright.WebControls.Resources.Progress.gif" />
+                            </div>
+                        </ProgressTemplate>
+                    </asp:UpdateProgress>
+                </asp:Panel>
+                <ajax:modalpopupextender id="ModalProgress" runat="server" targetcontrolid="panelUpdateProgress"
+                    backgroundcssclass="modalBackground" popupcontrolid="panelUpdateProgress" />
+                    
                 <asp:UpdatePanel ID="up" runat="server">
                 <ContentTemplate>
                 
@@ -302,8 +327,19 @@ document.write(month+"/"+today+"/"+year)
                                     CommandName="Cancel" Text="Cancel"></asp:LinkButton>
                             </EditItemTemplate>
                             <ItemTemplate>
+                            <%--<asp:Panel ID="pnlProgress" runat="server" >
+                            <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up" >
+                        <ProgressTemplate>
+                            <div style="position: relative; top: 30%; text-align: center;">
+                            <br />
+                                <img id="img_loading" alt="loading" src="images/common/loading.gif" />
+                            </div>
+                        </ProgressTemplate>
+                    </asp:UpdateProgress>
+                    </asp:Panel>--%>
                                 <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                                    CommandName="Edit" Text="Edit"></asp:LinkButton>
+                                    CommandName="Edit" Text="Edit" ></asp:LinkButton>
+                                    <asp:Image ID="imgWaiting" runat="server" ImageUrl="~/images/common/loading.gif" Visible="false"/>
                             </ItemTemplate>
                         </asp:TemplateField>
                         
