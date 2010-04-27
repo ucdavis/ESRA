@@ -40,7 +40,8 @@ namespace CAESDO.Esra.Web
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
-            string postBackUrl = "~/LogoutPage.aspx";
+            //string postBackUrl = "~/LogoutPage.aspx";
+            string postBackUrl = "https://cas.ucdavis.edu/cas/logout";
             Response.Redirect(postBackUrl);        
         }
     }
