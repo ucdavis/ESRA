@@ -57,9 +57,9 @@
         
         </asp:Panel>
         <li class="nav2">
-            <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
+            <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= Version %> <your question or comment>">
                 <img src="images/common/feedback.png" alt="Feedback"/></a></center>
-            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">Feedback</a>
+            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= Version %> <your question or comment>">Feedback</a>
         </li>
             
         <li class="nav2">
@@ -148,9 +148,8 @@
         <div id="nav_bottom">
             <p>
                 Ken Taylor --
-                <asp:Label ID="lbl_Version" runat="server"></asp:Label>
-                -- Revision 0 | <a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
-                    Questions Or Suggestions?</a>
+                <asp:Label ID="lbl_Version" runat="server"></asp:Label>&nbsp;| <a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= Version %> <your question or comment>">
+                    Questions, Comments or Suggestions?</a>
             </p>
         </div>
     </div>

@@ -14,9 +14,17 @@ namespace CAESDO.Esra.Web
 {
     public partial class Esra : System.Web.UI.MasterPage
     {
+        protected string _Version;
+        public string Version
+        {
+            set { _Version = value; }
+            get { return _Version; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            lbl_Version.Text = "Version : " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            lbl_Version.Text = "Version : " + Version;
 
             if (!Page.IsPostBack)
             {
