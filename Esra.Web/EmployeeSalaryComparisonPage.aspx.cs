@@ -338,6 +338,23 @@ namespace CAESDO.Esra.Web
             gridView_Sorting((GridView)sender, e, odsEmployee, "Default");
         }
 
+        protected void gvEmployees_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            // Will need to check old values against new values, and then add the appropriate 
+            // entries in the employee changes table.
+
+            // values that can be changed:
+            //tbAdjustedCareerHireDate - AdjustedCareerHireDate
+            //tbAdjustedApptHireDate - AdjustedApptHireDate
+            //tbExperienceBeginDate - ExperienceBeginDate
+            //tbDepartmentComments - DepartmentComments
+            //tbDeansOfficeComments - DeansOfficeComments
+            //e.OldValues[];
+            //e.NewValues[];
+
+            
+        }
+
         protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
             gvEmployees.DataBind();

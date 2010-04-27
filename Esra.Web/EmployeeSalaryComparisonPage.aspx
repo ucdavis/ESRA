@@ -2,13 +2,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
+
     <script type="text/javascript" language="javascript">
         var ModalProgress = '<%= ModalProgress.ClientID %>';
 </script>
 <script type="text/javascript" src="includes/exportToExcel.js"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-<script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
+
+    <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
 
     <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Scales &amp; Employee Salary Comparison"></asp:Label></h1>
 <%--    <div class="left_col">
@@ -313,7 +315,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-</li></ul __designer:mapid="1404">                
+</li></ul __designer:mapid="d80">                
 <%--</td></tr></tbody></table> --%>
 <p class="note">Items highlighted in <span class="light_green">light green</span> indicate a 
     change from pps.</p>
@@ -353,6 +355,7 @@ document.write(month+"/"+today+"/"+year)
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
+                    OnRowUpdating="gvEmployees_RowUpdating"
                     onrowupdated="gvEmployees_RowUpdated" 
                     OnRowDataBound="gvEmployees_RowDataBound"
                     EnableViewState="False" GridLines="None">
@@ -441,6 +444,7 @@ document.write(month+"/"+today+"/"+year)
                                 <ajax:CalendarExtender ID="ceAdjustedCareerHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedCareerHireDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
                                 <asp:Label ID="lblAdjustedCareerHireDateHeader" runat="server" Text="Hire Date:" CssClass="edit_header"/><br />&nbsp
+                                PPS Checked?&nbsp;<asp:CheckBox ID="cbxPPSCareerHireDateChecked" runat="server" Checked='<%# Bind("PPSCareerHireDateChecked") %>' />&nbsp
                                 <asp:TextBox ID="tbAdjustedCareerHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                                     
@@ -448,7 +452,8 @@ document.write(month+"/"+today+"/"+year)
                             <ItemTemplate>
                                 <asp:Label ID="Label4" runat="server" 
                                     Text='<%# Eval("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' 
-                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.FromName("#97d092") : System.Drawing.Color.Transparent ) %>' CssClass="light_green_edit"></asp:Label>
+                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.FromName("#97d092") : System.Drawing.Color.Transparent ) %>' CssClass="light_green_edit"
+                                    Font-Bold='<%# ((bool)Eval("PPSCareerHireDateChecked"))%>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Years Of Service" 
@@ -468,12 +473,15 @@ document.write(month+"/"+today+"/"+year)
                             <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedApptHireDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
                                 <asp:Label ID="lblAdjustedApptHireDateHeader" runat="server" Text="Begin Date (in Title)" CssClass="edit_header"/><br />&nbsp
+                                PPS Checked?&nbsp;<asp:CheckBox ID="cbxPPSApptHireDateChecked" runat="server" Checked='<%# Bind("PPSApptHireDateChecked") %>' />&nbsp
                                 <asp:TextBox ID="tbAdjustedApptHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblAdjustedApptHireDate" runat="server" 
-                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.FromName("#97d092") : System.Drawing.Color.Transparent )  %>' CssClass="light_green_edit"></asp:Label>
+                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'
+                                     BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.FromName("#97d092") : System.Drawing.Color.Transparent )  %>' CssClass="light_green_edit"
+                                     Font-Bold='<%# ((bool)Eval("PPSApptHireDateChecked"))%>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Time In Title" SortExpression="TimeInTitle">
@@ -523,7 +531,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Department Comments">
                             <EditItemTemplate>
                                 <asp:Label ID="lblDepartmentCommentsHeader" runat="server" Text="Department Comments:" CssClass="edit_header" /><br />
-                                <asp:TextBox ID="TextBox4" runat="server" 
+                                <asp:TextBox ID="tbDepartmentComments" runat="server" 
                                     Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>' BackColor='<%# (!IsDepartmentUser() ? System.Drawing.Color.LightGray : System.Drawing.Color.White) %>' ></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -533,7 +541,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Dean's Office Comments">
                             <EditItemTemplate>
                                 <asp:Label ID="lblDeansOfficeCommentsHeader" runat="server" Text="Dean's Office Comments:" CssClass="edit_header"/><br />
-                                <asp:TextBox ID="TextBox5" runat="server" 
+                                <asp:TextBox ID="tbDeansOfficeComments" runat="server" 
                                     Text='<%# Bind("DeansOfficeComments") %>' ReadOnly='<%# IsDepartmentUser() %>' BackColor='<%# (IsDepartmentUser() ? System.Drawing.Color.LightGray : System.Drawing.Color.White) %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -565,7 +573,9 @@ document.write(month+"/"+today+"/"+year)
             UpdateMethod="UpdateRecord">
             <UpdateParameters>
                 <asp:Parameter Name="AdjustedCareerHireDate" Type="String" />
+                <asp:Parameter Name="PPSCareerHireDateChecked" Type="Boolean" />
                 <asp:Parameter Name="AdjustedApptHireDate" Type="String" />
+                <asp:Parameter Name="PPSApptHireDateChecked" Type="Boolean" />
                 <asp:Parameter Name="ExperienceBeginDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
