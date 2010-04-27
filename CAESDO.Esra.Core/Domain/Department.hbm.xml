@@ -9,7 +9,7 @@
 		<property name="Name" column="Name" />
 		<property name="ShortName" column="ShortName" />
 
-		<bag name="Employees" table="UCDEmployee" inverse="true" cascade="none">
+		<bag name="Employees" table="UCDEmployees" inverse="true" cascade="none">
 			<key column="HomeDept" />
 			<one-to-many class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" />
 		</bag>
