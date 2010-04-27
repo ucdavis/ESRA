@@ -1,7 +1,15 @@
 ﻿USE [ESRA]
 GO
 
-/****** Object:  Table [dbo].[Employee]    Script Date: 07/01/2009 13:39:39 ******/
+/****** Object:  Table [dbo].[Employee]    Script Date: 03/24/2010 10:58:10 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Employee]') AND type in (N'U'))
+DROP TABLE [dbo].[Employee]
+GO
+
+USE [ESRA]
+GO
+
+/****** Object:  Table [dbo].[Employee]    Script Date: 03/24/2010 10:58:10 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -16,7 +24,9 @@ CREATE TABLE [dbo].[Employee](
 	[EmployeeID] [char](9) NOT NULL,
 	[TitleCode] [char](4) NOT NULL,
 	[CareerHireDate] [datetime] NULL,
+	[PPSCareerHireDateChecked] [bit] NULL,
 	[ApptHireDate] [datetime] NULL,
+	[PPSApptHireDateChecked] [bit] NULL,
 	[ExperienceBeginDate] [datetime] NULL,
 	[DatesHaveBeenAdjusted] [bit] NULL,
 	[DepartmentComments] [varchar](max) NULL,
@@ -24,6 +34,7 @@ CREATE TABLE [dbo].[Employee](
 	[YearsOfService] [decimal](5, 3) NULL,
 	[TimeInTitle] [decimal](5, 3) NULL,
 	[YearsOfExperience] [decimal](5, 3) NULL,
+	[IsCAES] [bit] NULL,
  CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
 (
 	[PkEmployee] ASC
