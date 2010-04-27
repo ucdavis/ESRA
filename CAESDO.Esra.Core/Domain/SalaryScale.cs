@@ -48,9 +48,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryGradeQuartiles = value; }
         }
 
-        private List<SalaryStep> _SalarySteps;
+        private IList<SalaryStep> _SalarySteps;
 
-        public virtual List<SalaryStep> SalarySteps
+        public virtual IList<SalaryStep> SalarySteps
         {
             get { return _SalarySteps; }
             set { _SalarySteps = value; }
@@ -100,7 +100,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public override int GetHashCode()
         {
-            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _TitleCode.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            int retval = base.GetHashCode() / (_TitleCode + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
             return retval;
         }
 
