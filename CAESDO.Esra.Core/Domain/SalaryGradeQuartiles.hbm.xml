@@ -5,25 +5,25 @@
 			<generator class="identity" />
 		</id>-->
 		
-		<composite-id>
+		<composite-id unsaved-value="any">
 			<key-property name="SalaryGrade" column="SalaryGrade"/>
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 		</composite-id>
 
-		<bag name="SalaryScales" table="SalaryScale">
+		<bag name="SalaryScales" table="SalaryScale" cascade="none" >
 			<key>
-				<column name="SalaryGrade" />
+				<column name="SalaryGrade"/>
 				<column name="EffectiveDate"/>
 			</key>
 			<one-to-many class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" />
 		</bag>
 		
-		<property name="SalaryGrade" column="SalaryGrade" />
+		<property name="SalaryGrade" column="SalaryGrade" insert="false" update="false"/>
 		<property name="MinAnnual" column="MinAnnual" />
 		<property name="FirstQrtleAnnual" column="FirstQrtleAnnual" />
 		<property name="MidAnnual" column="MidAnnual" />
 		<property name="ThirdQrtleAnnual" column="ThirdQrtleAnnual" />
 		<property name="MaxAnnual" column="MaxAnnual" />
-		<property name="EffectiveDate" column="EffectiveDate" />
+		<property name="EffectiveDate" column="EffectiveDate" update="false" insert="false"/>
 	</class>
 </hibernate-mapping>

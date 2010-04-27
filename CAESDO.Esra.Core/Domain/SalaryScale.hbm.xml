@@ -20,10 +20,10 @@
 		property is already specified as a "key-property" above.-->
 		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" cascade="none" column="TitleCode" insert="false" update="false"/>
 			
-		<!--Apparently neither of these properties need to be specified here because they're specified as "key-property" above in "composite-id".-->
-		<!--<property name="TitleCode" column="TitleCode" update="false" insert="false"/>-->
-		<!-- HOWEVER, I needed to define EffectiveDate thusly in order to be able to set it in the object to do 
-		a GetByExample fetch; otherwise, I cannot set the EffectiveDate to the correct date I want to search on.-->
+		<!--Apparently these properties need to be specified here as well as "key-property" above in "composite-id"
+		 in order to be able to set it in the object to do a GetByExample fetch; otherwise, 
+		 I cannot set the TitleCode to the correct title code or the EffectiveDate to the correct date I want to search on.-->
+		<property name="TitleCode" column="TitleCode" update="false" insert="false"/>
 		<property name="EffectiveDate" column="EffectiveDate" update="false" insert="false"/>
 		<property name="SalaryGrade" column ="SalaryGrade" />
 		<property name="BargainingCode" column="BargainingCode" />
@@ -35,7 +35,8 @@
 		<!-- Apparently, this relationship also has to be specified as insert="false" update="false" in order to avoid the 
 		duplicate field update/insert issue, since SalaryGrade and Effective date are already specified as fields by
 		virture of their presence as a key-property in the composite-id section. -->
-		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.Esra.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core" insert="false" update="false" cascade="none">
+		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.Esra.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core"
+					 insert="false" update="false" cascade="none" unique="true">
 			<column name="SalaryGrade" />
 			<column name="EffectiveDate"/>
 		</many-to-one>

@@ -168,6 +168,45 @@ namespace CAESDO.Esra.Data
                 
                 return retval;
             }
+
+            public bool Exists(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                    .Add(Expression.Eq("TitleCode", record.TitleCode))
+                    .Add(Expression.Eq("EffectiveDate", record.EffectiveDate))
+                    .SetProjection(Projections.RowCount());
+
+                if (criteria.UniqueResult<int>() > 0)
+                    return true;
+                else
+                    return false;
+            }
+
+            public bool HasSalaryGradeQuartiles(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                    .CreateAlias("SalaryGradeQuartiles", "quatriles")
+                    .Add(Expression.Eq("quartiles.SalaryGrade", record.SalaryGrade))
+                    .Add(Expression.Eq("quartiles.EffectiveDate", record.EffectiveDate))
+                    .SetProjection(Projections.RowCount());
+
+                if (criteria.UniqueResult<int>() > 0)
+                    return true;
+                else
+                    return false;
+            }
+
+            public SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryGradeQuartiles))
+                    .Add(Expression.Eq("SalaryGrade", record.SalaryGrade))
+                    .Add(Expression.Eq("EffectiveDate", record.EffectiveDate));
+
+                if (criteria.List<SalaryGradeQuartiles>().Count == 1 )
+                    return criteria.List<SalaryGradeQuartiles>()[0];
+                else
+                    return null;
+            }
         }
 
         public class UserDao : AbstractNHibernateDao<User, int>, IUserDao

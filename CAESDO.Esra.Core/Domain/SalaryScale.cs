@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain
 {
@@ -16,6 +17,8 @@ namespace CAESDO.Esra.Core.Domain
 
         private string _TitleCode;
 
+        [StringLengthValidator(4)]
+        [NotNullValidator]
         public virtual string TitleCode
         {
             get { return _TitleCode; }

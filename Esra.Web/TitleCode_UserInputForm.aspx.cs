@@ -17,7 +17,15 @@ namespace CAESDO.Esra.Web
     public partial class TitleCode_UserInputForm : ApplicationPage
     {
         protected static readonly string CURRENT_SELECTED_TITLECODE_KEY_NAME = "CurrentSelectedTitleCode";
-        protected static readonly string MESSAGE_CHILD_RECORDS_EXIST = "Unable to delete record: Child records exist.";
+        
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -38,6 +46,8 @@ namespace CAESDO.Esra.Web
 
         protected void gvSalaryScale_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ResetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME);
+
             GridView gv = (GridView)sender;
             CAESDO.Esra.Core.Domain.Title title = (CAESDO.Esra.Core.Domain.Title)gv.SelectedValue;
             ViewState.Add(CURRENT_SELECTED_TITLECODE_KEY_NAME, ((GridView)sender).SelectedValue);
@@ -55,8 +65,11 @@ namespace CAESDO.Esra.Web
 
         protected void btnClick_Command(object sender, CommandEventArgs e)
         {
+            ResetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME);
+
             if (e.CommandName.Equals("cancel"))
             {
+                // TODO: Add any logic specific for the "cancel" event.
                 
             }
             else if (e.CommandName.Equals("save"))
@@ -89,9 +102,20 @@ namespace CAESDO.Esra.Web
 
                 ss.TitleCode = title.TitleCode;
                 ss.Title = title;
-                SalaryScaleBLL.InsertRecord(ss);
+                // First check to see if a record with this title code and effective date
+                // already exists.
+                if (SalaryScaleBLL.Exists(ss))
+                {
+                    SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_EXISTS);
+                }
+                else
+                {
+                    SalaryScaleBLL.InsertRecord(ss);
+                    gvSalaryScale.DataBind();
 
-                gvSalaryScale.DataBind();
+                    SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_SAVED_SUCCESS);
+                }
+                
             }
             else if (e.CommandName.Equals("remove"))
             {
@@ -106,17 +130,46 @@ namespace CAESDO.Esra.Web
                 {
                     SalaryScaleBLL.DeleteRecord(ss, true);
                     gvSalaryScale.DataBind();
+
+                    SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_DELETED_SUCCESS);
                 }
                 else
                 {
-                    Label lbl = (Label)Page.Master.FindControl("lbl_Message");
-                    lbl.Text = MESSAGE_CHILD_RECORDS_EXIST;
-                    lbl.Visible = true;
+                    SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_CHILD_RECORDS_EXIST);
                 }
             }
 
             ViewState.Remove(CURRENT_SELECTED_TITLECODE_KEY_NAME);
             MultiView1.SetActiveView(vTitleCodeAverages);
+        }
+
+        protected void gvSalaryScale_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+            SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_UPDATED_SUCCESS);
+        }
+
+        protected void gvSalaryScale_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            ResetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME);
+        }
+
+        protected void ResetMasterPageLabel(string labelName)
+        {
+            Label lbl = (Label)Page.Master.FindControl(labelName);
+            lbl.Visible = false;
+            lbl.Text = "";
+        }
+
+        protected void SetMasterPageLabel(string labelName, string message)
+        {
+            SetMasterPageLabel(labelName, message, true);
+        }
+
+        protected void SetMasterPageLabel(string labelName, string message, bool visible)
+        {
+            Label lbl = (Label)Page.Master.FindControl(labelName);
+            lbl.Visible = visible;
+            lbl.Text = mesage;
         }
     }
 }

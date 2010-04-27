@@ -33,27 +33,22 @@ namespace CAESDO.Esra.BLL
                     // delete record from database:
                     using (var ts = new TransactionScope())
                     {
-                        if (record.SalaryGradeQuartiles != null)
+                        SalaryGradeQuartiles sgq = GetSalaryGradeQuartiles(record);
+
+                        if (sgq != null)
                         {
-                            try
+                            if (sgq.SalaryGrade.Equals(record.TitleCode))
                             {
-                                SalaryGradeQuartiles sgq = record.SalaryGradeQuartiles;
-                                if (sgq != null && sgq.SalaryGrade.Equals(record.TitleCode))
-                                {
-                                    // This is a one-off SalaryGradeQuartiles that we need to delete.
-                                    SalaryGradeQuartilesBLL.Remove(sgq);
-                                }
-                                else
-                                {
-                                    // We just need to remove the relationship.
-                                    sgq.SalaryScales.Remove(record);
-                                    SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
-                                }
+                                // This is a special SalaryGradeQuartiles, whose SalaryGrade
+                                // equals the SalaryScale.TitleCode, that we need to delete.
+                                SalaryGradeQuartilesBLL.Remove(sgq);
                             }
-                            catch (NHibernate.ObjectNotFoundException e)
+                            else
                             {
-                                // There really isn't any SalaryGradeQuartiles for this SalaryScale so
-                                // just blow it off.
+                                // This Quartile is shared across SalaryScales and 
+                                // we just need to remove the relationship.
+                                sgq.SalaryScales.Remove(record);
+                                SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
                             }
                         }
 
@@ -129,5 +124,9 @@ namespace CAESDO.Esra.BLL
                 ts.CommittTransaction();
             }
         }
+
+        public static bool Exists(SalaryScale record) { return daoFactory.GetSalaryScaleDao().Exists(record);  }
+        public static bool HasSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalaryGradeQuartiles(record); }
+        public static SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().GetSalaryGradeQuartiles(record); }
     }
 }

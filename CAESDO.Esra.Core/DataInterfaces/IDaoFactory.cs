@@ -34,6 +34,9 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
         IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending);
+        bool Exists(SalaryScale record);
+        bool HasSalaryGradeQuartiles(SalaryScale record);
+        SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record);
     }
 
     public interface IUserDao : IDao<User, int>

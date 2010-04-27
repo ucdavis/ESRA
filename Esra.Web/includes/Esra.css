@@ -113,4 +113,39 @@ p.bbox em {
 	width: 30px;
 }
 
+/* Buttons */
+.buttons .cancel_button
+{
+	border: 0;
+	height: 25px;
+	width: 25px;
+}
+.buttons .update_button
+{
+	border: 0;
+	height: 25px;
+	width: 25px;
+}
+.buttons .edit_button
+{
+	border: 0;
+	height: 15px;
+	width: 15px;
+}
+.buttons .new_button
+{
+	border: 0;
+	height: 20px;
+	width: 20px;
+}
+.buttons .save_button
+{
+	border: 0;
+	height: 25px;
+	width: 25px;
+}
+.buttons .delete_button
+{
+	border: 0;
+}
 

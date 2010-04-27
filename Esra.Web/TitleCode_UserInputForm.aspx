@@ -6,15 +6,13 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllSalaryScale" 
-        TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" DeleteMethod="DeleteRecord">
-        <DeleteParameters>
-            <asp:Parameter Name="original_ID" Type="String" />
-            <asp:Parameter Name="forceDelete" Type="Boolean" DefaultValue="true/>
-        </DeleteParameters>
-        <SelectParameters>
-            <asp:Parameter Name="propertyName" Type="String" DefaultValue="TitleCode" />
-            <asp:Parameter Name="ascending" Type="Boolean" DefaultValue="true" />
-        </SelectParameters>
+        TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
+        DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
+        UpdateMethod="UpdateRecord">
+<SelectParameters>
+<asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String"></asp:Parameter>
+<asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean"></asp:Parameter>
+</SelectParameters>
     </asp:ObjectDataSource>
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vTitleCodeAverages" runat="server">
@@ -22,22 +20,24 @@
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
         OnRowDataBound="gvSalaryScale_OnRowDataBound" 
-        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title" >
+        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title" 
+                onrowupdated="gvSalaryScale_RowUpdated" 
+                onrowediting="gvSalaryScale_RowEditing" >
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
             <asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                        CommandName="Edit" Text="Edit" ToolTip="Edit"><img src="images/common/edit.png" alt="Delete" style="border:none"/></asp:LinkButton>
+                        CommandName="Edit" Text="Edit" ToolTip="Edit" CssClass="buttons"><img src="images/common/edit.png" alt="Edit" class="edit_button"/></asp:LinkButton>
                     &nbsp;<asp:LinkButton ID="lbtnNew" runat="server" CausesValidation="False" 
-                        CommandName="Select" Text="New" ToolTip="New"><img src="images/common/Document-new.png" alt="New" style="border:none"/></asp:LinkButton>
+                        CommandName="Select" Text="New" ToolTip="New" CssClass="buttons"><img src="images/common/Document-new.png" alt="New" class="new_button"/></asp:LinkButton>
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" 
-                        CommandName="Update" Text="Update"></asp:LinkButton>
+                        CommandName="Update" Text="Update" ToolTip="Save" CssClass="buttons"><img src="images/common/disk4.jpg" alt="Save" class="save_button"/></asp:LinkButton>
                     &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
-                        CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                        CommandName="Cancel" Text="Cancel" ToolTip="Cancel" CssClass="buttons"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton>
                 </EditItemTemplate>
             </asp:TemplateField>
              <asp:TemplateField HeaderText="Title Code" SortExpression="TitleCode">
@@ -57,11 +57,11 @@
             <asp:TemplateField HeaderText="Effective Date" SortExpression="EffectiveDate">
                 <ItemTemplate>
                     <asp:Label ID="lblEffectiveDate" runat="server" 
-                        Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                        Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:Label ID="lblEditEffectiveDate" runat="server" 
-                        Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                        Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
                 </EditItemTemplate>
             </asp:TemplateField>
              <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
@@ -111,7 +111,7 @@
             <asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnDeleteSalaryScaleAverages" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
-                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete"><img src="images/common/delete.png" alt="Delete" style="border:none"/></asp:LinkButton>
+                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
@@ -138,7 +138,12 @@
                     <td>
                         <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" CssClass="calendar">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbEffectiveDate" runat="server" ></asp:TextBox></td>
+                        <asp:TextBox ID="tbEffectiveDate" runat="server" ></asp:TextBox><asp:RequiredFieldValidator
+                            ID="rfvEffectiveDate" runat="server" ErrorMessage="Effective Date" Text="Date is Required!" ControlToValidate="tbEffectiveDate" InitialValue="" Display="Dynamic"></asp:RequiredFieldValidator><asp:CompareValidator
+                                ID="compareValEffectiveDate" runat="server" 
+                            ErrorMessage="CompareValidator" Text="Bad Date Format!" Display="Dynamic" 
+                            ControlToValidate="tbEffectiveDate" Operator="DataTypeCheck" 
+                            Type="Date"></asp:CompareValidator></td>
                     <td>
                         <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
                         </td>
@@ -162,7 +167,7 @@
                     <asp:Button ID="btnSave" runat="server" CommandName="save" 
                         oncommand="btnClick_Command" Text="Save" />
                     &nbsp;<asp:Button ID="btnCancel" runat="server" CommandName="cancel" 
-                        oncommand="btnClick_Command" Text="Cancel" />
+                        oncommand="btnClick_Command" Text="Cancel" CausesValidation="false"/>
                     &nbsp;</td>
                 </tr>
             </table>
