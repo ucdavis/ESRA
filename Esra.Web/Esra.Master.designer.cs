@@ -59,6 +59,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Label lbl_Message;
         
         /// <summary>
+        /// AutomationExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AnimationExtender AutomationExtender1;
+        
+        /// <summary>
         /// ContentHeader control.
         /// </summary>
         /// <remarks>

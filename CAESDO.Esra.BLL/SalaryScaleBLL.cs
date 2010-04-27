@@ -11,6 +11,62 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryScaleBLL : GenericBLL<SalaryScale, int>
     {
+        public static bool CanBeDeleted(SalaryScale record)
+        {
+            bool retval = false;
+            if (record != null)
+            {
+                //TODO: business rules for deleting a SalaryScale go here:
+                // Perhaps check if any salary review analysis is using this salary scale?
+                retval = true;
+            }
+            return retval;
+        }
+
+        public static bool DeleteRecord(SalaryScale record, bool forceDelete)
+        {
+            bool retval = false;
+            if (record != null)
+            {
+                if (forceDelete || CanBeDeleted(record))
+                {
+                    // delete record from database:
+                    using (var ts = new TransactionScope())
+                    {
+                        if (record.SalaryGradeQuartiles != null)
+                        {
+                            try
+                            {
+                                SalaryGradeQuartiles sgq = record.SalaryGradeQuartiles;
+                                if (sgq != null && sgq.SalaryGrade.Equals(record.TitleCode))
+                                {
+                                    // This is a one-off SalaryGradeQuartiles that we need to delete.
+                                    SalaryGradeQuartilesBLL.Remove(sgq);
+                                }
+                                else
+                                {
+                                    // We just need to remove the relationship.
+                                    sgq.SalaryScales.Remove(record);
+                                    SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
+                                }
+                            }
+                            catch (NHibernate.ObjectNotFoundException e)
+                            {
+                                // There really isn't any SalaryGradeQuartiles for this SalaryScale so
+                                // just blow it off.
+                            }
+                        }
+
+                        Remove(record);
+                        ts.CommittTransaction();
+                        retval = true;
+                    }
+                }
+            }
+
+            return retval;
+        }
+
         public static List<KeyValuePair<string, decimal?>> GetCriteriaListItems(string titleCode)
         {
             List<KeyValuePair<string, decimal?>> cl = new List<KeyValuePair<string, decimal?>>();

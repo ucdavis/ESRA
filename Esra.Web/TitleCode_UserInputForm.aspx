@@ -6,9 +6,11 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllSalaryScale" 
-        TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
-        DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
-        UpdateMethod="UpdateRecord">
+        TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" DeleteMethod="DeleteRecord">
+        <DeleteParameters>
+            <asp:Parameter Name="original_ID" Type="String" />
+            <asp:Parameter Name="forceDelete" Type="Boolean" DefaultValue="true/>
+        </DeleteParameters>
         <SelectParameters>
             <asp:Parameter Name="propertyName" Type="String" DefaultValue="TitleCode" />
             <asp:Parameter Name="ascending" Type="Boolean" DefaultValue="true" />
@@ -20,23 +22,50 @@
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
         OnRowDataBound="gvSalaryScale_OnRowDataBound" 
-        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title">
+        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title" >
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
-            <asp:CommandField ShowEditButton="True" ShowSelectButton="True" />
-             <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
-                SortExpression="TitleCode" ReadOnly="true"/>
-            <asp:TemplateField HeaderText="Title" 
-                SortExpression="Title.PayrollTitle">
+            <asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
-                    <asp:Label ID="lblTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
+                    <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
+                        CommandName="Edit" Text="Edit" ToolTip="Edit"><img src="images/common/edit.png" alt="Delete" style="border:none"/></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnNew" runat="server" CausesValidation="False" 
+                        CommandName="Select" Text="New" ToolTip="New"><img src="images/common/Document-new.png" alt="New" style="border:none"/></asp:LinkButton>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" 
+                        CommandName="Update" Text="Update"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnCancelUpdate" runat="server" CausesValidation="False" 
+                        CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                </EditItemTemplate>
+            </asp:TemplateField>
+             <asp:TemplateField HeaderText="Title Code" SortExpression="TitleCode">
+                 <ItemTemplate>
+                     <asp:Label ID="lblTitleCode" runat="server" Text='<%# Bind("TitleCode") %>'></asp:Label>
+                 </ItemTemplate>
+                 <EditItemTemplate>
+                     <asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label>
+                 </EditItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Title" SortExpression="Title.PayrollTitle">
+                <ItemTemplate>
+                    <asp:Label ID="lblTitle" runat="server" 
+                        Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date" 
-                SortExpression="EffectiveDate"  ReadOnly="true"/>
-            <asp:BoundField DataField="SalaryGrade" HeaderText="Salary Grade" 
-                SortExpression="SalaryGrade"  ReadOnly="true"/>
+            <asp:TemplateField HeaderText="Effective Date" SortExpression="EffectiveDate">
+                <ItemTemplate>
+                    <asp:Label ID="lblEffectiveDate" runat="server" 
+                        Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:Label ID="lblEditEffectiveDate" runat="server" 
+                        Text='<%# Eval("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                </EditItemTemplate>
+            </asp:TemplateField>
+             <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
+                SortExpression="TitleCode" ReadOnly="true"/>
             <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
                 SortExpression="BargainingCode"  ReadOnly="true"/>
             <asp:TemplateField HeaderText="Labor Market WAS" 
@@ -79,6 +108,12 @@
                     <asp:Label ID="lblCampusAverageAnnual" runat="server" Text='<%# (Convert.ToDouble(Eval("CampusAverageAnnual")) != 0 ? Eval("CampusAverageAnnual", "{0:c}") : "") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
+            <asp:TemplateField ShowHeader="False">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lbtnDeleteSalaryScaleAverages" runat="server" OnClientClick="return confirm('Are you sure you want to delete this record?');" CausesValidation="False" 
+                        CommandName="remove" Text="Delete" OnCommand="btnClick_Command" CommandArgument='<%# gvSalaryScale.Rows.Count.ToString() %>' ToolTip="Delete"><img src="images/common/delete.png" alt="Delete" style="border:none"/></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
         </asp:View>
@@ -103,7 +138,7 @@
                     <td>
                         <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" CssClass="calendar">
                         </ajax:CalendarExtender>
-                        <asp:TextBox ID="tbEffectiveDate" runat="server" ReadOnly="true"></asp:TextBox></td>
+                        <asp:TextBox ID="tbEffectiveDate" runat="server" ></asp:TextBox></td>
                     <td>
                         <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
                         </td>

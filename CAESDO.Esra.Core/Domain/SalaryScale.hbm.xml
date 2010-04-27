@@ -5,15 +5,26 @@
 			<generator class="identity" />
 		</id>-->
 		
-		<composite-id>
+		<!-- This makes no sense to me, but I needed to set the composite-id unsaved-value="any"
+		in order to avoid the "Unexpected row count: 0; expected: 1" error.  This seems to make a 
+		difference to NHibernate of its ability to distinguish whether to do an insert or an
+		update.  With it set to the default, unsaved-value="none", it "sees" the transaction (or 
+		object) as "dirty" and attempts an update, which fails.-->
+		<composite-id unsaved-value="any">
 			<key-property name="TitleCode" column="TitleCode"/>
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 		</composite-id>
 		
-		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" column="TitleCode"/>
+		<!-- Apparently this relationship needs to be specified as update="false" and insert="false" in order
+		to avoid having the fields being present in the insert/update statement twice.  This, I suspect, is because the TitleCode
+		property is already specified as a "key-property" above.-->
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" cascade="none" column="TitleCode" insert="false" update="false"/>
 			
-		<property name="TitleCode" column="TitleCode" update="false" insert="false"/>
-		<property name="EffectiveDate" column="EffectiveDate" />
+		<!--Apparently neither of these properties need to be specified here because they're specified as "key-property" above in "composite-id".-->
+		<!--<property name="TitleCode" column="TitleCode" update="false" insert="false"/>-->
+		<!-- HOWEVER, I needed to define EffectiveDate thusly in order to be able to set it in the object to do 
+		a GetByExample fetch; otherwise, I cannot set the EffectiveDate to the correct date I want to search on.-->
+		<property name="EffectiveDate" column="EffectiveDate" update="false" insert="false"/>
 		<property name="SalaryGrade" column ="SalaryGrade" />
 		<property name="BargainingCode" column="BargainingCode" />
 		<property name="LaborMarketWAS" column="LaborMarketWAS" />
@@ -21,12 +32,15 @@
 		<property name="CollegeAverageAnnual" column="CollegeAvgAnnual" />
 		<property name="CampusAverageAnnual" column="CampusAvgAnnual" />
 
-		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.Esra.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core">
-			<column name="SalaryGrade"/>
+		<!-- Apparently, this relationship also has to be specified as insert="false" update="false" in order to avoid the 
+		duplicate field update/insert issue, since SalaryGrade and Effective date are already specified as fields by
+		virture of their presence as a key-property in the composite-id section. -->
+		<many-to-one name="SalaryGradeQuartiles" class="CAESDO.Esra.Core.Domain.SalaryGradeQuartiles, CAESDO.Esra.Core" insert="false" update="false" cascade="none">
+			<column name="SalaryGrade" />
 			<column name="EffectiveDate"/>
 		</many-to-one>
 					
-		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual">
+		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="delete-orphan" order-by="Annual">
 			<key>
 				<column name="TitleCode" />
 				<column name="EffectiveDate"/>

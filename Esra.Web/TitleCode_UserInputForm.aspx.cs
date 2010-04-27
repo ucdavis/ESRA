@@ -16,7 +16,8 @@ namespace CAESDO.Esra.Web
 {
     public partial class TitleCode_UserInputForm : ApplicationPage
     {
-        protected readonly string CURRENT_SELECTED_TITLECODE_KEY_NAME = "CurrentSelectedTitleCode";
+        protected static readonly string CURRENT_SELECTED_TITLECODE_KEY_NAME = "CurrentSelectedTitleCode";
+        protected static readonly string MESSAGE_CHILD_RECORDS_EXIST = "Unable to delete record: Child records exist.";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -45,6 +46,10 @@ namespace CAESDO.Esra.Web
             lblSalaryGrade.Text = title.SalaryGrade;
             lblBargainingCode.Text = title.BargainingCode;
             lblCollegeAverageAnnual.Text = "TBD (Calculated)";
+            tbCampusAverageAnnual.Text = null;
+            tbEffectiveDate.Text = null;
+            tbLaborMarketMid.Text = null;
+            tbLaborMarketWAS.Text = null;
             MultiView1.SetActiveView(vInsertNewTitleCodeAverages);
         }
 
@@ -68,9 +73,11 @@ namespace CAESDO.Esra.Web
                 double.TryParse(tbCampusAverageAnnual.Text, styles, numberFormatInfo, out campusAverageAnnual);
                 ss.CampusAverageAnnual = campusAverageAnnual;
 
-                DateTime today = DateTime.Today;
-                DateTime.TryParse(tbEffectiveDate.Text, out today);
-                ss.EffectiveDate = today;
+                DateTime tempDate = new DateTime();
+                if (DateTime.TryParse(tbEffectiveDate.Text, out tempDate))
+                    ss.EffectiveDate = tempDate;
+                else
+                    ss.EffectiveDate = DateTime.Today;
 
                 double laborMarketMidAnnual = 0;
                 double.TryParse(tbLaborMarketMid.Text, styles, numberFormatInfo, out laborMarketMidAnnual);
@@ -83,6 +90,29 @@ namespace CAESDO.Esra.Web
                 ss.TitleCode = title.TitleCode;
                 ss.Title = title;
                 SalaryScaleBLL.InsertRecord(ss);
+
+                gvSalaryScale.DataBind();
+            }
+            else if (e.CommandName.Equals("remove"))
+            {
+                GridViewRow gvr = gvSalaryScale.Rows[Convert.ToInt32(e.CommandArgument)];
+                SalaryScale ss = new SalaryScale();
+                string titleCode = ((Label)gvr.FindControl("lblTitleCode")).Text;
+                ss.TitleCode = titleCode;
+                string effectiveDateString = ((Label)gvr.FindControl("lblEffectiveDate")).Text;
+                ss.EffectiveDate = Convert.ToDateTime(effectiveDateString);
+                ss = SalaryScaleBLL.GetByInclusionExample(ss, "TitleCode", "EffectiveDate")[0];
+                if (SalaryScaleBLL.CanBeDeleted(ss))
+                {
+                    SalaryScaleBLL.DeleteRecord(ss, true);
+                    gvSalaryScale.DataBind();
+                }
+                else
+                {
+                    Label lbl = (Label)Page.Master.FindControl("lbl_Message");
+                    lbl.Text = MESSAGE_CHILD_RECORDS_EXIST;
+                    lbl.Visible = true;
+                }
             }
 
             ViewState.Remove(CURRENT_SELECTED_TITLECODE_KEY_NAME);
