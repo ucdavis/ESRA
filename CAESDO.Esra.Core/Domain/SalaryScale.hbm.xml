@@ -26,7 +26,7 @@
 			<column name="EffectiveDate"/>
 		</many-to-one>
 					
-		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none">
+		<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual">
 			<key>
 				<column name="TitleCode" />
 				<column name="EffectiveDate"/>
