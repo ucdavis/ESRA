@@ -74,14 +74,14 @@
                 <asp:TemplateField HeaderText="SalarySteps">
                
                     <ItemTemplate>
-                        <asp:Panel ID="pnlNoStepDetails" runat="server">
+                        <asp:Panel ID="pnlNoStepDetails" runat="server" >
                             <div style="float: left; margin-left: 5px;">
                                 <asp:Label ID="lblShowDetails" runat="server" Text=""></asp:Label></div>
                             <div style="float: right; vertical-align: middle;">
                                 &nbsp;<asp:ImageButton ID="imgExpand" runat="server" ImageUrl="~/images/common/expand_blue.jpg"
                                     AlternateText="(Show Details...)" /></div>
                         </asp:Panel>
-                        <asp:Panel ID="pnlStepDetails" runat="server">
+                        <asp:Panel ID="pnlStepDetails" runat="server" CssClass="collapsePanel">
                             <asp:Repeater ID="rptSalarySteps" runat="server" DataSource='<%# Eval("SalarySteps") %>'>
                                 <HeaderTemplate>
                                     <table  id="SSUIF_pannel">
@@ -116,6 +116,22 @@
                                         </td>
                                     </tr>
                                 </ItemTemplate>
+                                <AlternatingItemTemplate>
+                                    <tr class="tr_alt">
+                                        <td>
+                                            <asp:Label ID="lblStepNumber" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblAnnual" runat="server" Text='<%# Eval("Annual", "{0:c}") %>'></asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblMonthly" runat="server" Text='<%# Eval("Monthly", "{0:c}") %>'></asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblHourly" runat="server" Text='<%# Eval("Hourly", "{0:c}") %>'></asp:Label>
+                                        </td>
+                                    </tr>
+                                </AlternatingItemTemplate>
                                 <FooterTemplate>
                                     </table>
                                 </FooterTemplate>
