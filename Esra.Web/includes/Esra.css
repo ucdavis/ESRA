@@ -1,11 +1,13 @@
 ﻿body
 {
-	margin: 10px 0px 0px;
+	margin: 10px 0px 0px !important;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	min-width: 1000px;
-	background: #f5f6f8;
+	background: #f5f6f8 !important;
 	text-align: left;
+	font-size: 100% !important;
 }
+#cas {font-size: 62.5% !important;}
 
 #header {
 	height: 124px;
