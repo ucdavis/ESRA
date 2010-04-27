@@ -258,6 +258,16 @@ document.write(month+"/"+today+"/"+year)
                 </asp:GridView>
                 <br />
                 <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center><br />
+                
+                <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
+                <ProgressTemplate>
+                    Updating....
+                </ProgressTemplate>
+                </asp:UpdateProgress>
+                
+                <asp:UpdatePanel ID="up" runat="server">
+                <ContentTemplate>
+                
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
@@ -376,6 +386,13 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+                <asp:UpdateProgress ID="upProgress" runat="server" AssociatedUpdatePanelID="up">
+                <ProgressTemplate>
+                    Updating....
+                </ProgressTemplate>
+                </asp:UpdateProgress>
             </asp:View>
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
             
