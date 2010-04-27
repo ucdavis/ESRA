@@ -78,6 +78,13 @@ namespace CAESDO.Esra.Core.Domain
             set { _Title = value; }
         }
 
+        protected string _TitleCode;
+        public virtual string TitleCode
+        {
+            get { return _TitleCode; }
+            set { _TitleCode = value; }
+        }
+
         protected DateTime _HireDate;
 
         public virtual DateTime HireDate
@@ -92,14 +99,6 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _BeginDate; }
             set { _BeginDate = value; }
-        }
-
-        protected double _YearsInTitle;
-
-        public virtual double YearsInTitle
-        {
-            get { return _YearsInTitle; }
-            set { _YearsInTitle = value; }
         }
 
         protected ApptType _ApptType;
@@ -132,21 +131,6 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _BargainingUnitCode; }
             set { _BargainingUnitCode = value; }
-        }
-
-        public override bool Equals(object obj)
-        {
-            bool retval = false;
-            if (this.EmployeeID.Equals(((UCDEmployee)obj).EmployeeID) && this.Title.TitleCode.Equals(((UCDEmployee)obj).Title.TitleCode))
-            {
-                retval = true;
-            }
-            return retval;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode() / (Convert.ToInt32(_EmployeeID) + Convert.ToInt32(_Title.TitleCode));
         }
 
         public UCDEmployee()
