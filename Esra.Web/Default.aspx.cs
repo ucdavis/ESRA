@@ -70,11 +70,13 @@ namespace CAESDO.Esra.Web
             if (rbl.SelectedValue.Equals(ROLE_USER))
             {
                 Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                Session.Add(KEY_IS_DEPARTMENT_USER, true);
                 MultiView1.SetActiveView(vDepartments);
             }
             else
             {
                 Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                Session.Add(KEY_IS_DEPARTMENT_USER, false);
                 MultiView1.SetActiveView(vDeansOffice);
             }
         }

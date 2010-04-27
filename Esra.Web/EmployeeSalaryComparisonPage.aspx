@@ -392,7 +392,7 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField HeaderText="Experience Begin Date" 
                             SortExpression="ExperienceBeginDate">
                             <EditItemTemplate>
-                            <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbExperienceBeginDate" Format="MM/dd/yyyy">
+                            <ajax:CalendarExtender ID="ceExperienceBeginDate" runat="server" CssClass="calendar" TargetControlID="tbExperienceBeginDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
                                 <asp:TextBox ID="tbExperienceBeginDate" runat="server" 
                                     Text='<%# Bind("ExperienceBeginDate", "{0:MM/dd/yyyy}") %>' ></asp:TextBox>
