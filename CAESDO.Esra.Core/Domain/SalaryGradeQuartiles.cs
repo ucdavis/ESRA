@@ -98,7 +98,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual decimal MinHourly
         {
-            get { return _MinAnnual / 52 / 40; }
+            get { return _MinAnnual / Convert.ToDecimal(52.2) / 40; }
             set { _MinHourly = value; }
         }
 
@@ -106,7 +106,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual decimal FirstQrtleHourly
         {
-            get { return _FirstQrtleAnnual / 52 / 40; }
+            get { return _FirstQrtleAnnual / Convert.ToDecimal(52.2) / 40; }
             set { _FirstQrtleHourly = value; }
         }
 
@@ -114,7 +114,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual decimal MidHourly
         {
-            get { return _MidAnnual / 52 / 40; }
+            get { return _MidAnnual / Convert.ToDecimal(52.2) / 40; }
             set { _MidHourly = value; }
         }
 
@@ -122,14 +122,14 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual decimal ThirdQrtleHourly
         {
-            get { return _ThirdQrtleAnnual / 52 / 40; }
+            get { return _ThirdQrtleAnnual / Convert.ToDecimal(52.2) / 40; }
             set { _ThirdQrtleHourly = value; }
         }
 
         private decimal _MaxHourly;
         public virtual decimal MaxHourly
         {
-            get { return _MaxAnnual / 52 / 40; }
+            get { return _MaxAnnual / Convert.ToDecimal(52.2) / 40; }
             set { _MaxHourly = value; }
         }
 
