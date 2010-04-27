@@ -97,6 +97,10 @@ namespace CAESDO.Esra.Web
                         MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
                 }
+                else
+                {
+                    Page.Form.DefaultButton = btnFindSRA.UniqueID;
+                }
             }
         }
 
