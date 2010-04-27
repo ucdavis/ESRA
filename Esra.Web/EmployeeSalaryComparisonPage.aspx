@@ -9,15 +9,25 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
 <script type="text/javascript" src="includes/jsUpdateProgress.js"></script>
-    <div> <center><asp:Label ID="lblPageTitle" runat="server" 
-            Text="Salary Scales &amp; Employee Salary Comparison" Font-Bold="True" 
-            Font-Size="Larger"></asp:Label></center>
- <br />
-    <hr />
-    <br />
-    <center>
-        <asp:Label ID="lblTitleSalaryScaleSection" runat="server" Text="Salary Scales" 
-                Font-Bold="True" Font-Size="Large"></asp:Label></center><br />
+
+
+
+
+    
+    <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Scales &amp; Employee Salary Comparison"></asp:Label></h1>
+<%--    <div class="left_col">
+    </div>--%>
+<div class="right_col">
+
+<ul id="ESCR_criteria"><li>
+<%--<table id="top_of_top_table">
+<tbody>
+<tr>
+<td>--%>
+
+    
+    
+    <h2><asp:Label ID="lblTitleSalaryScaleSection" runat="server" Text="Salary Scales"></asp:Label></h2>
     &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
@@ -29,7 +39,7 @@
         </ajax:ListSearchExtender>
         <br />
         &nbsp;<asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
-            AutoGenerateColumns="False" EmptyDataText="No Title Code selected." ShowHeader="true" HeaderStyle-HorizontalAlign="Center">
+            AutoGenerateColumns="False" EmptyDataText="No Title Code selected." ShowHeader="true" HeaderStyle-HorizontalAlign="Center" GridLines="None">
             <Columns>
                 <asp:TemplateField>
                 <HeaderTemplate>Campus-wide Salary Scale</HeaderTemplate>
@@ -170,13 +180,12 @@
             </Columns>
         </asp:GridView>
         <br />
-    </div>
-    <hr />
-    <br />
-     <center><asp:Label ID="lblTitleEmployeeSalaryComparisonSection" runat="server" Text="Employee Salary Comparison" 
-                Font-Bold="True" Font-Size="Large"></asp:Label></center>
-    <br />
-    <div>
+</li><li>
+<%--</td><td id="before_employee_salary_comparison">--%>
+<%--</div>
+<div class="right_col">--%>
+    
+     <h2><asp:Label ID="lblTitleEmployeeSalaryComparisonSection" runat="server" Text="Employee Salary Comparison"></asp:Label></h2>
                 <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" 
              TargetControlID="lbxTitleCodes" >
                     </ajax:ListSearchExtender>
@@ -186,31 +195,24 @@
          <ajax:ListSearchExtender ID="ListSearchExtender3" runat="server" 
              TargetControlID="ddlEmployee" >
          </ajax:ListSearchExtender>
-         <br />
-         <table id="tblEmployeeSalaryComparasionReportSearchParameters" width="75%">
-         <tr><th colspan="3">
-             <center><asp:Label ID="lblTblEmployeeSalaryComparasionReportSearchParameters" 
-                     runat="server" Font-Size="Medium" 
-                 Text="Search Parameters"></asp:Label></center>
+         <table id="tblEmployeeSalaryComparasionReportSearchParameters">
+         <tr><th><h3><asp:Label ID="lblTblEmployeeSalaryComparasionReportSearchParameters" runat="server" Text="Search Parameters"></asp:Label></h3>
              </th></tr>
-            <tr>
-                <td rowspan="3">
+            <tr style="margin:0 0 10px 10px;">
+                <td>
                     <asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple" >
             <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
-        </asp:ListBox></td>
-                <td rowspan="3"><asp:ListBox ID="lbxDepartments" runat="server" 
+        </asp:ListBox></td></tr><tr>
+                <td><asp:ListBox ID="lbxDepartments" runat="server" 
             AppendDataBoundItems="True" 
             DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
-        </asp:ListBox></td>
-                
-            </tr>
-            <tr>
+        </asp:ListBox></td></tr><tr>
                 <td><asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" 
             DataTextField="FullName" DataValueField="ID" 
@@ -225,9 +227,8 @@
             </tr>
         
          </table>
-         
-        <br />
-       
+   <%--      </div>
+         <div class="left_col">--%>
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vEmployees" runat="server" >
                 <%--Report Date:
@@ -243,16 +244,23 @@ document.write(month+"/"+today+"/"+year)
 </script> --%>
 
                 <br />
-                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Center" Width="75%">
+
+</li><li>
+
+<h2>Report Generation Criteria</h2>
+                
+<%--</td><td id="before_Report_Generation">  --%>              
+                
+                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Center" GridLines="None">
                 
                     <Columns>
                         <asp:TemplateField>
-                        <HeaderTemplate>Report Generation Criteria</HeaderTemplate>
+                        <HeaderTemplate><h2 class="display_none">Report Generation Criteria</h2></HeaderTemplate>
                             <ItemTemplate>
-                             <table border="1">
+                             <table id="ESCP_report_generation_criteria">
                              <tr >
-                                <td rowspan="2">
-                                    <table border="1">
+                                <td>
+                                    <table>
                                         <tr>
                                             <th>Title Code:</th>
                                             <th>Payroll Title:</th>
@@ -273,7 +281,9 @@ document.write(month+"/"+today+"/"+year)
 
                                 </asp:Repeater>
                                     </table>
-                                </td>
+                                </td></tr><tr><td>
+                                <table>
+                                <tr>
                                 <th>Department(s)</th>
                                 <th>Employee(s)</th>
                                 <th>Report Date</th>
@@ -285,24 +295,20 @@ document.write(month+"/"+today+"/"+year)
                                 <td><asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("SearchEmployee.FullName") %>'></asp:Label></td>
                                 <td><asp:Label ID="lblReportDate" runat="server" Text='<%# Eval("ReportDate", "{0:MM/dd/yyyy}") %>'></asp:Label></td>
                             </tr>
+                            </table></td></tr>
+                            </tr>
                         </table>
                             </ItemTemplate>
                            
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <br />
-                <i style="background-color: #FFFF00">Note: Highlighted dates have been altered 
-                from their PPS values.</i>
-                <br />
-                <center>
-                    <asp:Label runat="server" Font-Bold="true" Font-Size="Large" 
-                        Text="Employee Salary Comparison Report"></asp:Label>
-                </center>
-                <br />
-                &nbsp;<asp:Button ID="btnExportToExcel" runat="server" 
-                    OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" />
-                <br />
+</li></ul>                
+<%--</td></tr></tbody></table> --%>
+<p class="note">Items highlighted in <span class="yellow">yellow</span> indicate a change from pps</p>
+<h2 class="h2_black"><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" ></asp:Label>
+<asp:Button ID="btnExportToExcel" runat="server" OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" /></h2>
+
                 <%--<asp:Panel ID="panelUpdateProgress" runat="server" >
                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="up">
                         <ProgressTemplate>
@@ -331,14 +337,14 @@ document.write(month+"/"+today+"/"+year)
                     
                 <asp:UpdatePanel ID="up" runat="server">
                 <ContentTemplate>
-                
+                <div id="ESCR_table">
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
                     onrowupdated="gvEmployees_RowUpdated" 
                     OnRowDataBound="gvEmployees_RowDataBound"
-                    EnableViewState="False">
+                    EnableViewState="False" GridLines="None">
                     <PagerSettings Position="TopAndBottom" />
                     <HeaderStyle cssclass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
@@ -346,9 +352,9 @@ document.write(month+"/"+today+"/"+year)
                         <asp:TemplateField ShowHeader="False">
                             <EditItemTemplate>
                                 <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" 
-                                    CommandName="Update" Text="Update"></asp:LinkButton>
+                                    CommandName="Update" Text="Update"><img alt="update" class="update_button" width="21px" height="21px" src="images/common/disk4.jpg"/></asp:LinkButton>
                                 &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" 
-                                    CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                                    CommandName="Cancel" Text="Cancel"><img alt="Cancel" width="21px" height="21px" class="cancel_button" src="images/common/Cancel.png"/></asp:LinkButton>
                             </EditItemTemplate>
                             <ItemTemplate>
                             <%--<asp:Panel ID="pnlProgress" runat="server" >
@@ -362,7 +368,7 @@ document.write(month+"/"+today+"/"+year)
                     </asp:UpdateProgress>
                     </asp:Panel>--%>
                                 <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                                    CommandName="Edit" Text="Edit" ></asp:LinkButton>
+                                    CommandName="Edit" Text="Edit" ><img src="images/common/edit.png" alt="edit" /></asp:LinkButton>
                                     <asp:Image ID="imgWaiting" runat="server" ImageUrl="~/images/common/loading.gif" Visible="false"/>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -431,7 +437,7 @@ document.write(month+"/"+today+"/"+year)
                             <ItemTemplate>
                                 <asp:Label ID="Label4" runat="server" 
                                     Text='<%# Eval("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' 
-                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.White ) %>'></asp:Label>
+                                    BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.Transparent ) %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Years Of Service" 
@@ -456,7 +462,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblAdjustedApptHireDate" runat="server" 
-                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.White )  %>'></asp:Label>
+                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Yellow : System.Drawing.Color.Transparent )  %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Time In Title" SortExpression="TimeInTitle">
@@ -526,6 +532,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                </div>
                 </ContentTemplate>
                 </asp:UpdatePanel>
                 <asp:UpdateProgress ID="upProgress" runat="server" AssociatedUpdatePanelID="up">
