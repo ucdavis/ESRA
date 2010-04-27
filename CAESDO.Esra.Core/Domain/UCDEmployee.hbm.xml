@@ -5,8 +5,8 @@
 			<generator class="assigned" />
 		</id>
 
-		<many-to-one name="HomeDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept" />
-		<many-to-one name="WorkDept" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept" />
+		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept" />
+		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept" />
 		<property name="Different" column="Different" />
 		<property name="FullName" column="EmpName" />
 		<property name="FirstName" column="FirstName" />
@@ -22,9 +22,9 @@
 		<property name="BargainingUnitCode" column="BargainingUnit" />
 
 		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
-			<key column="EmployeeID" foreign-key="EmployeeID"/>
-			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
-			<property name="CareerHireDate" column="CareerHireDate" />
+			<key column="EmployeeID"/>
+			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted"/>
+			<property name="CareerHireDate" column="CareerHireDate"/>
 			<property name="ApptHireDate" column="ApptHireDate" />
 			<property name="DepartmentComments" column="DepartmentComments" />
 			<property name="DeansOfficeComments" column="DeansOfficeComments" />
