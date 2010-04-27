@@ -102,6 +102,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _YearsInTitle = value; }
         }
 
+        protected ApptType _ApptType;
+
+        public virtual ApptType ApptType
+        {
+            get { return _ApptType; }
+            set { _ApptType = value; }
+        }
+
         protected double _PayRate;
 
         public virtual double PayRate
