@@ -25,7 +25,13 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual string Name_DepartmentNumber
         {
-            get { return _Name + " (" +_DepartmentNumber + ")"; }
+            get
+            {
+                if (String.IsNullOrEmpty(_DepartmentNumber) == false)
+                    return _Name + " (" + _DepartmentNumber + ")";
+                else
+                    return _Name;
+            }
         }
 
         private string _ShortName;
