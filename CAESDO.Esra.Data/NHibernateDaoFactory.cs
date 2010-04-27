@@ -54,34 +54,36 @@ namespace CAESDO.Esra.Data
                 return retval;
             }
 
-            public IList<Employee> GetEmployees(string propertyName, bool ascending, int? titleCode, int? employeeID, int? departmentID)
+            public IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string employeeID, string departmentID)
             {
                 IList<Employee> retval = null;
 
-                if ((titleCode == null || titleCode == 0) && 
-                    (employeeID == null || employeeID == 0) &&
-                    (departmentID == null || departmentID == 0))
+                if ((String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))&& 
+                    (String.IsNullOrEmpty(employeeID) || employeeID.Equals("0")) &&
+                    (String.IsNullOrEmpty(departmentID) || departmentID.Equals("0")))
                 {
                     retval = GetAll(propertyName, ascending);
                 }
                 else
                 {
                     ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
+                    Conjunction conjunction = Expression.Conjunction();
 
-                    if (titleCode != null && titleCode > 0)
+                    if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
                     {
-                        criteria.CreateAlias("Title", "Title")
-                        .Add(Expression.Eq("Title.TitleCode", titleCode));
+                        criteria.CreateAlias("Title", "Title");
+                        conjunction.Add(Expression.Eq("Title.TitleCode", titleCode));
                     }
-                    if (employeeID != null && employeeID > 0 )
+                    if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
                     {
-                         criteria.Add(Expression.Eq("ID", employeeID));
+                         conjunction.Add(Expression.Eq("id", Convert.ToInt32(employeeID)));
                     }
-                    if (departmentID != null && departmentID > 0 )
+                    if (String.IsNullOrEmpty(departmentID) == false && departmentID.Equals("0") == false)
                     {
-                        criteria.CreateAlias("HomeDepartment", "Department")
-                        .Add(Expression.Eq("Department.ID", departmentID));
+                        criteria.CreateAlias("HomeDepartment", "Department");
+                        conjunction.Add(Expression.Eq("Department.id", Convert.ToInt32(departmentID)));
                     }
+                    criteria.Add(conjunction);
 
                     if (propertyName.Equals("HomeDepartment"))
                     {
