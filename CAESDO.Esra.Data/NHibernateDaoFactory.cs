@@ -31,7 +31,7 @@ namespace CAESDO.Esra.Data
 
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
 
-        public class EmployeeDao : AbstractNHibernateDao<Employee, int>, IEmployeeDao
+        public class EmployeeDao : AbstractNHibernateDao<Employee, string>, IEmployeeDao
         {
             public IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
             {
@@ -54,12 +54,12 @@ namespace CAESDO.Esra.Data
                 return retval;
             }
 
-            public IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, int? pkEmployee, string departmentID)
+            public IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string pkEmployee, string departmentID)
             {
                 IList<Employee> retval = null;
 
                 if ((String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))&&
-                    ((pkEmployee == null) || pkEmployee == 0) &&
+                    ((String.IsNullOrEmpty(pkEmployee)) || pkEmployee.Equals("0")) &&
                     (String.IsNullOrEmpty(departmentID) || departmentID.Equals("0")))
                 {
                     retval = GetAll(propertyName, ascending);
@@ -74,7 +74,7 @@ namespace CAESDO.Esra.Data
                         criteria.CreateAlias("Title", "Title");
                         conjunction.Add(Expression.Eq("Title.TitleCode", titleCode));
                     }
-                    if (pkEmployee != null && pkEmployee != 0)
+                    if (String.IsNullOrEmpty(pkEmployee) == false && pkEmployee.Equals("0") == false)
                     {
                          conjunction.Add(Expression.Eq("id", pkEmployee));
                     }

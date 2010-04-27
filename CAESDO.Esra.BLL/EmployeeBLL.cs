@@ -8,7 +8,7 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {
-    public class EmployeeBLL : GenericBLL<Employee, int>
+    public class EmployeeBLL : GenericBLL<Employee, string>
     {
         public static IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
         {
@@ -45,7 +45,7 @@ namespace CAESDO.Esra.BLL
             return retval;
         }
 
-        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, int? pkEmployee, string departmentID)
+        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string pkEmployee, string departmentID)
         {
             return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, pkEmployee, departmentID);
         }
@@ -65,7 +65,7 @@ namespace CAESDO.Esra.BLL
             string AdjustedApptHireDate,
             string DepartmentComments,
             string DeansOfficeComments,
-            int original_ID
+            string original_ID
             )
         {
             Employee record = GetByID(original_ID);

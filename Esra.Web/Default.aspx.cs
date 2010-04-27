@@ -85,7 +85,7 @@ namespace CAESDO.Esra.Web
 
             if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
             {
-                Employee emp = EmployeeBLL.GetByID(Convert.ToInt32(id));
+                Employee emp = EmployeeBLL.GetByID(id);
             
                 ddlTitleCode.SelectedValue = emp.Title.ID;
                 ddlDepartment.SelectedIndex = -1;
@@ -110,7 +110,7 @@ namespace CAESDO.Esra.Web
                 // Get a specific employee.
                 if (String.IsNullOrEmpty(id) == false && id.Equals("0") == false)
                 {
-                    Employee emp = EmployeeBLL.GetByID(Convert.ToInt32(id));
+                    Employee emp = EmployeeBLL.GetByID(id);
 
                     ddlTitleCode.SelectedValue = emp.Title.ID;
                     ddlDepartment.SelectedIndex = -1;

@@ -18,10 +18,10 @@ namespace CAESDO.Esra.Core.DataInterfaces
 
     public interface IGenericDao<T, IdT> : IDao<T, IdT> { }
 
-    public interface IEmployeeDao : IDao<Employee, int>
+    public interface IEmployeeDao : IDao<Employee, string>
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
-        IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, int? pkEmployee, string departmentID);
+        IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string pkEmployee, string departmentID);
     }
 
     #endregion
