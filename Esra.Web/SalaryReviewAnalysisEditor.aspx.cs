@@ -417,7 +417,8 @@ namespace CAESDO.Esra.Web
             {
                 if (scenario.SelectionType.Equals(SelectionType.NONE) == false)
                 {
-                    retval = SalaryScaleBLL.GetCriteriaListItems(Session[KEY_TITLE_CODE] as String)[scenario.SelectionType];
+                    //retval = SalaryScaleBLL.GetCriteriaListItems(Session[KEY_TITLE_CODE] as String)[scenario.SelectionType];
+                    retval = Criteria[scenario.SelectionType];
                 }
             }
 
