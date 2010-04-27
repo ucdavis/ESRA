@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Esra_Web_CatOps_CatbertWebService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://url.caes.ucdavis.edu/catbert/services/catbertwebservice.asmx</Value>
+      <Value Profile="(Default)">https://test.caes.ucdavis.edu/catbert3/services/catbertwebservice.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>
