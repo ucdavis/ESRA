@@ -20,7 +20,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_TITLES = "Titles";
         protected static readonly string KEY_EMPLOYEES = "Employees";
         protected static readonly string KEY_CRITERIA = "Criteria";
-
+        
         protected string EmployeeID
         {
             get
@@ -116,7 +116,7 @@ namespace CAESDO.Esra.Web
                         scenarios = sra.Scenarios;
                         ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
                         ViewState.Add(KEY_DEPARTMENT_COMMENTS, sra.DepartmentComments);
-
+                        
                         // Code for setting the correct criteria list items:
                         Criteria = SalaryScaleBLL.GetCriteriaListItems(sra.SalaryScale.TitleCode, sra.SalaryScale.EffectiveDate);
 
@@ -571,6 +571,8 @@ namespace CAESDO.Esra.Web
 
             if (String.IsNullOrEmpty(dateApproved) == false)
                 sra.DateApproved = Convert.ToDateTime(dateApproved);
+            else
+                sra.DateApproved = null;
 
             sra.DeansOfficeComments = ViewState[KEY_DEANS_OFFICE_COMMENTS] as string;
             sra.DepartmentComments = ViewState[KEY_DEPARTMENT_COMMENTS] as string;
@@ -605,6 +607,11 @@ namespace CAESDO.Esra.Web
             ViewState.Add(KEY_DEPARTMENT_COMMENTS, ((TextBox)sender).Text);
         }
 
+        protected void gvSalaryReviewAnaysis_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
             string redirectURL = "~/SalaryReviewAnalysisPage.aspx";
@@ -627,6 +634,7 @@ namespace CAESDO.Esra.Web
         /// <param name="e"></param>
         protected void cbxApproved_CheckChanged(object sender, EventArgs e)
         {
+            GridViewRow gvr = gvSalaryReviewAnaysis.Rows[0];  // There's always only one row.
             CheckBox cb = (CheckBox)sender;
             
             // if cb has just been unchecked, then just exit the method.
@@ -655,27 +663,30 @@ namespace CAESDO.Esra.Web
                 }
                 cb.Checked = true;
 
-                GridViewRow gvr = gvSalaryReviewAnaysis.Rows[0];  // There's always only one row.
                 TextBox tb = gvr.FindControl("tbDateApproved") as TextBox;
-                if (tb != null && String.IsNullOrEmpty(tb.Text))
+                if (tb != null)
                 {
-                    // if blank, set the approved date with today's date.
-                    tb.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
-                    ((UpdatePanel)gvr.FindControl("upDateApproved")).Update();
+                    if (String.IsNullOrEmpty(tb.Text))
+                    {
+                    // if blank, then set date approved with today's date:
+                        tb.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+                        ((UpdatePanel)gvr.FindControl("upDateApproved")).Update();
+                    }
+                    // else keep the date already entered by doing nothing.
                 }
             }
             else
             {
-                GridViewRow gvr = gvSalaryReviewAnaysis.Rows[0];  // There's always only one row.
+            // All "Approved" scenarios have been cleared, so clear 
+            // DateApproved as well, providing it's been previously set.
                 TextBox tb = gvr.FindControl("tbDateApproved") as TextBox;
                 if (tb != null && String.IsNullOrEmpty(tb.Text) == false)
                 {
-                    // Perhaps clear the date approved field?
+                    // Clear the date approved field?
                     tb.Text = null;
                     ((UpdatePanel)gvr.FindControl("upDateApproved")).Update();
                 }
             }
-            
         }
 
         protected Scenario UpdateScenarioValues(RepeaterItem item)

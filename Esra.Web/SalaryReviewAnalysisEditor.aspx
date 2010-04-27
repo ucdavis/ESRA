@@ -580,8 +580,10 @@
                     <tr>
                         <td>
                             <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" AutoGenerateColumns="False"
-                                DataSourceID="odsSalaryReviewAnalysis" EmptyDataText="Salary Review Analysis has yet to be saved."
-                                Width="100%">
+                                DataSourceID="odsSalaryReviewAnalysis"
+                                 EmptyDataText="Salary Review Analysis has yet to be saved."
+                                Width="100%"
+                                OnRowUpdating="gvSalaryReviewAnaysis_OnRowUpdating">
                                 <HeaderStyle CssClass="tr_head" />
                                 <AlternatingRowStyle CssClass="tr_alt" />
                                 <Columns>
@@ -593,7 +595,7 @@
                                             <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved") %>'></asp:TextBox>
                                         </EditItemTemplate>
                                         <ItemTemplate>
-                                        <asp:UpdatePanel ID="upDateApproved" runat="server" UpdateMode="Conditional"></asp:UpdatePanel>
+                                        <asp:UpdatePanel ID="upDateApproved" runat="server" UpdateMode="Conditional"><ContentTemplate>
                                             <img id="button_calendar" alt="Calendar" src="images/common/Calendar_scheduleHS.png" />&nbsp;
                                             <asp:TextBox ID="tbDateApproved" runat="server" Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                                             <ajax:CalendarExtender ID="tbDateApproved_CalendarExtender" runat="server" Format="MM/dd/yyyy"
@@ -601,7 +603,8 @@
                                             </ajax:CalendarExtender>
                                             <%--<asp:Label ID="lblDateApproved" runat="server" 
                                     Text='<%# Bind("DateApproved", "{0:MM/dd/yyyy}") %>'></asp:Label>--%>
-                                    </asp:UpdatePanel>
+                                    </ContentTemplate>
+                                        </asp:UpdatePanel>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Initiated By (Reviewer Name)" SortExpression="InitiatedByReviewerName">
