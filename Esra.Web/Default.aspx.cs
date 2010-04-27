@@ -101,8 +101,10 @@ namespace CAESDO.Esra.Web
                 lbxTitleCodes_ClearSelectedValues();
                 lbxDepartments_ClearSelectedValues();
                 //ddlDepartment.SelectedIndex = -1;
+                gvESRSearchParams_Load(emp);
             }
-            gvESRSearchParams_Load();
+            else
+                gvESRSearchParams_Load();
             //ddlTitleCode.SelectedIndex = -1;
            
             //gvEmployees.DataBind();
@@ -285,6 +287,22 @@ namespace CAESDO.Esra.Web
                 // Get the selected titles:
                 SearchTitles = Session["selectedTitles"] as List<Title>,
                 SearchDepartments = (List<Department>)Session["selectedDepartments"] as List<Department>,
+                SearchEmployee = GetSelectedEmployee()
+            };
+            List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
+            esParams.Add(sp);
+
+            gvESRSearchParams.DataSource = esParams;
+            gvESRSearchParams.DataBind();
+        }
+
+        protected void gvESRSearchParams_Load(Employee emp)
+        {
+            ESRSearchParameters sp = new ESRSearchParameters()
+            {
+                // Get the selected titles:
+                SearchTitles = new List<Title>() { emp.Title },
+                SearchDepartments = new List<Department>() { emp.HomeDepartment },
                 SearchEmployee = GetSelectedEmployee()
             };
             List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
