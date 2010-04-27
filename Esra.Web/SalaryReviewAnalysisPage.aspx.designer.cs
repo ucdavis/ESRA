@@ -86,6 +86,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlReferenceNumber;
         
         /// <summary>
+        /// ddlReferenceNumber_ListSearchExtender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ddlReferenceNumber_ListSearchExtender;
+        
+        /// <summary>
         /// btnFindSRA control.
         /// </summary>
         /// <remarks>
@@ -104,6 +113,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlEmployee;
         
         /// <summary>
+        /// ddlEmployee_ListSearchExtender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ddlEmployee_ListSearchExtender;
+        
+        /// <summary>
         /// ddlCreatedBy control.
         /// </summary>
         /// <remarks>
@@ -111,6 +129,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCreatedBy;
+        
+        /// <summary>
+        /// ddlCreatedBy_ListSearchExtender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ListSearchExtender ddlCreatedBy_ListSearchExtender;
         
         /// <summary>
         /// ceCreationDate control.
@@ -219,6 +246,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsTitle;
+        
+        /// <summary>
+        /// lbtnBack control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbtnBack;
         
         /// <summary>
         /// odsCriteria control.

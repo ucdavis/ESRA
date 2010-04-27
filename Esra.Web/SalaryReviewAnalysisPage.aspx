@@ -53,10 +53,11 @@
                                 onselectedindexchanged="ddlReferenceNumber_SelectedIndexChanged">
                             <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
+                            <ajax:ListSearchExtender ID="ddlReferenceNumber_ListSearchExtender" 
+                                runat="server" TargetControlID="ddlReferenceNumber">
+                            </ajax:ListSearchExtender>
                         </td>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
+                        <td colspan="2">(Use today&#39;s date for any date)</td>
                     </tr>
                     <tr>
                         <th>
@@ -81,21 +82,30 @@
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AppendDataBoundItems="True" 
                                 DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID">
-                                <asp:ListItem Value="">-- Select an Employee --</asp:ListItem>
+                                <asp:ListItem Value="">-- Any Employee --</asp:ListItem>
                             </asp:DropDownList>
+                            <ajax:ListSearchExtender ID="ddlEmployee_ListSearchExtender" runat="server" 
+                                TargetControlID="ddlEmployee">
+                            </ajax:ListSearchExtender>
                         </td>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" 
+                            &nbsp;<br />
+                            <asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" 
                                 DataSourceID="odsCreatedBy" DataTextField="FullName" DataValueField="Login">
-                                <asp:ListItem Value="">-- Select Created By --</asp:ListItem>
+                                <asp:ListItem Value="">-- Any Reviewer --</asp:ListItem>
                             </asp:DropDownList>
+                            <ajax:ListSearchExtender ID="ddlCreatedBy_ListSearchExtender" runat="server" 
+                                TargetControlID="ddlCreatedBy">
+                            </ajax:ListSearchExtender>
                         </td>
                         <td>
                             <ajax:CalendarExtender ID="ceCreationDate" runat="server" CssClass="calendar" 
-                                Format="MM/dd/yyyy" TargetControlID="tbCreationDate">
-                            </ajax:CalendarExtender>
-                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" ReadOnly="true" />
-                        </td>
+                                Format="MM/dd/yyyy" TargetControlID="tbCreationDate" 
+                                PopupPosition="BottomRight" PopupButtonID="btn_calendar">
+                            </ajax:CalendarExtender><img id="btn_calendar" alt="Calendar" longdesc="images/common/Calendar_scheduleHS.png" 
+                                src="images/common/Calendar_scheduleHS.png" style="width: 16px; height: 16px" />&nbsp;
+                            <asp:TextBox ID="tbCreationDate" runat="server" />
+                            </td>
                     </tr>
                   
                 </table>
@@ -390,7 +400,12 @@
                     SessionField="CurrentTitleCode" Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
+                
         <br />
+         <asp:LinkButton runat="server" ID="lbtnBack" 
+                    onclick="lbtnBack_Click" ToolTip="Back" CssClass="buttons" Text="&lt;img alt=&quot;Back&quot; class=&quot;back_button&quot; 
+                    src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
+                    
                 <%--<table style="width: 100%;">
                     <tr>
                         <th>
@@ -546,7 +561,7 @@
                         </td>
                     </tr>
                 </table>--%>
-                
+               
             </asp:View>
         </asp:MultiView>
     </div>

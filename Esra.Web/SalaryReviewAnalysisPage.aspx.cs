@@ -52,7 +52,7 @@ namespace CAESDO.Esra.Web
             List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis> items = new List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis>();
             ddlEmployee.SelectedIndex = -1;
             ddlCreatedBy.SelectedIndex = -1;
-            tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+            //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
             CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
             items.Add(item);
             //items = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
@@ -75,17 +75,25 @@ namespace CAESDO.Esra.Web
             if (id > 0)
             {
                 Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-                CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sar = SalaryReviewAnalysisBLL.GetByID(id);
-                Session.Add(KEY_EMPLOYEE_ID, sar.Employee.ID);
-                Session.Add(KEY_TITLE_ID, sar.Title.ID);
-                //odsSAREmployee.DataBind();
-                //odsTitle.DataBind();
+                CAESDO.Esra.Core.Domain.SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
+                Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
+                Session.Add(KEY_TITLE_ID, sra.Title.ID);
+ 
                 MultiView1.SetActiveView(vSalaryReviewAnalysis);
             }
             else
             {
                 MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
             }
+        }
+
+        protected void lbtnBack_Click(object sender, EventArgs e)
+        {
+            Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
+            Session.Remove(KEY_EMPLOYEE_ID);
+            Session.Remove(KEY_TITLE_ID);
+
+            MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
         }
     }
 }
