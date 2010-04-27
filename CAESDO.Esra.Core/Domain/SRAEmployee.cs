@@ -253,6 +253,8 @@ namespace CAESDO.Esra.Core.Domain
             set { _CareerHireDate = value; }
         }
 
+        public virtual bool PPSCareerHireDateChecked { get; set; }
+
         protected DateTime? _ApptHireDate;
 
         public virtual DateTime? ApptHireDate
@@ -260,6 +262,8 @@ namespace CAESDO.Esra.Core.Domain
             get { return _ApptHireDate; }
             set { _ApptHireDate = value; }
         }
+
+        public virtual bool PPSApptHireDateChecked { get; set; }
 
         protected DateTime? _ExperienceBeginDate;
 
@@ -366,7 +370,9 @@ namespace CAESDO.Esra.Core.Domain
             //_ApptHireDate = emp.AdjustedApptHireDate;
             //_CareerHireDate = emp.AdjustedCareerHireDate;
             _ApptHireDate = emp.ApptHireDate;
+            PPSApptHireDateChecked = emp.PPSApptHireDateChecked;
             _CareerHireDate = emp.CareerHireDate;
+            PPSCareerHireDateChecked = emp.PPSCareerHireDateChecked;
             _BeginDate = emp.BeginDate;
             _HireDate = emp.HireDate;
             _ExperienceBeginDate = emp.ExperienceBeginDate;

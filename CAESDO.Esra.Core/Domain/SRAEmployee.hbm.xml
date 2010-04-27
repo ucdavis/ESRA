@@ -9,10 +9,15 @@
     </id>
 
     <property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
+    
     <property name="HireDate" column="HireDate"/>
     <property name="CareerHireDate" column="CareerHireDate" />
+    <property name="PPSCareerHireDateChecked" column="PPSCareerHireDateChecked" />
+    
     <property name="BeginDate" column="BeginDate"/>
     <property name="ApptHireDate" column="ApptHireDate" />
+    <property name="PPSApptHireDateChecked" column="PPSApptHireDateChecked" />
+    
     <property name="ExperienceBeginDate" column="ExperienceBeginDate" />
     <property name="DepartmentComments" column="DepartmentComments" />
     <property name="DeansOfficeComments" column="DeansOfficeComments"/>
