@@ -4,9 +4,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-    <center><asp:Label ID="lblPageTitle" runat="server" Text="ESRA Home" Font-Bold="true" Font-Size="Larger"></asp:Label></center>
- <br />
- <hr />
+    <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="ESRA Home"></asp:Label></h1>
+<div class="right_col_small">
+<div>
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vDemo" runat="server">
             Select a Demonstration Mode:
@@ -81,4 +81,6 @@
             </dl>
         </asp:View>
     </asp:MultiView>
+</div>
+</div>
 </asp:Content>
