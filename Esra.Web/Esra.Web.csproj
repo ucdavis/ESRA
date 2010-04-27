@@ -54,7 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
+    <Content Include="EmployeeSalaryComparisonPage.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -70,12 +70,12 @@
     <Compile Include="App_Code\CatbertManager.cs" />
     <Compile Include="App_Code\CAESDORoleProvider.cs" />
     <Compile Include="App_Code\CatbertUsersRev.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="EmployeeSalaryComparisonPage.aspx.cs">
+      <DependentUpon>EmployeeSalaryComparisonPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="EmployeeSalaryComparisonPage.aspx.designer.cs">
+      <DependentUpon>EmployeeSalaryComparisonPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="ErrorPage.aspx.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>

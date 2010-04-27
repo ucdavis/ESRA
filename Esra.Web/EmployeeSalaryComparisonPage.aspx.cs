@@ -16,7 +16,7 @@ using CAESDO.Core.Domain;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class _Default : ApplicationPage
+    public partial class EmployeeSalaryComparisonPage : ApplicationPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
