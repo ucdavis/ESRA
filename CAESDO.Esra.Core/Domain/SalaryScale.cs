@@ -22,12 +22,12 @@ namespace CAESDO.Esra.Core.Domain
             set { _TitleCode = value; }
         }
 
-        private DateTime _EffeciveDate;
+        private DateTime _EffectiveDate;
 
-        public virtual DateTime EffeciveDate
+        public virtual DateTime EffectiveDate
         {
-            get { return _EffeciveDate; }
-            set { _EffeciveDate = value; }
+            get { return _EffectiveDate; }
+            set { _EffectiveDate = value; }
         }
 
         private string _BargainingCode;
