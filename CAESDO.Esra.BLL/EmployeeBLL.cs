@@ -8,7 +8,7 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {
-    public class EmployeeBLL : GenericBLL<Employee, int>
+    public class EmployeeBLL : GenericBLL<Employee, string>
     {
         public static IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
         {
@@ -52,6 +52,47 @@ namespace CAESDO.Esra.BLL
 
         public static void UpdateRecord(Employee record)
         {
+
+            using (var ts = new TransactionScope())
+            {
+                EnsurePersistent(ref record);
+                ts.CommittTransaction();
+            }
+        }
+
+        public static void UpdateRecord(
+            string AdjustedCareerHireDate,
+            string AdjustedApptHireDate,
+            string DepartmentComments,
+            string DeansOfficeComments,
+            string original_ID
+            )
+        {
+            Employee record = GetByID(original_ID);
+
+            // Career Hire Date and Appt Hire Date logic:
+            DateTime? careerHireDate = (String.IsNullOrEmpty(AdjustedCareerHireDate) ? null : (DateTime?)Convert.ToDateTime(AdjustedCareerHireDate));
+            DateTime? apptHireDate = (String.IsNullOrEmpty(AdjustedApptHireDate) ? null : (DateTime?)Convert.ToDateTime(AdjustedApptHireDate));
+            
+            if (careerHireDate == null && apptHireDate == null)
+                record.DatesHaveBeenAdjusted = false;
+            else if (careerHireDate == record.CareerHireDate && apptHireDate == record.ApptHireDate)
+                record.DatesHaveBeenAdjusted = false;
+            else if ((careerHireDate == null && apptHireDate == record.ApptHireDate) ||
+                (apptHireDate == null && careerHireDate == record.CareerHireDate))
+                record.DatesHaveBeenAdjusted = false;
+            else
+                record.DatesHaveBeenAdjusted = true;
+
+            if (record.CareerHireDate != careerHireDate)
+                record.CareerHireDate = careerHireDate;
+
+            if (record.ApptHireDate != apptHireDate)
+                record.ApptHireDate = apptHireDate;
+
+            record.DepartmentComments = (String.IsNullOrEmpty(DepartmentComments) ? null : DepartmentComments);
+            record.DeansOfficeComments = (String.IsNullOrEmpty(DeansOfficeComments) ? null : DeansOfficeComments);
+
             using (var ts = new TransactionScope())
             {
                 EnsurePersistent(ref record);
