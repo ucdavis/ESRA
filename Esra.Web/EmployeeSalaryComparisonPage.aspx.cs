@@ -453,13 +453,24 @@ namespace CAESDO.Esra.Web
             gvESRSearchParams.DataBind();
         }
 
+        //protected Title GetAllNamedTitle()
+        //{
+        //    return new Title()
+        //    {
+        //        TitleCode = "Any",
+        //        PayrollTitle = "Any",
+        //        BargainingCode = "Any",
+        //        SalaryScales =
+        //            new List<SalaryScale>() { new SalaryScale() { SalaryGrade = "Any" } }
+        //    };
+        //}
+
         protected Title GetAllNamedTitle()
         {
             return new Title()
             {
                 TitleCode = "Any",
                 PayrollTitle = "Any",
-                BargainingCode = "Any",
                 SalaryScales =
                     new List<SalaryScale>() { new SalaryScale() { SalaryGrade="Any" } }
             };

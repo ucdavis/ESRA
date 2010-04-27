@@ -177,10 +177,17 @@ namespace CAESDO.Esra.BLL
         {
             bool retval = false;
 
-            if (record != null)
+            try
             {
-                if (GetRecord(record) != null)
-                    retval = true;
+                if (record != null)
+                {
+                    if (GetRecord(record) != null)
+                        retval = true;
+                }
+            }
+            catch (NHibernate.ObjectNotFoundException)
+            {
+                retval = false;
             }
 
             return retval;

@@ -36,7 +36,7 @@ namespace CAESDO.Esra.BLL
                     {
                         SalaryGradeQuartiles sgq = record.SalaryGradeQuartiles;
 
-                        if (sgq != null)
+                        if (sgq != null && SalaryGradeQuartilesBLL.Exists(sgq))
                         {
                             record.SalaryGradeQuartiles = null;
 
@@ -182,7 +182,18 @@ namespace CAESDO.Esra.BLL
             if ((record.LaborMarketWAS == 0 && _record.LaborMarketWAS > 0) || (record.LaborMarketWAS > 0)) { _record.LaborMarketWAS = Convert.ToDouble(record.LaborMarketWAS); }
             if ((record.LaborMarketMidAnnual == 0 && _record.LaborMarketMidAnnual > 0) || (record.LaborMarketMidAnnual > 0)) { _record.LaborMarketMidAnnual = Convert.ToDouble(record.LaborMarketMidAnnual); }
             if ((record.CampusAverageAnnual == 0 && _record.CampusAverageAnnual > 0) || (record.CampusAverageAnnual > 0)) { _record.CampusAverageAnnual = Convert.ToDouble(record.CampusAverageAnnual); }
-                 
+            
+            // New logic added 2009-01-07 by KJT: Also update the SalaryGrade and BargainingCode (if changed):
+            if ((String.IsNullOrEmpty(record.SalaryGrade) == false) && (record.SalaryGrade.Equals(_record.SalaryGrade) == false))
+            {
+                _record.SalaryGrade = record.SalaryGrade;
+            }
+            if ((String.IsNullOrEmpty(record.BargainingCode) == false) && (record.BargainingCode.Equals(_record.BargainingCode) == false))
+            {
+                _record.BargainingCode = record.BargainingCode;
+            }
+            // end new logic.
+
             using (var ts = new TransactionScope())
             {
                 EnsurePersistent(ref _record);

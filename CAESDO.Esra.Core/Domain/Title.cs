@@ -39,21 +39,21 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryScales = value; }
         }
 
-        private string _SalaryGrade;
+        //private string _SalaryGrade;
 
-        public virtual string SalaryGrade
-        {
-            get { return _SalaryGrade; }
-            set { _SalaryGrade = value; }
-        }
+        //public virtual string SalaryGrade
+        //{
+        //    get { return _SalaryGrade; }
+        //    set { _SalaryGrade = value; }
+        //}
 
-        private string _BargainingCode;
-        // i.e. 99, TX, etc.
-        public virtual string BargainingCode
-        {
-            get { return _BargainingCode; }
-            set { _BargainingCode = value; }
-        }
+        //private string _BargainingCode;
+        //// i.e. 99, TX, etc.
+        //public virtual string BargainingCode
+        //{
+        //    get { return _BargainingCode; }
+        //    set { _BargainingCode = value; }
+        //}
 
         public virtual string TitleCode_Name
         {

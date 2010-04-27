@@ -8,8 +8,8 @@
 		<property name="TitleCode" column="TitleCode" />
 		<property name="PayrollTitle" column="PayrollTitle" />
 		<property name="AbbreviatedName" column="AbbreviatedName" />
-		<property name="SalaryGrade" column="SalaryGrade" />
-		<property name="BargainingCode" column="BargainingCode" />
+		<!--<property name="SalaryGrade" column="SalaryGrade" />
+		<property name="BargainingCode" column="BargainingCode" />-->
 
 		<bag name="SalaryScales" table="SalaryScale" inverse="true" cascade="none">
 			<key>

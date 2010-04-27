@@ -8,6 +8,7 @@
             Text="Title Code Averages Maintenance" Font-Bold="True" 
             Font-Size="Larger"></asp:Label></center>
  <br />
+ </div>
     <hr />
     <br />
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
@@ -41,9 +42,8 @@
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
         OnRowDataBound="gvSalaryScale_OnRowDataBound" 
-        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title" 
-                onrowupdated="gvSalaryScale_RowUpdated" 
-                onrowediting="gvSalaryScale_RowEditing" >
+        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="TitleCode, EffectiveDate" 
+                onrowupdating="gvSalaryScale_RowUpdating"  >
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
@@ -70,6 +70,10 @@
                  </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Title" SortExpression="Title.PayrollTitle">
+                <EditItemTemplate>
+                    <asp:Label ID="lblEditTitle" runat="server" 
+                        Text='<%# Bind("Title.PayrollTitle") %>'></asp:Label>
+                </EditItemTemplate>
                 <ItemTemplate>
                     <asp:Label ID="lblTitle" runat="server" 
                         Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
@@ -87,9 +91,28 @@
             </asp:TemplateField>
             <%-- <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
                 SortExpression="TitleCode" ReadOnly="true"/>--%>
+                <%--<asp:TemplateField HeaderText="Salary Grade" SortExpression="SalaryGrade">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="tbSalaryGrade" runat="server" Text='<%# Bind("SalaryGrade") %>' Enabled='<%# !CAESDO.Esra.BLL.SalaryScaleBLL.HasSalaryReviewAnalysis((CAESDO.Esra.Core.Domain.SalaryScale)Container.DataItem) %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblSalaryGrade" runat="server" Text='<%# Bind("SalaryGrade") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>--%>
+                
                 <asp:BoundField DataField="SalaryGrade" HeaderText="Salary Grade" 
                 SortExpression="SalaryGrade"  ReadOnly="true"/>
-            <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
+                
+                <%--<asp:TemplateField HeaderText="Bargaining Code" SortExpression="BargainingCode">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="tbBargainingCode" runat="server" Text='<%# Bind("BargainingCode") %>' Enabled='<%# !CAESDO.Esra.BLL.SalaryScaleBLL.HasSalaryReviewAnalysis((CAESDO.Esra.Core.Domain.SalaryScale)Container.DataItem) %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="lblBargainingCode" runat="server" Text='<%# Bind("BargainingCode") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>--%>
+                
+                <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" 
                 SortExpression="BargainingCode"  ReadOnly="true"/>
                 
                  <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps">
@@ -178,11 +201,23 @@
                             ErrorMessage="Effective Date" Operator="DataTypeCheck" Text="Bad Date Format!" 
                             Type="Date"></asp:CompareValidator>
                     </td>
-                    <td>
+                    <%--<td>
                         <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
-                    </td>
+                    </td>--%>
                     <td>
+                        <asp:TextBox ID="tbSalaryGrade" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="SalaryGradeRequiredFieldValidator" runat="server" 
+                            ControlToValidate="tbSalaryGrade" Display="Dynamic" 
+                            ErrorMessage="Salary Grade" InitialValue="" Text="Salary Grade is Required!"></asp:RequiredFieldValidator>
+                    </td>
+                    <%--<td>
                         <asp:Label ID="lblBargainingCode" runat="server" Text=""></asp:Label>
+                    </td>--%>
+                    <td>
+                        <asp:TextBox ID="tbBargainingCode" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="BargainingCodeRequiredFieldValidator" runat="server" 
+                            ControlToValidate="tbBargainingCode" Display="Dynamic" 
+                            ErrorMessage="Bargaining Code" InitialValue="" Text="Bargaining Code is Required!"></asp:RequiredFieldValidator>
                     </td>
                     <td>
                         <asp:TextBox ID="tbLaborMarketWAS" runat="server"></asp:TextBox>

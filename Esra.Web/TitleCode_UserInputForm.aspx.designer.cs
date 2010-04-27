@@ -149,22 +149,40 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.CompareValidator compareValEffectiveDate;
         
         /// <summary>
-        /// lblSalaryGrade control.
+        /// tbSalaryGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSalaryGrade;
+        protected global::System.Web.UI.WebControls.TextBox tbSalaryGrade;
         
         /// <summary>
-        /// lblBargainingCode control.
+        /// SalaryGradeRequiredFieldValidator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBargainingCode;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator SalaryGradeRequiredFieldValidator;
+        
+        /// <summary>
+        /// tbBargainingCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbBargainingCode;
+        
+        /// <summary>
+        /// BargainingCodeRequiredFieldValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator BargainingCodeRequiredFieldValidator;
         
         /// <summary>
         /// tbLaborMarketWAS control.
