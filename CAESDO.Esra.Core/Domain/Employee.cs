@@ -6,88 +6,87 @@ using System.Globalization;
 namespace CAESDO.Esra.Core.Domain
 {
     [Serializable]
-    public class Employee : UCDEmployee, IComparable<UCDEmployee>
+    public class Employee : UCDEmployee, IComparable<Employee>
     {
-        /* Shouldn't need theses here, since I moved the code to the base class. */
-        //// Beginning of nested classes.
+        // Beginning of nested classes.
 
-        //// Nested class to do ascending sort on Home Department property.
-        //protected class sortHomeDepartmentAscendingHelper : IComparer<UCDEmployee>
-        //{
-        //    #region IComparer<UCDEmployee> Members
+        // Nested class to do ascending sort on Home Department property.
+        protected class sortHomeDepartmentAscendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
 
-        //    public int Compare(UCDEmployee x, UCDEmployee y)
-        //    {
-        //        /*
-        //        * 
-        //        * If the employees are in the same department return the employeeOrder.
-        //        * 
-        //        * If the employees are in different departments return the deptOrder.
-        //        * 
-        //        * */
+            public int Compare(Employee x, Employee y)
+            {
+                /*
+                * 
+                * If the employees are in the same department return the employeeOrder.
+                * 
+                * If the employees are in different departments return the deptOrder.
+                * 
+                * */
 
-        //        int deptOrder = String.Compare(x.HomeDepartment.Name, y.HomeDepartment.Name);
-        //        if (deptOrder == 0)
-        //            return String.Compare(x.FullName, y.FullName);
-        //        else
-        //            return deptOrder;  
-        //    }
+                int deptOrder = String.Compare(x.HomeDepartment.Name, y.HomeDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
 
-        //    #endregion
-        //}
+            #endregion
+        }
 
-        //// Nested class to do descending sort on on Home Department property.
-        //protected class sortHomeDepartmentDescendingHelper : IComparer<UCDEmployee>
-        //{
-        //    #region IComparer<UCDEmployee> Members
+        // Nested class to do descending sort on on Home Department property.
+        protected class sortHomeDepartmentDescendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
 
-        //    public int Compare(UCDEmployee x, UCDEmployee y)
-        //    {
-        //        int deptOrder = String.Compare(y.HomeDepartment.Name, x.HomeDepartment.Name);
-        //        if (deptOrder == 0)
-        //            return String.Compare(x.FullName, y.FullName);
-        //        else
-        //            return deptOrder;  
-        //    }
+            public int Compare(Employee x, Employee y)
+            {
+                int deptOrder = String.Compare(y.HomeDepartment.Name, x.HomeDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
 
-        //    #endregion
-        //}
+            #endregion
+        }
 
-        //// Nested class to do ascending sort on on Title.TitleCode property.
-        //protected class sortTitleAscendingHelper : IComparer<UCDEmployee>
-        //{
-        //    #region IComparer<UCDEmployee> Members
+        // Nested class to do ascending sort on on Title.TitleCode property.
+        protected class sortTitleAscendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
 
-        //    public int Compare(UCDEmployee x, UCDEmployee y)
-        //    {
-        //        int titleOrder = String.Compare(x.Title.TitleCode, y.Title.TitleCode);
-        //        if (titleOrder == 0)
-        //            return String.Compare(x.FullName, y.FullName);
-        //        else
-        //            return titleOrder;
-        //    }
+            public int Compare(Employee x, Employee y)
+            {
+                int titleOrder = String.Compare(x.Title.TitleCode, y.Title.TitleCode);
+                if (titleOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return titleOrder;
+            }
 
-        //    #endregion
-        //}
+            #endregion
+        }
 
-        //// Nested class to do descending sort on on Title.TitleCode property.
-        //protected class sortTitleDescendingHelper : IComparer<UCDEmployee>
-        //{
-        //    #region IComparer<UCDEmployee> Members
+        // Nested class to do descending sort on on Title.TitleCode property.
+        protected class sortTitleDescendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
 
-        //    public int Compare(UCDEmployee x, UCDEmployee y)
-        //    {
-        //        int titleOrder = String.Compare(y.Title.TitleCode, x.Title.TitleCode);
-        //        if (titleOrder == 0)
-        //            return String.Compare(x.FullName, y.FullName);
-        //        else
-        //            return titleOrder;
-        //    }
+            public int Compare(Employee x, Employee y)
+            {
+                int titleOrder = String.Compare(y.Title.TitleCode, x.Title.TitleCode);
+                if (titleOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return titleOrder;
+            }
 
-        //    #endregion
-        //}
+            #endregion
+        }
 
-        //// End of nested classes.
+        // End of nested classes.
 
         protected bool _CareerDateHasBeenAdjusted;
         // Not a database field.
@@ -227,25 +226,25 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         // Method to return IComparer object for sort helper.
-        new public static IComparer<Employee> sortHomeDepartmentAscending()
+        public static IComparer<Employee> sortHomeDepartmentAscending()
         {
             return (IComparer<Employee>)new sortHomeDepartmentAscendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        new public static IComparer<Employee> sortHomeDepartmentDescending()
+        public static IComparer<Employee> sortHomeDepartmentDescending()
         {
             return (IComparer<Employee>)new sortHomeDepartmentDescendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        new public static IComparer<Employee> sortTitleAscending()
+        public static IComparer<Employee> sortTitleAscending()
         {
             return (IComparer<Employee>)new sortTitleAscendingHelper();
         }
 
         // Method to return IComparer object for sort helper.
-        new public static IComparer<Employee> sortTitleDescending()
+        public static IComparer<Employee> sortTitleDescending()
         {
             return (IComparer<Employee>)new sortTitleDescendingHelper();
         }
