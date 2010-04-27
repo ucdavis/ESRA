@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using CAESArch.BLL;
 using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
@@ -16,7 +17,7 @@ namespace CAESDO.Esra.BLL
             {  
                 Remove(GetByID(id));
                 
-                ts.CommittTransaction();
+                ts.CommitTransaction();
             }
         }
 
@@ -26,7 +27,7 @@ namespace CAESDO.Esra.BLL
             {
                 Remove(GetByProperty("ReferenceNumber", referenceNumber));
 
-                ts.CommittTransaction();
+                ts.CommitTransaction();
             }
         }
 
@@ -246,7 +247,7 @@ namespace CAESDO.Esra.BLL
                     }
                 }
                 
-                EnsurePersistent(ref record);
+                EnsurePersistent(record);
 
                 if (record.Employee.CorrespondingAnalysisID != record.ID)
                 {
@@ -258,7 +259,7 @@ namespace CAESDO.Esra.BLL
                     record.ReferenceNumber = String.Format("{0:yyyyMMdd}", DateTime.Today) + record.ID;
                 }
 
-                ts.CommittTransaction();
+                ts.CommitTransaction();
             }
         }
     }

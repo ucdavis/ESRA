@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using CAESArch.BLL;
 using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
@@ -56,7 +57,7 @@ namespace CAESDO.Esra.BLL
                         }
 
                         Remove(record);
-                        ts.CommittTransaction();
+                        ts.CommitTransaction();
                         retval = true;
                     }
                 }
@@ -201,8 +202,8 @@ namespace CAESDO.Esra.BLL
 
             using (var ts = new TransactionScope())
             {
-                EnsurePersistent(ref _record);
-                ts.CommittTransaction();
+                EnsurePersistent(_record);
+                ts.CommitTransaction();
             }
         }
 
@@ -210,7 +211,7 @@ namespace CAESDO.Esra.BLL
         {
             using (var ts = new TransactionScope())
             {
-                EnsurePersistent(ref record);
+                EnsurePersistent(record);
 
                 // Logic to update the SalaryGradeQuartiles (if present):
                 /*
@@ -222,7 +223,7 @@ namespace CAESDO.Esra.BLL
                  * */
                 //-------------------------------------------------------
 
-                ts.CommittTransaction();
+                ts.CommitTransaction();
             }
         }
 

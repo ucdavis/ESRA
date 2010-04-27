@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using CAESArch.BLL;
 using CAESDO.Esra.Core.DataInterfaces;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.Data;
@@ -34,7 +35,7 @@ namespace CAESDO.Esra.BLL
                     using (var ts = new TransactionScope())
                     {
                         Remove(record);
-                        ts.CommittTransaction();
+                        ts.CommitTransaction();
                         retval = true;
                     }
                 }
@@ -46,8 +47,8 @@ namespace CAESDO.Esra.BLL
         {
             using (var ts = new TransactionScope())
             {
-                EnsurePersistent(ref record);
-                ts.CommittTransaction();
+                EnsurePersistent(record);
+                ts.CommitTransaction();
             }
         }
 
@@ -78,8 +79,8 @@ namespace CAESDO.Esra.BLL
 
                 using (var ts = new TransactionScope())
                 {
-                    EnsurePersistent(ref example);
-                    ts.CommittTransaction();
+                    EnsurePersistent(example);
+                    ts.CommitTransaction();
                 }
             }
         }
