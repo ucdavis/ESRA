@@ -101,7 +101,7 @@ namespace CAESDO.Esra.Web
 
         protected void lbtnBack_Click(object sender, EventArgs e)
         {
-            Response.Redirect(buildQueryString(Request.QueryString["ReturnPage"]));
+            Response.Redirect(buildQueryString("~/SalaryReviewAnalysisPage.aspx"));
         }
 
         protected void lbtnEdit_Click(object sender, EventArgs e)

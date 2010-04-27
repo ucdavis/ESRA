@@ -23,24 +23,6 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Label lblPageTitle;
         
         /// <summary>
-        /// odsEmployee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsEmployee;
-        
-        /// <summary>
-        /// odsCreatedBy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsCreatedBy;
-        
-        /// <summary>
         /// MultiView1 control.
         /// </summary>
         /// <remarks>
@@ -101,7 +83,7 @@ namespace CAESDO.Esra.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlProposedTitle;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlProposedTitle;
         
         /// <summary>
         /// lblCurrentTitleCodeLabel control.
