@@ -85,10 +85,30 @@ namespace CAESDO.Esra.BLL
                 record.DatesHaveBeenAdjusted = true;
 
             if (record.CareerHireDate != careerHireDate)
+            {
                 record.CareerHireDate = careerHireDate;
+                if (careerHireDate == null)
+                {
+                    record.YearsOfService = (DateTime.Today - record.HireDate).TotalDays / 365.25;
+                }
+                else
+                {
+                    record.YearsOfService = (DateTime.Today - (DateTime)careerHireDate).TotalDays / 365.25;
+                }
+            }
 
             if (record.ApptHireDate != apptHireDate)
+            {
                 record.ApptHireDate = apptHireDate;
+                if (apptHireDate == null)
+                {
+                    record.TimeInTitle = (DateTime.Today - record.BeginDate).TotalDays / 365.25;
+                }
+                else
+                {
+                    record.TimeInTitle = (DateTime.Today - (DateTime)apptHireDate).TotalDays / 365.25;
+                }
+            }
 
             record.DepartmentComments = (String.IsNullOrEmpty(DepartmentComments) ? null : DepartmentComments);
             record.DeansOfficeComments = (String.IsNullOrEmpty(DeansOfficeComments) ? null : DeansOfficeComments);
