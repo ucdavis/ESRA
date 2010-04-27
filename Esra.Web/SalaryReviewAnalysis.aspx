@@ -146,6 +146,14 @@
                             SortExpression="DeansOfficeComments" />
                     </Columns>
                 </asp:GridView>
+                <br />
+                <hr />
+                <br />
+                &nbsp;<asp:DropDownList ID="ddlNewSAREmployee" runat="server" AppendDataBoundItems="True" 
+                                DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID" AutoPostBack="true">
+                                <asp:ListItem Value="0">-- Select an Employee to Create a New Salary Review Analysis --</asp:ListItem>
+                            </asp:DropDownList><%--&nbsp;<asp:Button ID="btnCreateNewSalaryReviewAnalysis" runat="server" Text="Create New Salary Review Analysis" OnClick="btnCreateNewSalaryReviewAnalysis_Click"/>--%>
+                <%--<asp:LinkButton ID="lbtnCreateNewSalaryReviewAnalysis" runat="server" CssClass="buttons"><img alt="Create New SRA" class="new_button" src="images/common/120px-Document_new_svg.png"/></asp:LinkButton>--%>
             </asp:View>
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
                 <table style="width: 100%;">

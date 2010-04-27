@@ -48,5 +48,10 @@ namespace CAESDO.Esra.Web
             gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetByReferenceNumber(ddlReferenceNumber.SelectedValue);
             gvSalaryReviewAnalysis.DataBind();
         }
+
+        protected void btnCreateNewSalaryReviewAnalysis_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
