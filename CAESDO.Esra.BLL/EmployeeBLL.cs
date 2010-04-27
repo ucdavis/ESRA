@@ -21,6 +21,53 @@ namespace CAESDO.Esra.BLL
             return GetEmployees("FullName", true, null, null, new string []{ user.HomeDepartment.ID, user.WorkDepartment.ID });
         }
 
+        public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
+        {
+            if (isDepartmentUser && String.IsNullOrEmpty(propertyName) == false && propertyName.Equals("FullName"))
+            {
+                propertyName = "HomeDepartment";  // Sort by Home department
+            }
+            IList<Employee> employees = GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
+            List<Employee> retval = null;
+            if (isDepartmentUser)
+            {
+                List<Employee> nullList = new List<Employee>();
+                retval = new List<Employee>();
+                UCDEmployee user = GetByProperty("EmployeeID", userID);
+
+                foreach (Employee employee in employees)
+                {
+                    if (employee.HomeDepartment.Equals(user.HomeDepartment) == false && employee.WorkDepartment.Equals(user.HomeDepartment) == false)
+                    {
+                        // blank out the username, department and comments:
+                        employee.HomeDepartment = null;
+                        employee.FullName = null;
+                        employee.DeansOfficeComments = null;
+                        employee.DepartmentComments = null;
+                        nullList.Add(employee);
+                    }
+                    else
+                    {
+                        retval.Add(employee);
+                    }
+                }
+                if (propertyName.Equals("FullName") || propertyName.Equals("HomeDepartment"))
+                {
+                    retval.Sort();
+                    if (!ascending)
+                    {
+                      retval.Reverse();
+                    }
+                    retval.AddRange(nullList);
+                }
+            }
+            else
+            {
+                retval = employees as List<Employee>;
+            }
+            return retval;
+        }
+
         public static IList<Employee> GetByDepartmentID(string departmentID, string propertyName, bool ascending)
         {
             IList<Employee> retval = null;

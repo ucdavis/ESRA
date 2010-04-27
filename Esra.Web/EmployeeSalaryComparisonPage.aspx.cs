@@ -198,6 +198,7 @@ namespace CAESDO.Esra.Web
 
         protected void lbxDepartments_ClearSelectedValues()
         {
+            
             if (IsDepartmentUser())
             {
                 AddUserDepartmentsToSession();
@@ -207,6 +208,10 @@ namespace CAESDO.Esra.Web
                 Session.Add("selectedDepartmentStrings", new string[] { "0" });
                 Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
             }
+
+            Session.Add("selectedDepartmentStrings", new string[] { "0" });
+            Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
+
             lbxDepartments.SelectedIndex = -1;
 
         }
@@ -276,8 +281,12 @@ namespace CAESDO.Esra.Web
             ESRSearchParameters sp = new ESRSearchParameters()
             {
                 SearchTitles = new List<Title>() { GetAllNamedTitle() },
-                SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() } ),
+                SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() }),
                 SearchEmployee = GetAllNamedEmployee()
+
+                //SearchTitles = new List<Title>() { GetAllNamedTitle() },
+                //SearchDepartments = new List<Department>() { GetAllNamedDepartment() } ,
+                //SearchEmployee = GetAllNamedEmployee()
             };
             List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
             esParams.Add(sp);
@@ -412,7 +421,7 @@ namespace CAESDO.Esra.Web
         protected void lbxDepartments_Init(object sender, EventArgs e)
         {
             lbxDepartments.DataSource = odsDepartments;
-
+            
             if (IsDepartmentUser())
             {
                 lbxDepartments.DataSource = odsDepartmentUserDepartments;

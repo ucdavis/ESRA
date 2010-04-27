@@ -293,7 +293,18 @@ document.write(month+"/"+today+"/"+year)
                     <HeaderStyle cssclass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
-                        <asp:CommandField ShowEditButton="True" />
+                        <asp:TemplateField ShowHeader="False">
+                            <EditItemTemplate>
+                                <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" 
+                                    CommandName="Update" Text="Update"></asp:LinkButton>
+                                &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" 
+                                    CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
+                                    CommandName="Edit" Text="Edit" Visible='<%# (String.IsNullOrEmpty(Eval("FullName") as String) ? false : true) %>'></asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
   
@@ -424,7 +435,7 @@ document.write(month+"/"+today+"/"+year)
 &nbsp;<asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
-            SelectMethod="GetEmployees" 
+            SelectMethod="GetAllEmployeesForUser" 
             UpdateMethod="UpdateRecord">
             <UpdateParameters>
                 <asp:Parameter Name="AdjustedCareerHireDate" Type="String" />
@@ -434,6 +445,10 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter Name="original_ID" Type="String" />
             </UpdateParameters>
             <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                <asp:Parameter DefaultValue="true" Name="isDepartmentUser" 
+                    Type="Boolean" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
                 <asp:SessionParameter DefaultValue="0" Name="titleCodes" 

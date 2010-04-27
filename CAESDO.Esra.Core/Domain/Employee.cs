@@ -127,7 +127,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual int CompareTo(Employee item)
         {
-            return this.FullName.CompareTo(item.FullName);
+            return String.Compare(this.FullName, item.FullName);
         }
 
         public virtual bool Equals(Employee other)
