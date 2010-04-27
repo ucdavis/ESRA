@@ -22,8 +22,17 @@ namespace CAESDO.Esra.Web
                 if (Session["Message"] != null)
                 {
                     this.lbl_Message.Text = Session["Message"].ToString();
+                    this.lbl_Message.Visible = true;
                     Session["Message"] = null;
                 }
+                else
+                {
+                    this.lbl_Message.Visible = false;
+                }
+            }
+            else
+            {
+                this.lbl_Message.Visible = false;
             }
         }
     }

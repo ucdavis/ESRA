@@ -123,7 +123,7 @@
                                 <asp:LinkButton ID="lbtnSelect" runat="server" CausesValidation="False" 
                         CommandName="Select" Text="Select" ToolTip="Select" CssClass="buttons"></asp:LinkButton>
                     &nbsp;<asp:LinkButton ID="lbtnDelete" runat="server" CausesValidation="False" 
-                        CommandName="Delete" Text="Delete" ToolTip="Delete" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                        CommandName="Delete" Text="Delete" ToolTip="Delete" CssClass="buttons" OnClientClick="return confirm('Are you sure you want to delete this analysis?');"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Reference Number" SortExpression="ReferenceNumber">

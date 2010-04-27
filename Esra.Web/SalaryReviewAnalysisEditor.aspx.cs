@@ -189,6 +189,7 @@ namespace CAESDO.Esra.Web
                 {
                     ScenarioNumber = 1,
                     SelectionType = SelectionTypeBLL.GetByType(SelectionType.NONE).Type,
+                    SalaryAmount = (double)Session["Employee.PayRate"],
                     Approved = false
                 });
             }
@@ -413,8 +414,7 @@ namespace CAESDO.Esra.Web
 
         protected void btnSubmitSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
-            // Let's handle saving an existing one first.  
-            // If it's an existing, the 
+            string message = MESSAGE_RECORD_SAVED_SUCCESS;
 
             List<Scenario> scenarios = new List<Scenario>();
             foreach (RepeaterItem item in rptScenarios.Items)
@@ -440,7 +440,8 @@ namespace CAESDO.Esra.Web
                 if (sra == null)
                 {
                     User user = UserBLL.GetCurrent();
-                    sra = new SalaryReviewAnalysis() {
+                    sra = new SalaryReviewAnalysis()
+                    {
                         ReferenceNumber = ReferenceNum,
                         DateInitiated = DateTime.Today,
                         InitiatedByReviewerName = user.FullName,
@@ -449,6 +450,11 @@ namespace CAESDO.Esra.Web
                         Employee = EmployeeBLL.GetByID(EmployeeID),
                         SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(Session[KEY_TITLE_CODE] as string, DateTime.Today)
                     };
+                }
+                else
+                {
+                    // Record exists --> Update
+                    message = MESSAGE_RECORD_UPDATED_SUCCESS;
                 }
             }
             else
@@ -482,9 +488,10 @@ namespace CAESDO.Esra.Web
             gvTitle.DataBind();
             gvEmployeeTitle.DataBind();
 
-            // TODO: Figure where to redirect the user to upon a successful save.
-            // Probably back to the vSalaryReviewAnalysis of the SalaryReviewAnalysisPage.
-            // Must make sure the appropriate session variables and/or query string parameters are set!
+            Session["Message"] = message;
+
+            string redirectURL = "~/SalaryReviewAnalysisPage.aspx?" + KEY_REFERENCE_NUM + "=" + ReferenceNum;
+            Response.Redirect(redirectURL);
         }
 
         protected void tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged(object sender, EventArgs e)

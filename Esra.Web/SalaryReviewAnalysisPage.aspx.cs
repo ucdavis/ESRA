@@ -51,6 +51,7 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
                 Session.Remove(KEY_TITLE_ID);
+                Session.Remove(KEY_REFERENCE_NUM);
                 tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
             }
         }
@@ -59,24 +60,24 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
+                MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
                     SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                    int id = sra.ID;
-                    Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-                    Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
-                    Session.Add(KEY_TITLE_ID, sra.Title.ID);
+                    if (sra != null)
+                    {
+                        int id = sra.ID;
+                        Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
+                        Session.Add(KEY_EMPLOYEE_ID, sra.Employee.ID);
+                        Session.Add(KEY_TITLE_ID, sra.Title.ID);
 
-                    List<SalaryScale> salaryScales = new List<SalaryScale>();
-                    salaryScales.Add(sra.SalaryScale);
-                    gvSalaryScale.DataSource = salaryScales;
-                    gvSalaryScale.DataBind();
-                    
-                    MultiView1.SetActiveView(vSalaryReviewAnalysis);
-                }
-                else
-                {
-                    MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
+                        List<SalaryScale> salaryScales = new List<SalaryScale>();
+                        salaryScales.Add(sra.SalaryScale);
+                        gvSalaryScale.DataSource = salaryScales;
+                        gvSalaryScale.DataBind();
+
+                        MultiView1.SetActiveView(vSalaryReviewAnalysis);
+                    }
                 }
             }
         }
@@ -157,6 +158,7 @@ namespace CAESDO.Esra.Web
             Session.Remove(KEY_SALARY_REVIEW_ANALYSIS_ID);
             Session.Remove(KEY_EMPLOYEE_ID);
             Session.Remove(KEY_TITLE_ID);
+            Session.Remove(KEY_REFERENCE_NUM);
 
             MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);
         }
@@ -171,14 +173,20 @@ namespace CAESDO.Esra.Web
 
         protected void gvSalaryReviewAnalysis_OnRowDeleting(object sender, EventArgs e)
         {
-            //TODO: Add delete logic here.
             GridView gv = sender as GridView;
             GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
             Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
           
             SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
 
-            // TODO: Add a message that says "Deleted" or whatever.
+            SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_DELETED_SUCCESS);
+
+            ListItem item = ddlReferenceNumber.Items[0];
+            ddlReferenceNumber.Items.Clear();
+            ddlReferenceNumber.Items.Add(item);
+            ddlReferenceNumber.DataBind();
+
+            gvSalaryReviewAnalysis.DataBind();
         }
     }
 }

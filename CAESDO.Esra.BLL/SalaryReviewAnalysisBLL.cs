@@ -43,7 +43,14 @@ namespace CAESDO.Esra.BLL
             }
             else
             {
-                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(employeeID, reviewerLogin, creationDate, propertyName, ascending);
+                string reviewerFullName = reviewerLogin;
+                if (String.IsNullOrEmpty(reviewerLogin) == false)
+                {
+                    User user = UserBLL.GetByLogin(reviewerLogin);
+                    reviewerFullName = user.FullName;
+                }
+
+                retval = daoFactory.GetSalaryReviewAnalysisDao().GetAll(employeeID, reviewerFullName, creationDate, propertyName, ascending);
             }
             return retval;
         }

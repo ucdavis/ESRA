@@ -286,7 +286,7 @@ namespace CAESDO.Esra.Data
                     ((String.IsNullOrEmpty(reviewerLogin) || reviewerLogin.Equals("0")) &&
                     ((String.IsNullOrEmpty(creationDate) || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))))
                 {
-                    retval = GetAll(propertyName, (bool)ascending);
+                    retval = GetAllSalaryReviewAnalysis(propertyName, (bool)ascending);
                 }
                 else
                 {
@@ -296,7 +296,6 @@ namespace CAESDO.Esra.Data
 
                     if (String.IsNullOrEmpty(employeeID) == false && employeeID.Equals("0") == false)
                     {
-
                         conjunction.Add(Expression.Eq("Employee.id", employeeID));
                     }
                     if (String.IsNullOrEmpty(reviewerLogin) == false && reviewerLogin.Equals("0") == false)

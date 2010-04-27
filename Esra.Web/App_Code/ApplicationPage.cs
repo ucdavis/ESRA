@@ -180,6 +180,25 @@ namespace CAESDO.Esra.Web
             }
         }
 
+        protected void ResetMasterPageLabel(string labelName)
+        {
+            Label lbl = (Label)Page.Master.FindControl(labelName);
+            lbl.Visible = false;
+            lbl.Text = "";
+        }
+
+        protected void SetMasterPageLabel(string labelName, string message)
+        {
+            SetMasterPageLabel(labelName, message, true);
+        }
+
+        protected void SetMasterPageLabel(string labelName, string message, bool visible)
+        {
+            Label lbl = (Label)Page.Master.FindControl(labelName);
+            lbl.Visible = visible;
+            lbl.Text = message;
+        }
+
         protected bool IsDemoMode()
         {
             bool retval = false;
