@@ -117,7 +117,7 @@ namespace CAESDO.Esra.Web
             
             System.Web.SessionState.HttpSessionState Session = HttpContext.Current.Session;
             string userId = Session[KEY_CURRENT_USER_ID] as string;
-            UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);;
+            UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);
             bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
             string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
             bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));

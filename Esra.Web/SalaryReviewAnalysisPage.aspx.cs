@@ -76,25 +76,33 @@ namespace CAESDO.Esra.Web
                     SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
                     if (sra != null)
                     {
-                        int id = sra.ID;
-                        Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
-                        ////Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
-                        Session.Add(KEY_TITLE_ID, sra.Title.ID);
-
-                        List<SalaryScale> salaryScales = new List<SalaryScale>();
-                        salaryScales.Add(sra.SalaryScale);
-                        gvSalaryScale.DataSource = salaryScales;
-                        gvSalaryScale.DataBind();
-
-                        // new logic for setting the Proposed title as applicable:
-
-                        if (sra.IsReclass)
+                        if (!IsDepartmentUser() || 
+                            (IsDepartmentUser()&& SRAEmployeeBLL.IsDepartmentEmployee(user, sra.Employee)))
                         {
-                            pnlProposedTitle.Visible = true;
-                            lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
-                        }
+                            int id = sra.ID;
+                            Session.Add(KEY_SALARY_REVIEW_ANALYSIS_ID, id);
+                            ////Session.Add(KEY_EMPLOYEE_ID, sra.Employee.PkEmployee);
+                            Session.Add(KEY_TITLE_ID, sra.Title.ID);
 
-                        MultiView1.SetActiveView(vSalaryReviewAnalysis);
+                            List<SalaryScale> salaryScales = new List<SalaryScale>();
+                            salaryScales.Add(sra.SalaryScale);
+                            gvSalaryScale.DataSource = salaryScales;
+                            gvSalaryScale.DataBind();
+
+                            // new logic for setting the Proposed title as applicable:
+
+                            if (sra.IsReclass)
+                            {
+                                pnlProposedTitle.Visible = true;
+                                lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
+                            }
+                        
+                            MultiView1.SetActiveView(vSalaryReviewAnalysis);
+                        }
+                        else
+                        {
+                            MultiView1.SetActiveView(vNotAuthorized);
+                        }
                     }
                 }
                 else
@@ -233,6 +241,7 @@ namespace CAESDO.Esra.Web
 
         protected void lbtnEdit_Click(object sender, EventArgs e)
         {
+            
             if (Session[KEY_REFERENCE_NUM_INDEX] == null)
                 Session.Add(KEY_REFERENCE_NUM_INDEX, (int)ViewState[KEY_REFERENCE_NUM_INDEX]);
             if (Session[KEY_EMPLOYEE_ID_INDEX] == null)

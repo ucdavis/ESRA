@@ -102,6 +102,7 @@ namespace CAESDO.Esra.Web
                 SRAEmployee emp = null;
                 IList<Scenario> scenarios = null;
                 pnlProposedTitle.Visible = false;
+                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
@@ -112,67 +113,80 @@ namespace CAESDO.Esra.Web
                     sra = SalaryReviewAnalysisBLL.GetByProperty(KEY_REFERENCE_NUM, ReferenceNum);
                     if (sra != null)
                     {
-                        emp = sra.Employee;
-                        scenarios = sra.Scenarios;
-                        ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
-                        ViewState.Add(KEY_DEPARTMENT_COMMENTS, sra.DepartmentComments);
-                        
-                        // Code for setting the correct criteria list items:
-                        Criteria = SalaryScaleBLL.GetCriteriaListItems(sra.SalaryScale.TitleCode, sra.SalaryScale.EffectiveDate);
-
-                        rptScenarios_Init(scenarios);
-
-                        //lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
-
-                        lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
-                        if (sra.IsReclass)
+                        if (!IsDepartmentUser() || (IsDepartmentUser() && SRAEmployeeBLL.IsDepartmentEmployee(user, sra.Employee)))
                         {
-                            pnlProposedTitle.Visible = true;
+                            emp = sra.Employee;
+                            scenarios = sra.Scenarios;
+                            ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
+                            ViewState.Add(KEY_DEPARTMENT_COMMENTS, sra.DepartmentComments);
+
+                            // Code for setting the correct criteria list items:
+                            Criteria = SalaryScaleBLL.GetCriteriaListItems(sra.SalaryScale.TitleCode, sra.SalaryScale.EffectiveDate);
+
+                            rptScenarios_Init(scenarios);
+
+                            //lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
+
+                            lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
+                            if (sra.IsReclass)
+                            {
+                                pnlProposedTitle.Visible = true;
+                            }
+
+                            empList.Add(emp);
+                            Employees = empList; // Save the employees list to the ViewState recall later.
+
+                            // if existing analysis, use sra's title:
+                            titleList.Add(sra.Title);
+
+                            Titles = titleList;// Save the Titles list to the ViewState for recall later.
+                            Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
+                            Session.Add(KEY_TITLE_CODE, sra.Title.TitleCode);
+
+                            MultiView1.SetActiveView(vSalaryReviewAnalysis);
                         }
-
-                        empList.Add(emp);
-                        Employees = empList; // Save the employees list to the ViewState recall later.
-
-                        // if existing analysis, use sra's title:
-                        titleList.Add(sra.Title);
-
-                        Titles = titleList;// Save the Titles list to the ViewState for recall later.
-                        Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
-                        Session.Add(KEY_TITLE_CODE, sra.Title.TitleCode);
-
-                        MultiView1.SetActiveView(vSalaryReviewAnalysis);
+                        else
+                        {
+                            MultiView1.SetActiveView(vNotAuthorized);
+                        }
                     }
                 }
                 else if (String.IsNullOrEmpty(EmployeeID) == false )
                 {
-
                     emp = new SRAEmployee(EmployeeBLL.GetByID(EmployeeID));
 
                     if (emp != null)
                     {
-                        empList.Add(emp);
-                        Employees = empList; // Save the employees list to the ViewState recall later.
-
-                        // if new sra, use employee's title initially:
-                        titleList.Add(emp.Title);
-
-                        Titles = titleList;// Save the Titles list to the ViewState for recall later.
-
-                        Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
-                        Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
-
-                        if (emp.Title.SalaryScales == null ||
-                            emp.Title.SalaryScales.Count == 0)
+                        if (!IsDepartmentUser() || (IsDepartmentUser() && SRAEmployeeBLL.IsDepartmentEmployee(user, emp)))
                         {
-                            MultiView1.SetActiveView(vNoSalaryDataAvailable);
+                            empList.Add(emp);
+                            Employees = empList; // Save the employees list to the ViewState recall later.
+
+                            // if new sra, use employee's title initially:
+                            titleList.Add(emp.Title);
+
+                            Titles = titleList;// Save the Titles list to the ViewState for recall later.
+
+                            Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
+                            Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
+
+                            if (emp.Title.SalaryScales == null ||
+                                emp.Title.SalaryScales.Count == 0)
+                            {
+                                MultiView1.SetActiveView(vNoSalaryDataAvailable);
+                            }
+                            else
+                            {
+                                lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
+                                ddlProposedTitleCode.SelectedValue = emp.TitleCode;
+                                lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
+
+                                MultiView1.SetActiveView(vSelectSalaryReviewType);
+                            }
                         }
                         else
                         {
-                            lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
-                            ddlProposedTitleCode.SelectedValue = emp.TitleCode;
-                            lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
-
-                            MultiView1.SetActiveView(vSelectSalaryReviewType);
+                            MultiView1.SetActiveView(vNotAuthorized);
                         }
                     }
                 }

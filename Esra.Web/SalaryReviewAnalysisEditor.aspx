@@ -498,6 +498,17 @@
                 <asp:Button ID="btnCancelSalaryReviewAnalysis1" runat="server" 
                                 OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />--%>
             </asp:View>
+            <asp:View ID="vNotAuthorized" runat="server">
+            <table>
+            <tr><td rowspan="2"><asp:Image ID="imgBackArrow" runat="server" 
+                    AlternateText="back arrow" CssClass="buttons" 
+                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />&nbsp;&nbsp;
+                <asp:Button ID="btnBack" runat="server" 
+                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Back" /></td><td>Error: Employee is 
+                    outside of user&#39;s home or work department.</td></tr>
+            <tr><td>Unable view or perform a Salary Review Analysis on this Individual.</td></tr>
+            </table>
+            </asp:View>
             <asp:View ID="vSelectSalaryReviewType" runat="server">
                 <asp:Label ID="lblOriginalTitleCodeLabel" runat="server" Font-Bold="true">Current Title Code:</asp:Label> <asp:Label ID="lblOriginalTitleCode" runat="server" Text="Title Code"></asp:Label>
                 <br />
