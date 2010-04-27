@@ -57,5 +57,158 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsTitle;
+        
+        /// <summary>
+        /// lblTblTitleHeaderTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblTitleHeaderTitleCode;
+        
+        /// <summary>
+        /// lblTblTitleHeaderPayrollTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblTitleHeaderPayrollTitle;
+        
+        /// <summary>
+        /// lblTblTitleHeaderSalaryGrade control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblTitleHeaderSalaryGrade;
+        
+        /// <summary>
+        /// lblTblTitleHeaderBargainingUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblTitleHeaderBargainingUnit;
+        
+        /// <summary>
+        /// lblTblTitleHeaderReportDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblTitleHeaderReportDate;
+        
+        /// <summary>
+        /// lblTblEmpDetailsDeptName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsDeptName;
+        
+        /// <summary>
+        /// lblTblEmpDetailsEmpName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsEmpName;
+        
+        /// <summary>
+        /// lblTblEmpDetailsHireDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsHireDate;
+        
+        /// <summary>
+        /// lblTblEmpDetailsYearsOfService control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsYearsOfService;
+        
+        /// <summary>
+        /// lblTblEmpDetailsBeginDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsBeginDate;
+        
+        /// <summary>
+        /// lblTblEmpDetailsTimeInTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsTimeInTitle;
+        
+        /// <summary>
+        /// lblTblEmpDetailsPayRate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsPayRate;
+        
+        /// <summary>
+        /// lblTblEmpDetailsDepartmentComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsDepartmentComments;
+        
+        /// <summary>
+        /// lblTblEmpDetailsDeansOfficeComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTblEmpDetailsDeansOfficeComments;
+        
+        /// <summary>
+        /// upScenarios control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upScenarios;
+        
+        /// <summary>
+        /// rptScenarios control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptScenarios;
+        
+        /// <summary>
+        /// odsCriteria control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsCriteria;
     }
 }

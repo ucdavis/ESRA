@@ -17,6 +17,7 @@ namespace CAESDO.Esra.Web
             {
                 long temp = 0;
                 string employeeID = Request.QueryString["EmployeeID"];
+                Session.Remove("TitleCode");
                 List<Employee> empList = new List<Employee>();
                 List<Title> titleList = new List<Title>();
                 if (String.IsNullOrEmpty(employeeID) == false && employeeID.Length == 13 && long.TryParse(employeeID, out temp))
@@ -26,6 +27,10 @@ namespace CAESDO.Esra.Web
                     {
                         empList.Add(emp);
                         titleList.Add(emp.Title);
+                        tblEmpDetails_Init(emp);
+                        tblTitleHeader_Init(emp.Title);
+                        rptScenarios_Init();
+                        Session.Add("TitleCode", Convert.ToInt32(emp.Title.TitleCode));
                     }
                 }
                 gvEmployees.DataSource = empList;
@@ -46,6 +51,38 @@ namespace CAESDO.Esra.Web
             {
                 rpt.Visible = false;
             }
+        }
+
+        protected void tblTitleHeader_Init(Title title)
+        {
+            lblTblTitleHeaderTitleCode.Text = title.TitleCode;
+            lblTblTitleHeaderPayrollTitle.Text = title.PayrollTitle;
+            lblTblTitleHeaderSalaryGrade.Text = title.SalaryGrade;
+            lblTblTitleHeaderBargainingUnit.Text = title.BargainingCode;
+            lblTblTitleHeaderReportDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+        }
+
+        protected void tblEmpDetails_Init(Employee emp)
+        {
+            lblTblEmpDetailsDeptName.Text = emp.HomeDepartment.Name;
+            //lblTblEmpDetailsTitleCode.Text = emp.Title.TitleCode;
+            //lblTblEmpDetailsBargainingUnit.Text = emp.Title.BargainingCode;
+            lblTblEmpDetailsEmpName.Text = emp.FullName;
+            lblTblEmpDetailsHireDate.Text = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
+            lblTblEmpDetailsYearsOfService.Text = Convert.ToString(emp.YearsOfService);
+            lblTblEmpDetailsBeginDate.Text = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
+            lblTblEmpDetailsTimeInTitle.Text = Convert.ToString(emp.TimeInTitle);
+            lblTblEmpDetailsPayRate.Text = String.Format("{0:c}", emp.PayRate);
+            lblTblEmpDetailsDepartmentComments.Text = emp.DepartmentComments;
+            lblTblEmpDetailsDeansOfficeComments.Text = emp.DeansOfficeComments;
+        }
+
+        protected void rptScenarios_Init()
+        {
+            List<Scenario> scenarios = new List<Scenario>();
+            scenarios.Add(new Scenario() { ScenarioNumber = 1, SelectionType =  SelectionTypeBLL.GetByType(SelectionType.NONE)});
+            rptScenarios.DataSource = scenarios;
+            rptScenarios.DataBind();
         }
     }
 }
