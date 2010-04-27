@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee">
+	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" where="HomeDept LIKE '030%'">
 
 		<id name="id" access="field" column="PkEmployee" unsaved-value="0">
 			<generator class="assigned">
@@ -31,7 +31,7 @@
 		<property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
 		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
-		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee">
+		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee" >
 			<!--<key>
 				<column name="EmployeeID"/>
 				<column name="TitleCode" />
