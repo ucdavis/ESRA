@@ -12,9 +12,9 @@ namespace CAESDO.Esra.Web
     {
         public static readonly string KEY_CURRENT_SALARY_SCALE = "CurrentSalaryScale";
 
-        protected CAESDO.Esra.Core.Domain.SalaryScale CurrentSalaryScale
+        protected Core.Domain.SalaryScale CurrentSalaryScale
         {
-            get { return ViewState[KEY_CURRENT_SALARY_SCALE] as CAESDO.Esra.Core.Domain.SalaryScale; }
+            get { return ViewState[KEY_CURRENT_SALARY_SCALE] as Core.Domain.SalaryScale; }
             set { ViewState.Add(KEY_CURRENT_SALARY_SCALE, value); }
         }
 
@@ -103,7 +103,7 @@ namespace CAESDO.Esra.Web
 
             // Get the Step # or the item index:
             int dataItemIndex = item.DataItemIndex;
-            CAESDO.Esra.Core.Domain.SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
+            var ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
 
             ss.StepNumber = tb.Text;
         }
@@ -117,7 +117,7 @@ namespace CAESDO.Esra.Web
 
             // Get the Step # or the item index:
             int dataItemIndex = item.DataItemIndex;
-            CAESDO.Esra.Core.Domain.SalaryStep ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
+            var ss = CurrentSalaryScale.SalarySteps[dataItemIndex];
 
             // get new salary amount:
             double newSalary = 0;
@@ -196,7 +196,7 @@ namespace CAESDO.Esra.Web
 
         protected void lbtnEdit_Click(object sender, EventArgs e)
         {
-            CAESDO.Esra.Core.Domain.SalaryScale ss = SalaryScaleBLL.GetSalaryScale(TitleCode, Convert.ToDateTime(EffectiveDate));
+            var ss = SalaryScaleBLL.GetSalaryScale(TitleCode, Convert.ToDateTime(EffectiveDate));
             if (ss.SalarySteps == null || ss.SalarySteps.Count == 0)
             {
                 ss.SalarySteps.Add(new CAESDO.Esra.Core.Domain.SalaryStep(ss) { StepNumber = "1" });
@@ -204,7 +204,7 @@ namespace CAESDO.Esra.Web
 
             CurrentSalaryScale = ss; // Save current Salary Scale to View State.
 
-            IList<CAESDO.Esra.Core.Domain.SalaryScale> list = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
+            IList<Core.Domain.SalaryScale> list = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             list.Add(ss);
 
             gvSalaryScale.DataSource = list;
@@ -222,7 +222,7 @@ namespace CAESDO.Esra.Web
             int dataItemIndex = item.DataItemIndex;
             CurrentSalaryScale.SalarySteps.Remove(CurrentSalaryScale.SalarySteps[dataItemIndex]);
 
-            IList<CAESDO.Esra.Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
+            IList<Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             scales.Add(CurrentSalaryScale);
 
             gvSalaryScale.DataSource = scales;
@@ -235,7 +235,7 @@ namespace CAESDO.Esra.Web
         {
             if (e.CommandName.Equals("Save"))
             {
-                CAESDO.Esra.Core.Domain.SalaryScale ss = SalaryScaleBLL.GetSalaryScale(CurrentSalaryScale.TitleCode, CurrentSalaryScale.EffectiveDate);
+                var ss = SalaryScaleBLL.GetSalaryScale(CurrentSalaryScale.TitleCode, CurrentSalaryScale.EffectiveDate);
 
                 // This is necessary in order for the existing SalarySteps to be removed from the
                 // relationship and the session; otherwise, we get an object with the same
