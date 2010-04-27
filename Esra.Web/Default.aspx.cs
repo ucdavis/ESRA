@@ -130,12 +130,16 @@ namespace CAESDO.Esra.Web
 
         protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
+            gvEmployees.DataBind();
+
             // This is the a temporary fix to get the updated Years of service and TimeInTitle to 
             // update properly.
             //Response.Redirect(Page.Request.Url.ToString());
+            /*
             string queryString = "TitleCode="+ddlTitleCode.SelectedValue+"&Department="+ddlDepartment.SelectedValue+"&EmployeeID="+ddlEmployee.SelectedValue;
             string pathString = Page.Request.Url.AbsolutePath;
             Response.Redirect(pathString+"?"+queryString);
+             */
         }
     }
 }

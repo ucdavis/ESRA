@@ -239,7 +239,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label5" runat="server" 
-                                    Text='<%# Bind("YearsOfService", "{0:0.00}") %>'></asp:Label>
+                                    Text='<%# Eval("YearsOfService", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Begin Date (in Title)">
@@ -259,7 +259,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label7" runat="server" 
-                                    Text='<%# Bind("TimeInTitle", "{0:0.00}") %>'></asp:Label>
+                                    Text='<%# Eval("TimeInTitle", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Pay Rate" SortExpression="PayRate">
