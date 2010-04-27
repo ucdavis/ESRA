@@ -291,10 +291,14 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                
                 <br />
-                
-                <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center>
+                Note: Highlighted dates have been altered from their PPS values.
+                <br />
+                <center>
+                    <asp:Label runat="server" Font-Bold="true" Font-Size="Large" 
+                        Text="Employee Salary Comparison Report"></asp:Label>
+                </center>
+                <br />
                 &nbsp;<asp:Button ID="btnExportToExcel" runat="server" 
                     OnClientClick="ExportToExcel(); return false;" Text="Export to Excel" />
                 <br />
