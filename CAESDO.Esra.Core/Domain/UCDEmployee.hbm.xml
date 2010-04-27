@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployees" dynamic-update="true">
-		<!--<id name="id" access="field" column="EmployeeID" unsaved-value="0">
+	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" dynamic-update="true">
+		
+		<id name="id" access="field" column="PkEmployee" unsaved-value="0">
 			<generator class="assigned" />
-		</id>-->
-		<id name="id" access="field" column="EmployeeID" length="9" type="string">
-			<generator class="assigned"/>
 		</id>
+		
+		<!--<composite-id>
+			<key-property name="EmployeeID" column="EmployeeID" type="string"/>
+			<key-many-to-one name="Title" column="TC" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"/>
+		</composite-id>-->
 
+		<property name="EmployeeID" column="EmployeeID"/>
 		<many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDept"  insert="false" update="false"/>
 		<many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDept"  insert="false" update="false"/>
 		<property name="Different" column="Different" insert="false" update="false"/>
@@ -25,7 +29,12 @@
 		<property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
 
 		<joined-subclass name="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" table="Employee_V" >
-			<key column="EmployeeID"/>
+			<!--<key>
+				<column name="EmployeeID"/>
+				<column name="TitleCode" />
+			</key>-->
+			<!--<property name="id" column="PkEmployee" access="field" update="false" insert="false" unique="true"/>-->
+			<key column="PkEmployee" />
 			<property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
 			<property name="CareerHireDate" column="CareerHireDate" />
 			<property name="ApptHireDate" column="ApptHireDate" />
