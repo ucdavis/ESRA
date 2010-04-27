@@ -14,6 +14,12 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryReviewAnalysis = value; }
         }
 
+        public virtual int SalaryReviewAnalysisID
+        {
+            get { return SalaryReviewAnalysisID; }
+            set { SalaryReviewAnalysisID = value; }
+        }
+
         private int _ScenarioNumber;
         // i.e. 1-7.
         public virtual int ScenarioNumber
