@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web;
 using CAESArch.Data.NHibernate;
-using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.Web
 {
