@@ -154,6 +154,14 @@ namespace CAESDO.Esra.Web
                 gvSalaryScale.DataSource = salaryScales;
                 gvSalaryScale.DataBind();
 
+                // Logic to set the proposed title if recalss.
+                pnlProposedTitle.Visible = false;
+                if (sra.IsReclass)
+                {
+                    pnlProposedTitle.Visible = true;
+                    lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
+                }
+
                 MultiView1.SetActiveView(vSalaryReviewAnalysis);
             }
             else

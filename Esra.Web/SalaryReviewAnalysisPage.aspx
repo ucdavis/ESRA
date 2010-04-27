@@ -456,8 +456,15 @@
                         </Columns>
                         <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
                     </asp:GridView>
-                    <br />
+                    
                 </div>
+                <asp:Panel ID="pnlProposedTitle" runat="server">
+                <br />
+                <asp:Label ID="lblCurrentTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title:</asp:Label> <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
+                <br />
+                </asp:Panel>
+                
+                <br />
                 <asp:GridView ID="gvEmployeeTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Title Data Unavailable."
                     DataSourceID="odsSAREmployee" Width="100%">
                     <HeaderStyle CssClass="tr_head" />
