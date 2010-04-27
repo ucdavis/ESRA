@@ -43,7 +43,7 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_SELECTED_TITLE_STRINGS);
                 Session.Remove(KEY_EMPLOYEE_ID);
                 Session.Remove(KEY_SEARCH_PARAMETERS);
-
+                
             }
         }
 
@@ -56,7 +56,8 @@ namespace CAESDO.Esra.Web
                 User user = UserBLL.GetCurrent();
                 
                 //ViewState.Add(KEY_CURRENT_USER, user);
-                MultiView1.SetActiveView(vEmployees);
+                //MultiView1.SetActiveView(vEmployees);
+                MultiView1.SetActiveView(vSalaryReviewAnalysis);
 
                 lbxDepartments_ClearSelectedValues();
                 lbxTitleCodes_ClearSelectedValues();
@@ -260,7 +261,8 @@ namespace CAESDO.Esra.Web
                     lbxDepartments_ClearSelectedValues();
                 }
             }
-            else if (lbxTitleCodes.SelectedIndex > 0 && lbxDepartments.SelectedIndex > 0)
+            else if ((lbxTitleCodes.SelectedIndex > 0 && lbxDepartments.SelectedIndex > 0 ) ||
+                (lbxTitleCodeIDs.SelectedIndex > 0 && lbxTitleCodeIDs.SelectedIndex > 0))
             {
                 // Get all the employees for a given department with the matching title code.
                 ddlEmployee_ClearSelectedValue();
@@ -287,8 +289,9 @@ namespace CAESDO.Esra.Web
                 lbxDepartments_ClearSelectedValues();
             }
 
+            MultiView1.SetActiveView(vEmployees);
             gvESRSearchParams_Load();
-            }
+        }
 
         protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e) { }
 
@@ -384,6 +387,7 @@ namespace CAESDO.Esra.Web
             Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
 
             lbxDepartments.SelectedIndex = -1;
+            lbxDepartmentIDs.SelectedIndex = -1;
 
         }
 
@@ -396,16 +400,37 @@ namespace CAESDO.Esra.Web
             foreach (int i in lbxDepartments.GetSelectedIndices())
             {
                 string value = lbxDepartments.Items[i].Value;
-                selected.Add(value);
+                
                 if (value.Equals("0") == false)
                 {
                     selectedDepartments.Add(DepartmentBLL.GetByID(value));
-                }
-                else
-                {
-                    selectedDepartments.Add(GetAllNamedDepartment());
+                    selected.Add(value);
                 }
             }
+
+            Department tempDept = null;
+            foreach (int i in lbxDepartmentIDs.GetSelectedIndices())
+            {
+                string value = lbxDepartmentIDs.Items[i].Value;
+                
+                if (value.Equals("0") == false)
+                {
+                    tempDept = DepartmentBLL.GetByID(value);
+                    if (!selectedDepartments.Contains(tempDept))
+                    {
+                        selectedDepartments.Add(tempDept);
+                        selected.Add(value);
+                    }
+                }
+            }
+            tempDept = null;
+
+            if (selected.Count == 0)
+            {
+                selected.Add("0");
+                selectedDepartments.Add(GetAllNamedDepartment());
+            }
+
             string[] retval = selected.ToArray();
             Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, retval);
             Session.Add(KEY_SELECTED_DEPARTMENTS, selectedDepartments);
@@ -416,6 +441,7 @@ namespace CAESDO.Esra.Web
             Session.Add(KEY_SELECTED_TITLE_STRINGS, new string[] { "0" });
             Session.Add(KEY_SELECTED_TITLES, new List<Title>() { GetAllNamedTitle() });
             lbxTitleCodes.SelectedIndex = -1;
+            lbxTitleCodeIDs.SelectedIndex = -1;
         }
 
         protected void lbxTitleCodes_SelectedValues(object sender, EventArgs e)
@@ -427,16 +453,37 @@ namespace CAESDO.Esra.Web
             foreach (int i in lbxTitleCodes.GetSelectedIndices())
             {
                 string value = lbxTitleCodes.Items[i].Value;
-                selected.Add(value);
+                //selected.Add(value);
                 if (value.Equals("0") == false)
                 {
                     selectedTitles.Add(TitleBLL.GetByID(value));
-                }
-                else
-                {
-                    selectedTitles.Add(GetAllNamedTitle());
+                    selected.Add(value);
                 }
             }
+
+            Title tempTitle = null;
+            foreach (int i in lbxTitleCodeIDs.GetSelectedIndices())
+            {
+                string value = lbxTitleCodeIDs.Items[i].Value;
+                //selected.Add(value);
+                if (value.Equals("0") == false)
+                {
+                    tempTitle = TitleBLL.GetByID(value);
+                    if (!selectedTitles.Contains(tempTitle))
+                    {
+                        selectedTitles.Add(tempTitle);
+                        selected.Add(value);
+                    }
+                }
+            }
+            tempTitle = null;
+
+            if (selected.Count == 0)
+            {
+                selected.Add("0");
+                selectedTitles.Add(GetAllNamedTitle());
+            }
+
             string[] retval = selected.ToArray();
             Session.Add(KEY_SELECTED_TITLE_STRINGS, retval);
             Session.Add(KEY_SELECTED_TITLES, selectedTitles);
@@ -556,12 +603,15 @@ namespace CAESDO.Esra.Web
         protected void lbxDepartments_Init(object sender, EventArgs e)
         {
             lbxDepartments.DataSource = odsDepartments;
+            lbxDepartmentIDs.DataSource = odsDepartmentNumbers;
             
             if (IsDepartmentUser())
             {
                 lbxDepartments.DataSource = odsDepartmentUserDepartments;
+                lbxDepartmentIDs.DataSource = odsDepartmentUserDepartmentNumbers;
             }
             lbxDepartments.DataBind();
+            lbxDepartmentIDs.DataBind();
         }
 
         protected void ddlEmployee_Init(object sender, EventArgs e)

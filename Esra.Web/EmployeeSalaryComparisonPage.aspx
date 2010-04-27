@@ -54,7 +54,7 @@
                     <ItemTemplate>
                         <table id="tblTitleCodeSalaryScale">
                             <tr>
-                                <th>Title Code</th><th colspan="2">Payroll Title</th><%--<th colspan="2">Abbreviated Name</th>--%></tr>
+                                <th>Title Code:</th><th colspan="2">&nbsp;&nbsp;Payroll Title:</th><%--<th colspan="2">Abbreviated Name</th>--%></tr>
                             <tr><td><asp:Label ID="lblTitle" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label></td>
                                     <td colspan="2"><asp:Label ID="lblPayrollTitle" runat="server" 
                                             Text='<%# Eval("PayrollTitle") %>'></asp:Label></td>
@@ -201,8 +201,14 @@
                 <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" 
              TargetControlID="lbxTitleCodes" >
                     </ajax:ListSearchExtender>
+                     <ajax:ListSearchExtender ID="ListSearchExtender6" runat="server" 
+             TargetControlID="lbxTitleCodeIDs" >
+                    </ajax:ListSearchExtender>
                 <ajax:ListSearchExtender ID="ListSearchExtender2" runat="server" 
              TargetControlID="lbxDepartments">
+         </ajax:ListSearchExtender>
+         <ajax:ListSearchExtender ID="ListSearchExtender7" runat="server" 
+             TargetControlID="lbxDepartmentIDs">
          </ajax:ListSearchExtender>
          <ajax:ListSearchExtender ID="ListSearchExtender3" runat="server" 
              TargetControlID="ddlEmployee" >
@@ -218,13 +224,30 @@
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple" >
             <asp:ListItem Value="0">-- Any Title(s) --</asp:ListItem>
-        </asp:ListBox></td></tr><tr>
+        </asp:ListBox></td>
+        
+        <td><asp:ListBox ID="lbxTitleCodeIDs" runat="server" 
+            AppendDataBoundItems="True" DataSourceID="odsTitlesByTitleCode" 
+            DataTextField="TitleCode" DataValueField="ID" 
+             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
+             SelectionMode="Multiple" >
+            <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
+        </asp:ListBox></td>
+        
+        </tr><tr>
                 <td><asp:ListBox ID="lbxDepartments" runat="server" 
             AppendDataBoundItems="True" 
             DataTextField="Name_DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
-        </asp:ListBox></td></tr><tr>
+        </asp:ListBox></td>
+        <td><asp:ListBox ID="lbxDepartmentIDs" runat="server" 
+            AppendDataBoundItems="True" 
+            DataTextField="DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
+            onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
+            <asp:ListItem Value="0">-- Any Department ID(s) --</asp:ListItem>
+        </asp:ListBox></td>
+        </tr><tr>
                 <td><asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" 
             DataTextField="FullName" DataValueField="ID" 
@@ -242,22 +265,13 @@
    <%--      </div>
          <div class="left_col">--%>
         <asp:MultiView ID="MultiView1" runat="server">
-            <asp:View ID="vEmployees" runat="server" >
-                <%--Report Date:
-
-                <script type="text/javascript" language="JavaScript">
-<!-- //Script courtesy of http://www.web-source.net - Your Guide to Professional Web Site Design and Development -->
-var today_date= new Date()
-var month=today_date.getMonth()+1
-var today=today_date.getDate()
-var year=today_date.getYear() + 1900
-//document.write("Today's date is: ")
-document.write(month+"/"+today+"/"+year)
-</script> --%>
+            
+            <asp:View ID="vEmployees" runat="server">
+                
 
                 <br />
 
-</li><li>
+</li><li id="divReportGenerationCriteria" >
 
 <h2>Report Generation Criteria</h2>
                 
@@ -561,13 +575,14 @@ document.write(month+"/"+today+"/"+year)
                 </ProgressTemplate>
                 </asp:UpdateProgress>
             </asp:View>
-            <asp:View ID="vSalaryReviewAnalysis" runat="server">
-            
+            <asp:View ID="vSalaryReviewAnalysis" runat="server" >
+                <br />
+                <asp:Label ID="lblNoSearchParametersSelected" runat="server" Text="No Search Parameters selected." BackColor="White" BorderStyle="NotSet" BorderWidth="3px" BorderColor="White" />
+            </li></ul></div>
             </asp:View>
         </asp:MultiView>
     
-    
-&nbsp;<asp:ObjectDataSource ID="odsEmployee" runat="server" 
+<asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
             SelectMethod="GetAllEmployeesForUser" 
@@ -667,6 +682,16 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
+        <asp:ObjectDataSource ID="odsDepartmentNumbers" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
+            TypeName="CAESDO.Esra.BLL.DepartmentBLL">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="DepartmentNumber" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        
         <asp:ObjectDataSource ID="odsDepartmentUserDepartments" runat="server" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllDepartmentsForUser" 
             TypeName="CAESDO.Esra.BLL.DepartmentBLL">
@@ -677,6 +702,18 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
+         <asp:ObjectDataSource ID="odsDepartmentUserDepartmentNumbers" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllDepartmentsForUser" 
+            TypeName="CAESDO.Esra.BLL.DepartmentBLL">
+            <SelectParameters>
+                <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
+                    Type="String" />
+                <asp:Parameter DefaultValue="DepartmentNumber" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        
         <asp:ObjectDataSource ID="odsDepartmentUserEmployees" runat="server" 
             OldValuesParameterFormatString="original_{0}" 
                     SelectMethod="GetAllEmployeesForUser" 
@@ -688,6 +725,9 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        
         <br />
+        
     </div>
+    
    </asp:Content>
