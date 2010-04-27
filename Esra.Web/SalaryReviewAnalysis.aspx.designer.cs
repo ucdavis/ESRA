@@ -11,16 +11,7 @@
 namespace CAESDO.Esra.Web {
     
     
-    public partial class SalaryAnalysisReview {
-        
-        /// <summary>
-        /// form1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+    public partial class SalaryReviewAnalysis {
         
         /// <summary>
         /// odsSalaryReviewAnalysis control.
@@ -48,6 +39,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsEmployee;
+        
+        /// <summary>
+        /// odsCreatedBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsCreatedBy;
         
         /// <summary>
         /// MultiView1 control.
@@ -86,13 +86,31 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlEmployee;
         
         /// <summary>
-        /// ddl control.
+        /// ddlCreatedBy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedBy;
+        
+        /// <summary>
+        /// ceCreationDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender ceCreationDate;
+        
+        /// <summary>
+        /// lblCreationDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreationDate;
         
         /// <summary>
         /// GridView1 control.
