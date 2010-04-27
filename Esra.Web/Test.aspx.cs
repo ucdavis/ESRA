@@ -29,7 +29,7 @@ namespace CAESDO.Esra.Web
                         empList.Add(emp);
                         titleList.Add(emp.Title);
                         tblEmpDetails_Init(emp);
-                        tblTitleHeader_Init(emp.Title);
+                        tblTitleHeader_Init(emp);
                         Session.Add("TitleCode", emp.Title.TitleCode);
                         rptScenarios_Init();
                     }
@@ -54,12 +54,13 @@ namespace CAESDO.Esra.Web
             }
         }
 
-        protected void tblTitleHeader_Init(Title title)
+        protected void tblTitleHeader_Init(Employee emp)
         {
-            lblTblTitleHeaderTitleCode.Text = title.TitleCode;
-            lblTblTitleHeaderPayrollTitle.Text = title.PayrollTitle;
-            lblTblTitleHeaderSalaryGrade.Text = title.SalaryGrade;
-            lblTblTitleHeaderBargainingUnit.Text = title.BargainingCode;
+            lblTblTitleHeaderTitleCode.Text = emp.Title.TitleCode;
+            lblTblTitleHeaderPayrollTitle.Text = emp.Title.PayrollTitle;
+            lblTblTitleHeaderSalaryGrade.Text = emp.Title.SalaryGrade;
+            lblTblTitleHeaderSalaryStep.Text = emp.
+            lblTblTitleHeaderBargainingUnit.Text = emp.Title.BargainingCode;
             lblTblTitleHeaderReportDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
         }
 

@@ -374,16 +374,19 @@
         <br />
     </div>
     <div id="divSAR">
-        <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" >
+        <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
             <tr>
                 <th>
                     TitleCode
                 </th>
-                <th colspan="5">
+                <th colspan="4">
                     Payroll Title
                 </th>
                 <th>
                     Salary Grade
+                </th>
+                <th>
+                    Salary Step
                 </th>
                 <th>
                     Bargaining Unit
@@ -396,11 +399,14 @@
                 <td>
                     <asp:Label runat="server" ID="lblTblTitleHeaderTitleCode"></asp:Label>
                 </td>
-                <td colspan="5">
+                <td colspan="4">
                     <asp:Label runat="server" ID="lblTblTitleHeaderPayrollTitle"></asp:Label>
                 </td>
                 <td>
                     <asp:Label runat="server" ID="lblTblTitleHeaderSalaryGrade"></asp:Label>
+                </td>
+                <td>
+                    <asp:Label runat="server" ID="lblTblTitleHeaderSalaryStep"></asp:Label>
                 </td>
                 <td>
                     <asp:Label runat="server" ID="lblTblTitleHeaderBargainingUnit"></asp:Label>
