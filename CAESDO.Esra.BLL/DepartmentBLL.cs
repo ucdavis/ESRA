@@ -14,11 +14,21 @@ namespace CAESDO.Esra.BLL
         {
             List<Department> departments = new List<Department>();
 
-            UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userID);
+            //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userID);
+            // Revised for Catbert user.
+            
+            /*
             departments.Add(user.HomeDepartment);
             if ((bool)user.Different)
             {
                 departments.Add(user.WorkDepartment);
+            }
+            */
+
+            User user = UserBLL.GetByProperty("EmployeeID", userID);
+            foreach (Unit unit in user.Units)
+            {
+                departments.Add(GetByID(unit.PPSCode));
             }
 
             departments.Sort();

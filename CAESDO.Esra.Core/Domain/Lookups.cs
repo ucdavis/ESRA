@@ -19,6 +19,7 @@ namespace CAESDO.Esra.Core.Domain
         }
     }
 
+    [Serializable]
     public class Unit : DomainObject<Unit, string>
     {
         private string _ShortName;

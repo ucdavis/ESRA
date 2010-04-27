@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class User : DomainObject<User, int>
     {
         private IList<Login> _LoginIDs;
