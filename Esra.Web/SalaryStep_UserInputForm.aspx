@@ -11,9 +11,26 @@
 <div id="ESCR_table">
 <div id="SSUIF">
 <br />
-<h2 class="h2_black">&nbsp;</h2>
+
     <asp:MultiView ID="MultiView1" runat="server">
     <asp:View ID="vDisplaySalaryScales" runat="server" >
+    <div id="divSelectTitleCode">
+        <asp:DropDownList ID="ddlSelectTitleCode" runat="server" 
+            AppendDataBoundItems="True" AutoPostBack="True" 
+            DataSourceID="odsSelectTitleCodeSalarySteps" >
+            <asp:ListItem Value="0">-- All Title Codes w/Salary Steps --</asp:ListItem>
+        </asp:DropDownList>
+        <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectTitleCode">
+        </ajax:ListSearchExtender>
+            
+        <asp:ObjectDataSource ID="odsSelectTitleCodeSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetDistinctTitleCodesWithSalarySteps" 
+            TypeName="CAESDO.Esra.BLL.TitleBLL">
+        </asp:ObjectDataSource>
+        <br /><br />
+        
+    </div>
+    <h2 class="h2_black">&nbsp;</h2>
         <asp:GridView ID="gvSalaryScales" runat="server" DataSourceID="odsSalaryScale" AutoGenerateColumns="False"
             AllowSorting="True" OnSorting="gvSalaryScales_Sorting">
             <HeaderStyle CssClass="tr_head" />
@@ -461,12 +478,14 @@
     </asp:MultiView>
     <asp:ObjectDataSource ID="odsSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL"></asp:ObjectDataSource>
+            
         <asp:ObjectDataSource ID="odsSalaryScale" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAllSalaryScaleWithSalarySteps" 
+            SelectMethod="GetAllSalaryScalesWithSalarySteps" 
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
             DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
             UpdateMethod="UpdateRecord">
             <SelectParameters>
+                <asp:ControlParameter ControlID="ddlSelectTitleCode" DefaultValue="" Name="titleCode" Type="String" />
                 <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>

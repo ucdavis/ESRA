@@ -175,6 +175,11 @@ namespace CAESDO.Esra.BLL
             return daoFactory.GetSalaryScaleDao().GetAllSalaryScalesWithSalarySteps(propertyName, ascending);
         }
 
+        public static IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string titleCode, string propertyName, bool ascending)
+        {
+            return daoFactory.GetSalaryScaleDao().GetAllSalaryScalesWithSalarySteps(titleCode, propertyName, ascending);
+        }
+
         public static void UpdateRecord(SalaryScale record)
         {
             SalaryScale _record = new SalaryScale() { EffectiveDate = record.EffectiveDate, TitleCode = record.TitleCode };

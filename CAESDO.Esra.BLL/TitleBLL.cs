@@ -22,5 +22,10 @@ namespace CAESDO.Esra.BLL
 
             return retval;
         }
+
+        public static IList<string> GetDistinctTitleCodesWithSalarySteps()
+        {
+            return daoFactory.GetTitleDao().GetDistinctTitleCodesWithSalarySteps();
+        }
     }
 }

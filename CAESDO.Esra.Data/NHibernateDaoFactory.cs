@@ -30,6 +30,7 @@ namespace CAESDO.Esra.Data
         public ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao() { return new SalaryReviewAnalysisDao(); }
         public IDepartmentDao GetDepartmentDao() { return new DepartmentDao(); }
         public ISalaryGradeQuartilesDao GetSalaryGradeQuartilesDao() { return new SalaryGradeQuartilesDao(); }
+        public ITitleDao GetTitleDao() { return new TitleDao(); }
         
         #endregion
 
@@ -37,6 +38,19 @@ namespace CAESDO.Esra.Data
 
         public class GenericDao<T, IdT> : AbstractNHibernateDao<T, IdT>, IGenericDao<T, IdT> { }
         public class UnitDao : AbstractNHibernateDao<Unit, string>, IUnitDao { }
+
+        public class TitleDao : AbstractNHibernateDao<Title, string>, ITitleDao
+        {
+            public IList<string> GetDistinctTitleCodesWithSalarySteps()
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryStep))
+                .SetProjection(Projections.Distinct(Projections.Property("TitleCode")))
+                    //.SetProjection(Projections.GroupProperty("SalaryGrade"))
+                .AddOrder(Order.Asc("TitleCode"));
+
+                return criteria.List<String>();
+            }
+        }
 
         public class DepartmentDao : AbstractNHibernateDao<Department, string>, IDepartmentDao { }
 
@@ -256,29 +270,66 @@ namespace CAESDO.Esra.Data
 
             public IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string propertyName, bool ascending)
             {
+                //IList<SalaryScale> retval = null;
+
+                //if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
+                //{
+                //    propertyName = "TitleCode";
+
+                //    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                //      .Add(Expression.Gt("NumSalarySteps", 0))
+                //      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
+                //      .AddOrder(Order.Asc("EffectiveDate"));
+
+                //    retval = criteria.List<SalaryScale>();
+                //}
+                //else
+                //{
+                //    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                //      .CreateAlias("Title", "Title")
+                //      .Add(Expression.Gt("NumSalarySteps", 0))
+                //      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                //    retval = criteria.List<SalaryScale>();
+                //}
+
+                //return retval;
+                return GetAllSalaryScalesWithSalarySteps(null, propertyName, ascending);
+            }
+
+            public IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string titleCode, string propertyName, bool ascending)
+            {
                 IList<SalaryScale> retval = null;
 
-                if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
-                {
-                    propertyName = "TitleCode";
+               if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
+                    {
+                        propertyName = "TitleCode";
 
-                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
-                      .Add(Expression.Gt("NumSalarySteps", 0))
-                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
-                      .AddOrder(Order.Asc("EffectiveDate"));
+                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                          .Add(Expression.Gt("NumSalarySteps", 0));
 
-                    retval = criteria.List<SalaryScale>();
-                }
-                else
-                {
-                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
-                      .CreateAlias("Title", "Title")
-                      .Add(Expression.Gt("NumSalarySteps", 0))
-                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+                        if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
+                            criteria.Add(Expression.Eq("TitleCode", titleCode));
 
-                    retval = criteria.List<SalaryScale>();
-                }
+                        criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
+                                .AddOrder(Order.Asc("EffectiveDate"));
 
+                        retval = criteria.List<SalaryScale>();
+                    }
+                    else
+                    {
+                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                          .CreateAlias("Title", "Title")
+                          .Add(Expression.Gt("NumSalarySteps", 0));
+
+                        if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
+                                criteria.Add(Expression.Eq("TitleCode", titleCode));
+
+                          criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                        retval = criteria.List<SalaryScale>();
+                    }
+                
                 return retval;
             }
 

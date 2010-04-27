@@ -18,6 +18,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
         IUnitDao GetUnitDao();
         ISalaryReviewAnalysisDao GetSalaryReviewAnalysisDao();
         ISalaryGradeQuartilesDao GetSalaryGradeQuartilesDao();
+        ITitleDao GetTitleDao();
     }
 
     // There's no need to declare each of the DAO interfaces in its own file, so just add them inline here.
@@ -27,6 +28,11 @@ namespace CAESDO.Esra.Core.DataInterfaces
     public interface IGenericDao<T, IdT> : IDao<T, IdT> { }
 
     public interface IDepartmentDao : IDao<Department, string> { }
+
+    public interface ITitleDao : IDao<Title, string>
+    {
+        IList<string> GetDistinctTitleCodesWithSalarySteps();
+    }
 
     public interface IEmployeeDao : IDao<Employee, string>
     {
@@ -40,6 +46,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
         IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending);
         IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string propertyName, bool ascending);
+        IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string titleCode, string propertyName, bool ascending);
         bool Exists(SalaryScale record);
         bool HasSalaryGradeQuartiles(SalaryScale record);
         SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record);
