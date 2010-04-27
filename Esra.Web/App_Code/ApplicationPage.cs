@@ -35,6 +35,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string MESSAGE_RECORD_SAVED_SUCCESS = "Success: New Record Successfully Saved.";
         protected static readonly string MESSAGE_RECORD_DELETED_SUCCESS = "Success: Record Successfully Deleted";
         protected static readonly string MESSAGE_RECORD_UPDATED_SUCCESS = "Success: Record Successfully Updated";
+        protected static readonly string ERROR_MESSAGE_NOT_AUTHORIZED = "You are not authorized to view this page.";
         protected static readonly string MASTER_PAGE_MESSAGE_LABEL_NAME = "lbl_Message";
         protected static readonly string ROLE_ADMIN = "Admin";
         protected static readonly string ROLE_REVIEWER = "Reviewer";
@@ -316,6 +317,17 @@ namespace CAESDO.Esra.Web
             //}
             return retval;
         }
+
+        protected bool IsAdminUser()
+        {
+            bool retval = false;
+            string role = Session[KEY_CURRENT_USER_ROLE] as String;
+            if (String.IsNullOrEmpty(role) == false && role.Equals(ROLE_ADMIN))
+                retval = true;
+      
+            return retval;
+        }
+
 
         #endregion
     }
