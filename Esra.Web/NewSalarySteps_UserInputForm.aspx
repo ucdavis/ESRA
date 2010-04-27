@@ -106,7 +106,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:LinkButton ID="lbtnDeleteSalaryStep" runat="server" OnClick="lbtnDeleteSalaryStep_Click"
-                                                        Text="Remove" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                                                 </td>
                                             </tr>
                                         </ItemTemplate>
@@ -129,7 +129,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:LinkButton ID="lbtnDeleteSalaryStepAlt" runat="server" OnClick="lbtnDeleteSalaryStep_Click"
-                                                        Text="Remove" CssClass="buttons"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
+                                                        Text="Remove" CssClass="buttons" ToolTip="Delete Step"><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton>
                                                 </td>
                                             </tr>
                                         </AlternatingItemTemplate>
