@@ -132,11 +132,13 @@ namespace CAESDO.Esra.BLL
                 EnsurePersistent(ref record);
 
                 // Logic to update the SalaryGradeQuartiles (if present):
+                /*
                 SalaryGradeQuartiles sgq = record.SalaryGradeQuartiles as SalaryGradeQuartiles;
                 if (sgq != null)
                 {
                     SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
                 }
+                 * */
                 //-------------------------------------------------------
 
                 ts.CommittTransaction();

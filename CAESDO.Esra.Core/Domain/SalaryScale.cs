@@ -129,11 +129,13 @@ namespace CAESDO.Esra.Core.Domain
             };
 
             // Create a new SalaryGradeQuartiles and add it to the SalaryScale:
+            /*
             retval.SalaryGradeQuartiles = new SalaryGradeQuartiles()
             {
                 EffectiveDate = DateTime.Today,
                 SalaryGrade = this.SalaryGrade
             };
+             * */
             // Not sure if I need this or NHibernate will take care of this for me.
             //retval.SalaryGradeQuartiles.SalaryScales.Add(retval); 
 
