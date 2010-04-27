@@ -16,8 +16,9 @@ namespace CAESDO.Esra.Web
 {
     public partial class UserAdminPage : ApplicationPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
+            base.Page_Load(sender, e);
             if (!IsPostBack)
             {
                 if (!IsAdminUser())

@@ -13,8 +13,9 @@ namespace CAESDO.Esra.Web
 {
     public partial class SalaryStep_UserInputForm : ApplicationPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
+            base.Page_Load(sender, e);
             if (!IsPostBack)
             {
                 MultiView1.SetActiveView(vDisplaySalaryScales);

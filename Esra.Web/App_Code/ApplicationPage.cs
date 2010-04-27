@@ -52,7 +52,44 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_EFFECTIVE_DATE = "EffectiveDate";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_RETURN_PAGE = "ReturnPage";
-        protected static readonly string KEY_NAV_PANEL = "NavPanel";
+        protected static readonly string KEY_NAV_PANEL = "pnlNav";
+        protected static readonly string KEY_ADMIN_MAINTENANCE_PANEL = "pnlAdminMaintenance";
+
+        protected virtual void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+
+                if (IsDemoMode())
+                {
+                    string demoRole = Session[KEY_CURRENT_USER_ROLE] as string;
+
+                    if (String.IsNullOrEmpty(demoRole) == false)
+                    {
+                        if (demoRole.Equals(ROLE_ADMIN))
+                        {
+                            ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        }
+                        else if (demoRole.Equals(ROLE_DOUser))
+                        {
+                            ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        }
+                    }
+                }
+                else
+                {
+                    if (User.IsInRole(ROLE_ADMIN))
+                    {
+                        ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    }
+                    else if (User.IsInRole(ROLE_DOUser))
+                    {
+                        ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    }
+                }
+            }
+        }
 
         public ApplicationPage()
         {
@@ -195,14 +232,26 @@ namespace CAESDO.Esra.Web
 
         protected void HideNavPanel()
         {
-            Panel pnl = (Panel)Page.Master.FindControl("pnlNav");
-            pnl.Visible = false;
+            HidePanel(KEY_NAV_PANEL);
         }
 
         protected void ShowNavPanel()
         {
-            Panel pnl = (Panel)Page.Master.FindControl("pnlNav");
-            pnl.Visible = true;
+            ShowPanel(KEY_NAV_PANEL);
+        }
+
+        protected void HidePanel(string panelName)
+        {
+            Panel pnl = Page.Master.FindControl(panelName) as Panel;
+            if (pnl != null)
+                pnl.Visible = false;
+        }
+
+        protected void ShowPanel(string panelName)
+        {
+            Panel pnl = Page.Master.FindControl(panelName) as Panel;
+            if (pnl != null)
+                pnl.Visible = true;
         }
 
         protected void ResetMasterPageLabel(string labelName)

@@ -21,13 +21,14 @@ namespace CAESDO.Esra.Web
         
         protected void Page_Init(object sender, EventArgs e)
         {
+            base.Page_Load(sender, e);
             if (!IsPostBack)
             {
                 
             }
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {

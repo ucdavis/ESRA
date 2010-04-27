@@ -422,6 +422,7 @@
                                                                                         <asp:Label ID="Label18" runat="server" Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label>
                                                                                     </td>
                                                                                 </tr>
+                                                                           </asp:Panel>
                                                                                 <tr>
                                                                                     <th>
                                                                                         College Average:
@@ -430,7 +431,7 @@
                                                                                         <asp:Label ID="Label19" runat="server" Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label>
                                                                                     </td>
                                                                                 </tr>
-                                                                            </asp:Panel>
+                                                                           
                                                                             <tr>
                                                                                 <th>
                                                                                     Campus Average:
