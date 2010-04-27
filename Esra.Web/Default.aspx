@@ -30,7 +30,7 @@
             <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
         </asp:DropDownList>
 &nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
-            Text="Employee Search" />
+            Text="Get Employee" />
         
         &nbsp;&nbsp;<br />
         
@@ -179,7 +179,9 @@ document.write(month+"/"+today+"/"+year)
                 <br />
                 Employees:<br />
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
-                    DataSourceID="odsEmployee" EmptyDataText="No Data Found." OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="true" DataKeyNames="ID" OnSorting="gvEmployees_Sorting">
+                    DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
+                    OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
+                    DataKeyNames="ID" OnSorting="gvEmployees_Sorting">
                     <Columns>
                         <asp:CommandField ShowEditButton="True" />
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
@@ -211,12 +213,20 @@ document.write(month+"/"+today+"/"+year)
                             HeaderText="Begin Date (in Title)" ApplyFormatInEditMode="true"/>
                         <asp:BoundField DataField="TimeInTitle" DataFormatString="{0:0.00}" 
                             HeaderText="Time In Title" SortExpression="TimeInTitle" ReadOnly="true"/>
-                        <asp:BoundField DataField="PayRate" DataFormatString="{0:c}" 
-                            HeaderText="Pay Rate" SortExpression="PayRate" ReadOnly="true"/>
+                        <asp:TemplateField HeaderText="Pay Rate" SortExpression="PayRate">
+                            <EditItemTemplate>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate") %>'></asp:Label>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Bind("PayRate", "{0:c}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <%--<asp:BoundField DataField="PayRate" DataFormatString="{0:c}" 
+                            HeaderText="Pay Rate" SortExpression="PayRate" ReadOnly="true" ApplyFormatInEditMode="false" />--%>
                         <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" 
                             />
-                        <asp:BoundField DataField="DeansOfficeComments" 
-                            HeaderText="Dean's Office Comments" />
+                        <asp:BoundField DataField="DeansOfficeComments" HeaderText="Dean's Office Comments" 
+                            />
                     </Columns>
                 </asp:GridView>
             </asp:View>
@@ -229,7 +239,9 @@ document.write(month+"/"+today+"/"+year)
 &nbsp;<asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
-            SelectMethod="GetEmployees">
+            SelectMethod="GetEmployees" 
+            DataObjectTypeName="CAESDO.Esra.Core.Domain.Employee" 
+            UpdateMethod="UpdateRecord">
             <SelectParameters>
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
