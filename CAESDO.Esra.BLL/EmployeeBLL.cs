@@ -282,10 +282,33 @@ namespace CAESDO.Esra.BLL
             string DepartmentComments,
             string DeansOfficeComments,
             string IsDepartmentUser,
+            string original_ID)
+        {
+            UpdateRecord(
+                AdjustedCareerHireDate,
+                null,
+                AdjustedApptHireDate,
+                null,
+                ExperienceBeginDate,
+                DepartmentComments,
+                DeansOfficeComments,
+                IsDepartmentUser,
+                original_ID
+                );
+        }
+
+        public static void UpdateRecord(
+            string AdjustedCareerHireDate,
+            bool? PPSCareerHireDateChecked,
+            string AdjustedApptHireDate,
+            bool? PPSApptHireDateChecked,
+            string ExperienceBeginDate,
+            string DepartmentComments,
+            string DeansOfficeComments,
+            string IsDepartmentUser,
             string original_ID
             )
         {
-            
             Employee record = GetByID(original_ID);
 
             // Career Hire Date and Appt Hire Date logic:
@@ -328,6 +351,9 @@ namespace CAESDO.Esra.BLL
                     record.TimeInTitle = (DateTime.Today - (DateTime)apptHireDate).TotalDays / 365.25;
                 }
             }
+
+            record.PPSCareerHireDateChecked = (PPSCareerHireDateChecked == null ? false : (bool)PPSCareerHireDateChecked);
+            record.PPSApptHireDateChecked = (PPSApptHireDateChecked == null ? false : (bool)PPSApptHireDateChecked);
 
             if (record.ExperienceBeginDate != experienceBeginDate)
             {
