@@ -20,8 +20,8 @@
     <div id="header">
 	<div id="logo">
 	    <asp:ImageButton ID="imgBtn" runat="server" 
-                            ImageUrl="~/images/common/home_icon-full.jpg"  
-                            Height="22px" Width="22px" BackColor="Transparent" 
+                            ImageUrl="~/images/common/esra.png"  
+                            BackColor="Transparent" 
                     PostBackUrl="~/Default.aspx" ToolTip="Home" 
             CausesValidation="False"></asp:ImageButton>
 	</div>
@@ -30,10 +30,11 @@
 	<ul id="ul_nav">
 	    <li>
             <center><asp:ImageButton ID="ImageButton6" runat="server" ImageUrl="~/images/common/salary_scales.png" AlternateText="Employee Salary Comparison" PostBackUrl="~/EmployeeSalaryComparisonPage.aspx" ToolTip="Salary Scales & Employee Salary Comparison" CausesValidation="false"/></center>
-            <br /><a href="EmployeeSalaryComparisonPage.aspx">Employee Salary Comparison</a></li>
+            <br /><a href="EmployeeSalaryComparisonPage.aspx">Employee Salary<br />Comparison</a>
+        </li>
         <li>
             <center><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis" CausesValidation="false"/></center>
-            <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review Analysis</a></li>
+            <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review<br />Analysis</a></li>
             <asp:Panel ID="pnlAdminMaintenance" runat="server" >
             
             
@@ -46,18 +47,19 @@
 	                <li><a href="SalaryStep_UserInputForm.aspx">Salary Steps</a></li>
 	            </ul>
 	    </li>
-	    <li class="nav2">
+	    <li>
             <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx" CausesValidation="false"/></center>
             <br /><a href="UserAdminPage.aspx">User Administration</a>
         </li>
         
         </asp:Panel>
-        <li>
+        <li class="nav2">
             <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
-                <img src="images/common/feedback.png" alt="Feedback" class="buttons"/></a></center>
-            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">Feedback</a></li>
+                <img src="images/common/feedback.png" alt="Feedback"/></a></center>
+            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">Feedback</a>
+        </li>
             
-        <li>
+        <li class="nav2">
             <center><asp:ImageButton ID="ImageButton4" runat="server" ImageUrl="~/images/common/logout.png" AlternateText="Logout" 
                     ToolTip="Logout" 
                     onclick="imgBtnLogout_Click" CausesValidation="false"/></center>
@@ -138,7 +140,7 @@
         </div>
     </div>
     <br style="clear: left;" />
-    <hr style="clear: left;" />
+    <br style="clear: left;" />
     <div id="master_footer">
         <div id="nav_bottom">
             <p>
