@@ -262,7 +262,7 @@
         </asp:View>
     </asp:MultiView>
     <p>
-        &nbsp;&nbsp;<asp:ImageButton ID="imgEditButton" runat="server" CssClass="back_button" src="images/common/arrow_left.jpg" alt="Back" OnClick="lbtnBack_Click"/>&nbsp;<asp:LinkButton ID="lbtnBack" runat="server" ToolTip="Back" CssClass="buttons"
+        &nbsp;&nbsp;<asp:ImageButton ID="imgBackButton" runat="server" CssClass="back_button" ImageUrl="images/common/arrow_left.jpg" alt="Back" OnClick="lbtnBack_Click"/>&nbsp;<asp:LinkButton ID="lbtnBack" runat="server" ToolTip="Back" CssClass="buttons"
             OnClick="lbtnBack_Click" Text="Back"/></p>
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL"
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetSalaryScale">
