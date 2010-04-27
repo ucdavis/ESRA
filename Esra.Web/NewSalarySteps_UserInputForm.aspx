@@ -6,22 +6,21 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
-    <div id="divPageTitle">
-        <center>
-            <asp:Label ID="lblPageTitle" runat="server" Text="Salary Steps Editor" Font-Bold="True"
-                Font-Size="Larger"></asp:Label></center>
-        <br />
-        <hr />
-        <br />
-    </div>
+<div> <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Steps Editor"></asp:Label></h1></div>
+    <div class="right_col">
+    <div id="UAP">
+    <div id="ESCR_table" style="margin-right:20px;">
+    
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="vNoSalaryScaleDataProvided" runat="server">
             Unable to process request.
             <br /><br />
             Title Code and/or Salary Scale information was missing.
         </asp:View>
+        
         <asp:View ID="vEditNewSalarySteps" runat="server">
-            <asp:GridView ID="gvSalaryScale" runat="server" AutoGenerateColumns="False">
+        <h2 class="h2_black" style="margin-left:0px;">&nbsp;</h2>
+            <asp:GridView ID="gvSalaryScale" runat="server" AutoGenerateColumns="False" Width="100%">
                 <HeaderStyle CssClass="tr_head" />
                 <AlternatingRowStyle CssClass="tr_alt" />
                 <Columns>
@@ -33,20 +32,22 @@
                                     ID="lbtnCancelUpdate" runat="server" CausesValidation="False" CommandName="Exit"
                                     Text="Cancel" ToolTip="Cancel" CssClass="buttons" OnCommand="gvSalaryScales_OnCommand"><img src="images/common/cancel.png" alt="Cancel" class="cancel_button"/></asp:LinkButton></ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title.PayrollTitle">
+                    <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title.PayrollTitle" ItemStyle-Width="300px">
                         <EditItemTemplate>
                             <asp:Label ID="lblEditTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></EditItemTemplate>
                         <ItemTemplate>
                             <asp:Label ID="lblTitle" runat="server" Text='<%# Bind("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="TitleCode" HeaderText="Title Code" ReadOnly="True" SortExpression="TitleCode" />
+                    <asp:BoundField DataField="TitleCode" HeaderText="Title Code" ReadOnly="True" SortExpression="TitleCode" ItemStyle-Width="100px"/>
                     <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
-                        ReadOnly="True" SortExpression="EffectiveDate" />
+                        ReadOnly="True" SortExpression="EffectiveDate" ItemStyle-Width="100px" />
                     <asp:BoundField DataField="SalaryGrade" HeaderText="Salary Grade" ReadOnly="True"
-                        SortExpression="SalaryGrade" />
+                        SortExpression="SalaryGrade" ItemStyle-Width="50px"/>
+                       
                     <asp:BoundField DataField="BargainingCode" HeaderText="Bargaining Code" ReadOnly="True"
-                        SortExpression="BargainingCode" />
-                    <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps">
+                        SortExpression="BargainingCode" ItemStyle-Width="100px"/>
+                      
+                    <asp:TemplateField HeaderText="# Salary Steps" SortExpression="NumSalarySteps"> 
                         <ItemTemplate>
                             <asp:UpdatePanel ID="upNumSalarySteps" runat="server">
                                 <ContentTemplate><asp:Label ID="lblNumSalarySteps" runat="server" Text='<%# Eval("SalarySteps.Count") %>'>
@@ -76,13 +77,13 @@
                                                     <th>
                                                         Hourly
                                                     </th>
-                                                    <td>
-                                                        &#160;&nbsp;
+                                                    <td style="border:none;">
+                                                        &nbsp;
                                                     </td>
                                                 </tr>
                                                 <asp:PlaceHolder ID="DataSection" runat="server"></asp:PlaceHolder>
                                                 <tr>
-                                                    <td colspan="5">
+                                                    <td colspan="5" style="border:none;">
                                                         <asp:LinkButton ID="lbtnAddAnotherSalaryStep" runat="server" Text="Add Another Salary Step"
                                                             OnClick="lbtnAddAnotherSalaryStep_Click" CausesValidation="false"></asp:LinkButton>
                                                     </td>
@@ -169,18 +170,18 @@
             </asp:GridView>
         </asp:View>
         <asp:View ID="vDisplaySalaryScale" runat="server">
+        <p style="margin:20px;">
             You have chosen to add new or edit Salary Steps to<br />
             <br />
             &nbsp;&nbsp;Title Code:
-            <%= TitleCode %>
-            with an<br />
-            &nbsp;&nbsp;Effective Date of
-            <%= EffectiveDate %>.
+            <strong><%= TitleCode %></strong>
+            with an Effective Date of
+            <strong><%= EffectiveDate %></strong>.
             <br />
             <br />
-            Select "Edit" to start adding/editing steps.
-            <br />
-            <br />
+            Select "Edit" to start adding/editing steps.</p>
+            
+            <h2 class="h2_black" style="margin-left:0px;">&nbsp;</h2>
             <asp:GridView ID="gvDisplaySalaryScale" runat="server" DataSourceID="odsSalaryScale"
                 AutoGenerateColumns="False">
                 <HeaderStyle CssClass="tr_head" />
@@ -193,9 +194,9 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Payroll Title" SortExpression="Title">
                         <EditItemTemplate>
-                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Title") %>'></asp:TextBox></EditItemTemplate>
+                            <asp:TextBox ID="TextBox1" runat="server" Width="300px" Text='<%# Bind("Title") %>'></asp:TextBox></EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="lblPayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
+                            <asp:Label ID="lblPayrollTitle" runat="server" Width="300px" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label></ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="TitleCode" HeaderText="Title Code" ReadOnly="True" SortExpression="TitleCode" />
                     <asp:BoundField DataField="EffectiveDate" DataFormatString="{0:MM/dd/yyyy}" HeaderText="Effective Date"
@@ -206,7 +207,7 @@
                         SortExpression="BargainingCode" />
                     <asp:BoundField DataField="NumSalarySteps" HeaderText="# Salary Steps" ReadOnly="True"
                         SortExpression="NumSalarySteps" />
-                    <asp:TemplateField HeaderText="Salary Steps" SortExpression="SalarySteps">
+                    <asp:TemplateField HeaderText="Salary Steps" SortExpression="SalarySteps" ItemStyle-Width="50%">
                         <EditItemTemplate>
                             <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("SalarySteps") %>'></asp:TextBox></EditItemTemplate>
                         <ItemTemplate>
@@ -287,4 +288,7 @@
                 Type="String" />
         </SelectParameters>
     </asp:ObjectDataSource>
+    </div>
+    </div>
+    </div>
 </asp:Content>
