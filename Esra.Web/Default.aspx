@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CAESDO.Esra.Web._Default" %>
-<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajax" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="CAESDO.Esra.Core.Domain" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,9 +20,9 @@
             onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
-        <cc1:ListSearchExtender ID="ListSearchExtender4" runat="server" 
+        <ajax:ListSearchExtender ID="ListSearchExtender4" runat="server" 
             TargetControlID="ddlTitleCode">
-        </cc1:ListSearchExtender>
+        </ajax:ListSearchExtender>
         <br />
         &nbsp;<asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
             AutoGenerateColumns="False" EmptyDataText="No Title Code selected." ShowHeader="true" HeaderStyle-HorizontalAlign="Center">
@@ -153,15 +153,15 @@
     </div>
     <hr />
     <div>
-                <cc1:ListSearchExtender ID="ListSearchExtender1" runat="server" 
+                <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" 
              TargetControlID="lbxTitleCodes" >
-                    </cc1:ListSearchExtender>
-                <cc1:ListSearchExtender ID="ListSearchExtender2" runat="server" 
+                    </ajax:ListSearchExtender>
+                <ajax:ListSearchExtender ID="ListSearchExtender2" runat="server" 
              TargetControlID="lbxDepartment">
-         </cc1:ListSearchExtender>
-         <cc1:ListSearchExtender ID="ListSearchExtender3" runat="server" 
+         </ajax:ListSearchExtender>
+         <ajax:ListSearchExtender ID="ListSearchExtender3" runat="server" 
              TargetControlID="ddlEmployee" >
-         </cc1:ListSearchExtender>
+         </ajax:ListSearchExtender>
          <br />
          <table>
             <tr>
@@ -308,6 +308,7 @@ document.write(month+"/"+today+"/"+year)
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox2" runat="server" 
                                     Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
+                                    
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label4" runat="server" 
