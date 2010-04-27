@@ -65,10 +65,14 @@ namespace CAESDO.Esra.Web
         {
             get
             {
-                return Request.QueryString[KEY_TITLE_CODE];
+                string retval = Request.QueryString[KEY_TITLE_CODE];
+                if (String.IsNullOrEmpty(retval) || retval.Length != 4)
+                    retval = null;
+                return retval;
             }
         }
-        protected  List<Title> Titles { get; set; }
+
+        protected List<Title> Titles { get; set; }
 
         protected  List<SRAEmployee> Employees { get; set; }
         
@@ -217,31 +221,12 @@ namespace CAESDO.Esra.Web
                     }
                 }
 
-                /*
-                 * 20081202 by kjt: Commented out this logic and moved to the appropriate 
-                 * section above in order to deal with proposed title codes and reclasses.
-                 * 
-                if (emp != null)
-                {
-                    empList.Add(emp);
-                    Employees = empList; // Save the employees list to the ViewState recall later.
-                   
-                    titleList.Add(emp.Title);
-                    
-                    Titles = titleList;// Save the Titles list to the ViewState for recall later.
-                    Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
-                    Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
-                }
-                 * */
-
-                //gvEmployees.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployees.DataBind();
-                //gvTitle.DataSource = titleList;  // Changed this to use ViewState collection.
+               
                 gvTitle.DataBind();
-                //gvEmployeeTitle.DataSource = empList; // Changed this to use ViewState collection.
+               
                 gvEmployeeTitle.DataBind();
             }
-                
         }
 
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
@@ -256,39 +241,6 @@ namespace CAESDO.Esra.Web
                 rpt.Visible = false;
             }
         }
-        /*
-        protected void tblTitleHeader_Init(Employee emp)
-        {
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeeTitleCode")).Text = emp.Title.TitleCode;
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeePayrollTitle")).Text = emp.Title.PayrollTitle;
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeeSalaryGrade")).Text = emp.Title.SalaryGrade;
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeeSalaryStep")).Text = emp.SalaryStep;
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeeBargainingUnit")).Text = emp.Title.BargainingCode;
-            //((Label)gvEmployeeTitle.FindControl("lblEmployeeReportDate")).Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
-
-            lblTblTitleHeaderTitleCode.Text = emp.Title.TitleCode;
-            lblTblTitleHeaderPayrollTitle.Text = emp.Title.PayrollTitle;
-            lblTblTitleHeaderSalaryGrade.Text = emp.Title.SalaryGrade;
-            lblTblTitleHeaderSalaryStep.Text = emp.SalaryStep;
-            lblTblTitleHeaderBargainingUnit.Text = emp.Title.BargainingCode;
-            lblTblTitleHeaderReportDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
-        }
-        */
-
-        /*
-        protected void tblEmpDetails_Init(Employee emp)
-        {
-            lblTblEmpDetailsDeptName.Text = emp.HomeDepartment.Name;
-            lblTblEmpDetailsEmpName.Text = emp.FullName;
-            lblTblEmpDetailsHireDate.Text = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
-            lblTblEmpDetailsYearsOfService.Text = Convert.ToString(emp.YearsOfService);
-            lblTblEmpDetailsBeginDate.Text = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
-            lblTblEmpDetailsTimeInTitle.Text = Convert.ToString(emp.TimeInTitle);
-            lblTblEmpDetailsPayRate.Text = String.Format("{0:c}", emp.PayRate);
-            lblTblEmpDetailsDepartmentComments.Text = emp.DepartmentComments;
-            lblTblEmpDetailsDeansOfficeComments.Text = emp.DeansOfficeComments;
-        }
-        */
 
         protected void rptScenarios_Init()
         {
@@ -331,13 +283,6 @@ namespace CAESDO.Esra.Web
             }
             else if (args.CommandArgument.Equals("resetFields"))
             {
-                //RadioButton rb = args.Item.FindControl("rbApproved") as RadioButton;
-                //if (rb == null)
-                //{
-                //    rb = args.Item.FindControl("rbApprovedAlt") as RadioButton;
-                //}
-                //rb.Checked = false;
-
                 CheckBox ckBox = args.Item.FindControl("cbxApproved") as CheckBox;
                 if (ckBox == null)
                 {
@@ -502,7 +447,6 @@ namespace CAESDO.Esra.Web
                     retval = Criteria[scenario.SelectionType];
                 }
             }
-
             return retval;
         }
 
@@ -549,53 +493,27 @@ namespace CAESDO.Esra.Web
                 }
             }
 
-            SalaryReviewAnalysis sra = null;
-            if (String.IsNullOrEmpty(ReferenceNum) == false)
-            {
-                // Then this is an existing analysis:
+            User user = UserBLL.GetCurrent();
 
-                sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
-                if (sra == null)
-                {
-                    User user = UserBLL.GetCurrent();
-                    SRAEmployee emp = sra.Employee;
-                    string titleCode = Titles[0].TitleCode;
-                    bool isReclass = false;
-                    if (titleCode.Equals(emp.TitleCode) == false)
-                    {
-                        isReclass = true;
-                    }
-                    sra = new SalaryReviewAnalysis()
-                    {
-                        ReferenceNumber = ReferenceNum,
-                        DateInitiated = DateTime.Today,
-                        InitiatedByReviewerName = user.FullName,
-                        OriginatingDepartment = DepartmentBLL.GetOriginatingDepartmentForUser(user.EmployeeID),
-                        Title = TitleBLL.GetByTitleCode(titleCode),
-                        Employee = emp,
-                        SalaryScale = SalaryScaleBLL.GetEffectiveSalaryScale(titleCode, DateTime.Today),
-                        CurrentTitleCode = emp.TitleCode,
-                        IsReclass = isReclass
-                    };
-                }
-                else
-                {
-                    // Record exists --> Update
-                    message = MESSAGE_RECORD_UPDATED_SUCCESS;
-                }
+            SalaryReviewAnalysis sra = (String.IsNullOrEmpty(ReferenceNum) == false ? SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum) : null);
+
+            SRAEmployee emp = (sra != null ? sra.Employee : new SRAEmployee(EmployeeBLL.GetByID(EmployeeID)));
+
+            bool isReclass = (ProposedTitleCode != null && ProposedTitleCode.Equals(emp.TitleCode) == false ? true : false); 
+
+            string titleCode = (isReclass ? ProposedTitleCode : emp.TitleCode);
+               
+            if (sra != null)
+            {  
+                // Then this is an existing analysis:
+               
+                // Record exists --> Update
+                message = MESSAGE_RECORD_UPDATED_SUCCESS;
             }
             else
             {
                 // Else this is a new analysis:
 
-                User user = UserBLL.GetCurrent();
-                SRAEmployee emp = new SRAEmployee(EmployeeBLL.GetByID(EmployeeID));
-                string titleCode = Titles[0].TitleCode;
-                bool isReclass = false;
-                if (titleCode.Equals(emp.TitleCode) == false)
-                {
-                    isReclass = true;
-                }
                 sra = new SalaryReviewAnalysis()
                 {
                     DateInitiated = DateTime.Today,
@@ -621,18 +539,10 @@ namespace CAESDO.Esra.Web
 
             SalaryReviewAnalysisBLL.UpdateRecord(sra);
             // At this point we need to set the reference number if a newly created analysis!
-            Session[KEY_REFERENCE_NUM] = sra.ReferenceNumber;
-
-            // This data binding is needed here because we're using a DataSource vs a DataSourceID,
-            // and the DataBinding is not automatic.
-            gvEmployees.DataBind();
-            gvTitle.DataBind();
-            gvEmployeeTitle.DataBind();
-
             Session["Message"] = message;
 
-            string redirectURL = "~/SalaryReviewAnalysisPage.aspx?" + KEY_REFERENCE_NUM + "=" + ReferenceNum;
-            Response.Redirect(redirectURL);
+            string returnPage = (String.IsNullOrEmpty(Request.QueryString["ReturnPage"]) ? "~/SalaryReviewAnalysisPage.aspx" : Request.QueryString["ReturnPage"]);
+            Response.Redirect(buildQueryString(returnPage + "?" + KEY_REFERENCE_NUM + "=" + ReferenceNum));
         }
 
         protected void tbSalaryReviewAnalysisDeansOfficeCommentsFooter_TextChanged(object sender, EventArgs e)
@@ -654,13 +564,8 @@ namespace CAESDO.Esra.Web
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
-            string redirectURL = "~/SalaryReviewAnalysisPage.aspx";
-            
-            if(String.IsNullOrEmpty(ReferenceNum) == false)
-            {
-                redirectURL += "?" + KEY_REFERENCE_NUM + "=" + ReferenceNum;
-            }
-            Response.Redirect(redirectURL);
+            string returnPage = (String.IsNullOrEmpty(Request.QueryString["ReturnPage"]) ? "~/SalaryReviewAnalysisPage.aspx" : Request.QueryString["ReturnPage"]);
+            Response.Redirect(buildQueryString(returnPage + (ReferenceNum != null ? "?" + KEY_REFERENCE_NUM + "=" + ReferenceNum : null)));
         }
 
         /// <summary>
@@ -684,14 +589,7 @@ namespace CAESDO.Esra.Web
                 object parent = item.NamingContainer;
                 Repeater rpt = parent as Repeater;
                 RepeaterItemCollection items = rpt.Items;
-                /*
-               HiddenField idField = item.FindControl("scenarioId") as HiddenField;
-               if (idField == null)
-               {
-                   idField = item.FindControl("scenarioIdAlt") as HiddenField;
-               }
-               String id = idField.Value;
-               */
+               
                 foreach (RepeaterItem rptItem in items)
                 {
                     CheckBox ckBox = rptItem.FindControl("cbxApproved") as CheckBox;
@@ -791,54 +689,6 @@ namespace CAESDO.Esra.Web
             scenario.SalaryAmount = newSalary;
 
             return scenario;
-        }
-
-        protected void ddlProposedTitleCode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DropDownList ddl = sender as DropDownList;
-            string titleCodeString = ddl.SelectedValue;
-            SalaryScale ss = SalaryScaleBLL.GetEffectiveSalaryScale(titleCodeString, DateTime.Today);
-            Title proposedTitle = ss.Title;
-
-            if (Titles != null)
-            {
-                Titles.Clear();
-            }
-            else
-            {
-                Titles = new List<Title>();
-            }
-            Titles.Add(proposedTitle);
-
-            Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
-            rptScenarios_Init(null);
-
-            //lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
-            lblTblSRAMain_TitleCode.Text = proposedTitle.TitleCode_Name;
-            pnlProposedTitle.Visible = true;
-
-            gvTitle.DataBind();
-            gvEmployees.DataBind();
-            gvEmployeeTitle.DataBind();
-
-            MultiView1.SetActiveView(vSalaryReviewAnalysis);
-        }
-
-        protected void btnDoEquityReview_Click(object sender, EventArgs e)
-        {
-            Criteria = SalaryScaleBLL.GetCriteriaListItems(Employees[0].TitleCode);
-            rptScenarios_Init(null);
-
-            //lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
-
-            lblTblSRAMain_TitleCode.Text = Employees[0].Title.TitleCode_Name;
-            pnlProposedTitle.Visible = false;
-
-            gvTitle.DataBind();
-            gvEmployees.DataBind();
-            gvEmployeeTitle.DataBind();
-
-            MultiView1.SetActiveView(vSalaryReviewAnalysis);
         }
     }
 }

@@ -495,6 +495,7 @@
                 <asp:Button ID="btnCancelSalaryReviewAnalysis1" runat="server" 
                                 OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />--%>
             </asp:View>
+            
             <asp:View ID="vNotAuthorized" runat="server">
             <table>
             <tr><td rowspan="2"><asp:Image ID="imgBackArrow" runat="server" 
@@ -506,66 +507,7 @@
             <tr><td>Unable view or perform a Salary Review Analysis on this Individual.</td></tr>
             </table>
             </asp:View>
-            <asp:View ID="vSelectSalaryReviewType" runat="server">
-                <asp:Label ID="lblOriginalTitleCodeLabel" runat="server" Font-Bold="true">Current Title Code:</asp:Label> <asp:Label ID="lblOriginalTitleCode" runat="server" Text="Title Code"></asp:Label>
-                <br />
-                <br />
-                <asp:Label ID="lblCurrentTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title Code:</asp:Label> <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
-                <br />
-                <br />
-                <table id="tblCurrentProposedTitleCodes">
-                    <tr>
-                        <td><asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" DataSourceID="odsProposedTitleCodes"
-                    DataTextField="TitleCode_Name" DataValueField="TitleCode" OnSelectedIndexChanged="ddlProposedTitleCode_SelectedIndexChanged">
-                </asp:DropDownList></td>
-                <td><asp:Image ID="imgReclassArrow" runat="server" 
-                    AlternateText="reclass arrow" CssClass="buttons" 
-                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />
-                &nbsp;Select a different Title Code to conduct a Reclassification Review.</td>
-                    </tr>
-                    <tr>
-                        <td ><center>-- or --</center></td><td></td>
-                    </tr>
-                    <tr>
-                        <th><asp:Button ID="Button1" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click" /></th>
-                        <td><asp:Image ID="Image1" runat="server" AlternateText="equity arrow" 
-                    CssClass="buttons" ImageUrl="~/images/common/arrow_left.jpg" />
-                &nbsp;Select &quot;Perform Equity Review&quot; to conduct an Equity Review.</td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <asp:Button ID="btnCancelSalaryReviewAnalysis0" runat="server" 
-                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />
-                        </th>
-                        <td>
-                            &nbsp;</td>
-                    </tr>
-                </table>
-                <%--<asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" DataSourceID="odsProposedTitleCodes"
-                    DataTextField="TitleCode_Name" DataValueField="TitleCode" OnSelectedIndexChanged="ddlProposedTitleCode_SelectedIndexChanged">
-                </asp:DropDownList>
-                &nbsp;&nbsp;<asp:Image ID="imgReclassLeftArrow" runat="server" 
-                    AlternateText="reclass arrow" CssClass="buttons" 
-                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />
-                &nbsp;Select a different Title Code to conduct a Reclassification Review.<br />
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- or --<br />
-                <br />
-                <asp:Button ID="btnDoEquityReview" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click" />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <asp:Image ID="imgEquityLeftArrow" runat="server" AlternateText="equity arrow" 
-                    CssClass="buttons" ImageUrl="~/images/common/arrow_left.jpg" />
-                &nbsp;Select &quot;Perform Equity Review&quot; to conduct an Equity Review.--%>
-                <asp:ObjectDataSource ID="odsProposedTitleCodes" runat="server" 
-                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
-                    TypeName="CAESDO.Esra.BLL.TitleBLL">
-                    <SelectParameters>
-                        <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
-                        <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-                    </SelectParameters>
-                </asp:ObjectDataSource>
-               
-            </asp:View>
+            
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
                 <table id="tblSRAMain" style="border: none;" width="100%"">
                     <%--<th colspan="2">Abbreviated Name</th>--%>
@@ -776,7 +718,9 @@
                     </div>
                 </table>
             </asp:View>
+            
         </asp:MultiView>
+  
         <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" SelectMethod="GetCriteriaListItems">
             <SelectParameters>
