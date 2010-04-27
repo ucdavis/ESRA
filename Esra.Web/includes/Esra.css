@@ -11,6 +11,7 @@ body
 	font-size:.9em;
 	text-align: left;
 	background-color:#242424;
+	color:#FFFFFF;
 }
 
 /* --------- column layout -------------- */
@@ -31,6 +32,7 @@ body
 	background-repeat:no-repeat;
 	background-color: #FFFFFF;
 	padding:5px;
+	color:#000000;
 	}
 .right_col 
 {
@@ -45,6 +47,7 @@ body
 	background-color: #FFFFFF;
 	padding:10px;
 	padding-bottom:20px;
+	color:#000000;
     }
 
 .right_col_small
@@ -56,6 +59,7 @@ body
 	background-repeat:no-repeat;
 	background-color: #FFFFFF;
 	padding-bottom:20px;	
+	color:#000000;
 }
 .right_col_med
 {
@@ -65,7 +69,8 @@ body
     background-position:top;
 	background-repeat:no-repeat;
 	background-color: #FFFFFF;
-	padding-bottom:20px;	
+	padding-bottom:20px;
+	color:#000000;	
 }
 .right_col_small div 
 {
