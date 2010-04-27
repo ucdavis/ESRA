@@ -56,6 +56,11 @@ Begin DataProject = "Esra.Database"
       Node = "Esra.vsd"
    End
    Begin DBRefFolder = "Database References"
+      Begin DBRefNode = "terry.ESRA.dbo"
+         ConnectStr = "Data Source=TERRY;Initial Catalog=ESRA;Integrated Security=True"
+         Provider = "{91510608-8809-4020-8897-FBA057E22D54}"
+         Colorizer = 6
+      End
       Begin DBRefNode = "vogel.ESRA.dbo"
          ConnectStr = "Data Source=vogel;Initial Catalog=ESRA;Integrated Security=True"
          Provider = "{91510608-8809-4020-8897-FBA057E22D54}"
