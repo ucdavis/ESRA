@@ -231,6 +231,8 @@ namespace CAESDO.Esra.Web
                 int i = 0;
                 foreach (RepeaterItem item in items)
                 {
+                    // For some odd reason, the item.ItemIndex always
+                    // had a value of zero, so I needed to use an external index.
                     if (Convert.ToInt32(args.CommandArgument) != i)
                     {
                         // Add all but the item they desire deleted back to the
