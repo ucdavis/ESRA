@@ -123,6 +123,16 @@ namespace CAESDO.Esra.Web
                         lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
                         lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
 
+                        empList.Add(emp);
+                        Employees = empList; // Save the employees list to the ViewState recall later.
+
+                        // if existing analysis, use sra's title:
+                        titleList.Add(sra.Title);
+
+                        Titles = titleList;// Save the Titles list to the ViewState for recall later.
+                        Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
+                        Session.Add(KEY_TITLE_CODE, sra.Title.TitleCode);
+
                         MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
                 }
@@ -130,32 +140,42 @@ namespace CAESDO.Esra.Web
                 {
                     emp = EmployeeBLL.GetByID(EmployeeID);
 
-                    lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
-                    ddlProposedTitleCode.SelectedValue = emp.TitleCode;
-                    lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
+                    if (emp != null)
+                    {
+                        lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
+                        ddlProposedTitleCode.SelectedValue = emp.TitleCode;
+                        lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
 
-                    MultiView1.SetActiveView(vSelectSalaryReviewType);
+                        empList.Add(emp);
+                        Employees = empList; // Save the employees list to the ViewState recall later.
+
+                        // if new sra, use employee's title initially:
+                        titleList.Add(emp.Title);
+
+                        Titles = titleList;// Save the Titles list to the ViewState for recall later.
+                        Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
+                        Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
+
+                        MultiView1.SetActiveView(vSelectSalaryReviewType);
+                    }
                 }
 
+                /*
+                 * 20081202 by kjt: Commented out this logic and moved to the appropriate 
+                 * section above in order to deal with proposed title codes and reclasses.
+                 * 
                 if (emp != null)
                 {
                     empList.Add(emp);
                     Employees = empList; // Save the employees list to the ViewState recall later.
+                   
                     titleList.Add(emp.Title);
+                    
                     Titles = titleList;// Save the Titles list to the ViewState for recall later.
                     Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
                     Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
-
-                    /*
-                    // Code for setting the correct criteria list items:
-                    if (Criteria == null)
-                    {
-                        Criteria = SalaryScaleBLL.GetCriteriaListItems(emp.TitleCode);
-                    }
-
-                    rptScenarios_Init(scenarios);
-                     * */
                 }
+                 * */
 
                 //gvEmployees.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployees.DataBind();
@@ -164,6 +184,7 @@ namespace CAESDO.Esra.Web
                 //gvEmployeeTitle.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployeeTitle.DataBind();
             }
+                
         }
 
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)

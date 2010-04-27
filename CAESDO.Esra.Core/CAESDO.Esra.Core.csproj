@@ -63,6 +63,7 @@
     <Compile Include="DataInterfaces\IDaoFactory.cs" />
     <Compile Include="Domain\AppException.cs" />
     <Compile Include="Domain\ApptType.cs" />
+    <Compile Include="Domain\SRAEmployee.cs" />
     <Compile Include="Domain\Lookups.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\ESRSearchParameters.cs" />
@@ -112,6 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Domain\Lookups.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\SRAEmployee.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
