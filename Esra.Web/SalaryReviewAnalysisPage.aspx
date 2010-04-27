@@ -536,7 +536,7 @@
                             <EditItemTemplate>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="lblEmployeeSalaryGrade" runat="server" Text='<%# Eval("Title.SalaryGrade") %>'></asp:Label></ItemTemplate>
+                                <asp:Label ID="lblEmployeeSalaryGrade" runat="server" Text='<%# Eval("SalaryGrade") %>'></asp:Label></ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
@@ -552,7 +552,7 @@
                             <EditItemTemplate>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="lblEmployeeBargainingUnit" runat="server" Text='<%# Eval("Title.BargainingCode") %>'></asp:Label></ItemTemplate>
+                                <asp:Label ID="lblEmployeeBargainingUnit" runat="server" Text='<%# Eval("BargainingUnitCode") %>'></asp:Label></ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
