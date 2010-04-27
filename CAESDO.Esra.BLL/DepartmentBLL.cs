@@ -39,7 +39,7 @@ namespace CAESDO.Esra.BLL
         }
 
         // This method contains the logic, which resolves the originating department
-        // based on the user provided.  Currently it's set to the user's work department.
+        // based on the user provided.  Currently it's set to the user's home department.
         public static Department GetOriginatingDepartmentForUser(string usersEmployeeID)
         {
             Department retval = null;
