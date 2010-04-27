@@ -254,7 +254,7 @@
                     <asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
             DataTextField="PayrollTitle_TitleCode" DataValueField="ID" 
-             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
+             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="10" 
              SelectionMode="Multiple" >
             <asp:ListItem Value="0">-- Any Title(s) --</asp:ListItem>
         </asp:ListBox></td>
@@ -262,7 +262,7 @@
         <td><asp:ListBox ID="lbxTitleCodeIDs" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitlesByTitleCode" 
             DataTextField="TitleCode" DataValueField="ID" 
-             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
+             onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="10" 
              SelectionMode="Multiple" >
             <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
         </asp:ListBox></td>
@@ -715,7 +715,7 @@
             TypeName="CAESDO.Esra.BLL.TitleBLL" 
             OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll">
             <SelectParameters>
-                <asp:Parameter DefaultValue="PayrollTitle" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="AbbreviatedName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
             
