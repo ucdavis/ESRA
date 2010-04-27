@@ -65,6 +65,13 @@
     <Compile Include="ExportToExcel.aspx.designer.cs">
       <DependentUpon>ExportToExcel.aspx</DependentUpon>
     </Compile>
+    <Compile Include="LogoutPage.aspx.cs">
+      <DependentUpon>LogoutPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogoutPage.aspx.designer.cs">
+      <DependentUpon>LogoutPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ModalConfirm.aspx.cs">
       <DependentUpon>ModalConfirm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -174,9 +181,11 @@
     <Content Include="ExportToExcel.aspx" />
     <Content Include="images\common\home_icon-full.jpg" />
     <Content Include="images\common\loading.gif" />
+    <Content Include="images\common\Logout_Button.jpg" />
     <Content Include="images\ibAddUser.gif" />
     <Content Include="includes\exportToExcel.js" />
     <Content Include="includes\jsUpdateProgress.js" />
+    <Content Include="LogoutPage.aspx" />
     <Content Include="ModalConfirm.aspx" />
     <Content Include="UserAdminPage.aspx" />
     <Content Include="images\common\page-under-construction.jpg" />

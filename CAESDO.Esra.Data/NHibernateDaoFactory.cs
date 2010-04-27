@@ -195,6 +195,34 @@ namespace CAESDO.Esra.Data
                 return retval;
             }
 
+            public IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string propertyName, bool ascending)
+            {
+                IList<SalaryScale> retval = null;
+
+                if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
+                {
+                    propertyName = "TitleCode";
+
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                      .Add(Expression.Gt("NumSalarySteps", 0))
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
+                      .AddOrder(Order.Asc("EffectiveDate"));
+
+                    retval = criteria.List<SalaryScale>();
+                }
+                else
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                      .CreateAlias("Title", "Title")
+                      .Add(Expression.Gt("NumSalarySteps", 0))
+                      .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                    retval = criteria.List<SalaryScale>();
+                }
+
+                return retval;
+            }
+
             public bool Exists(SalaryScale record)
             {
                 ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
@@ -230,6 +258,32 @@ namespace CAESDO.Esra.Data
 
                 if (criteria.List<SalaryGradeQuartiles>().Count == 1 )
                     return criteria.List<SalaryGradeQuartiles>()[0];
+                else
+                    return null;
+            }
+
+            public bool HasSalarySteps(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                    .CreateAlias("SalarySteps", "steps")
+                    .Add(Expression.Eq("steps.TitleCode", record.TitleCode))
+                    .Add(Expression.Eq("steps.EffectiveDate", record.EffectiveDate))
+                    .SetProjection(Projections.RowCount());
+
+                if (criteria.UniqueResult<int>() > 0)
+                    return true;
+                else
+                    return false;
+            }
+
+            public IList<SalaryStep> GetSalarySteps(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryStep))
+                    .Add(Expression.Eq("TitleCode", record.TitleCode))
+                    .Add(Expression.Eq("EffectiveDate", record.EffectiveDate));
+
+                if (criteria.List<SalaryStep>().Count > 0)
+                    return criteria.List<SalaryStep>();
                 else
                     return null;
             }

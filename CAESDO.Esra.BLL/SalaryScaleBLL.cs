@@ -105,6 +105,11 @@ namespace CAESDO.Esra.BLL
             return daoFactory.GetSalaryScaleDao().GetAllSalaryScale(propertyName, ascending);
         }
 
+        public static IList<SalaryScale> GetAllSalaryScaleWithSalarySteps(string propertyName, bool ascending)
+        {
+            return daoFactory.GetSalaryScaleDao().GetAllSalaryScalesWithSalarySteps(propertyName, ascending);
+        }
+
         public static void UpdateRecord(SalaryScale record)
         {
             SalaryScale _record = new SalaryScale() { EffectiveDate = record.EffectiveDate, TitleCode = record.TitleCode };
@@ -132,6 +137,8 @@ namespace CAESDO.Esra.BLL
         public static bool Exists(SalaryScale record) { return daoFactory.GetSalaryScaleDao().Exists(record);  }
         public static bool HasSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalaryGradeQuartiles(record); }
         public static SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().GetSalaryGradeQuartiles(record); }
+        public static bool HasSalarySteps(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalarySteps(record); }
+        public static IList<SalaryStep> GetSalarySteps(SalaryScale record) { return daoFactory.GetSalaryScaleDao().GetSalarySteps(record); }
         public static bool HasSalaryReviewAnalysis(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalaryReviewAnalysis(record); }
     }
 }

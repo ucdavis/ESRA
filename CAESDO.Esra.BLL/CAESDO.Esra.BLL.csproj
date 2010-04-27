@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppExceptionBLL.cs" />
+    <Compile Include="SalaryStepBLL.cs" />
     <Compile Include="SalaryGradeQuartilesBLL.cs" />
     <Compile Include="ScenarioBLL.cs" />
     <Compile Include="UserBLL.cs" />

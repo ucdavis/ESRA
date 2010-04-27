@@ -13,5 +13,10 @@ namespace CAESDO.Esra.Web
         {
 
         }
+
+        protected void gvSalaryScales_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            gridView_Sorting((GridView)sender, e, odsSalaryScale, "SalaryStep_UserInputForm");
+        }
     }
 }

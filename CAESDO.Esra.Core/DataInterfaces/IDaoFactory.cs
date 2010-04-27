@@ -40,9 +40,12 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
         IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending);
+        IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string propertyName, bool ascending);
         bool Exists(SalaryScale record);
         bool HasSalaryGradeQuartiles(SalaryScale record);
         SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record);
+        bool HasSalarySteps(SalaryScale record);
+        IList<SalaryStep> GetSalarySteps(SalaryScale record);
         bool HasSalaryReviewAnalysis(SalaryScale record);
     }
 
