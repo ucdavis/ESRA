@@ -55,12 +55,16 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_RETURN_PAGE = "ReturnPage";
         protected static readonly string KEY_NAV_PANEL = "pnlNav";
         protected static readonly string KEY_ADMIN_MAINTENANCE_PANEL = "pnlAdminMaintenance";
+        protected static readonly string KEY_MAINTENANCE_PANEL = "pnlMaintenance";
+        protected static readonly string KEY_ADMIN_PANEL = "pnlAdmin";
 
         protected virtual void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                //HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                HidePanel(KEY_ADMIN_PANEL);
+                HidePanel(KEY_MAINTENANCE_PANEL);
 
                 if (IsDemoMode())
                 {
@@ -70,11 +74,14 @@ namespace CAESDO.Esra.Web
                     {
                         if (demoRole.Equals(ROLE_ADMIN))
                         {
-                            ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                            //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                            ShowPanel(KEY_ADMIN_PANEL);
+                            ShowPanel(KEY_MAINTENANCE_PANEL);
                         }
                         else if (demoRole.Equals(ROLE_DOUser))
                         {
-                            ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                            //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                            ShowPanel(KEY_MAINTENANCE_PANEL);
                         }
                     }
                 }
@@ -82,11 +89,14 @@ namespace CAESDO.Esra.Web
                 {
                     if (User.IsInRole(ROLE_ADMIN))
                     {
-                        ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        ShowPanel(KEY_ADMIN_PANEL);
+                        ShowPanel(KEY_MAINTENANCE_PANEL);
                     }
                     else if (User.IsInRole(ROLE_DOUser))
                     {
-                        ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                        ShowPanel(KEY_MAINTENANCE_PANEL);
                     }
                 }
             }

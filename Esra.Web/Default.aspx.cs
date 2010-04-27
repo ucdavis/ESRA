@@ -26,7 +26,9 @@ namespace CAESDO.Esra.Web
         {
             base.Page_Load(sender, e);
             HideNavPanel();
-            HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+            //HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+            HidePanel(KEY_ADMIN_PANEL);
+            HidePanel(KEY_MAINTENANCE_PANEL);
 
             if (!IsPostBack)
             {
@@ -55,14 +57,17 @@ namespace CAESDO.Esra.Web
                 ShowNavPanel();
                 if (User.IsInRole(ROLE_ADMIN))
                 {
-                    ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    ShowPanel(KEY_ADMIN_PANEL);
+                    ShowPanel(KEY_MAINTENANCE_PANEL);
                     Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
                     Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vAdmin);
                 }
                 else if (User.IsInRole(ROLE_DOUser))
                 {
-                    ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                    ShowPanel(KEY_MAINTENANCE_PANEL);
                     Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
                     Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vDeansOffice);
@@ -86,17 +91,22 @@ namespace CAESDO.Esra.Web
         {
             RadioButtonList rbl = (RadioButtonList)sender;
 
-            HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+            //HidePanel(KEY_ADMIN_MAINTENANCE_PANEL);
+            HidePanel(KEY_ADMIN_PANEL);
+            HidePanel(KEY_MAINTENANCE_PANEL);
             if (rbl.SelectedValue.Equals(ROLE_ADMIN))
             {
-                ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                ShowPanel(KEY_ADMIN_PANEL);
+                ShowPanel(KEY_MAINTENANCE_PANEL);
                 Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
                 Session.Add(KEY_IS_DEPARTMENT_USER, false);
                 MultiView1.SetActiveView(vAdmin);
             }
             else if (rbl.SelectedValue.Equals(ROLE_DOUser))
             {
-                ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                //ShowPanel(KEY_ADMIN_MAINTENANCE_PANEL);
+                ShowPanel(KEY_MAINTENANCE_PANEL);
                 Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
                 Session.Add(KEY_IS_DEPARTMENT_USER, false);
                 MultiView1.SetActiveView(vDeansOffice);

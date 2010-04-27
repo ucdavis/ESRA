@@ -38,10 +38,9 @@
         <li>
             <center><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis" CausesValidation="false"/></center>
             <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review<br />Analysis</a></li>
-            <asp:Panel ID="pnlAdminMaintenance" runat="server" >
-            
             
 	    <li class="nav2">
+	        <asp:Panel ID="pnlMaintenance" runat="server" >
 	         <center><asp:ImageButton ID="ImageButton5" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance" CausesValidation="false"/></center><br />
 	            <asp:HyperLink ID="HyperLink1" runat="server">Maintenance</asp:HyperLink>
 	            <ul>
@@ -49,13 +48,14 @@
 	                <li><a href="SalaryGradeQuartiles_UserInputForm.aspx">Salary Grade Quartiles</a></li>
 	                <li><a href="SalaryStep_UserInputForm.aspx">Salary Steps</a></li>
 	            </ul>
+	        </asp:Panel>
 	    </li>
 	    <li>
+	        <asp:Panel ID="pnlAdmin" runat="server" >
             <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx" CausesValidation="false"/></center>
             <br /><a href="UserAdminPage.aspx">User Administration</a>
+            </asp:Panel>
         </li>
-        
-        </asp:Panel>
         <li class="nav2">
             <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= Version %> <your question or comment>">
                 <img src="images/common/feedback.png" alt="Feedback"/></a></center>
