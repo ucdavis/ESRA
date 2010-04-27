@@ -53,7 +53,7 @@ Begin DataProject = "Esra.Database"
       End
    End
    Begin Folder = "Database Diagrams"
-      Node = "Esra.vsd"
+      Node = "Esra with updates and ChangeType.vsd"
    End
    Begin DBRefFolder = "Database References"
       Begin DBRefNode = "terry.ESRA.dbo"
