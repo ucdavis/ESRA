@@ -49,5 +49,13 @@ namespace CAESDO.Esra.BLL
         {
             return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, employeeID, departmentID);
         }
+
+        public static bool UpdateRecord(Employee record)
+        {
+            using (new TransactionScope())
+            {
+                return MakePersistent(ref record);
+            }
+        }
     }
 }
