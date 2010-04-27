@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
 	<class name="CAESDO.Esra.Core.Domain.EmployeeChanges, CAESDO.Esra.Core" table="EmployeeChanges" dynamic-update="true">
-		<id name="id" access="field" column="EmployeeChangesID" unsaved-value="0">
+		<id name="ID" access="nosetter.lowercase" column="EmployeeChangesID" unsaved-value="0">
 			<generator class="identity" />
 		</id>
 

@@ -4,7 +4,7 @@
 	<class
 	  name="CAESDO.Esra.Core.Domain.Login, CAESDO.Esra.Core"
 	  table="vLogin" >
-		<id name="id" access="field" column="LoginID" unsaved-value="empty">
+		<id name="ID" access="nosetter.lowercase" column="LoginID" unsaved-value="empty">
 			<generator class="assigned" />
 		</id>
 
@@ -15,7 +15,7 @@
 	<class
 	  name="CAESDO.Esra.Core.Domain.Unit, CAESDO.Esra.Core"
 	  table="vUnit" >
-		<id name="id" access="field" column="FIS_Code" unsaved-value="0">
+		<id name="ID" access="nosetter.lowercase" column="FIS_Code" unsaved-value="0">
 			<generator class="assigned" />
 		</id>
 

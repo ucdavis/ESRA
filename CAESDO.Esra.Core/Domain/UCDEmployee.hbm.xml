@@ -2,7 +2,7 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
 	<class name="CAESDO.Esra.Core.Domain.UCDEmployee, CAESDO.Esra.Core" table="UCDEmployee" where="HomeDept LIKE '030%'">
 
-		<id name="id" access="field" column="PkEmployee" unsaved-value="0">
+		<id name="ID" access="nosetter.lowercase" column="PkEmployee" unsaved-value="0">
 			<generator class="assigned">
 
 			</generator>
