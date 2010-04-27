@@ -724,9 +724,12 @@
                     <tr>
                         <td>
                             <br />
-                            &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
+                            <%--&nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
                                 Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis"
                                 OnClientClick="return ConfirmMe()" />
+                            &nbsp;--%>
+                            &nbsp;<asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
+                                Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis"/>
                             &nbsp;
                             <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClick="btnCancelSalaryReviewAnalysis_Click"
                                 Text="Cancel/Back" />
