@@ -24,6 +24,8 @@ namespace CAESDO.Esra.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            HideNavPanel();
+
             if (!IsPostBack)
             {
                 /*
@@ -40,37 +42,38 @@ namespace CAESDO.Esra.Web
                 CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
                 UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
                 Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);
+            }
 
-                if (IsDemoMode())
+            if (IsDemoMode())
+            {
+                MultiView1.SetActiveView(vDemo);
+            }
+            else
+            {
+                ShowNavPanel();
+                if (User.IsInRole(ROLE_ADMIN))
                 {
-                    MultiView1.SetActiveView(vDemo);
+                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
+                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    MultiView1.SetActiveView(vAdmin);
+                }
+                else if (User.IsInRole(ROLE_DOUser))
+                {
+                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
+                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    MultiView1.SetActiveView(vDeansOffice);
+                }
+                else if (User.IsInRole(ROLE_REVIEWER))
+                {
+                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
+                    Session.Add(KEY_IS_DEPARTMENT_USER, false);
+                    MultiView1.SetActiveView(vReviewer);
                 }
                 else
                 {
-                    if (User.IsInRole(ROLE_ADMIN))
-                    {
-                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
-                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
-                        MultiView1.SetActiveView(vAdmin);
-                    }
-                    else if (User.IsInRole(ROLE_DOUser))
-                    {
-                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_DOUser);
-                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
-                        MultiView1.SetActiveView(vDeansOffice);
-                    }
-                    else if (User.IsInRole(ROLE_REVIEWER))
-                    {
-                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_REVIEWER);
-                        Session.Add(KEY_IS_DEPARTMENT_USER, false);
-                        MultiView1.SetActiveView(vReviewer);
-                    }
-                    else
-                    {
-                        Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
-                        Session.Add(KEY_IS_DEPARTMENT_USER, true);
-                        MultiView1.SetActiveView(vDepartments);
-                    }
+                    Session.Add(KEY_CURRENT_USER_ROLE, ROLE_USER);
+                    Session.Add(KEY_IS_DEPARTMENT_USER, true);
+                    MultiView1.SetActiveView(vDepartments);
                 }
             }
         }
@@ -103,6 +106,7 @@ namespace CAESDO.Esra.Web
                 Session.Add(KEY_IS_DEPARTMENT_USER, true);
                 MultiView1.SetActiveView(vDepartments);
             }
+            ShowNavPanel();
         }
     }
 }

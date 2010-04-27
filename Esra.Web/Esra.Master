@@ -17,6 +17,51 @@
     <form id="form1" runat="server" style="">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" >
     </asp:ScriptManager>
+    <div id="header">
+	<div id="logo">
+	    <asp:ImageButton ID="imgBtn" runat="server" 
+                            ImageUrl="~/images/common/home_icon-full.jpg"  
+                            Height="22px" Width="22px" BackColor="Transparent" 
+                    PostBackUrl="~/Default.aspx" ToolTip="Home"></asp:ImageButton>
+	</div>
+	<asp:Panel ID="pnlNav" runat="server">
+	<div id="nav">
+	<ul id="ul_nav">
+	    <li>
+            <center><asp:ImageButton ID="ImageButton6" runat="server" ImageUrl="~/images/common/salary_scales.png" AlternateText="Employee Salary Comparison" PostBackUrl="~/EmployeeSalaryComparisonPage.aspx" ToolTip="Salary Scales & Employee Salary Comparison"/></center>
+            <br /><a href="EmployeeSalaryComparisonPage.aspx">Employee Salary Comparison</a></li>
+        <li>
+            <center><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/common/employee_salary_comparison.png" AlternateText="ESRA the dino" PostBackUrl="~/SalaryReviewAnalysisPage.aspx" ToolTip="Salary Review Analysis"/></center>
+            <br /><a href="SalaryReviewAnalysisPage.aspx">Salary Review Analysis</a></li>
+	    <li>
+	         <center><asp:ImageButton ID="ImageButton5" runat="server" ImageUrl="~/images/common/maintenance.png" AlternateText="Maintenance" ToolTip="Maintenance"/></center><br />
+	            <asp:HyperLink ID="HyperLink1" runat="server">Maintenance</asp:HyperLink>
+	            <ul>
+	                <li><a href="TitleCode_UserInputForm.aspx">Title Codes</a></li>
+	                <li><a href="SalaryGradeQuartiles_UserInputForm.aspx">Salary Grade Quartiles</a></li>
+	                <li><a href="NewSalarySteps_UserInputForm.aspx">Salary Steps</a></li>
+	            </ul>
+	    </li>
+	    <li>
+            <center><asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/common/user_admin.png" AlternateText="User Administration" ToolTip="User Admin" PostBackUrl="~/UserAdminPage.aspx"/></center>
+            <br /><a href="UserAdminPage.aspx">User Administration</a>
+        </li>
+        <li>
+            <center><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
+                <img src="images/common/feedback.png" alt="Feedback" class="buttons"/></a></center>
+            <br /><a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">Feedback</a></li>
+            
+        <li>
+            <center><asp:ImageButton ID="ImageButton4" runat="server" ImageUrl="~/images/common/logout.png" AlternateText="Logout" 
+                    ToolTip="Logout" 
+                    onclick="imgBtnLogout_Click"/></center>
+            <br /><asp:LinkButton ID="lbtnLogout" runat="server" ToolTip="CAS Logout" OnClick="imgBtnLogout_Click" >CAS Logout</asp:LinkButton>
+       </li>
+	</ul>
+	</div>
+	</asp:Panel>	
+</div>
+    
     <div id="all">
         <div id="mainwrap">
             <div id="main">
@@ -54,20 +99,11 @@
     <hr style="clear: left;" />
     <div id="master_footer">
         <div id="nav_bottom">
-            <p><asp:ImageButton ID="imgBtn" runat="server" 
-                            ImageUrl="~/images/common/home_icon-full.jpg"  
-                            Height="22px" Width="22px" BackColor="Transparent" 
-                    PostBackUrl="Default.aspx" ToolTip="Home"></asp:ImageButton>&nbsp;
+            <p>
                 Ken Taylor --
                 <asp:Label ID="lbl_Version" runat="server"></asp:Label>
                 -- Revision 0 | <a href="mailto:<%= WebConfigurationManager.AppSettings["AppMailTo"] %>?subject=[<%=WebConfigurationManager.AppSettings["AppName"] %>] <%= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %> <your question or comment>">
                     Questions Or Suggestions?</a>
-                &nbsp;<asp:ImageButton ID="imgBtnLogout" runat="server" 
-                    AlternateText="CAS Logout" 
-                    ImageUrl="~/images/common/Logout_Button.jpg" 
-                    Height="22px" Width="22px" BackColor="Transparent" 
-                    ToolTip="CAS Logout" 
-                    onclick="imgBtnLogout_Click" />
             </p>
         </div>
     </div>

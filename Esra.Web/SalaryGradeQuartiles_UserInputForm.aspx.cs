@@ -27,5 +27,10 @@ namespace CAESDO.Esra.Web
         {
             gridView_OnRowDataBound((GridView)sender, e, "tbMinAnnual");
         }
+
+        protected void gvSalaryGradeQuartiles_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+
+        }
     }
 }

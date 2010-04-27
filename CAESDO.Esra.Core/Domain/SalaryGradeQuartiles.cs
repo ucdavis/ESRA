@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain
 {
@@ -9,6 +10,8 @@ namespace CAESDO.Esra.Core.Domain
     {
         private string _SalaryGrade;
 
+        [NotNullValidator]
+        [StringLengthValidator(1, 4)]
         public virtual string SalaryGrade
         {
             get { return _SalaryGrade; }
@@ -16,7 +19,8 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MinAnnual;
-
+        [TypeConversionValidator(typeof(Decimal))]
+        [NotNullValidator]
         public virtual decimal MinAnnual
         {
             get { return _MinAnnual; }
@@ -24,7 +28,8 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _FirstQrtleAnnual;
-
+        [TypeConversionValidator(typeof(Decimal))]
+        [NotNullValidator]
         public virtual decimal FirstQrtleAnnual
         {
             get { return _FirstQrtleAnnual; }
@@ -32,7 +37,8 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MidAnnual;
-
+        [TypeConversionValidator(typeof(Decimal))]
+        [NotNullValidator]
         public virtual decimal MidAnnual
         {
             get { return _MidAnnual; }
@@ -40,7 +46,8 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _ThirdQrtleAnnual;
-
+        [TypeConversionValidator(typeof(Decimal))]
+        [NotNullValidator]
         public virtual decimal ThirdQrtleAnnual
         {
             get { return _ThirdQrtleAnnual; }
@@ -48,7 +55,8 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MaxAnnual;
-
+        [TypeConversionValidator(typeof(Decimal))]
+        [NotNullValidator]
         public virtual decimal MaxAnnual
         {
             get { return _MaxAnnual; }
@@ -136,6 +144,7 @@ namespace CAESDO.Esra.Core.Domain
 
         private DateTime _EffectiveDate;
 
+        [NotNullValidator]
         public virtual DateTime EffectiveDate
         {
             get { return _EffectiveDate; }

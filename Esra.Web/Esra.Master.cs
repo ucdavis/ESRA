@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
+using System.Web.Configuration;
 
 namespace CAESDO.Esra.Web
 {
@@ -36,7 +37,7 @@ namespace CAESDO.Esra.Web
             }
         }
 
-        protected void imgBtnLogout_Click(object sender, ImageClickEventArgs e)
+        protected void imgBtnLogout_Click(object sender, EventArgs e)
         {
             FormsAuthentication.SignOut();
             Session.Abandon();

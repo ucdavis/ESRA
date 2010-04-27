@@ -187,10 +187,16 @@
   <ItemGroup>
     <Content Include="ExportToExcel.aspx" />
     <Content Include="images\common\collapse_blue.jpg" />
+    <Content Include="images\common\employee_salary_comparison.png" />
     <Content Include="images\common\expand_blue.jpg" />
+    <Content Include="images\common\feedback.png" />
     <Content Include="images\common\home_icon-full.jpg" />
     <Content Include="images\common\loading.gif" />
+    <Content Include="images\common\logout.png" />
     <Content Include="images\common\Logout_Button.jpg" />
+    <Content Include="images\common\maintenance.png" />
+    <Content Include="images\common\salary_scales.png" />
+    <Content Include="images\common\user_admin.png" />
     <Content Include="images\ibAddUser.gif" />
     <Content Include="includes\exportToExcel.js" />
     <Content Include="includes\jsUpdateProgress.js" />

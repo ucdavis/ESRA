@@ -52,6 +52,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_EFFECTIVE_DATE = "EffectiveDate";
         protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_RETURN_PAGE = "ReturnPage";
+        protected static readonly string KEY_NAV_PANEL = "NavPanel";
 
         public ApplicationPage()
         {
@@ -190,6 +191,18 @@ namespace CAESDO.Esra.Web
                 Control c = lblMessage;
                 this.SetFocus(c);
             }
+        }
+
+        protected void HideNavPanel()
+        {
+            Panel pnl = (Panel)Page.Master.FindControl("pnlNav");
+            pnl.Visible = false;
+        }
+
+        protected void ShowNavPanel()
+        {
+            Panel pnl = (Panel)Page.Master.FindControl("pnlNav");
+            pnl.Visible = true;
         }
 
         protected void ResetMasterPageLabel(string labelName)
