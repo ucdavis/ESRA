@@ -71,8 +71,10 @@
     <Compile Include="BusinessTests\EmployeeListTests.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DatabaseTestBase.cs" />
+    <Compile Include="DomainTests\EmployeeTests.cs" />
     <Compile Include="EntityIdSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewSetup\EmployeeViewSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -86,9 +88,6 @@
       <Project>{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}</Project>
       <Name>CAESDO.Esra.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DomainTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

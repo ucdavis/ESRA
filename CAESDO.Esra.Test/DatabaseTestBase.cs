@@ -1,4 +1,5 @@
 ﻿using CAESArch.Data.NHibernate;
+using CAESDO.Esra.Test.ViewSetup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate.Cfg;
 
@@ -17,7 +18,7 @@ namespace CAESDO.Esra.Test
 
         public virtual void LoadData()
         {
-            
+            EmployeeViewSetup.InsertEmployees();
         }
     }
 }
