@@ -7,7 +7,7 @@ namespace CAESDO.Esra.Core.Domain
 {
 
     [Serializable]
-    public class UCDEmlpoyeeID
+    public class UCDEmployeeID
     {
         protected string _EmployeeID;
         
@@ -36,7 +36,7 @@ namespace CAESDO.Esra.Core.Domain
             {
                 return true;
             }
-            UCDEmlpoyeeID key = obj as UCDEmlpoyeeID;
+            UCDEmployeeID key = obj as UCDEmployeeID;
             if (key == null)
             {
                 return false;
@@ -53,7 +53,7 @@ namespace CAESDO.Esra.Core.Domain
             return _EmployeeID + _TC;
         }
 
-        public UCDEmlpoyeeID() { }
+        public UCDEmployeeID() { }
 
     }
 }
