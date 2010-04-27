@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using CAESArch.Data.NHibernate;
+
 
 namespace CAESDO.Esra.Web
 {
@@ -27,7 +27,7 @@ namespace CAESDO.Esra.Web
         /// </summary>
         private void BeginTransaction(object sender, EventArgs e)
         {
-            NHibernateSessionManager.Instance.BeginTransaction();
+            CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.BeginTransaction();
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace CAESDO.Esra.Web
         {
             try
             {
-                NHibernateSessionManager.Instance.CommitTransaction();
+                CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.CommitTransaction();
             }
             finally
             {
-                NHibernateSessionManager.Instance.CloseSession();
+                CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.CloseSession();
             }
         }
 
@@ -53,7 +53,7 @@ namespace CAESDO.Esra.Web
         /// </summary>
         private void OpenSession(object sender, EventArgs e)
         {
-            NHibernateSessionManager.Instance.GetSession();
+            CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.GetSession();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace CAESDO.Esra.Web
         /// </summary>
         private void CloseSession(object sender, EventArgs e)
         {
-            NHibernateSessionManager.Instance.CloseSession();
+            CAESArch.Data.NHibernate.NHibernateSessionManager.Instance.CloseSession();
         }
 
 
