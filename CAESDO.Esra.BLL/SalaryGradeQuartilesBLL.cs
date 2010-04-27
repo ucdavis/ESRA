@@ -10,6 +10,14 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryGradeQuartilesBLL : GenericBLL<SalaryGradeQuartiles, int>
     {
-       
+
+        public static void InsertRecord(SalaryGradeQuartiles record)
+        {
+            using (var ts = new TransactionScope())
+            {
+                EnsurePersistent(ref record);
+                ts.CommittTransaction();
+            }
+        }
     }
 }

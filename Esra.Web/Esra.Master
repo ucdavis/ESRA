@@ -22,7 +22,7 @@
             <div id="main">
                 <div class="title">
                <center><p class="master_p">
-                    <asp:Label ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger" ></asp:Label></p></center>
+                    <asp:LinkButton ID="lblTitle" runat="server" Text="Employee Salary Review Analysis (ESRA)" Font-Bold="true" Font-Size="Larger" PostBackUrl="~/Default.aspx" ToolTip="Home" CssClass="title"></asp:LinkButton></p></center>
                     <asp:Label ID="lbl_Message" runat="server" Text="Unable to delete record: Child records exist." Visible="False" Font-Bold="False"
                         Font-Size="Small" ForeColor="Red"></asp:Label>&nbsp;&nbsp;
                     <ajax:AnimationExtender ID="AutomationExtender1" runat="server" TargetControlID="lbl_Message">

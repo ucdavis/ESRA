@@ -12,11 +12,12 @@ namespace CAESDO.Esra.Web
     public partial class SalaryReviewAnalysisEditor : ApplicationPage
     {
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
-        protected static readonly string KEY_TITLE_CODE = "TitleCode";
+        //protected static readonly string KEY_TITLE_CODE = "TitleCode";
         protected static readonly string KEY_EMPLOYEE_PAY_RATE = "Employee.PayRate";
         protected static readonly string KEY_DEANS_OFFICE_COMMENTS = "DeansOfficeComments";
         protected static readonly string KEY_TITLES = "Titles";
         protected static readonly string KEY_EMPLOYEES = "Employees";
+        protected static readonly string KEY_CRITERIA = "Criteria";
 
         protected string EmployeeID
         {
@@ -58,6 +59,24 @@ namespace CAESDO.Esra.Web
             }
         }
 
+        protected List<Title> Titles
+        {
+            get { return ViewState[KEY_TITLES] as List<Title>; }
+            set { ViewState[KEY_TITLES] = value; }
+        }
+
+        protected List<Employee> Employees
+        {
+            get { return ViewState[KEY_EMPLOYEES] as List<Employee>; }
+            set { ViewState[KEY_EMPLOYEES] = value; }
+        }
+
+        protected Dictionary<string, decimal?> Criteria
+        {
+            get { return ViewState[KEY_CRITERIA] as Dictionary<string, decimal?>; }
+            set { ViewState[KEY_CRITERIA] = value; }
+        }
+
         protected void Page_Init(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -80,7 +99,7 @@ namespace CAESDO.Esra.Web
                 SalaryReviewAnalysis sra = null;
                 Employee emp = null;
                 IList<Scenario> scenarios = null;
-
+                
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
                     // Set the session reference number so that it can be
@@ -93,11 +112,23 @@ namespace CAESDO.Esra.Web
                         emp = sra.Employee;
                         scenarios = sra.Scenarios;
                         ViewState.Add(KEY_DEANS_OFFICE_COMMENTS, sra.DeansOfficeComments);
+
+                        // Code for setting the correct criteria list items:
+                        Criteria = SalaryScaleBLL.GetCriteriaListItems(sra.SalaryScale.TitleCode, sra.SalaryScale.EffectiveDate);
+
+                        rptScenarios_Init(scenarios);
+
+                        MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
                 }
                 else if (String.IsNullOrEmpty(EmployeeID) == false )
                 {
                     emp = EmployeeBLL.GetByID(EmployeeID);
+
+                    lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
+                    ddlProposedTitleCode.SelectedValue = emp.TitleCode;
+
+                    MultiView1.SetActiveView(vSelectSalaryReviewType);
                 }
 
                 if (emp != null)
@@ -108,7 +139,16 @@ namespace CAESDO.Esra.Web
                     Titles = titleList;// Save the Titles list to the ViewState for recall later.
                     Session.Add(KEY_EMPLOYEE_PAY_RATE, emp.PayRate);
                     Session.Add(KEY_TITLE_CODE, emp.Title.TitleCode);
+
+                    /*
+                    // Code for setting the correct criteria list items:
+                    if (Criteria == null)
+                    {
+                        Criteria = SalaryScaleBLL.GetCriteriaListItems(emp.TitleCode);
+                    }
+
                     rptScenarios_Init(scenarios);
+                     * */
                 }
 
                 //gvEmployees.DataSource = empList; // Changed this to use ViewState collection.
@@ -118,18 +158,6 @@ namespace CAESDO.Esra.Web
                 //gvEmployeeTitle.DataSource = empList; // Changed this to use ViewState collection.
                 gvEmployeeTitle.DataBind();
             }
-        }
-
-        protected List<Title> Titles
-        {
-            get { return ViewState[KEY_TITLES] as List<Title>; }
-            set { ViewState[KEY_TITLES] = value; }
-        }
-
-        protected List<Employee> Employees
-        {
-            get { return ViewState[KEY_EMPLOYEES] as List<Employee>; }
-            set { ViewState[KEY_EMPLOYEES] = value; }
         }
 
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
@@ -598,6 +626,38 @@ namespace CAESDO.Esra.Web
             scenario.SalaryAmount = newSalary;
 
             return scenario;
+        }
+
+        protected void ddlProposedTitleCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = sender as DropDownList;
+            string titleCodeString = ddl.SelectedValue;
+            SalaryScale ss = SalaryScaleBLL.GetEffectiveSalaryScale(titleCodeString, DateTime.Today);
+            Title proposedTitle = ss.Title;
+
+            Titles.Clear();
+            Titles.Add(proposedTitle);
+            
+            Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
+            rptScenarios_Init(null);
+
+            gvTitle.DataBind();
+            gvEmployees.DataBind();
+            gvEmployeeTitle.DataBind();
+
+            MultiView1.SetActiveView(vSalaryReviewAnalysis);
+        }
+
+        protected void btnDoEquityReview_Click(object sender, EventArgs e)
+        {
+            Criteria = SalaryScaleBLL.GetCriteriaListItems(Employees[0].TitleCode);
+            rptScenarios_Init(null);
+
+            gvTitle.DataBind();
+            gvEmployees.DataBind();
+            gvEmployeeTitle.DataBind();
+
+            MultiView1.SetActiveView(vSalaryReviewAnalysis);
         }
     }
 }

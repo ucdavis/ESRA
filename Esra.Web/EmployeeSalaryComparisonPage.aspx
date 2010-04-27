@@ -113,11 +113,11 @@
                                                                     <th>Labor Market Mid:</th><td><asp:Label ID="Label18" runat="server" 
                                                         Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label></td>
                                                                 </tr>
+                                                                </asp:Panel>
                                                                 <tr>
                                                                     <th>College Average:</th><td><asp:Label ID="Label19" runat="server" 
                                                         Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label></td>
                                                                 </tr>
-                                                                </asp:Panel>
                                                                 <tr>
                                                                     <th>Campus Average:</th><td><asp:Label ID="Label20" runat="server" 
                                                         Text='<%# Eval("CampusAverageAnnual","{0:c}") %>'></asp:Label></td>

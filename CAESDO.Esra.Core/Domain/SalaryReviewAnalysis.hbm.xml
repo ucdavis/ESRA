@@ -32,5 +32,7 @@
 			<column name="TitleCode"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>
+
+    <property name="IsReclass" column="IsReclass"/>
 	</class>
 </hibernate-mapping>

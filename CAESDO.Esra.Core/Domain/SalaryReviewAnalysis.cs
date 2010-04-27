@@ -103,6 +103,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _OriginatingDepartment = value; }
         }
 
+        private bool _IsReclass;
+
+        public virtual bool IsReclass
+        {
+            get { return _IsReclass; }
+            set { _IsReclass = value; }
+        }
+
         public SalaryReviewAnalysis()
         {
 

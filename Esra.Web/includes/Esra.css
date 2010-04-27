@@ -86,6 +86,7 @@ tr.pagingnum td span, tr.pagingnum td a {padding: 0 0 0 10px;}
 		font-size: 1em;
         font-style: italic;
 		color: #ffffff;
+		text-decoration: none;
 }
 
 #mainwrap 
@@ -238,5 +239,10 @@ p.bbox em {
 }
 
 .tb_alt {background: #efefef;}
+
+a:link .title
+{
+	text-decoration: none;
+}
 
 

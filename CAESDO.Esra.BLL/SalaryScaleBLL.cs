@@ -63,23 +63,26 @@ namespace CAESDO.Esra.BLL
             return retval;
         }
 
-        public static Dictionary<string, decimal?> GetCriteriaListItems(string titleCode)
+        public static Dictionary<string, decimal?> GetCriteriaListItems(string titleCode, DateTime effectiveDate)
         {
             Dictionary<string, decimal?> cl = new Dictionary<string, decimal?>();
             int titleCodeInt = 0;
             if (String.IsNullOrEmpty(titleCode) == false && titleCode.Length == 4 && Int32.TryParse(titleCode, out titleCodeInt))
             {
                 Title title = TitleBLL.GetByID(titleCode);
-                SalaryScale ss = GetEffectiveSalaryScale(titleCode, DateTime.Today);
+                SalaryScale ss = GetEffectiveSalaryScale(titleCode, effectiveDate);
 
 
                 List<SelectionType> selectionTypes = SelectionTypeBLL.GetAll("SortOrder", true);
                 cl.Add(selectionTypes[(int)SelectionType.Types.NONE].ShortType, null); // "None"
-                cl.Add(selectionTypes[(int)SelectionType.Types.MIN].ShortType, ss.SalaryGradeQuartiles.MinAnnual); // "Min"
-                cl.Add(selectionTypes[(int)SelectionType.Types.FIRST].ShortType, ss.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
-                cl.Add(selectionTypes[(int)SelectionType.Types.MID].ShortType, ss.SalaryGradeQuartiles.MidAnnual); // "Mid"
-                cl.Add(selectionTypes[(int)SelectionType.Types.THIRD].ShortType, ss.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
-                cl.Add(selectionTypes[(int)SelectionType.Types.MAX].ShortType, ss.SalaryGradeQuartiles.MaxAnnual); // "Max"
+                if (ss.SalarySteps == null || ss.SalarySteps.Count == 0)
+                {
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MIN].ShortType, ss.SalaryGradeQuartiles.MinAnnual); // "Min"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.FIRST].ShortType, ss.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MID].ShortType, ss.SalaryGradeQuartiles.MidAnnual); // "Mid"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.THIRD].ShortType, ss.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MAX].ShortType, ss.SalaryGradeQuartiles.MaxAnnual); // "Max"
+                }
                 cl.Add(selectionTypes[(int)SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(ss.LaborMarketWAS)); // "Labor Mkt WAS"
                 cl.Add(selectionTypes[(int)SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(ss.LaborMarketMidAnnual)); // "Labor Mkt Mid"
                 cl.Add(selectionTypes[(int)SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(ss.CollegeAverageAnnual)); // "College AVG"
@@ -91,6 +94,11 @@ namespace CAESDO.Esra.BLL
                 }
             }
             return cl;
+        }
+
+        public static Dictionary<string, decimal?> GetCriteriaListItems(string titleCode)
+        {
+            return GetCriteriaListItems(titleCode, DateTime.Today);
         }
 
         // Given a date, return the salary scale with the appropriate effective date if 

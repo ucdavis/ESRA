@@ -20,7 +20,8 @@
     <div id="divSalaryDetails">
         <hr /><br />
         <center><asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" 
-                Font-Bold="True" Font-Size="Large"></asp:Label></center><br />
+                Font-Bold="True" Font-Size="Large"></asp:Label></center>
+        <br />
         <asp:GridView ID="gvTitle" runat="server" AutoGenerateColumns="False" EmptyDataText="Salary Data Unavailable."
             HeaderStyle-HorizontalAlign="Center" EnableViewState="False" DataSource='<%# Titles %>'>
             <Columns>
@@ -191,6 +192,7 @@
                                                                                 <asp:Label ID="Label18" runat="server" Text='<%# Eval("LaborMarketMidAnnual","{0:c}") %>'></asp:Label>
                                                                             </td>
                                                                         </tr>
+                                                                        </asp:Panel>
                                                                         <tr>
                                                                             <th>
                                                                                 College Average:
@@ -199,7 +201,6 @@
                                                                                 <asp:Label ID="Label19" runat="server" Text='<%# Eval("CollegeAverageAnnual","{0:c}") %>'></asp:Label>
                                                                             </td>
                                                                         </tr>
-                                                                        </asp:Panel>
                                                                         <tr>
                                                                             <th>
                                                                                 Campus Average:
@@ -436,10 +437,42 @@
         <br />
     </div>
     <div id="divSAR">
-        <center>
+    <center>
             <asp:Label runat="server" ID="lblSalaryReviewAnalysisTitle" 
                 Text="Salary Review Analysis" Font-Bold="True" Font-Size="Large" ></asp:Label>
-        </center><br />
+        </center>
+        <br />
+        <asp:MultiView ID="MultiView1" runat="server">
+        <asp:View ID="vSelectSalaryReviewType" runat="server">
+    Current Title Code:
+        <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
+        <br />
+        <br />
+        Proposed Title Code:
+        
+        <asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" 
+            DataSourceID="odsProposedTitleCodes" DataTextField="TitleCode_Name" 
+            DataValueField="TitleCode" 
+            onselectedindexchanged="ddlProposedTitleCode_SelectedIndexChanged">
+        </asp:DropDownList>&nbsp;&nbsp;<br />
+        <br />
+        Select a different Proposed Title Code (above) to conduct a Reclassification Review.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- or --<br />
+        Select &quot;Perform Equity Review&quot; (below) to conduct an Equity Review.<br />
+        <br />
+        <asp:Button ID="btnDoEquityReview" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click"/>
+        
+        <asp:ObjectDataSource ID="odsProposedTitleCodes" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
+            TypeName="CAESDO.Esra.BLL.TitleBLL">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        </asp:View>
+    <asp:View ID="vSalaryReviewAnalysis" runat="server">
+        
         <table id="tblSARMain" border="1" cellpadding="2" cellspacing="0" width="100%">
             <%--<th colspan="2">Abbreviated Name</th>--%>
             
@@ -518,7 +551,7 @@
                                                 Value='<%# Eval("ID") %>' />
                                         </th>
                                         <td>
-                                            <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
+                                            <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSource='<%# Criteria %>'
                                                 DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true"  OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged" SelectedValue='<%# GetSelectedValue(Container) %>'><%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
                                             </asp:DropDownList>
                                         </td>
@@ -594,6 +627,8 @@
      </td> 
     </tr>
         </table>
+        </asp:View>
+        </asp:MultiView>
         <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
             SelectMethod="GetCriteriaListItems">
@@ -620,9 +655,5 @@
         {
             width: 1219px;
         }
-        .style1
-        {
-            width: 203px;
-        }
-    </style>
+        </style>
 </asp:Content>

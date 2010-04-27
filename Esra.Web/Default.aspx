@@ -77,9 +77,9 @@
         </asp:View>
         <asp:View ID="vDepartments" runat="server">
         <dl>
-            <dt>
-                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/EmployeeSalaryComparisonPage.aspx">Salary Scales</asp:HyperLink></dt><dd>View Titles and Their Respective Salary Scales.</dd>
+            <dt><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/EmployeeSalaryComparisonPage.aspx">Salary Scales</asp:HyperLink></dt><dd>View Titles and Their Respective Salary Scales.</dd>
             <dt><asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/EmployeeSalaryComparisonPage.aspx">Employee Salary Comparison</asp:HyperLink></dt><dd>Compare Employees' Salaries By Title.</dd>
+            <dt><asp:HyperLink ID="HyperLink13" runat="server" NavigateUrl="~/SalaryReviewAnalysisPage.aspx">Salary Review Analysis</asp:HyperLink></dt><dd>Create a New Salary Review Analysis or Search For and View an Existing Salary Review Analysis.</dd>
             </dl>
         </asp:View>
     </asp:MultiView>

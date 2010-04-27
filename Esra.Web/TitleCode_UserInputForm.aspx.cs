@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace CAESDO.Esra.Web
 {
@@ -87,10 +88,10 @@ namespace CAESDO.Esra.Web
                 ss.CampusAverageAnnual = campusAverageAnnual;
 
                 DateTime tempDate = new DateTime();
-                if (DateTime.TryParse(tbEffectiveDate.Text, out tempDate))
-                    ss.EffectiveDate = tempDate;
-                else
-                    ss.EffectiveDate = DateTime.Today;
+                if (!DateTime.TryParse(tbEffectiveDate.Text, out tempDate))
+                    tempDate  = DateTime.Today;
+                
+                ss.EffectiveDate = tempDate;
 
                 double laborMarketMidAnnual = 0;
                 double.TryParse(tbLaborMarketMid.Text, styles, numberFormatInfo, out laborMarketMidAnnual);
@@ -102,6 +103,7 @@ namespace CAESDO.Esra.Web
 
                 ss.TitleCode = title.TitleCode;
                 ss.Title = title;
+
                 // First check to see if a record with this title code and effective date
                 // already exists.
                 if (SalaryScaleBLL.Exists(ss))
@@ -111,6 +113,18 @@ namespace CAESDO.Esra.Web
                 else
                 {
                     SalaryScaleBLL.InsertRecord(ss);
+
+                    // Logic for creating a new SalaryGradeQuartile:
+                    SalaryGradeQuartiles sgq = new SalaryGradeQuartiles()
+                    {
+                        EffectiveDate = ss.EffectiveDate,
+                        SalaryGrade = ss.SalaryGrade
+                    };
+                    sgq.SalaryScales = new List<SalaryScale>();
+                    sgq.SalaryScales.Add(ss);
+
+                    SalaryGradeQuartilesBLL.InsertRecord(sgq);
+
                     gvSalaryScale.DataBind();
 
                     SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_SAVED_SUCCESS);
