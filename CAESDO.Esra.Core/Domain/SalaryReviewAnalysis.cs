@@ -30,6 +30,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _Title = value; }
         }
 
+        private SalaryScale _SalaryScale;
+
+        public virtual SalaryScale SalaryScale
+        {
+            get { return _SalaryScale; }
+            set { _SalaryScale = value; }
+        }
+
         private Scenario _ApprovedScenario;
 
         public virtual Scenario ApprovedScenario

@@ -23,5 +23,9 @@
 			<key column="SalaryReviewAnalysisID"/>
 			<one-to-many class="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" />
 		</bag>
+		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" cascade="none" update="false" insert="false">
+			<column name="TitleCode"/>
+			<column name="EffectiveDate"/>
+		</many-to-one>
 	</class>
 </hibernate-mapping>
