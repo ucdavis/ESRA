@@ -134,19 +134,18 @@ namespace CAESDO.Esra.BLL
         {
             IList<SalaryGradeQuartiles> retval = null;
 
-            if (String.IsNullOrEmpty(salaryGrade) || salaryGrade.Equals("0"))
+            if (String.IsNullOrEmpty(salaryGrade) == false)
             {
-                retval = GetAll(propertyName, ascending);
-            }
-            else
-            {
-                SalaryGradeQuartiles example = new SalaryGradeQuartiles()
+                if (salaryGrade.Equals("0"))
                 {
-                    SalaryGrade = salaryGrade
-                };
-                retval = GetByInclusionExample(example, propertyName, ascending, "SalaryGrade");
+                    retval = GetAll(propertyName, ascending);
+                }
+                else
+                {
+                    retval = GetByInclusionExample(new SalaryGradeQuartiles() { SalaryGrade = salaryGrade },
+                                                   propertyName, ascending, "SalaryGrade");
+                }
             }
-
             return retval;
         }
 
