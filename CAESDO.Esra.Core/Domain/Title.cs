@@ -38,6 +38,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _SalaryScales = value; }
         }
 
+        private string _SalaryGrade;
+
+        public virtual string SalaryGrade
+        {
+            get { return _SalaryGrade; }
+            set { _SalaryGrade = value; }
+        }
+
         private string _BargainingCode;
         // i.e. 99, TX, etc.
         public virtual string BargainingCode
