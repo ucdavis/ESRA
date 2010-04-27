@@ -8,7 +8,7 @@ using CAESDO.Esra.Data;
 
 namespace CAESDO.Esra.BLL
 {
-    public class EmployeeBLL : GenericBLL<Employee, string>
+    public class EmployeeBLL : GenericBLL<Employee, int>
     {
         public static IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending)
         {
@@ -21,7 +21,7 @@ namespace CAESDO.Esra.BLL
 
             if (String.IsNullOrEmpty(departmentID) == false && departmentID.Equals("0") == false)
             {
-                Department department = DepartmentBLL.GetByID(Convert.ToInt32(departmentID));
+                Department department = DepartmentBLL.GetByID(departmentID);
                 if (department != null)
                 {
                     List<Employee> employees = department.Employees as List<Employee>;
@@ -45,9 +45,9 @@ namespace CAESDO.Esra.BLL
             return retval;
         }
 
-        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, string employeeID, string departmentID)
+        public static IList<Employee> GetEmployees(string propertyName, bool ascending, string titleCode, int? pkEmployee, string departmentID)
         {
-            return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, employeeID, departmentID);
+            return daoFactory.GetEmployeeDao().GetEmployees(propertyName, ascending, titleCode, pkEmployee, departmentID);
         }
 
         public static void UpdateRecord(Employee record)
@@ -65,7 +65,7 @@ namespace CAESDO.Esra.BLL
             string AdjustedApptHireDate,
             string DepartmentComments,
             string DeansOfficeComments,
-            string original_ID
+            int original_ID
             )
         {
             Employee record = GetByID(original_ID);
