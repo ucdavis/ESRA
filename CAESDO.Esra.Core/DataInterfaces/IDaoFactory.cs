@@ -21,6 +21,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
     public interface IEmployeeDao : IDao<Employee, int>
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
+        IList<Employee> GetEmployees(string propertyName, bool ascending, int? titleCode, int? employeeID, int? departmentID);
     }
 
     #endregion
