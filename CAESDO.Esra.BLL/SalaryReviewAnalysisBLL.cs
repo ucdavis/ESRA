@@ -140,7 +140,7 @@ namespace CAESDO.Esra.BLL
                 {
                     //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId);
                     //Revised to use Catbert user. 
-                    User user = UserBLL.GetByProperty("EmployeeID", userId);
+                    User user = UserBLL.GetCurrent();
            
                     IList<SalaryReviewAnalysis> tempList = new List<SalaryReviewAnalysis>();
                     foreach (SalaryReviewAnalysis sra in analyses)

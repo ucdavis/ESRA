@@ -20,7 +20,7 @@ namespace CAESDO.Esra.BLL
             //UCDEmployee user = GetByProperty("EmployeeID", userID);
             //return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
             // Revised to use Catbert User.
-            User user = UserBLL.GetByProperty("EmployeeID", userID);
+            User user = UserBLL.GetCurrent();
 
             List<string> depts = new List<string>();
             foreach (Unit unit in user.Units)
@@ -77,7 +77,7 @@ namespace CAESDO.Esra.BLL
                 retval = new List<Employee>();
                 //UCDEmployee user = GetByProperty("EmployeeID", userID);
                 // Changed to use Catbert user.
-                User user = UserBLL.GetByProperty("EmployeeID", userID);
+                User user = UserBLL.GetCurrent();
 
                 foreach (Employee employee in employees)
                 {
@@ -214,7 +214,7 @@ namespace CAESDO.Esra.BLL
                 //UCDEmployee user = GetByProperty("EmployeeID", userID);
                 //return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
                 // Replaced with logic that uses Catbert Units instead of PPS units.
-                User user = UserBLL.GetByProperty("EmployeeID", userID);
+                User user = UserBLL.GetCurrent();
                 List<string> units = new List<string>();
                 foreach (Unit unit in user.Units)
                 {

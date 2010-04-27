@@ -44,7 +44,7 @@ namespace CAESDO.Esra.Web
             {
                 //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 // Revised to use Catbert user
-                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                User user = UserBLL.GetCurrent();
                 
                 ViewState.Add(KEY_CURRENT_USER, user);
                 MultiView1.SetActiveView(vEmployees);
@@ -123,7 +123,7 @@ namespace CAESDO.Esra.Web
             string userId = Session[KEY_CURRENT_USER_ID] as string;
             //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);
             // Revised to use Catbert user.
-            User user = UserBLL.GetByProperty("EmployeeID", userId as string);
+            User user = UserBLL.GetCurrent();
             bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
             string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
             bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));

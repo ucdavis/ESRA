@@ -69,7 +69,7 @@ namespace CAESDO.Esra.Web
 
                 //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 // Revised to use Catbert user.
-                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                User user = UserBLL.GetCurrent();
                 ViewState.Add(KEY_CURRENT_USER, user);
 
                 MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);

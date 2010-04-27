@@ -105,7 +105,7 @@ namespace CAESDO.Esra.Web
                 pnlProposedTitle.Visible = false;
                 //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 // Revised to use Catbert user.
-                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                User user = UserBLL.GetCurrent();
                 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {

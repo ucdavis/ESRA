@@ -44,7 +44,7 @@ namespace CAESDO.Esra.Web
                 }
                  * */
 
-                CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
+                CAESDO.Esra.Core.Domain.User user = UserBLL.GetCurrent();
                 Session.Add(KEY_CURRENT_USER_ID, user.EmployeeID);
                 //UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
                 //Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);

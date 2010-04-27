@@ -25,7 +25,7 @@ namespace CAESDO.Esra.BLL
             }
             */
 
-            User user = UserBLL.GetByProperty("EmployeeID", userID);
+            User user = UserBLL.GetCurrent();
             foreach (Unit unit in user.Units)
             {
                 departments.Add(GetByID(unit.PPSCode));
