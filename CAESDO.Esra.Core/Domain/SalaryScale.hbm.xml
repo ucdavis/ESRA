@@ -10,6 +10,8 @@
 			<key-property name="EffectiveDate" column="EffectiveDate"/>
 		</composite-id>
 		
+		<many-to-one name="Title" class="CAESDO.TPS3.Core.Domain.Title, CAESDO.Esra.Core" column="TitleCode"/>
+			
 		<property name="TitleCode" column="TitleCode" />
 		<property name="EffectiveDate" column="EffectiveDate" />
 		<property name="SalaryGrade" column ="SalaryGrade" />

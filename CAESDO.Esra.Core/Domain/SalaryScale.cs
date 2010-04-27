@@ -14,6 +14,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _Title = value; }
         }
 
+        private int _TitleCode;
+
+        public virtual int TitleCode
+        {
+            get { return _TitleCode; }
+            set { _TitleCode = value; }
+        }
+
         private DateTime _EffeciveDate;
 
         public virtual DateTime EffeciveDate
