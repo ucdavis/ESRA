@@ -18,13 +18,7 @@ namespace CAESDO.Esra.BLL
         public static IList<Employee> GetAllEmployeesForUser(string userID, string propertyName, bool ascending)
         {
             UCDEmployee user = GetByProperty("EmployeeID", userID);
-            return GetEmployees("FullName", false, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
-        }
-
-        public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending)
-        {
-            UCDEmployee user = GetByProperty("EmployeeID", userID);
-            return GetEmployees("FullName", isDepartmentUser, null, null, new string []{ user.HomeDepartment.ID, user.WorkDepartment.ID });
+            return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
         }
 
         public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
