@@ -176,6 +176,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.GridView gvSalaryReviewAnalysis;
         
         /// <summary>
+        /// pnlProposedTitleCodeNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlProposedTitleCodeNote;
+        
+        /// <summary>
+        /// lblProposedTitleCodeNote control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProposedTitleCodeNote;
+        
+        /// <summary>
         /// ddlNewSAREmployee control.
         /// </summary>
         /// <remarks>

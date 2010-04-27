@@ -59,6 +59,7 @@ namespace CAESDO.Esra.Web
         {
             if (!IsPostBack)
             {
+                pnlProposedTitleCodeNote.Visible = false;
                 UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 ViewState.Add(KEY_CURRENT_USER, user);
 
@@ -212,6 +213,16 @@ namespace CAESDO.Esra.Web
             {
                 GridView gv = sender as GridView;
                 gv.Columns[5].Visible = false;
+            }
+        }
+
+        protected void gvSalaryReviewAnalysis_DataBound(object sender, EventArgs e)
+        {
+            pnlProposedTitleCodeNote.Visible = false;
+
+            if (((GridView)sender).Rows.Count > 0)
+            {
+                pnlProposedTitleCodeNote.Visible = true;
             }
         }
     }

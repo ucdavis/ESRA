@@ -118,7 +118,9 @@
                 <br />
                 <asp:GridView ID="gvSalaryReviewAnalysis" runat="server" AutoGenerateColumns="False"
                     EmptyDataText="No Data Found." OnSelectedIndexChanged="gvSalaryReviewAnalysis_SelectedIndexChanged"
-                    DataKeyNames="ID" OnRowDeleting="gvSalaryReviewAnalysis_OnRowDeleting" OnRowDataBound="gvSalaryReviewAnalysis_OnRowDataBound">
+                    DataKeyNames="ID" OnRowDeleting="gvSalaryReviewAnalysis_OnRowDeleting" 
+                    OnRowDataBound="gvSalaryReviewAnalysis_OnRowDataBound" 
+                    ondatabound="gvSalaryReviewAnalysis_DataBound">
                     <HeaderStyle CssClass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -161,7 +163,9 @@
                             <ItemTemplate>
                                 <asp:Label ID="lblTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") +"*" %>' Visible='<%# ((bool)Eval("IsReclass") ? true : false ) %>' Font-Bold="true"></asp:Label>
                                 <asp:Label ID="lblOriginalTitleCode" runat="server" Text='<%# Eval("CurrentTitleCode") %>'></asp:Label>
+                                <%--<asp:Label ID="lblProposedTitleCodeNote" runat="server" Text="*Proposed Title Code." Visible='<%# ((bool)Eval("IsReclass") ? true : false ) %>'></asp:Label>--%>
                             </ItemTemplate>
+                            
                         </asp:TemplateField>
                         <asp:BoundField DataField="DateInitiated" HeaderText="Date Initiated" SortExpression="DateInitiated"
                             DataFormatString="{0:MM/dd/yyyy}" />
@@ -187,9 +191,14 @@
                         </asp:TemplateField>
                         
                     </Columns>
+                    
                 </asp:GridView>
+                
+                <asp:Panel ID="pnlProposedTitleCodeNote" runat="server">
                 <br />
-                *Proposed Title Code.
+                <asp:Label ID="lblProposedTitleCodeNote" runat="server" Text="*Proposed Title Code." ></asp:Label><br />
+                </asp:Panel>
+                
                 <br />
                 <hr />
                 <br />
