@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class Title : DomainObject<Title, string>
     {
         private string _TitleCode;

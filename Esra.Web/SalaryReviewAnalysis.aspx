@@ -39,15 +39,19 @@
             <asp:View ID="vSelectSalaryReviewAnalysis" runat="server">
                 &nbsp;<table style="width: 75%;" id="tblSearchCriteria" border="1" cellpadding="2" cellspacing="0">
                     <tr>
+                        <td colspan="4"><center>
+                            <asp:Label ID="lblTblSearchCriteriaTitle" runat="server" 
+                                Text="Search Parameters" Font-Size="Large" Font-Bold="True"></asp:Label></center></td>
+                    </tr>
+                    <tr>
                         <th>
                             &nbsp;Reference Number
                         </th>
-                        <td>
-                            &nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" AutoPostBack="True"
-                                DataSourceID="odsESRAs" DataTextField="ReferenceNumber" 
-                                DataValueField="ID" AppendDataBoundItems="True" 
-                                onselectedindexchanged="ddlReferenceNumber_SelectedIndexChanged" >
-                                <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
+                        <td>&nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" 
+                                AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsESRAs" 
+                                DataTextField="ReferenceNumber" DataValueField="ID" 
+                                onselectedindexchanged="ddlReferenceNumber_SelectedIndexChanged">
+                            <asp:ListItem Value="">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td colspan="2">
@@ -64,28 +68,34 @@
                         <th>
                             &nbsp;Creation Date
                         </th>
-                        <td rowspan="2"><center><asp:Button ID="btnFindSRA" runat="server" 
-                                Text="Find Salary Review Analysis" onclick="btnFindSRA_Click" /></center></td>
+                        <td rowspan="2">
+                            <center>
+                                <asp:Button ID="btnFindSRA" runat="server" onclick="btnFindSRA_Click" 
+                                    Text="Find Salary Review Analysis" />
+                            </center>
+                        </td>
+                        
                     </tr>
+                  
                     <tr>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" DataSourceID="odsEmployee"
-                                DataTextField="FullName" DataValueField="ID" AppendDataBoundItems="True">
+                            &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AppendDataBoundItems="True" 
+                                DataSourceID="odsEmployee" DataTextField="FullName" DataValueField="ID">
                                 <asp:ListItem Value="">-- Select an Employee --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
-                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server"  
-                                DataTextField="FullName" DataValueField="Login" 
-                                DataSourceID="odsCreatedBy" AppendDataBoundItems="True">
+                            &nbsp;<asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" 
+                                DataSourceID="odsCreatedBy" DataTextField="FullName" DataValueField="Login">
                                 <asp:ListItem Value="">-- Select Created By --</asp:ListItem>
                             </asp:DropDownList>
                         </td>
-                        <td><ajax:CalendarExtender
-                                ID="ceCreationDate" runat="server" TargetControlID="tbCreationDate" Format="MM/dd/yyyy" ></ajax:CalendarExtender>
-                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" ReadOnly="true"/>
+                        <td>
+                            <ajax:CalendarExtender ID="ceCreationDate" runat="server" CssClass="calendar" 
+                                Format="MM/dd/yyyy" TargetControlID="tbCreationDate">
+                            </ajax:CalendarExtender>
+                            &nbsp;<asp:TextBox ID="tbCreationDate" runat="server" ReadOnly="true" />
                         </td>
-                        
                     </tr>
                   
                 </table>

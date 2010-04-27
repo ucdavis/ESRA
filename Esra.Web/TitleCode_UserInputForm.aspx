@@ -97,24 +97,41 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label ID="lblTitleCode" runat="server" Text="Label"></asp:Label></td>
+                        <asp:Label ID="lblTitleCode" runat="server" Text=""></asp:Label></td>
                     <td>
-                        <asp:Label ID="lblPayrollTitle" runat="server" Text="Label"></asp:Label></td>
+                        <asp:Label ID="lblPayrollTitle" runat="server" Text=""></asp:Label></td>
                     <td>
+                        <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" CssClass="calendar">
+                        </ajax:CalendarExtender>
                         <asp:TextBox ID="tbEffectiveDate" runat="server" ReadOnly="true"></asp:TextBox></td>
                     <td>
+                        <asp:Label ID="lblSalaryGrade" runat="server" Text=""></asp:Label>
                         </td>
                     <td>
-                        &nbsp;</td>
+                        <asp:Label ID="lblBargainingCode" runat="server" Text=""></asp:Label>
+                    </td>
                     <td>
-                        &nbsp;</td>
+                        <asp:TextBox ID="tbLaborMarketWAS" runat="server"></asp:TextBox>
+                    </td>
                     <td>
-                        &nbsp;</td>
+                        <asp:TextBox ID="tbLaborMarketMid" runat="server"></asp:TextBox>
+                    </td>
                     <td>
-                        &nbsp;</td>
+                        <asp:Label ID="lblCollegeAverageAnnual" runat="server" Text=""></asp:Label>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbCampusAverageAnnual" runat="server" Text=""></asp:TextBox>
+                    </td>
                 </tr>
-                
+                <tr><td colspan="2">
+                    <asp:Button ID="btnSave" runat="server" CommandName="save" 
+                        oncommand="btnClick_Command" Text="Save" />
+                    &nbsp;<asp:Button ID="btnCancel" runat="server" CommandName="cancel" 
+                        oncommand="btnClick_Command" Text="Cancel" />
+                    &nbsp;</td>
+                </tr>
             </table>
+            
         </asp:View>
     </asp:MultiView>
     

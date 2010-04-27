@@ -1,19 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CAESDO.Esra.Web._Default" %>
-<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajax" %>
-<%@ Import Namespace="System.Collections.Generic" %>
-<%@ Import Namespace="CAESDO.Esra.Core.Domain" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head runat="server">
-    <title>Employees Page</title>
-</head>
-<body>
-    <form id="form1" runat="server">
+﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CAESDO.Esra.Web._Default" Title="ESRA - Employees Page" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
     <div>
-        <asp:ScriptManager ID="ScriptManager1" runat="server">
-        </asp:ScriptManager>
-        <br />
     &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
@@ -30,7 +21,7 @@
                 <asp:TemplateField>
                 <HeaderTemplate>Campus-wide Salary Scale</HeaderTemplate>
                     <ItemTemplate>
-                        <table>
+                        <table id="tblTitleCodeSalaryScale">
                             <tr>
                                 <th>Title Code</th><th colspan="2">Payroll Title</th><%--<th colspan="2">Abbreviated Name</th>--%></tr>
                             <tr><td><asp:Label ID="lblTitle" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label></td>
@@ -163,21 +154,29 @@
              TargetControlID="ddlEmployee" >
          </ajax:ListSearchExtender>
          <br />
-         <table>
+         <table id="tblEmployeeSalaryComparasionReportSearchParameters" width="75%">
+         <tr><th colspan="3">
+             <center><asp:Label ID="lblTblEmployeeSalaryComparasionReportSearchParameters" 
+                     runat="server" Font-Size="Medium" 
+                 Text="Search Parameters"></asp:Label></center>
+             </th></tr>
             <tr>
-                <td rowspan="2"><asp:ListBox ID="lbxTitleCodes" runat="server" 
+                <td rowspan="3"><asp:ListBox ID="lbxTitleCodes" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" 
              onselectedindexchanged="lbxTitleCodes_SelectedValues" Rows="5" 
              SelectionMode="Multiple">
             <asp:ListItem Value="0">-- Any Title Code(s) --</asp:ListItem>
         </asp:ListBox></td>
-                <td rowspan="2"><asp:ListBox ID="lbxDepartment" runat="server" 
+                <td rowspan="3"><asp:ListBox ID="lbxDepartment" runat="server" 
             AppendDataBoundItems="True" DataSourceID="odsDepartments" 
             DataTextField="Name" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
             onselectedindexchanged="lbxDepartments_SelectedValues">
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
         </asp:ListBox></td>
+                
+            </tr>
+            <tr>
                 <td><asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
             DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged">
@@ -208,7 +207,7 @@ document.write(month+"/"+today+"/"+year)
 </script> --%>
 
                 <br />
-                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Center">
+                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Center" Width="75%">
                 
                     <Columns>
                         <asp:TemplateField>
@@ -275,6 +274,8 @@ document.write(month+"/"+today+"/"+year)
                     onrowupdated="gvEmployees_RowUpdated" 
                     EnableViewState="False">
                     <PagerSettings Position="TopAndBottom" />
+                    <HeaderStyle cssclass="tr_head" />
+                    <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
                         <asp:CommandField ShowEditButton="True" />
                         
@@ -316,7 +317,9 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Hire Date">
                             <EditItemTemplate>
-                                <asp:TextBox ID="TextBox2" runat="server" 
+                                <ajax:CalendarExtender ID="ceAdjustedCareerHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedCareerHireDate" Format="MM/dd/yyyy">
+                                </ajax:CalendarExtender>
+                                <asp:TextBox ID="tbAdjustedCareerHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                                     
                             </EditItemTemplate>
@@ -339,11 +342,13 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Begin Date (in Title)">
                             <EditItemTemplate>
-                                <asp:TextBox ID="TextBox3" runat="server" 
+                            <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbAdjustedApptHireDate" Format="MM/dd/yyyy">
+                                </ajax:CalendarExtender>
+                                <asp:TextBox ID="tbAdjustedApptHireDate" runat="server" 
                                     Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label6" runat="server" 
+                                <asp:Label ID="lblAdjustedApptHireDate" runat="server" 
                                     Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White )  %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -462,6 +467,4 @@ document.write(month+"/"+today+"/"+year)
         </asp:ObjectDataSource>
         <br />
     </div>
-    </form>
-</body>
-</html>
+   </asp:Content>

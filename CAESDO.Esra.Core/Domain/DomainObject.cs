@@ -6,6 +6,7 @@ using NHibernate.Mapping.Attributes;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public abstract class DomainObject<T, IdT>
     {
         /// <summary>

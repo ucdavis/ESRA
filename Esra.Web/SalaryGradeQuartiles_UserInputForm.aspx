@@ -74,7 +74,9 @@
                         Text='<%# Bind("EffectiveDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Bind("EffectiveDate") %>'></asp:TextBox>
+                    <ajax:CalendarExtender ID="ceEffectiveDate" runat="server" CssClass="calendar" TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy">
+                    </ajax:CalendarExtender>
+                    <asp:TextBox ID="tbEffectiveDate" runat="server" Text='<%# Bind("EffectiveDate") %>' ReadOnly="true"></asp:TextBox>
                 </EditItemTemplate>
             </asp:TemplateField>
         </Columns>

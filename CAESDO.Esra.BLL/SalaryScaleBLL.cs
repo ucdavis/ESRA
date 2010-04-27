@@ -64,5 +64,14 @@ namespace CAESDO.Esra.BLL
                 ts.CommittTransaction();
             }
         }
+
+        public static void InsertRecord(SalaryScale record)
+        {
+            using (var ts = new TransactionScope())
+            {
+                EnsurePersistent(ref record);
+                ts.CommittTransaction();
+            }
+        }
     }
 }

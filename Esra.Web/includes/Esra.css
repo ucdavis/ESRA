@@ -93,4 +93,24 @@ p.bbox em {
 	padding: 0 39px 39px 0;
 }
 
+/* ajax calendar */
+.calendar .ajax__calendar_body
+{
+	background: white;
+	width: 252px;
+    height: 189px;
+}
+.calendar .ajax__calendar_container
+{	
+	background: white;
+	border: 2px black solid;
+	width: 262px;
+}
+.calendar .ajax__calendar_month
+{
+	padding: 0px;
+	height: 25px;
+	width: 30px;
+}
+
 

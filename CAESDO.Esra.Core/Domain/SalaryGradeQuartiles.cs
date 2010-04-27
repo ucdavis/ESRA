@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class SalaryGradeQuartiles : DomainObject<SalaryGradeQuartiles, int>
     {
         private string _SalaryGrade;
