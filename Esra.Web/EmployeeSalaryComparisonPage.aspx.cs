@@ -475,29 +475,29 @@ namespace CAESDO.Esra.Web
             return searchEmployee;
         }
 
-        protected bool IsMiddleStep(object sender)
-        {
-            bool retval = false;
-            RepeaterItem item = (RepeaterItem)sender;  
-            SalaryStep step = (SalaryStep)item.DataItem;
-            SalaryScale ss = step.SalaryScale;
-            int numSteps = ss.SalarySteps.Count;
-            int midStepIndex = numSteps / 2;
+        //protected bool IsMiddleStep(object sender)
+        //{
+        //    bool retval = false;
+        //    RepeaterItem item = (RepeaterItem)sender;  
+        //    SalaryStep step = (SalaryStep)item.DataItem;
+        //    SalaryScale ss = step.SalaryScale;
+        //    int numSteps = ss.SalarySteps.Count;
+        //    int midStepIndex = numSteps / 2;
 
-            // select next lower step if even number of steps.
-            if (numSteps % 2 == 0)
-            {
-                midStepIndex--;
-            }
+        //    // select next lower step if even number of steps.
+        //    if (numSteps % 2 == 0)
+        //    {
+        //        midStepIndex--;
+        //    }
             
-            string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
-            if(midStepNumbString.Equals(step.StepNumber))
-            {
-                retval = true;
-            }
+        //    string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
+        //    if(midStepNumbString.Equals(step.StepNumber))
+        //    {
+        //        retval = true;
+        //    }
 
-            return retval;
-        }
+        //    return retval;
+        //}
         
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
         {
@@ -510,18 +510,18 @@ namespace CAESDO.Esra.Web
            }
         }
 
-        protected bool IsDepartmentUser()
-        {
-            bool retval = false;
-            bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
-            if (isDepartmentUser != null)
-                retval = (bool)isDepartmentUser;
-            //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
-            //{
-            //    retval = true;
-            //}
-            return retval;
-        }
+        //protected bool IsDepartmentUser()
+        //{
+        //    bool retval = false;
+        //    bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
+        //    if (isDepartmentUser != null)
+        //        retval = (bool)isDepartmentUser;
+        //    //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
+        //    //{
+        //    //    retval = true;
+        //    //}
+        //    return retval;
+        //}
 
         protected ObjectDataSource GetDataSourceForDepartments()
         {
@@ -599,18 +599,18 @@ namespace CAESDO.Esra.Web
              * */
         }
 
-        protected bool HasSalarySteps(object sender)
-        {
-            bool retval = false;
-            RepeaterItem item = (RepeaterItem)sender;
-            SalaryScale ss = (SalaryScale)item.DataItem;
+        //protected bool HasSalarySteps(object sender)
+        //{
+        //    bool retval = false;
+        //    RepeaterItem item = (RepeaterItem)sender;
+        //    SalaryScale ss = (SalaryScale)item.DataItem;
 
-            if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
-            {
-                retval = true;
-            }
+        //    if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
+        //    {
+        //        retval = true;
+        //    }
 
-            return retval;
-        }
+        //    return retval;
+        //}
     }
 }

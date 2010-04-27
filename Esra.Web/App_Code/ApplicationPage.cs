@@ -262,6 +262,62 @@ namespace CAESDO.Esra.Web
             }
         }
         #endregion
+
+        #region SalaryScaleMethods
+
+        protected bool HasSalarySteps(object sender)
+        {
+            bool retval = false;
+             
+            IDataItemContainer item = sender as IDataItemContainer;
+            SalaryScale ss = (SalaryScale)item.DataItem;
+            
+            if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
+
+        protected bool IsMiddleStep(object sender)
+        {
+            bool retval = false;
+            RepeaterItem item = (RepeaterItem)sender;
+            SalaryStep step = (SalaryStep)item.DataItem;
+            SalaryScale ss = step.SalaryScale;
+            int numSteps = ss.SalarySteps.Count;
+            int midStepIndex = numSteps / 2;
+
+            // select next lower step if even number of steps.
+            if (numSteps % 2 == 0)
+            {
+                midStepIndex--;
+            }
+
+            string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
+            if (midStepNumbString.Equals(step.StepNumber))
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
+
+        protected bool IsDepartmentUser()
+        {
+            bool retval = false;
+            bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
+            if (isDepartmentUser != null)
+                retval = (bool)isDepartmentUser;
+            //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
+            //{
+            //    retval = true;
+            //}
+            return retval;
+        }
+
+        #endregion
     }
 
 }
