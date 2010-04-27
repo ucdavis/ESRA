@@ -454,8 +454,7 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Eval("TimeInTitle", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Experience Begin Date" 
-                            SortExpression="ExperienceBeginDate">
+                        <asp:TemplateField HeaderText="Experience Begin Date" >
                             <EditItemTemplate>
                             <ajax:CalendarExtender ID="ceExperienceBeginDate" runat="server" CssClass="calendar" TargetControlID="tbExperienceBeginDate" Format="MM/dd/yyyy">
                                 </ajax:CalendarExtender>
