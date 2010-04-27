@@ -59,7 +59,7 @@ namespace CAESDO.Esra.Web
             lblTblTitleHeaderTitleCode.Text = emp.Title.TitleCode;
             lblTblTitleHeaderPayrollTitle.Text = emp.Title.PayrollTitle;
             lblTblTitleHeaderSalaryGrade.Text = emp.Title.SalaryGrade;
-            lblTblTitleHeaderSalaryStep.Text = emp.
+            lblTblTitleHeaderSalaryStep.Text = emp.SalaryStep;
             lblTblTitleHeaderBargainingUnit.Text = emp.Title.BargainingCode;
             lblTblTitleHeaderReportDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
         }
