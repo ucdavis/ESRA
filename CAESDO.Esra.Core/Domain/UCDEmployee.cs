@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public abstract class UCDEmployee : DomainObject<UCDEmployee, int>
+    public abstract class UCDEmployee : DomainObject<UCDEmployee, string>
     {
         protected string _EmployeeID;
 
