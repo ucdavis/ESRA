@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using CAESDO.Esra.BLL;
+using System.Collections.Generic;
 
 
 namespace CAESDO.Esra.Web
@@ -42,10 +43,14 @@ namespace CAESDO.Esra.Web
 
         protected void ddlReferenceNumber_SelectedIndexChanged(object sender, EventArgs e)
         {
+            List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis> items = new List<CAESDO.Esra.Core.Domain.SalaryReviewAnalysis>();
             ddlEmployee.SelectedIndex = -1;
             ddlCreatedBy.SelectedIndex = -1;
             tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
-            gvSalaryReviewAnalysis.DataSource = SalaryReviewAnalysisBLL.GetByReferenceNumber(ddlReferenceNumber.SelectedValue);
+            CAESDO.Esra.Core.Domain.SalaryReviewAnalysis item = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
+            items.Add(item);
+            //items = SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue));
+            gvSalaryReviewAnalysis.DataSource = items;
             gvSalaryReviewAnalysis.DataBind();
         }
 

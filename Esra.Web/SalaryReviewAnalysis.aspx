@@ -118,7 +118,7 @@
                                 <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("OriginatingDepartment") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label2" runat="server" Text='<%# Bind("OriginatingDepartment") %>'></asp:Label>
+                                <asp:Label ID="lblOriginatingDepartment" runat="server" Text='<%# Eval("OriginatingDepartment.Name") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Employee" SortExpression="Employee">
@@ -126,10 +126,10 @@
                                 <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Employee") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label1" runat="server" Text='<%# Bind("Employee") %>'></asp:Label>
+                                <asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("Employee.FullName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:BoundField DataField="DateInitiated" HeaderText="Date Initiated" SortExpression="DateInitiated" />
+                        <asp:BoundField DataField="DateInitiated" HeaderText="Date Initiated" SortExpression="DateInitiated" DataFormatString="{0:MM/dd/yyyy}"/>
                         <asp:BoundField DataField="InitiatedByReviewerName" HeaderText="Initiated By Reviewer Name"
                             SortExpression="InitiatedByReviewerName" />
                         <asp:BoundField DataField="DateApproved" HeaderText="Date Approved" SortExpression="DateApproved" />
@@ -138,7 +138,7 @@
                                 <asp:TextBox ID="TextBox4" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label4" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:Label>
+                                <asp:Label ID="lblApprovedScenario" runat="server" Text='<%# Bind("ApprovedScenario") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" SortExpression="DepartmentComments" />
