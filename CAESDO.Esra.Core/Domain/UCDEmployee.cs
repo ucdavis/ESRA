@@ -10,6 +10,48 @@ namespace CAESDO.Esra.Core.Domain
 
         // Beginning of nested classes.
 
+        // Nested class to do ascending sort on Admin Department property.
+        protected class sortAdminDepartmentAscendingHelper : IComparer<UCDEmployee>
+        {
+            #region IComparer<UCDEmployee> Members
+
+            public int Compare(UCDEmployee x, UCDEmployee y)
+            {
+                /*
+                * 
+                * If the employees are in the same department return the employeeOrder.
+                * 
+                * If the employees are in different departments return the deptOrder.
+                * 
+                * */
+
+                int deptOrder = String.Compare(x.AdminDepartment.Name, y.AdminDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
+
+            #endregion
+        }
+
+        // Nested class to do descending sort on on Admin Department property.
+        protected class sortAdminDepartmentDescendingHelper : IComparer<UCDEmployee>
+        {
+            #region IComparer<UCDEmployee> Members
+
+            public int Compare(UCDEmployee x, UCDEmployee y)
+            {
+                int deptOrder = String.Compare(y.AdminDepartment.Name, x.AdminDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
+
+            #endregion
+        }
+
         // Nested class to do ascending sort on Home Department property.
         protected class sortHomeDepartmentAscendingHelper : IComparer<UCDEmployee>
         {
@@ -127,6 +169,22 @@ namespace CAESDO.Esra.Core.Domain
             set { _WorkDepartment = value; }
         }
 
+        protected string _AdminDepartmentID;
+
+        public virtual string AdminDepartmentID
+        {
+            get { return _AdminDepartmentID; }
+            set { _AdminDepartmentID = value; }
+        }
+
+        protected Department _AdminDepartment;
+
+        public virtual Department AdminDepartment
+        {
+            get { return _AdminDepartment; }
+            set { _AdminDepartment = value; }
+        } 
+
         protected bool? _Different;
 
         public virtual bool? Different
@@ -241,6 +299,18 @@ namespace CAESDO.Esra.Core.Domain
         public virtual int CompareTo(UCDEmployee item)
         {
             return String.Compare(this.FullName, item.FullName);
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<UCDEmployee> sortAdminDepartmentAscending()
+        {
+            return (IComparer<UCDEmployee>)new sortAdminDepartmentAscendingHelper();
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<UCDEmployee> sortAdminDepartmentDescending()
+        {
+            return (IComparer<UCDEmployee>)new sortAdminDepartmentDescendingHelper();
         }
 
         // Method to return IComparer object for sort helper.

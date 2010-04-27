@@ -84,6 +84,8 @@ namespace CAESDO.Esra.Web
                 hiddenUserID.Value = UserBLL.GetCurrent().EmployeeID;
                 hiddenIsDepartmentUser.Value = IsDepartmentUser().ToString();
 
+                lbxDepartments_Init(null,null);
+
                 Page.Form.DefaultButton = btnSearch.UniqueID;
             }
             #region test_app_exception
@@ -289,20 +291,20 @@ namespace CAESDO.Esra.Web
                     lbxDepartments_ClearSelectedValues();
                 }
             }
-            else if ((lbxTitleCodes.SelectedIndex > 0 && lbxDepartments.SelectedIndex > 0 ) ||
-                (lbxTitleCodeIDs.SelectedIndex > 0 && lbxTitleCodeIDs.SelectedIndex > 0))
+            else if ((lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0) &&
+                (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0))
             {
                 // Get all the employees for a given department with the matching title code.
                 ddlEmployee_ClearSelectedValue();
             }
-            
-            else if (lbxDepartments.SelectedIndex > 0)
+
+            else if (lbxDepartments.SelectedIndex > 0 || lbxDepartmentIDs.SelectedIndex > 0)
             {
                 // Get all employees in the given departments with any title code.
                 ddlEmployee_ClearSelectedValue();
                 lbxTitleCodes_ClearSelectedValues();
             }
-            else if (lbxTitleCodes.SelectedIndex > 0)
+            else if (lbxTitleCodes.SelectedIndex > 0 || lbxTitleCodeIDs.SelectedIndex > 0)
             {
                 // Get all employees with the given title codes in any department.
                 ddlEmployee_ClearSelectedValue();
@@ -321,7 +323,12 @@ namespace CAESDO.Esra.Web
             gvESRSearchParams_Load();
         }
 
-        protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e) { }
+        protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          // tet  
+            int retval = 0;
+
+        }
 
         protected void gvEmployees_Sorting(object sender, GridViewSortEventArgs e)
         {

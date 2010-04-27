@@ -8,6 +8,48 @@ namespace CAESDO.Esra.Core.Domain
     {
         // Beginning of nested classes.
 
+        // Nested class to do ascending sort on Admin Department property.
+        protected class sortAdminDepartmentAscendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                /*
+                * 
+                * If the employees are in the same department return the employeeOrder.
+                * 
+                * If the employees are in different departments return the deptOrder.
+                * 
+                * */
+
+                int deptOrder = String.Compare(x.AdminDepartment.Name, y.AdminDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
+
+            #endregion
+        }
+
+        // Nested class to do descending sort on on Admin Department property.
+        protected class sortAdminDepartmentDescendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                int deptOrder = String.Compare(y.AdminDepartment.Name, x.AdminDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;
+            }
+
+            #endregion
+        }
+
         // Nested class to do ascending sort on Home Department property.
         protected class sortHomeDepartmentAscendingHelper : IComparer<Employee>
         {
@@ -225,6 +267,18 @@ namespace CAESDO.Esra.Core.Domain
         public virtual int CompareTo(Employee item)
         {
             return String.Compare(this.FullName, item.FullName);
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortAdminDepartmentAscending()
+        {
+            return (IComparer<Employee>)new sortAdminDepartmentAscendingHelper();
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortAdminDepartmentDescending()
+        {
+            return (IComparer<Employee>) new sortAdminDepartmentDescendingHelper();
         }
 
         // Method to return IComparer object for sort helper.

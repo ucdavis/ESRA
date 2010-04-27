@@ -268,16 +268,22 @@
         </asp:ListBox></td>
         
         </tr><tr>
+        <%--<td><asp:ListBox ID="ListBox1" runat="server" 
+            AppendDataBoundItems="True" 
+            DataTextField="Name_DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
+            onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init" >
+            <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
+        </asp:ListBox></td>--%>
                 <td><asp:ListBox ID="lbxDepartments" runat="server" 
             AppendDataBoundItems="True" 
             DataTextField="Name_DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
-            onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
+            onselectedindexchanged="lbxDepartments_SelectedValues" >
             <asp:ListItem Value="0">-- Any Department(s) --</asp:ListItem>
         </asp:ListBox></td>
         <td><asp:ListBox ID="lbxDepartmentIDs" runat="server" 
             AppendDataBoundItems="True" 
             DataTextField="DepartmentNumber" DataValueField="ID" Rows="5" SelectionMode="Multiple" 
-            onselectedindexchanged="lbxDepartments_SelectedValues" oninit="lbxDepartments_Init">
+            onselectedindexchanged="lbxDepartments_SelectedValues" >
             <asp:ListItem Value="0">-- Any Department ID(s) --</asp:ListItem>
         </asp:ListBox></td>
         </tr><tr>

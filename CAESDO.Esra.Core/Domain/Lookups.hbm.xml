@@ -14,7 +14,7 @@
 
 	<class
 	  name="CAESDO.Esra.Core.Domain.Unit, CAESDO.Esra.Core"
-	  table="Catbert3_vUnit" >
+	  table="Catbert3_vUnit" mutable="false">
 		<id name="ID" access="nosetter.lowercase" column="UnitID" unsaved-value="0">
 			<generator class="assigned" />
 		</id>

@@ -26,6 +26,22 @@ namespace CAESDO.Esra.Core.Domain
             set { _EmployeeID = value; }
         }
 
+        protected string _AdminDepartmentID;
+
+        public virtual string AdminDepartmentID
+        {
+            get { return _AdminDepartmentID; }
+            set { _AdminDepartmentID = value; }
+        }
+
+        protected Department _AdminDepartment;
+
+        public virtual Department AdminDepartment
+        {
+            get { return _AdminDepartment; }
+            set { _AdminDepartment = value; }
+        }
+
         protected string _HomeDepartmentID;
 
         public virtual string HomeDepartmentID
@@ -386,6 +402,8 @@ namespace CAESDO.Esra.Core.Domain
             _SalaryGrade = emp.SalaryGrade;
             _BargainingUnitCode = emp.BargainingUnitCode;
             _SalaryStep = emp.SalaryStep;
+            _AdminDepartmentID = emp.AdminDepartmentID;
+            _AdminDepartment = emp.AdminDepartment;
             _HomeDepartmentID = emp.HomeDepartmentID;
             _HomeDepartment = emp.HomeDepartment;
             _WorkDepartmentID = emp.WorkDepartmentID;

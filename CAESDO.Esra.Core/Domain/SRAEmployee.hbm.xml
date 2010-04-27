@@ -41,6 +41,9 @@
     <many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"  insert="false" update="false" column="TitleCode" foreign-key="TitleCode"/>
     <property name="TitleCode" column="TitleCode" />
 
+    <many-to-one name="AdminDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="AdminDepartmentID"  insert="false" update="false"/>
+    <property name="AdminDepartmentID" column="AdminDepartmentID"/>
+
     <many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDepartmentID"  insert="false" update="false"/>
     <property name="HomeDepartmentID" column="HomeDepartmentID"/>
 

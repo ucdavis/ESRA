@@ -51,11 +51,13 @@ namespace CAESDO.Esra.BLL
                     retval = true;
                 }
                  * */
-                // Check if the employee's home or work department is in the user's list of departments:
+                // Check if the employee's home or work department or admin department is in the user's list of departments:
                 foreach (Unit unit in user.Units)
                 {
                     if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(unit.PPSCode)) ||
-                        (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(unit.PPSCode)))
+                        (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(unit.PPSCode)) ||
+                        (employee.AdminDepartmentID != null && employee.AdminDepartmentID.Equals(unit.PPSCode))
+                        )
                     {
                         retval = true;
                         break;
@@ -67,8 +69,8 @@ namespace CAESDO.Esra.BLL
 
         public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string titleCodesString, string pkEmployee, string departmentIDsString)
         {
-            string[] titleCodes = titleCodesString.Split('|');
-            string[] departmentIDs = departmentIDsString.Split('|');
+            string[] titleCodes = (!String.IsNullOrEmpty(titleCodesString) ? titleCodesString.Split('|') : new string[]{"0"});
+            string[] departmentIDs = (!String.IsNullOrEmpty(departmentIDsString) ? departmentIDsString.Split('|') : new string[]{"0"});
             return GetAllEmployeesForUser(userID, isDepartmentUser, propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
         }
 
@@ -370,11 +372,11 @@ namespace CAESDO.Esra.BLL
             if (record.ExperienceBeginDate != experienceBeginDate)
             {
                 record.ExperienceBeginDate = experienceBeginDate;
-                if (experienceBeginDate == null)
+                if (experienceBeginDate == null && record.ExperienceBeginDate != null)
                 {
                     record.YearsOfExperience = (DateTime.Today - (DateTime)record.ExperienceBeginDate).TotalDays / 365.25;
                 }
-                else
+                else if (experienceBeginDate != null)
                 {
                     record.YearsOfExperience = (DateTime.Today - (DateTime)experienceBeginDate).TotalDays / 365.25;
                 }
