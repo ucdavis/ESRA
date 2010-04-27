@@ -119,13 +119,13 @@
                                         <AlternatingItemTemplate>
                                             <tr class="tr_alt">
                                                 <td>
-                                                    <asp:TextBox ID="tbStepNumber3" runat="server" Text='<%# Bind("StepNumber") %>' CssClass="tb_alt"
+                                                    <asp:TextBox ID="tbStepNumber3" Width="50px" runat="server" Text='<%# Bind("StepNumber") %>' CssClass="tb_alt"
                                                         OnTextChanged="tbStepNumber_OnTextChanged" />
                                                          <asp:RequiredFieldValidator
                                                             ID="tbStepNumber3RequiredFieldValidator" runat="server" ErrorMessage="Step #" Display="Dynamic" Text="Step # Required!" ControlToValidate="tbStepNumber3" ValidationGroup="Update"></asp:RequiredFieldValidator>
                                                 </td>
                                                 <td>
-                                                    <asp:TextBox ID="tbAnnual3" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
+                                                    <asp:TextBox ID="tbAnnual3" Width="50px" runat="server" Text='<%# Bind("Annual" ,"{0:c}") %>'
                                                         CssClass="tb_alt" OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                                         <asp:RequiredFieldValidator
                                                             ID="tbSalaryAmountRequiredFieldValidator2" runat="server" ErrorMessage="Annual $" Display="Dynamic" Text="Amount > $0 Required!" ControlToValidate="tbAnnual3" InitialValue="$0.00" ValidationGroup="Update"></asp:RequiredFieldValidator>
