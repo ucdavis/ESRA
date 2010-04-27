@@ -419,7 +419,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Employee Name" SortExpression="FullName">
                             <EditItemTemplate>
-                                <asp:Label ID="lblFullNameHeader" runat="server" Text="Employee Name:" CssClass="edit_header"/><br />&nbsp
+                                <asp:Label ID="lblFullNameHeader" runat="server" Text="Employee Name:" CssClass="edit_header"/><br />&nbsp<br />
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
@@ -512,7 +512,7 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Department Comments">
                             <EditItemTemplate>
-                                <asp:Label ID="lblDepartmentCommentsHeader" runat="server" Text="Department Comments:" CssClass="edit_header"/><br />
+                                <asp:Label ID="lblDepartmentCommentsHeader" runat="server" Text="Department Comments:" CssClass="edit_header" /><br />
                                 <asp:TextBox ID="TextBox4" runat="server" 
                                     Text='<%# Bind("DepartmentComments") %>' ReadOnly='<%# !IsDepartmentUser() %>' BackColor='<%# (!IsDepartmentUser() ? System.Drawing.Color.LightGray : System.Drawing.Color.White) %>' ></asp:TextBox>
                             </EditItemTemplate>
