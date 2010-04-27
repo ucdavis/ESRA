@@ -105,7 +105,8 @@ namespace CAESDO.Esra.BLL
 
         /// <summary>
         /// Given a title code, return a list of SalaryScales, sorted by the propertyName in the 
-        /// order provided.  If the title code is null or "0", all SalaryScales are returned.
+        /// order provided.  If the title code is null NO SalaryScales are returned.  
+        /// If the title code is "0" all SalaryScales are returned.
         /// </summary>
         /// <param name="titleCode">TitleCode of the SalaryScales desired.</param>
         /// <param name="propertyName">"Sort by" property name.</param>
@@ -114,18 +115,18 @@ namespace CAESDO.Esra.BLL
         public static IList<SalaryScale> GetSalaryScales(string titleCode, string propertyName, bool ascending)
         {
             IList<SalaryScale> retval = null;
-            if (String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))
+            //if (String.IsNullOrEmpty(titleCode) || titleCode.Equals("0"))
+            if (String.IsNullOrEmpty(titleCode) == false)
             {
-                retval = GetAllSalaryScale(propertyName, ascending);
-            }
-            else
-            {
-                SalaryScale example = new SalaryScale()
+                if (titleCode.Equals("0"))
                 {
-                    TitleCode = titleCode
-                };
-                retval = GetByInclusionExample(example, propertyName, ascending, "TitleCode");
-                example = null;
+                    retval = GetAllSalaryScale(propertyName, ascending);
+                }
+                else
+                {
+                    retval = GetByInclusionExample(new SalaryScale() { TitleCode = titleCode },
+                                                   propertyName, ascending, "TitleCode");
+                }
             }
             return retval;
         }
