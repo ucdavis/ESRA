@@ -7,7 +7,6 @@
         <div>
         <br />
         <br />
-        <br />
             <center>
             <p style="color: #FFFFFF">
                 Error:&nbsp;<asp:Label ID="lit_ErrorType" runat="server"></asp:Label>
