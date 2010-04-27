@@ -12,6 +12,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
         IGenericDao<T, IdT> GetGenericDao<T, IdT>();
         IDepartmentDao GetDepartmentDao();
         IEmployeeDao GetEmployeeDao();
+        IEmployeeChangesDao GetEmployeeChangesDao();
         ISalaryScaleDao GetSalaryScaleDao();
         IUserDao GetUserDao();
         IUnitDao GetUnitDao();
@@ -38,6 +39,11 @@ namespace CAESDO.Esra.Core.DataInterfaces
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
         IList<Employee> GetAllEmployees(string propertyName, bool ascending);
+    }
+
+    public interface IEmployeeChangesDao
+    {
+        IList<EmployeeChanges> GetLatestChanges(string employeeID, int? changeTypeID, int? maxNumChanges);
     }
 
     public interface ISalaryScaleDao

@@ -22,6 +22,7 @@ namespace CAESDO.Esra.Data
         }
 
         public IEmployeeDao GetEmployeeDao() { return new EmployeeDao(); }
+        public IEmployeeChangesDao GetEmployeeChangesDao() { return new EmployeeChangesDao(); }
         public ISalaryScaleDao GetSalaryScaleDao() { return new SalaryScaleDao(); }
         public IUnitDao GetUnitDao() { return new UnitDao(); }
         public IUserDao GetUserDao() { return new UserDao(); }
@@ -205,6 +206,36 @@ namespace CAESDO.Esra.Data
                 }
 
                 return criteria.List<Employee>();
+            }
+        }
+
+        public class EmployeeChangesDao : IEmployeeChangesDao
+        {
+            public IList<EmployeeChanges> GetLatestChanges(string employeeID, int? changeTypeID, int? maxNumChanges)
+            {
+                IList<EmployeeChanges> retval = null;
+
+                if (employeeID != null)
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(
+                        typeof (EmployeeChanges))
+                        .Add(Expression.Eq("EmployeeID", employeeID));
+
+                    if (changeTypeID != null)
+                    {
+                        criteria.CreateAlias("ChangeType", "ChangeType")
+                            .Add(Expression.Eq("ChangeType.id", changeTypeID));
+                    }
+
+                    if (maxNumChanges != null && maxNumChanges > 1)
+                        criteria.SetMaxResults((int)maxNumChanges);
+
+                    criteria.AddOrder(Order.Desc("DateChanged"));
+
+                    retval = criteria.List<EmployeeChanges>();
+                }
+
+                return retval;
             }
         }
 
