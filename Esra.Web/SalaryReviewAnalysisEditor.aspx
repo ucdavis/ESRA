@@ -473,9 +473,9 @@
             
             <tr>
                 <td colspan="9">
-                    <asp:UpdatePanel runat="server" ID="upScenarios">
+                    <asp:UpdatePanel runat="server" ID="upScenarios" >
                         <ContentTemplate>
-                            <asp:Repeater runat="server" ID="rptScenarios">
+                            <asp:Repeater runat="server" ID="rptScenarios" >
                                 <HeaderTemplate>
                                     <table border="1" cellpadding="2" cellspacing="0" width="100%">
                                         <tr class="tr_subhead">
@@ -494,13 +494,14 @@
                                             <th>
                                                 Approved
                                             </th>
+                                            <th>&nbsp</th>
                                         </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr>
+                                <tr>
                                         <th>
-                                            <%# (Container.ItemIndex + 1) + "."%><%--<asp:HiddenField ID="scenarioId" runat="server"
-                                                Value='<%# Eval("ID") %>' />--%>
+                                            <asp:Label ID="lblScenarioNumber" runat="server" Text='<%# Eval("ScenarioNumber") + "."%>'></asp:Label><asp:HiddenField ID="scenarioId" runat="server"
+                                                Value='<%# Eval("ID") %>' />
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteria" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
@@ -514,19 +515,20 @@
                                             <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:UpdatePanel ID="upRBApproved" runat="server">
-                                            <ContentTemplate><asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />
-                                            <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetApproved" /></ContentTemplate>
-                                            
-                                            </asp:UpdatePanel>
-                                        </td>
+                                            <%--<asp:RadioButton ID="rbApproved" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
+                                            <asp:CheckBox ID="cbxApproved" runat="server" OnCheckedChanged="cbxApproved_CheckChanged" Checked='<%# Eval("Approved") %>' AutoPostBack="true"/>
+                                         </td>
+                                        <td >
+                                            <asp:Button ID="btnReset" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
+                                            <asp:LinkButton ID="btnDelete" runat="server" CssClass="buttons" CommandName="delete"
+                                    CommandArgument='<%# Eval("ScenarioNumber") %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
                                     </tr>
                                 </ItemTemplate>
                                 <AlternatingItemTemplate>
-                                    <tr>
+                                 <tr>
                                         <th>
-                                            <%# (Container.ItemIndex + 1) + "."%><%--<asp:HiddenField ID="scenarioId" runat="server"
-                                                Value='<%# Eval("ID") %>' />--%>
+                                             <asp:Label ID="lblScenarioNumberAlt" runat="server" Text='<%#Eval("ScenarioNumber") + "."%>'/><asp:HiddenField ID="scenarioIdAlt" runat="server"
+                                                Value='<%# Eval("ID") %>.' />
                                         </th>
                                         <td>
                                             <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
@@ -534,18 +536,19 @@
                                             </asp:DropDownList>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbPercentIncrease" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbPercentIncreaseAlt" runat="server" Text='<%# Eval("PercentIncrease", "{0:p}") %>' OnTextChanged="tbPercentIncrease_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="tbSalaryAmount" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="tbSalaryAmountAlt" runat="server" Text='<%# Eval("SalaryAmount", "{0:c}") %>' OnTextChanged="tbSalaryAmount_OnTextChanged" AutoPostBack="true"></asp:TextBox>
                                         </td>
                                         <td>
-                                            <asp:UpdatePanel ID="upRBApprovedAlt" runat="server">
-                                            <ContentTemplate><asp:RadioButton ID="rbApprovedAlt" runat="server" GroupName="rbApproved" Text="" />
-                                            <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetApproved" /></ContentTemplate>
-                                            
-                                            </asp:UpdatePanel>
-                                        </td>
+                                           <%-- <asp:RadioButton ID="rbApprovedAlt" runat="server" GroupName="rbApproved" Text="" />&nbsp;--%>
+                                            <asp:CheckBox ID="cbxApprovedAlt" runat="server" OnCheckedChanged="cbxApproved_CheckChanged" Checked='<%# Eval("Approved") %>' AutoPostBack="true"/>
+                                       </td>
+                                        <td>
+                                            <asp:Button ID="btnResetAlt" runat="server" Text="Reset" CommandName="rptScenarios_ItemCommand" CommandArgument="resetFields" />&nbsp;
+                                            <asp:LinkButton ID="btnDeleteAlt" runat="server" CssClass="buttons" CommandName="delete"
+                                    CommandArgument='<%# Eval("ScenarioNumber") %>'><img src="images/common/delete.png" alt="Delete" class="delete_button"/></asp:LinkButton></td>
                                     </tr>
                                 </AlternatingItemTemplate>
                                 <FooterTemplate>
@@ -553,10 +556,13 @@
                                         <th>
                                             Comments
                                         </th>
-                                        <td colspan="4">
+                                        <td colspan="5">
                                             <asp:TextBox ID="tbDeansOfficeComments" runat="server" TextMode="MultiLine" CssClass="comments"></asp:TextBox>
                                         </td>
                                     </tr>
+                                    <tr><td colspan="6">
+                        <asp:LinkButton ID="btnAddAnotherScenario" runat="server" Text="Add another scenario" OnClick="btnAddAnotherScenario_Click" /></td>
+                        </tr>
                                     </table>
                                 </FooterTemplate>
                             </asp:Repeater>
@@ -564,6 +570,16 @@
                     </asp:UpdatePanel>
                 </td>
             </tr>
+            <%--<tr><td>&nbsp;</td></tr>--%>
+            <tr>
+           <td><br />
+    <asp:Button ID="btnSubmitSalaryReviewAnalysis" runat="server" OnClick="btnSubmitSalaryReviewAnalysis_Click"
+        Text="Save Salary Review Analysis" ValidationGroup="saveSalaryReviewAnalysis" OnClientClick="return ConfirmMe()"/>
+    &nbsp;
+    <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" OnClientClick="history.go(-1);return false;"
+        Text="Cancel/Back" />
+     </td> 
+    </tr>
         </table>
         <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 

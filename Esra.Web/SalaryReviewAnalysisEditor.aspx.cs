@@ -176,12 +176,49 @@ namespace CAESDO.Esra.Web
         {
             if (args.CommandArgument.Equals("resetApproved"))
             {
-                RadioButton rb = (RadioButton)args.Item.FindControl("rbApproved") as RadioButton;
+                RadioButton rb = args.Item.FindControl("rbApproved") as RadioButton;
                 if (rb == null)
                 {
-                    rb = (RadioButton)args.Item.FindControl("rbApprovedAlt") as RadioButton;
+                    rb = args.Item.FindControl("rbApprovedAlt") as RadioButton;
                 }
                 rb.Checked = false;
+            }
+            else if (args.CommandArgument.Equals("resetFields"))
+            {
+                RadioButton rb = args.Item.FindControl("rbApproved") as RadioButton;
+                if (rb == null)
+                {
+                    rb = args.Item.FindControl("rbApprovedAlt") as RadioButton;
+                }
+                rb.Checked = false;
+
+                CheckBox ckBox = args.Item.FindControl("cbxApproved") as CheckBox;
+                if (ckBox == null)
+                {
+                    ckBox = args.Item.FindControl("cbxApprovedAlt") as CheckBox;
+                }
+                ckBox.Checked = false;
+
+                DropDownList ddlCriteria = args.Item.FindControl("ddlCriteria") as DropDownList;
+                if (ddlCriteria == null)
+                {
+                    ddlCriteria = args.Item.FindControl("ddlCriteriaAlt") as DropDownList;
+                }
+                ddlCriteria.SelectedIndex = -1;
+
+                TextBox tbPercentIncrease = args.Item.FindControl("tbPercentIncrease") as TextBox;
+                if (tbPercentIncrease == null)
+                {
+                    tbPercentIncrease = args.Item.FindControl("tbPercentIncreaseAlt") as TextBox;
+                }
+                tbPercentIncrease.Text = String.Format("{0:p}", 0);
+
+                TextBox tbSalaryAmount = args.Item.FindControl("tbSalaryAmount") as TextBox;
+                if (tbSalaryAmount == null)
+                {
+                    tbSalaryAmount = args.Item.FindControl("tbSalaryAmountAlt") as TextBox;
+                }
+                tbSalaryAmount.Text = String.Format("{0:c}", (double)Session["Employee.PayRate"]);
             }
         }
 
@@ -191,7 +228,11 @@ namespace CAESDO.Esra.Web
             double newSalary = 0;
             double.TryParse(ddl.SelectedValue, out newSalary);
             RepeaterItem item = (RepeaterItem)ddl.Parent;
-            TextBox tbSalaryAmount = (TextBox)item.FindControl("tbSalaryAmount");
+            TextBox tbSalaryAmount = item.FindControl("tbSalaryAmount") as TextBox;
+            if (tbSalaryAmount == null)
+            {
+                tbSalaryAmount = item.FindControl("tbSalaryAmountAlt") as TextBox;
+            }
             double oldSalary = (double)Session["Employee.PayRate"];
             
             if (newSalary == 0)
@@ -203,7 +244,11 @@ namespace CAESDO.Esra.Web
             // calculate percent increase up or down:
 
             double percentIncrease = (newSalary / oldSalary - 1);
-            TextBox tbPercentIncrease = (TextBox)item.FindControl("tbPercentIncrease");
+            TextBox tbPercentIncrease = item.FindControl("tbPercentIncrease") as TextBox;
+            if (tbPercentIncrease == null)
+            {
+                tbPercentIncrease = item.FindControl("tbPercentIncreaseAlt") as TextBox;
+            }
             tbPercentIncrease.Text = String.Format("{0:p}", percentIncrease);
         }
 
@@ -227,11 +272,15 @@ namespace CAESDO.Esra.Web
             tb.Text = String.Format("{0:c}", newSalary);
 
             // get old salary amount:
-            double oldSalary = (double)Session["Employee.PayRate"];;
+            double oldSalary = (double)Session["Employee.PayRate"];
   
             // calculate percent increase up or down:
             double percentIncrease = (newSalary / oldSalary - 1);
-            TextBox tbPercentIncrease = (TextBox)item.FindControl("tbPercentIncrease");
+            TextBox tbPercentIncrease = item.FindControl("tbPercentIncrease") as TextBox;
+            if (tbPercentIncrease == null)
+            {
+                tbPercentIncrease = item.FindControl("tbPercentIncreaseAlt") as TextBox;
+            }
             tbPercentIncrease.Text = String.Format("{0:p}", percentIncrease);
         }
 
@@ -259,15 +308,19 @@ namespace CAESDO.Esra.Web
 
             // calculate new salary amount based on percent increase up or down:
             double newSalary = oldSalary * (1 + (percentIncrease / 100));
-            TextBox tbSalaryAmount = (TextBox)item.FindControl("tbSalaryAmount");
+            TextBox tbSalaryAmount = item.FindControl("tbSalaryAmount") as TextBox;
+            if (tbSalaryAmount == null)
+            {
+                tbSalaryAmount = item.FindControl("tbSalaryAmountAlt") as TextBox;
+            }
             tbSalaryAmount.Text = String.Format("{0:c}", newSalary);
          }
 
-        protected decimal? GetSelectedValue(RepeaterItem item)
+        protected decimal? GetSelectedValue(object item)
         {
             decimal? retval = null;
 
-            Scenario scenario = item.DataItem as Scenario;
+            Scenario scenario = ((RepeaterItem)item).DataItem as Scenario;
             if (scenario != null)
             {
                 if (scenario.SelectionType.Equals(SelectionType.NONE) == false)
@@ -277,6 +330,45 @@ namespace CAESDO.Esra.Web
             }
 
             return retval;
+        }
+
+        protected void btnAddAnotherScenario_Click(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnSubmitSalaryReviewAnalysis_Click(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
+        {
+        }
+
+        protected void cbxApproved_CheckChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            RepeaterItem item = cb.Parent as RepeaterItem;
+            object parent = item.NamingContainer;
+            Repeater rpt = parent as Repeater;
+            RepeaterItemCollection items = rpt.Items;
+            /*
+           HiddenField idField = item.FindControl("scenarioId") as HiddenField;
+           if (idField == null)
+           {
+               idField = item.FindControl("scenarioIdAlt") as HiddenField;
+           }
+           String id = idField.Value;
+           */
+            foreach (RepeaterItem rptItem in items)
+            {
+                CheckBox ckBox = rptItem.FindControl("cbxApproved") as CheckBox;
+                if (ckBox == null)
+                {
+                    ckBox = rptItem.FindControl("cbxApprovedAlt") as CheckBox;
+                }
+                ckBox.Checked = false;
+            }
+            cb.Checked = true;
         }
     }
 }

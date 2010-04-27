@@ -122,6 +122,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.Repeater rptScenarios;
         
         /// <summary>
+        /// btnSubmitSalaryReviewAnalysis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmitSalaryReviewAnalysis;
+        
+        /// <summary>
+        /// btnCancelSalaryReviewAnalysis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelSalaryReviewAnalysis;
+        
+        /// <summary>
         /// odsCriteria control.
         /// </summary>
         /// <remarks>
