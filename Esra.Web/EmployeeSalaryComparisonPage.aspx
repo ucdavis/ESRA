@@ -578,7 +578,9 @@
             <asp:View ID="vSalaryReviewAnalysis" runat="server" >
                 <br />
                 <asp:Label ID="lblNoSearchParametersSelected" runat="server" Text="No Search Parameters selected." BackColor="White" BorderStyle="NotSet" BorderWidth="3px" BorderColor="White" />
-            </li></ul></div>
+            </li></ul>
+            <p class="note">&nbsp</p>
+            </div>
             </asp:View>
         </asp:MultiView>
     
@@ -728,6 +730,7 @@
         
         <br />
         
+    
     </div>
     
    </asp:Content>
