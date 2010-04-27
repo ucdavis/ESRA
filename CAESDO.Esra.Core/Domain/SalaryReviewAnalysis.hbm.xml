@@ -7,9 +7,7 @@
 
 		<property name="ReferenceNumber" column="ReferenceNumber" />
 		<!--<property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>-->
-		<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core">
-			<column name="PkEmployee"/>
-		</many-to-one>
+		<many-to-one name="Employee" class="CAESDO.Esra.Core.Domain.Employee, CAESDO.Esra.Core" column="FkEmployee" foreign-key="PkEmployee"></many-to-one>
 		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core">
 			<column name="TitleCode"/>
 		</many-to-one>
