@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Reflection;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using CAESArch.BLL;
-using CAESDO.Esra.BLL;
-using CAESDO.Esra.Core.Domain;
-using CAESDO.Esra.Data;
 using System.Collections;
 using System.Collections.Generic;
-using CAESDO.Core.Domain;
+using System.Data;
+using System.Reflection;
+using System.Web;
 using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CAESArch.BLL;
+using CAESDO.Core.Domain;
+using CAESDO.Esra.BLL;
+using CAESDO.Esra.Core.Domain;
 using CAESOps;
 
 namespace CAESDO.Esra.Web
@@ -55,36 +50,14 @@ namespace CAESDO.Esra.Web
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            //MultiView1.SetActiveView(vEmployees);
             if (!IsPostBack)
             {
-                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 // Revised to use Catbert user
                 User user = UserBLL.GetCurrent();
                 
                 ViewState.Add(KEY_CURRENT_USER, user);
                 MultiView1.SetActiveView(vEmployees);
 
-                /*
-                string titleCode = Request.QueryString["TitleCode"];
-                if (String.IsNullOrEmpty(titleCode) == false)
-                {
-                    ddlTitleCode.SelectedValue = titleCode;
-                }
-
-                string department = Request.QueryString["Department"];
-                if (String.IsNullOrEmpty(department) == false)
-                {
-                    ddlDepartment.SelectedValue = department;
-                }
-
-                string employeeID = Request.QueryString["EmployeeID"];
-                if (String.IsNullOrEmpty(employeeID) == false)
-                {
-                    ddlEmployee.SelectedValue = employeeID;
-                }
-                */
-                //lbxDepartments_SelectedValues(null, null);
                 lbxDepartments_ClearSelectedValues();
                 lbxTitleCodes_ClearSelectedValues();
                 ddlEmployee_ClearSelectedValue();
@@ -93,7 +66,7 @@ namespace CAESDO.Esra.Web
 
                 Page.Form.DefaultButton = btnSearch.UniqueID;
             }
-
+            #region test_app_exception
             /*
             AppException exception = AppExceptionBLL.GetByID(21);
 
@@ -117,30 +90,20 @@ namespace CAESDO.Esra.Web
             //exception.ApplicationID = 2;
 
             //Response.Write(exception == null ? "Null value" : exception.ApplicationID);
-
+            # endregion
         }
 
         #region ExcelOps
         [WebMethod]
         public static void ExportToExcel()
         {
-            //List<string> AppliedFilters;
-
-            //if (HttpContext.Current.Session[KEY_APPLIED_FILTERS] == null)
-            //{
-            //    AppliedFilters = new List<string>();
-            //}
-            //else
-            //{
-            //    AppliedFilters = (List<String>)HttpContext.Current.Session[KEY_APPLIED_FILTERS];
-            //}
-            
             System.Web.SessionState.HttpSessionState Session = HttpContext.Current.Session;
-            string userId = Session[KEY_CURRENT_USER_ID] as string;
-            //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);
+            //string userId = Session[KEY_CURRENT_USER_ID] as string;
             // Revised to use Catbert user.
             User user = UserBLL.GetCurrent();
-            bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
+            string userId = user.EmployeeID;
+            //bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
+            bool isDepartmentUser = IsDepartmentUser();
             string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
             bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));
             string[] titleStrings = Session[KEY_SELECTED_TITLE_STRINGS] as string[];
@@ -202,11 +165,11 @@ namespace CAESDO.Esra.Web
                 row["Salary Grade"] = emp.SalaryGrade;
                 row["Bargaining Unit"] = emp.BargainingUnitCode;
                 row["Hire Date"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
-                row["Years Of Service"] = emp.YearsOfService;
+                row["Years Of Service"] = (emp.YearsOfService ?? 0d);
                 row["Begin Date (In Title)"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
-                row["Time In Title"] = emp.TimeInTitle;
+                row["Time In Title"] = (emp.TimeInTitle ?? 0d);
                 row["Experience Begin Date"] = String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate);
-                row["Years Of Experience"] = (emp.YearsOfExperience != null ? emp.YearsOfExperience : 0d);
+                row["Years Of Experience"] = (emp.YearsOfExperience ?? 0d);
                 //row["Years Of Experience"] = emp.YearsOfExperience;
                 row["Pay Rate"] = emp.PayRate;
 
@@ -268,24 +231,17 @@ namespace CAESDO.Esra.Web
                 ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
                 lbxTitleCodes_ClearSelectedValues();
                 lbxDepartments_ClearSelectedValues();
-                //ddlDepartment.SelectedIndex = -1;
                 gvESRSearchParams_Load(emp);
             }
             else
             {
                 gvESRSearchParams_Load();
             }
-
-            //ddlTitleCode.SelectedIndex = -1;
-           
-            //gvEmployees.DataBind();
         }
 
         protected void ddlDepartment_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //ddlEmployee.SelectedIndex = -1;
             ddlEmployee_ClearSelectedValue();
-            ////gvEmployees.DataBind();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -301,28 +257,24 @@ namespace CAESDO.Esra.Web
 
                     ddlTitleCode.SelectedValue = emp.Title.ID;
                     ddlSearchByTitleCode.SelectedValue = emp.Title.ID;
-                    //ddlDepartment.SelectedIndex = -1;
                     lbxDepartments_ClearSelectedValues();
                 }
             }
             else if (lbxTitleCodes.SelectedIndex > 0 && lbxDepartments.SelectedIndex > 0)
             {
                 // Get all the employees for a given department with the matching title code.
-                //ddlEmployee.SelectedIndex = -1;
                 ddlEmployee_ClearSelectedValue();
             }
             
             else if (lbxDepartments.SelectedIndex > 0)
             {
                 // Get all employees in the given departments with any title code.
-                //ddlEmployee.SelectedIndex = -1;
                 ddlEmployee_ClearSelectedValue();
                 lbxTitleCodes_ClearSelectedValues();
             }
             else if (lbxTitleCodes.SelectedIndex > 0)
             {
                 // Get all employees with the given title codes in any department.
-                //ddlEmployee.SelectedIndex = -1;
                 ddlEmployee_ClearSelectedValue();
                 lbxDepartments_ClearSelectedValues();
             }
@@ -331,19 +283,14 @@ namespace CAESDO.Esra.Web
                 // Get all employees regardless of their department or title code.
                 lbxTitleCodes_ClearSelectedValues();
                 ddlEmployee_ClearSelectedValue();
-                //ddlEmployee.SelectedIndex = -1;
-
+                
                 lbxDepartments_ClearSelectedValues();
             }
 
             gvESRSearchParams_Load();
-            //gvEmployees.DataBind();
-        }
+            }
 
-        protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
+        protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e) { }
 
         protected void gvEmployees_Sorting(object sender, GridViewSortEventArgs e)
         {
@@ -422,16 +369,6 @@ namespace CAESDO.Esra.Web
         protected void gvEmployees_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
             gvEmployees.DataBind();
-
-            // This is the a temporary fix to get the updated Years of service and TimeInTitle to 
-            // update properly.
-            //Response.Redirect(Page.Request.Url.ToString());
-            
-            /*
-            string queryString = "TitleCode="+ddlTitleCode.SelectedValue+"&Department="+ddlDepartment.SelectedValue+"&EmployeeID="+ddlEmployee.SelectedValue;
-            string pathString = Page.Request.Url.AbsolutePath;
-            Response.Redirect(pathString+"?"+queryString);  
-             * */
         }
 
         protected Employee ddlEmployee_ClearSelectedValue()
@@ -443,18 +380,6 @@ namespace CAESDO.Esra.Web
 
         protected void lbxDepartments_ClearSelectedValues()
         {
-            /*
-            if (IsDepartmentUser())
-            {
-                Session.Add("selectedDepartmentStrings", new string[] { "0" });
-                AddUserDepartmentsToSession();
-            }
-            else
-            {
-                Session.Add("selectedDepartmentStrings", new string[] { "0" });
-                Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
-            }
-            */
             Session.Add("selectedDepartmentStrings", new string[] { "0" });
             Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
 
@@ -464,7 +389,6 @@ namespace CAESDO.Esra.Web
 
         protected void lbxDepartments_SelectedValues(object sender, EventArgs e)
         {
-            //ddlEmployee.SelectedIndex = -1;
             ddlEmployee_ClearSelectedValue();
             List<string> selected = new List<string>();
             List<Department> selectedDepartments = new List<Department>();
@@ -496,7 +420,6 @@ namespace CAESDO.Esra.Web
 
         protected void lbxTitleCodes_SelectedValues(object sender, EventArgs e)
         {
-            //ddlEmployee.SelectedIndex = -1;
             ddlEmployee_ClearSelectedValue();
             List<string> selected = new List<string>();
             List<Title> selectedTitles = new List<Title>();
@@ -528,10 +451,6 @@ namespace CAESDO.Esra.Web
         {
             ESRSearchParameters sp = new ESRSearchParameters()
             {
-                //SearchTitles = new List<Title>() { GetAllNamedTitle() },
-                //SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() }),
-                //SearchEmployee = GetAllNamedEmployee()
-
                 SearchTitles = new List<Title>() { GetAllNamedTitle() },
                 SearchDepartments = new List<Department>() { GetAllNamedDepartment() },
                 SearchEmployee = GetAllNamedEmployee()
@@ -576,18 +495,6 @@ namespace CAESDO.Esra.Web
             gvESRSearchParams.DataBind();
         }
 
-        //protected Title GetAllNamedTitle()
-        //{
-        //    return new Title()
-        //    {
-        //        TitleCode = "Any",
-        //        PayrollTitle = "Any",
-        //        BargainingCode = "Any",
-        //        SalaryScales =
-        //            new List<SalaryScale>() { new SalaryScale() { SalaryGrade = "Any" } }
-        //    };
-        //}
-
         protected static Title GetAllNamedTitle()
         {
             return new Title()
@@ -624,30 +531,6 @@ namespace CAESDO.Esra.Web
             }
             return searchEmployee;
         }
-
-        //protected bool IsMiddleStep(object sender)
-        //{
-        //    bool retval = false;
-        //    RepeaterItem item = (RepeaterItem)sender;  
-        //    SalaryStep step = (SalaryStep)item.DataItem;
-        //    SalaryScale ss = step.SalaryScale;
-        //    int numSteps = ss.SalarySteps.Count;
-        //    int midStepIndex = numSteps / 2;
-
-        //    // select next lower step if even number of steps.
-        //    if (numSteps % 2 == 0)
-        //    {
-        //        midStepIndex--;
-        //    }
-            
-        //    string midStepNumbString = ss.SalarySteps[midStepIndex].StepNumber;
-        //    if(midStepNumbString.Equals(step.StepNumber))
-        //    {
-        //        retval = true;
-        //    }
-
-        //    return retval;
-        //}
         
         protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
         {
@@ -659,19 +542,6 @@ namespace CAESDO.Esra.Web
                rpt.Visible = true;
            }
         }
-
-        //protected bool IsDepartmentUser()
-        //{
-        //    bool retval = false;
-        //    bool? isDepartmentUser = Session[KEY_IS_DEPARTMENT_USER] as Boolean?;
-        //    if (isDepartmentUser != null)
-        //        retval = (bool)isDepartmentUser;
-        //    //if (((string)Session[KEY_CURRENT_USER_ROLE]).Equals(ROLE_USER))
-        //    //{
-        //    //    retval = true;
-        //    //}
-        //    return retval;
-        //}
 
         protected ObjectDataSource GetDataSourceForDepartments()
         {
@@ -720,7 +590,6 @@ namespace CAESDO.Esra.Web
             {
                 if (gvr.RowType.Equals(DataControlRowType.DataRow))
                 {
-                    //UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
                     // Revised to use Catbert user.
                     User user = ViewState[KEY_CURRENT_USER] as User;
                     if (user != null)
@@ -747,28 +616,6 @@ namespace CAESDO.Esra.Web
             Session.Add(KEY_SELECTED_DEPARTMENTS, departments);
             Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, new string[] { "0" });
 
-            /*
-            List<string> selectedDepartmentStrings = new List<string>();
-            foreach (Department dept in departments)
-            {
-                selectedDepartmentStrings.Add(dept.ID);
-            }
-            Session.Add("selectedDepartmentStrings", selectedDepartmentStrings.ToArray());
-             * */
         }
-
-        //protected bool HasSalarySteps(object sender)
-        //{
-        //    bool retval = false;
-        //    RepeaterItem item = (RepeaterItem)sender;
-        //    SalaryScale ss = (SalaryScale)item.DataItem;
-
-        //    if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
-        //    {
-        //        retval = true;
-        //    }
-
-        //    return retval;
-        //}
     }
 }
