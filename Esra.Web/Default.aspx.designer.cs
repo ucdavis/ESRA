@@ -32,15 +32,6 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlTitleCode;
         
         /// <summary>
-        /// ddlEmployee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEmployee;
-        
-        /// <summary>
         /// ddlDepartment control.
         /// </summary>
         /// <remarks>
@@ -48,6 +39,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDepartment;
+        
+        /// <summary>
+        /// ddlEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEmployee;
         
         /// <summary>
         /// btnSearch control.
@@ -68,6 +68,24 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.GridView gvTitle;
         
         /// <summary>
+        /// MultiView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiView1;
+        
+        /// <summary>
+        /// vEmployees control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vEmployees;
+        
+        /// <summary>
         /// gvEmployees control.
         /// </summary>
         /// <remarks>
@@ -75,6 +93,15 @@ namespace CAESDO.Esra.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvEmployees;
+        
+        /// <summary>
+        /// vSalaryReviewAnalysis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vSalaryReviewAnalysis;
         
         /// <summary>
         /// odsEmployee control.

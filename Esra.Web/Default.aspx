@@ -17,22 +17,22 @@
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
         
+        &nbsp;<asp:DropDownList ID="ddlDepartment" runat="server" AppendDataBoundItems="True" 
+            AutoPostBack="True" DataSourceID="odsDepartments" DataTextField="Name" 
+            DataValueField="ID">
+            <asp:ListItem Value="0">-- Select a Department --</asp:ListItem>
+        </asp:DropDownList>
+        
         &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployee" 
             DataTextField="FullName" DataValueField="ID" 
             >
             <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
         </asp:DropDownList>
-&nbsp;<asp:DropDownList ID="ddlDepartment" runat="server" AppendDataBoundItems="True" 
-            AutoPostBack="True" DataSourceID="odsDepartments" DataTextField="Name" 
-            DataValueField="ID">
-            <asp:ListItem Value="0">-- Select a Department --</asp:ListItem>
-        </asp:DropDownList>
+&nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
+            Text="Employee Search" />
         
-        &nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
-            Text="Search" />
-        
-        <br />
+        &nbsp;&nbsp;<br />
         
         <asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
             AutoGenerateColumns="False" EmptyDataText="No Title Code selected.">
@@ -162,7 +162,11 @@
         </asp:GridView>
         
         <br />
-        Report Date: <SCRIPT language="JavaScript">
+        <asp:MultiView ID="MultiView1" runat="server">
+            <asp:View ID="vEmployees" runat="server" >
+                Report Date:
+
+                <script language="JavaScript">
 <!-- Script courtesy of http://www.web-source.net - Your Guide to Professional Web Site Design and Development
 var today_date= new Date()
 var month=today_date.getMonth()+1
@@ -170,45 +174,59 @@ var today=today_date.getDate()
 var year=today_date.getYear() + 1900
 //document.write("Today's date is: ")
 document.write(month+"/"+today+"/"+year)
-//--> </SCRIPT><br />
-    Employees:<br />
+//--> </script>
+
+                <br />
+                Employees:<br />
+                <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
+                    DataSourceID="odsEmployee" EmptyDataText="No Data Found." OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="true" DataKeyNames="ID" OnSorting="gvEmployees_Sorting">
+                    <Columns>
+                        <asp:CommandField ShowEditButton="True" />
+                        <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
+                            <EditItemTemplate>
+                                <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>' />
+                                <%--<asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("HomeDepartment") %>'></asp:TextBox>--%>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Title Code" SortExpression="Title">
+                            <EditItemTemplate><asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'/>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblTitleCode" runat="server" 
+                                    Text='<%# Eval("Title.TitleCode") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="BargainingUnitCode" DataFormatString="{0:0.00}" 
+                            HeaderText="Bargaining Unit" ReadOnly="true"/>
+                        <asp:BoundField DataField="FullName" HeaderText="Employee Name" 
+                            SortExpression="FullName" ReadOnly="true"/>
+                        <asp:BoundField DataField="CareerHireDate" DataFormatString="{0:MM/dd/yyyy}" ApplyFormatInEditMode="true"
+                            HeaderText="Hire Date"  />
+                        <asp:BoundField DataField="YearsOfService" DataFormatString="{0:0.00}" 
+                            HeaderText="Years Of Service" SortExpression="YearsOfService" ReadOnly="true"/>
+                        <asp:BoundField DataField="ApptHireDate" DataFormatString="{0:MM/dd/yyyy}" 
+                            HeaderText="Begin Date (in Title)" ApplyFormatInEditMode="true"/>
+                        <asp:BoundField DataField="TimeInTitle" DataFormatString="{0:0.00}" 
+                            HeaderText="Time In Title" SortExpression="TimeInTitle" ReadOnly="true"/>
+                        <asp:BoundField DataField="PayRate" DataFormatString="{0:c}" 
+                            HeaderText="Pay Rate" SortExpression="PayRate" ReadOnly="true"/>
+                        <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" 
+                            />
+                        <asp:BoundField DataField="DeansOfficeComments" 
+                            HeaderText="Dean's Office Comments" />
+                    </Columns>
+                </asp:GridView>
+            </asp:View>
+            <asp:View ID="vSalaryReviewAnalysis" runat="server">
+            
+            </asp:View>
+        </asp:MultiView>
     
     
-&nbsp;<asp:GridView ID="gvEmployees" runat="server" DataSourceID="odsEmployee" 
-            AutoGenerateColumns="False" EmptyDataText="No Data Found.">
-            <Columns>
-                <%-- <asp:TemplateField HeaderText="Salary Grade"><ItemTemplate><asp:Label ID="lblSalaryGrade" runat="server" Text='<%# Eval("Title.SalaryGrade") %>'></asp:Label></ItemTemplate></asp:TemplateField>--%>
-                <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
-                    <EditItemTemplate>
-                        <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("HomeDepartment") %>'></asp:TextBox>
-                    </EditItemTemplate>
-                    <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("HomeDepartment.Name") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="Title Code"><ItemTemplate><asp:Label ID="lblTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label></ItemTemplate></asp:TemplateField>
-                <asp:BoundField DataField="BargainingUnitCode" HeaderText="Bargaining Unit" 
-                    SortExpression="BargainingUnitCode" DataFormatString="{0:0.00}" />
-                <asp:BoundField DataField="FullName" HeaderText="Employee Name" 
-                    SortExpression="FullName" />
-                <asp:BoundField DataField="CareerHireDate" HeaderText="Hire Date" 
-                    SortExpression="CareerHireDate" DataFormatString="{0:MM/dd/yyyy}" />
-                <asp:BoundField DataField="YearsOfService" HeaderText="Years Of Service" 
-                    SortExpression="YearsOfService" DataFormatString="{0:0.00}" />
-                <asp:BoundField DataField="ApptHireDate" HeaderText="Begin Date (in Title)" 
-                    SortExpression="ApptHireDate" DataFormatString="{0:MM/dd/yyyy}" />
-                <asp:BoundField DataField="TimeInTitle" HeaderText="Time In Title" 
-                    SortExpression="TimeInTitle" DataFormatString="{0:0.00}" />
-                
-                <asp:BoundField DataField="PayRate" HeaderText="Pay Rate" 
-                    SortExpression="PayRate" DataFormatString="{0:c}" />
-                <asp:BoundField DataField="DepartmentComments" HeaderText="Department Comments" 
-                    SortExpression="DepartmentComments" />
-                <asp:BoundField DataField="DeansOfficeComments" HeaderText="Dean's Office Comments" 
-                    SortExpression="DeansOfficeComments" />
-            </Columns>
-        </asp:GridView>
-        <asp:ObjectDataSource ID="odsEmployee" runat="server" 
+&nbsp;<asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
             SelectMethod="GetEmployees">

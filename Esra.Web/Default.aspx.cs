@@ -19,6 +19,7 @@ namespace CAESDO.Esra.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            MultiView1.SetActiveView(vEmployees);
             /*
             AppException exception = AppExceptionBLL.GetByID(21);
 
@@ -66,17 +67,18 @@ namespace CAESDO.Esra.Web
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            if (ddlTitleCode.SelectedIndex > 0 && ddlDepartment.SelectedIndex > 0)
-            {
-                // Get all the employees for a given department with the matching title code.
-                ddlEmployee.SelectedIndex = -1;
-            }
-            else if (ddlEmployee.SelectedIndex > 0)
+            if (ddlEmployee.SelectedIndex > 0)
             {
                 // Get a specific employee.
                 ddlTitleCode.SelectedIndex = -1;
                 ddlDepartment.SelectedIndex = -1;
             }
+            else if (ddlTitleCode.SelectedIndex > 0 && ddlDepartment.SelectedIndex > 0)
+            {
+                // Get all the employees for a given department with the matching title code.
+                ddlEmployee.SelectedIndex = -1;
+            }
+            
             else if (ddlDepartment.SelectedIndex > 0)
             {
                 // Get all employees in the given department with any title code.
@@ -91,6 +93,16 @@ namespace CAESDO.Esra.Web
                 ddlDepartment.SelectedIndex = -1;
             }
             gvEmployees.DataBind();
+        }
+
+        protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gvEmployees_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            gridView_Sorting((GridView)sender, e, odsEmployee, "Default");
         }
     }
 }
