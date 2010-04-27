@@ -38,6 +38,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string MESSAGE_RECORD_BAD_DATA_FORMAT = "Updated Failed: Bad Data Format";
         protected static readonly string ERROR_MESSAGE_NOT_AUTHORIZED = "You are not authorized to view this page.";
         protected static readonly string MASTER_PAGE_MESSAGE_LABEL_NAME = "lbl_Message";
+        protected static readonly string ROLE_EMULATION_USER = "EmulationUser";
         protected static readonly string ROLE_ADMIN = "Admin";
         protected static readonly string ROLE_REVIEWER = "Reviewer";
         protected static readonly string ROLE_USER = "User";

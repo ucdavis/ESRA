@@ -31,6 +31,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _ShortName = value; }
         }
 
+        private string _SchoolCode;
+
+        public virtual string SchoolCode
+        {
+            get { return _SchoolCode; }
+            set { _SchoolCode = value; }
+        }
+
         private IList<Employee> _Employees;
 
         public virtual IList<Employee> Employees

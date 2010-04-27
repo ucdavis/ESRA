@@ -138,7 +138,9 @@ namespace CAESDO.Esra.BLL
             {
                 if (analyses != null && analyses.Count > 0)
                 {
-                    UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId);
+                    //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId);
+                    //Revised to use Catbert user. 
+                    User user = UserBLL.GetByProperty("EmployeeID", userId);
            
                     IList<SalaryReviewAnalysis> tempList = new List<SalaryReviewAnalysis>();
                     foreach (SalaryReviewAnalysis sra in analyses)

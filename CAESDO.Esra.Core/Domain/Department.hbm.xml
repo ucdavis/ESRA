@@ -8,6 +8,7 @@
 		<property name="DepartmentNumber" column="DepartmentNumber" />
 		<property name="Name" column="Name" />
 		<property name="ShortName" column="ShortName" />
+    <property name="SchoolCode" column="SchoolCode" />
 
 		<bag name="Employees" table="UCDEmployees" inverse="true" cascade="none">
 			<key column="HomeDept" />

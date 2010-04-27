@@ -42,7 +42,10 @@ namespace CAESDO.Esra.Web
             //MultiView1.SetActiveView(vEmployees);
             if (!IsPostBack)
             {
-                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                // Revised to use Catbert user
+                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                
                 ViewState.Add(KEY_CURRENT_USER, user);
                 MultiView1.SetActiveView(vEmployees);
 
@@ -118,7 +121,9 @@ namespace CAESDO.Esra.Web
             
             System.Web.SessionState.HttpSessionState Session = HttpContext.Current.Session;
             string userId = Session[KEY_CURRENT_USER_ID] as string;
-            UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);
+            //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);
+            // Revised to use Catbert user.
+            User user = UserBLL.GetByProperty("EmployeeID", userId as string);
             bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
             string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
             bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));
@@ -599,7 +604,9 @@ namespace CAESDO.Esra.Web
             {
                 if (gvr.RowType.Equals(DataControlRowType.DataRow))
                 {
-                    UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
+                    //UCDEmployee user = ViewState[KEY_CURRENT_USER] as UCDEmployee;
+                    // Revised to use Catbert user.
+                    User user = ViewState[KEY_CURRENT_USER] as User;
                     if (user != null)
                     {
                         Employee employee = gvr.DataItem as Employee;

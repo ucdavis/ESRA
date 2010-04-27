@@ -19,17 +19,22 @@ namespace CAESDO.Esra.BLL
             }
         }
 
-        public static bool IsDepartmentEmployee(UCDEmployee user, SRAEmployee employee)
+        public static bool IsDepartmentEmployee(User user, SRAEmployee employee)
         {
             // Business rules for determining whether or not a employee is visible to a user:
             bool retval = false;
 
             if (user != null && employee != null)
             {
-                if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(user.HomeDepartmentID)) ||
-                    (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(user.HomeDepartmentID)))
+                // Check if the employee's home or work department is in the user's list of departments:
+                foreach (Unit unit in user.Units)
                 {
-                    retval = true;
+                    if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(unit.PPSCode)) ||
+                        (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(unit.PPSCode)))
+                    {
+                        retval = true;
+                        break;
+                    }
                 }
             }
             return retval;

@@ -67,7 +67,9 @@ namespace CAESDO.Esra.Web
                 pnlProposedTitleCodeNote.Visible = false;
                 pnlProposedTitle.Visible = false;
 
-                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                // Revised to use Catbert user.
+                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 ViewState.Add(KEY_CURRENT_USER, user);
 
                 MultiView1.SetActiveView(vSelectSalaryReviewAnalysis);

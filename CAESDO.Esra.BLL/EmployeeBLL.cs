@@ -17,21 +17,43 @@ namespace CAESDO.Esra.BLL
 
         public static IList<Employee> GetAllEmployeesForUser(string userID, string propertyName, bool ascending)
         {
-            UCDEmployee user = GetByProperty("EmployeeID", userID);
-            return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+            //UCDEmployee user = GetByProperty("EmployeeID", userID);
+            //return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+            // Revised to use Catbert User.
+            User user = UserBLL.GetByProperty("EmployeeID", userID);
+
+            List<string> depts = new List<string>();
+            foreach (Unit unit in user.Units)
+            {
+                depts.Add(unit.PPSCode);
+            }
+
+            return GetEmployees(propertyName, ascending, null, null, depts.ToArray());
         }
 
-        public static bool IsDepartmentEmployee(UCDEmployee user, Employee employee) 
+        public static bool IsDepartmentEmployee(User user, Employee employee) 
         {
             // Business rules for determining whether or not a employee is visible to a user:
             bool retval = false;
 
             if (user != null && employee != null)
             {
+                /*
                 if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(user.HomeDepartmentID)) ||
                     (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(user.HomeDepartmentID)))
                 {
                     retval = true;
+                }
+                 * */
+                // Check if the employee's home or work department is in the user's list of departments:
+                foreach (Unit unit in user.Units)
+                {
+                    if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(unit.PPSCode)) ||
+                        (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(unit.PPSCode)))
+                    {
+                        retval = true;
+                        break;
+                    }
                 }
             }
             return retval;
@@ -53,7 +75,9 @@ namespace CAESDO.Esra.BLL
                 // Then blank out the Name, department and comments from non-departmental employees:
                 List<Employee> nullList = new List<Employee>();
                 retval = new List<Employee>();
-                UCDEmployee user = GetByProperty("EmployeeID", userID);
+                //UCDEmployee user = GetByProperty("EmployeeID", userID);
+                // Changed to use Catbert user.
+                User user = UserBLL.GetByProperty("EmployeeID", userID);
 
                 foreach (Employee employee in employees)
                 {
@@ -187,8 +211,16 @@ namespace CAESDO.Esra.BLL
             if (isDepartmentUser)
             {
                 // return filtered list:
-                UCDEmployee user = GetByProperty("EmployeeID", userID);
-                return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+                //UCDEmployee user = GetByProperty("EmployeeID", userID);
+                //return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
+                // Replaced with logic that uses Catbert Units instead of PPS units.
+                User user = UserBLL.GetByProperty("EmployeeID", userID);
+                List<string> units = new List<string>();
+                foreach (Unit unit in user.Units)
+                {
+                    units.Add(unit.PPSCode);
+                }
+                return GetEmployees(propertyName, ascending, null, null, units.ToArray());
             }
             else
             {

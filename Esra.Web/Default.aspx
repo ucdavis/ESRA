@@ -17,6 +17,10 @@
                     <asp:ListItem Text="Reviewer" Value="Reviewer"></asp:ListItem>
                     <asp:ListItem Text="Department User" Value="User"></asp:ListItem>
             </asp:RadioButtonList>
+            <div id="div_emulate" runat="server" visible="false">
+                <asp:TextBox ID="tbEmulate" runat="server" ></asp:TextBox>
+                &nbsp;<asp:Button ID="btnEmulate" runat="server" Text="Emulate" OnClick="btnEmulate_Click"/>
+            </div>
         </asp:View>
         <asp:View ID="vAdmin" runat="server">
         <dl>

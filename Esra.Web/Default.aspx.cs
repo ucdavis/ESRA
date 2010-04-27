@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Esra.Web.CatOps;
 using CAESDO.Esra.Core.Domain;
 using CAESDO.Esra.BLL;
+using System.Web.Security;
 
 namespace CAESDO.Esra.Web
 {
@@ -44,13 +45,16 @@ namespace CAESDO.Esra.Web
                  * */
 
                 CAESDO.Esra.Core.Domain.User user = UserBLL.GetByLogin(User.Identity.Name);
-                UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
-                Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);
+                Session.Add(KEY_CURRENT_USER_ID, user.EmployeeID);
+                //UCDEmployee employee = EmployeeBLL.GetByProperty("EmployeeID", user.EmployeeID);
+                //Session.Add(KEY_CURRENT_USER_ID, employee.EmployeeID);
             }
 
             if (IsDemoMode())
             {
                 MultiView1.SetActiveView(vDemo);
+                if (User.IsInRole(ROLE_EMULATION_USER))
+                    div_emulate.Visible = true;
             }
             else
             {
@@ -124,6 +128,28 @@ namespace CAESDO.Esra.Web
                 MultiView1.SetActiveView(vDepartments);
             }
             ShowNavPanel();
+        }
+
+        protected void btnEmulate_Click(object sender, EventArgs e)
+        {
+            FormsAuthentication.SignOut();
+
+            FormsAuthentication.Initialize();
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
+                tbEmulate.Text,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(15),
+                false,
+                String.Empty,
+                FormsAuthentication.FormsCookiePath);
+
+            string hash = FormsAuthentication.Encrypt(ticket);
+            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+
+            Response.Cookies.Add(cookie);
+
+            Response.Redirect(FormsAuthentication.DefaultUrl);
         }
     }
 }

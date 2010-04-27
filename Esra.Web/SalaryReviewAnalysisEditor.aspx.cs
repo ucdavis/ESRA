@@ -103,7 +103,9 @@ namespace CAESDO.Esra.Web
                 SRAEmployee emp = null;
                 IList<Scenario> scenarios = null;
                 pnlProposedTitle.Visible = false;
-                UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                //UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
+                // Revised to use Catbert user.
+                User user = UserBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
