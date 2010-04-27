@@ -9,7 +9,9 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+        <asp:GridView ID="gvEmployees" runat="server" DataSourceID="odsEmployee">
+        </asp:GridView>
+        <asp:ObjectDataSource ID="odsEmployee" runat="server" TypeName="CAESDO.Esra.BLL.EmployeeBLL"></asp:ObjectDataSource>
     </div>
     </form>
 </body>
