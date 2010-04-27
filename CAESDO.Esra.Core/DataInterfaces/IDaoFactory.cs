@@ -70,6 +70,9 @@ namespace CAESDO.Esra.Core.DataInterfaces
     {
         User GetUserByLogin(string LoginID);
         User GetUserBySID(string SID);
+        IList<User> GetUsersInApplication(string[] pUnits, string roleName);
+        IList<Roles> GetRolesByUser(string selectedLoginID);
+        IList<Unit> GetUnitsByUser(string selectedLoginID);
     }
 
     public interface IUnitDao { }

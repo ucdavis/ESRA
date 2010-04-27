@@ -32,6 +32,15 @@ namespace CAESDO.Esra.BLL
             return GetEmployees(propertyName, ascending, null, null, depts.ToArray());
         }
 
+        /// <summary>
+        /// This is the method, which determines whether or not the login user can "see"
+        /// the employee's name, department, etc.
+        /// Therefore, you will need to change it if the business rules are changed for 
+        /// departments (or possibly schools, etc in the future).
+        /// </summary>
+        /// <param name="user">The logged in user</param>
+        /// <param name="employee">The UCD Employee</param>
+        /// <returns>true if the employee's identifying information can be viewed by the login user.</returns>
         public static bool IsDepartmentEmployee(User user, Employee employee) 
         {
             // Business rules for determining whether or not a employee is visible to a user:

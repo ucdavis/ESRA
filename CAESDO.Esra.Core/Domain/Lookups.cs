@@ -21,7 +21,7 @@ namespace CAESDO.Esra.Core.Domain
     }
 
     [Serializable]
-    public class Unit : DomainObject<Unit, string>
+    public class Unit : DomainObject<Unit, int>
     {
         private string _ShortName;
 
@@ -71,7 +71,48 @@ namespace CAESDO.Esra.Core.Domain
             set { _SchoolCode = value; }
         }
 
+        //private bool _Inactive;
+
+        //public virtual bool Inactive
+        //{
+        //    get { return _Inactive; }
+        //    set { _Inactive = value; }
+        //}
+
         public Unit()
+        {
+
+        }
+    }
+
+    [Serializable]
+    public class Roles : DomainObject<Roles, int>
+    {
+        private string _Role;
+
+        public virtual string Role
+        {
+            get { return _Role; }
+            set { _Role = value; }
+        }
+
+        private int _RoleID;
+
+        public virtual int RoleID
+        {
+            get { return _RoleID; }
+            set { _RoleID = value; }
+        }
+
+        //private bool _Inactive;
+
+        //public virtual bool Inactive
+        //{
+        //    get { return _Inactive; }
+        //    set { _Inactive = value; }
+        //}
+
+        public Roles()
         {
 
         }

@@ -462,6 +462,67 @@ namespace CAESDO.Esra.Data
 
                 return criteria.UniqueResult<User>();
             }
+
+            public IList<User> GetUsersInApplication(string[] pUnits, string roleName)
+            {
+                IList<User> retval = null;
+
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof (User));
+                   
+                if (pUnits != null && pUnits.Length > 0)
+                {
+                    criteria.CreateAlias("Units", "units")
+                    .Add(Expression.In("units.UnitID", pUnits));
+                }
+
+                if (String.IsNullOrEmpty(roleName) == false)
+                {
+                    criteria.CreateAlias("Roles", "roles")
+                    .Add(Expression.Eq("roles.Role", roleName));
+                }
+
+                criteria.AddOrder(Order.Asc("LastName"));
+
+                var users = criteria.List<User>() as List<User>;
+                if (users != null && users.Count > 1)
+                {
+                    retval = new List<User>(new HashSet<User>(users));
+                }
+                else
+                {
+                    retval = users; 
+                }
+
+                return retval;
+            }
+
+            public IList<Roles> GetRolesByUser(string selectedLoginID)
+            {
+                IList<Roles> retval = null;
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof (User))
+                    .Add(Expression.Eq("LoginID", selectedLoginID));
+
+                var user = criteria.UniqueResult<User>();
+                
+                if (user != null && user.Roles != null)
+                    retval = user.Roles.Count > 1 ? new List<Roles>(new HashSet<Roles>(user.Roles)) : user.Roles;
+
+                return retval;
+            }
+
+            public IList<Unit> GetUnitsByUser(string selectedLoginID)
+            {
+                IList<Unit> retval = null;
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(User))
+                    .Add(Expression.Eq("LoginID", selectedLoginID));
+
+                var user = criteria.UniqueResult<User>();
+
+                if (user != null && user.Units != null)
+                    retval = user.Units.Count > 1 ? new List<Unit>(new HashSet<Unit>(user.Units)) : user.Units;
+
+                return retval;
+            }
         }
         #endregion
     }

@@ -3,7 +3,7 @@
 
 	<class
 	  name="CAESDO.Esra.Core.Domain.Login, CAESDO.Esra.Core"
-	  table="vLogin" >
+	  table="Catbert3_vLogin" >
 		<id name="ID" access="nosetter.lowercase" column="LoginID" unsaved-value="empty">
 			<generator class="assigned" />
 		</id>
@@ -14,8 +14,8 @@
 
 	<class
 	  name="CAESDO.Esra.Core.Domain.Unit, CAESDO.Esra.Core"
-	  table="vUnit" >
-		<id name="ID" access="nosetter.lowercase" column="FIS_Code" unsaved-value="0">
+	  table="Catbert3_vUnit" >
+		<id name="ID" access="nosetter.lowercase" column="UnitID" unsaved-value="0">
 			<generator class="assigned" />
 		</id>
 
@@ -23,9 +23,21 @@
 		<property name="ShortName" column="ShortName" />
 		<property name="PPSCode" column="PPS_Code" />
 		<property name="FISCode" column="FIS_Code" />
-		<property name="UnitID" column="UnitID" />
-    <property name="SchoolCode" column="SchoolCode" />
+		<property name="SchoolCode" column="SchoolCode" />
+    <!--<property name="Inactive" column="Inactive" />-->
 
-	</class>
+  </class>
+
+  <class
+	  name="CAESDO.Esra.Core.Domain.Roles, CAESDO.Esra.Core"
+	  table="Catbert3_vRoles" >
+    <id name="ID" access="nosetter.lowercase" column="RoleID" unsaved-value="0">
+      <generator class="assigned" />
+    </id>
+
+    <property name="Role" column="Role" />
+    <!--<property name="Inactive" column="Inactive" />-->
+
+  </class>
 
 </hibernate-mapping>

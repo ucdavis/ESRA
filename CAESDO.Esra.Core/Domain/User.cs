@@ -8,20 +8,36 @@ namespace CAESDO.Esra.Core.Domain
     [Serializable]
     public class User : DomainObject<User, int>
     {
-        private IList<Login> _LoginIDs;
+        //private IList<Login> _LoginIDs;
 
-        public virtual IList<Login> LoginIDs
+        //public virtual IList<Login> LoginIDs
+        //{
+        //    get { return _LoginIDs; }
+        //    set { _LoginIDs = value; }
+        //}
+
+        private string _LoginID;
+
+        public virtual string LoginID
         {
-            get { return _LoginIDs; }
-            set { _LoginIDs = value; }
+            get { return _LoginID; }
+            set { _LoginID = value; }
         }
 
-        private IList<Unit> _Units;
+        private string _Email;
 
-        public virtual IList<Unit> Units
+        public virtual string Email
         {
-            get { return _Units; }
-            set { _Units = value; }
+            get { return _Email; }
+            set { _Email = value; }
+        }
+
+        private string _Phone;
+
+        public virtual string Phone
+        {
+            get { return _Phone; }
+            set { _Phone = value; }
         }
 
         private string _FirstName;
@@ -44,7 +60,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public virtual string FullName
         {
-            get { return _LastName + ", " + _FirstName; }
+            get { return (String.IsNullOrEmpty(_FullName) ? _LastName + ", " + _FirstName : _FullName); }
             set { _FullName = value; }
         }
 
@@ -64,6 +80,14 @@ namespace CAESDO.Esra.Core.Domain
             set { _StudentID = value; }
         }
 
+        private string _UserImage;
+
+        public virtual string UserImage
+        {
+            get { return _UserImage; }
+            set { _UserImage = value; }
+        }
+
         private string _SID;
 
         public virtual string SID
@@ -71,6 +95,14 @@ namespace CAESDO.Esra.Core.Domain
             get { return _SID; }
             set { _SID = value; }
         }
+
+        //private bool _Inactive;
+
+        //public virtual bool Inactive
+        //{
+        //    get { return _Inactive; }
+        //    set { _Inactive = value; }
+        //}
 
         private Guid _UserKey;
 
@@ -80,12 +112,20 @@ namespace CAESDO.Esra.Core.Domain
             set { _UserKey = value; }
         }
 
-        private bool _Inactive;
+        private IList<Unit> _Units;
 
-        public virtual bool Inactive
+        public virtual IList<Unit> Units
         {
-            get { return _Inactive; }
-            set { _Inactive = value; }
+            get { return _Units; }
+            set { _Units = value; }
+        }
+
+        private IList<Roles> _Roles;
+
+        public virtual IList<Roles> Roles
+        {
+            get { return _Roles; }
+            set { _Roles = value; }
         }
 
         public static List<string> FindUCDKerberosIDs(string NameToMatch)
