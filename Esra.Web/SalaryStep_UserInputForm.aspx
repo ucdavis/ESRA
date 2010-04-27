@@ -1,4 +1,4 @@
-﻿<%@ Page Title="ESRA - Salary Step Manintenance" Language="C#" MasterPageFile="~/Esra.Master"
+<%@ Page Title="ESRA - Salary Step Manintenance" Language="C#" MasterPageFile="~/Esra.Master"
     AutoEventWireup="true" CodeBehind="SalaryStep_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.SalaryStep_UserInputForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -234,6 +234,11 @@
                                                              ErrorMessage="Effective Date"
                                                              Display="Dynamic" Text="Date Required!"
                                                              ControlToValidate="tbEffectiveDate"></asp:RequiredFieldValidator>
+                                                             <ajax:CalendarExtender
+                                                                 ID="ceTbEffectiveDate" runat="server"
+                                                                  TargetControlID="tbEffectiveDate" Format="MM/dd/yyyy" 
+                                                                  PopupPosition="BottomRight" CssClass="calendar">
+                                                             </ajax:CalendarExtender>
                     </td>
                     <td>
                         <asp:Label ID="NumSalaryStepsLabel" runat="server" Text='<%# Eval("SalarySteps.Count") %>' />
