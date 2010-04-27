@@ -87,7 +87,8 @@ namespace CAESDO.Esra.Data
 
                     if (propertyName.Equals("HomeDepartment"))
                     {
-                        criteria.AddOrder((ascending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")));
+                        criteria.CreateAlias("HomeDepartment", "HomeDepartment")
+                        .AddOrder((ascending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")));
                     }
                     else
                     {
