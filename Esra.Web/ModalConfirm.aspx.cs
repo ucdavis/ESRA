@@ -9,7 +9,7 @@ namespace CAESDO.Esra.Web
 {
     public partial class ModalConfirm : ApplicationPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
             // Expose the __doPostBack function to programmatically call it from javascript
             Page.ClientScript.GetPostBackEventReference(this, String.Empty);
