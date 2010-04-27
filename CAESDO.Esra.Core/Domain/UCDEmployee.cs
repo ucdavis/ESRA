@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
-    public abstract class UCDEmployee : DomainObject<UCDEmployee, string>
+    public abstract class UCDEmployee : DomainObject<UCDEmployee, int>
     {
         protected string _EmployeeID;
 
@@ -132,6 +132,21 @@ namespace CAESDO.Esra.Core.Domain
         {
             get { return _BargainingUnitCode; }
             set { _BargainingUnitCode = value; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool retval = false;
+            if (this.EmployeeID.Equals(((UCDEmployee)obj).EmployeeID) && this.Title.TitleCode.Equals(((UCDEmployee)obj).Title.TitleCode))
+            {
+                retval = true;
+            }
+            return retval;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() / (Convert.ToInt32(_EmployeeID) + Convert.ToInt32(_Title.TitleCode));
         }
 
         public UCDEmployee()
