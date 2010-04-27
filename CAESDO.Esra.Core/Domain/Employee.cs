@@ -7,6 +7,86 @@ namespace CAESDO.Esra.Core.Domain
 {
     public class Employee : UCDEmployee, IComparable<Employee>
     {
+        // Beginning of nested classes.
+
+        // Nested class to do ascending sort on Home Department property.
+        private class sortHomeDepartmentAscendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                /*
+                * 
+                * If the employees are in the same department return the employeeOrder.
+                * 
+                * If the employees are in different departments return the deptOrder.
+                * 
+                * */
+
+                int deptOrder = String.Compare(x.HomeDepartment.Name, y.HomeDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;  
+            }
+
+            #endregion
+        }
+
+        // Nested class to do descending sort on on Home Department property.
+        private class sortHomeDepartmentDescendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                int deptOrder = String.Compare(y.HomeDepartment.Name, x.HomeDepartment.Name);
+                if (deptOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return deptOrder;  
+            }
+
+            #endregion
+        }
+
+        // Nested class to do ascending sort on on Title.TitleCode property.
+        private class sortTitleAscendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                int titleOrder = String.Compare(x.Title.TitleCode, y.Title.TitleCode);
+                if (titleOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return titleOrder;
+            }
+
+            #endregion
+        }
+
+        // Nested class to do descending sort on on Title.TitleCode property.
+        private class sortTitleDescendingHelper : IComparer<Employee>
+        {
+            #region IComparer<Employee> Members
+
+            public int Compare(Employee x, Employee y)
+            {
+                int titleOrder = String.Compare(y.Title.TitleCode, x.Title.TitleCode);
+                if (titleOrder == 0)
+                    return String.Compare(x.FullName, y.FullName);
+                else
+                    return titleOrder;
+            }
+
+            #endregion
+        }
+
+        // End of nested classes.
+
         private bool _CareerDateHasBeenAdjusted;
         // Not a database field.
         public virtual bool CareerDateHasBeenAdjusted
@@ -142,6 +222,30 @@ namespace CAESDO.Esra.Core.Domain
         public virtual int CompareTo(Employee item)
         {
             return String.Compare(this.FullName, item.FullName);
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortHomeDepartmentAscending()
+        {
+            return (IComparer<Employee>)new sortHomeDepartmentAscendingHelper();
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortHomeDepartmentDescending()
+        {
+            return (IComparer<Employee>)new sortHomeDepartmentDescendingHelper();
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortTitleAscending()
+        {
+            return (IComparer<Employee>)new sortTitleAscendingHelper();
+        }
+
+        // Method to return IComparer object for sort helper.
+        public static IComparer<Employee> sortTitleDescending()
+        {
+            return (IComparer<Employee>)new sortTitleDescendingHelper();
         }
 
         public virtual bool Equals(Employee other)
