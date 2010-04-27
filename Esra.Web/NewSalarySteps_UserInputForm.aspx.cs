@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
-using CAESArch.Core.DataInterfaces;
-using CAESArch.Core.Domain;
 
 namespace CAESDO.Esra.Web
 {
