@@ -113,6 +113,33 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.View vSelectSalaryReviewType;
         
         /// <summary>
+        /// lblOriginalTitleCodeLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOriginalTitleCodeLabel;
+        
+        /// <summary>
+        /// lblOriginalTitleCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOriginalTitleCode;
+        
+        /// <summary>
+        /// lblCurrentTitleCodeLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCurrentTitleCodeLabel;
+        
+        /// <summary>
         /// lblCurrentTitleCode control.
         /// </summary>
         /// <remarks>
@@ -131,13 +158,31 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlProposedTitleCode;
         
         /// <summary>
-        /// btnDoEquityReview control.
+        /// imgReclassArrow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDoEquityReview;
+        protected global::System.Web.UI.WebControls.Image imgReclassArrow;
+        
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
+        
+        /// <summary>
+        /// Image1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image1;
         
         /// <summary>
         /// odsProposedTitleCodes control.

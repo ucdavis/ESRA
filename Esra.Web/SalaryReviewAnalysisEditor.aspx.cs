@@ -120,8 +120,8 @@ namespace CAESDO.Esra.Web
 
                         rptScenarios_Init(scenarios);
 
-                        lblTblSRAMain_CurrentTitleCode.Text = sra.CurrentTitleCode;
-                        lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode;
+                        lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
+                        lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
 
                         MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
@@ -132,6 +132,7 @@ namespace CAESDO.Esra.Web
 
                     lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
                     ddlProposedTitleCode.SelectedValue = emp.TitleCode;
+                    lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
 
                     MultiView1.SetActiveView(vSelectSalaryReviewType);
                 }
@@ -530,6 +531,7 @@ namespace CAESDO.Esra.Web
                 sra.DateApproved = Convert.ToDateTime(dateApproved);
 
             sra.DeansOfficeComments = ViewState[KEY_DEANS_OFFICE_COMMENTS] as string;
+            sra.DepartmentComments = ViewState[KEY_DEPARTMENT_COMMENTS] as string;
 
             sra.Scenarios = scenarios;
 
@@ -671,8 +673,8 @@ namespace CAESDO.Esra.Web
             Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
             rptScenarios_Init(null);
 
-            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].TitleCode;
-            lblTblSRAMain_TitleCode.Text = proposedTitle.TitleCode;
+            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
+            lblTblSRAMain_TitleCode.Text = proposedTitle.TitleCode_Name;
 
             gvTitle.DataBind();
             gvEmployees.DataBind();
@@ -686,8 +688,8 @@ namespace CAESDO.Esra.Web
             Criteria = SalaryScaleBLL.GetCriteriaListItems(Employees[0].TitleCode);
             rptScenarios_Init(null);
 
-            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].TitleCode;
-            lblTblSRAMain_TitleCode.Text = Employees[0].TitleCode;
+            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
+            lblTblSRAMain_TitleCode.Text = Employees[0].Title.TitleCode_Name;
 
             gvTitle.DataBind();
             gvEmployees.DataBind();
