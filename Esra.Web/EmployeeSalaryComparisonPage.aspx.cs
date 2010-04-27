@@ -116,6 +116,7 @@ namespace CAESDO.Esra.Web
             
             System.Web.SessionState.HttpSessionState Session = HttpContext.Current.Session;
             string userId = Session[KEY_CURRENT_USER_ID] as string;
+            UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", userId as string);;
             bool isDepartmentUser = (Session[KEY_IS_DEPARTMENT_USER] as bool? == null ? false : (bool)Session[KEY_IS_DEPARTMENT_USER]);
             string propertyName = Session[KEY_SORT_PROPERTY_NAME] as string;
             bool ascending = (String.IsNullOrEmpty(Session[KEY_ASCENDING] as string) ? true : Convert.ToBoolean((string)Session[KEY_ASCENDING]));
@@ -155,9 +156,11 @@ namespace CAESDO.Esra.Web
                 row = dt.NewRow();
 
                 row["Department Name"] = emp.HomeDepartment.Name;
+                row["Employee Name"] = emp.FullName;
+                row["Department Comments"] = emp.DepartmentComments;
+                row["Deans Office Comments"] = emp.DeansOfficeComments;
                 row["Title Code"] = emp.TitleCode;
                 row["Bargaining Unit"] = emp.BargainingUnitCode;
-                row["Employee Name"] = emp.FullName;
                 row["Hire Date"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
                 row["Years Of Service"] = emp.YearsOfService;
                 row["Begin Date (In Title)"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
@@ -165,8 +168,19 @@ namespace CAESDO.Esra.Web
                 row["Experience Begin Date"] = String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate);
                 row["Years Of Experience"] = emp.YearsOfExperience;
                 row["Pay Rate"] = String.Format("{0:c}", emp.PayRate);
-                row["Department Comments"] = emp.DepartmentComments;
-                row["Deans Office Comments"] = emp.DeansOfficeComments;
+
+                if (isDepartmentUser)
+                {
+                    // Check if is department employee and blank out field if not:
+                    if (!EmployeeBLL.IsDepartmentEmployee(user, emp))
+                    {
+                        row["Department Name"] = null;
+                        row["Employee Name"] = null;
+                        row["Department Comments"] = null;
+                        row["Deans Office Comments"] = null;
+                    }
+                }
+                
                 dt.Rows.Add(row);
             }
             
