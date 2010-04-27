@@ -772,6 +772,9 @@
                     src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
                 &nbsp;<asp:LinkButton ID="lbtnEdlt" runat="server" OnClick="lbtnEdit_Click" ToolTip="Edit"
                     CssClass="buttons">Edit <img id="imgEditButton" alt="Edit" class="edit_button" src="images/common/edit.png"/></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnPrint" runat="server" 
+                    OnClientClick="window.print();return false;" ToolTip="Print"
+                    CssClass="buttons">Print <img id="imgPrintButton" alt="Print" class="print_button" src="images/common/printer.gif"/></asp:LinkButton>
                 <%--<table style="width: 100%;">
                     <tr>
                         <th>
