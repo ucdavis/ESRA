@@ -113,6 +113,15 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.ObjectDataSource odsEmployee;
         
         /// <summary>
+        /// odsEmployees control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsEmployees;
+        
+        /// <summary>
         /// odsTitle control.
         /// </summary>
         /// <remarks>

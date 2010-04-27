@@ -157,25 +157,11 @@ namespace CAESDO.Esra.Web
             // update properly.
             //Response.Redirect(Page.Request.Url.ToString());
             
+            
             string queryString = "TitleCode="+ddlTitleCode.SelectedValue+"&Department="+ddlDepartment.SelectedValue+"&EmployeeID="+ddlEmployee.SelectedValue;
             string pathString = Page.Request.Url.AbsolutePath;
             Response.Redirect(pathString+"?"+queryString);  
-        }
-
-        protected void gvEmployees_DataBound(object sender, EventArgs e)
-        {
-           // If a single row is returned, then set the ddlTitleCode's selected value to that
-           // of the employee returned.
-            //GridView gv = (GridView)sender;
-            //if (gv.Rows.Count == 1)
-            //{
-            //    string id = gv.DataKeys[0].Value.ToString();
-            //    Employee emp = EmployeeBLL.GetByID(id);
-            //    ddlTitleCode.SelectedValue = emp.Title.ID.ToString();
-            //    string queryString = "TitleCode=" + ddlTitleCode.SelectedValue + "&Department=" + ddlDepartment.SelectedValue + "&EmployeeID=" + ddlEmployee.SelectedValue;
-            //    string pathString = Page.Request.Url.AbsolutePath;
-            //    Response.Redirect(pathString + "?" + queryString);
-            //}
+             
         }
     }
 }

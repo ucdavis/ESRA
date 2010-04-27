@@ -25,7 +25,7 @@
         </asp:DropDownList>
         
         &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" 
-            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployee" 
+            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployees" 
             DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
             >
             <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
@@ -183,7 +183,9 @@ document.write(month+"/"+today+"/"+year)
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
-                    onrowupdated="gvEmployees_RowUpdated" ondatabound="gvEmployees_DataBound">
+                    onrowupdated="gvEmployees_RowUpdated" 
+                    EnableViewState="False">
+                    <PagerSettings Position="TopAndBottom" />
                     <Columns>
                         <asp:CommandField ShowEditButton="True" />
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
@@ -196,11 +198,11 @@ document.write(month+"/"+today+"/"+year)
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Title Code" SortExpression="Title">
-                            <EditItemTemplate><asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("Title.TitleCode") %>'/>
+                            <EditItemTemplate><asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'/>
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="lblTitleCode" runat="server" 
-                                    Text='<%# Eval("Title.TitleCode") %>'></asp:Label>
+                                    Text='<%# Eval("TitleCode") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Bargaining Unit">
@@ -210,7 +212,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label2" runat="server" 
-                                    Text='<%# Bind("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
+                                    Text='<%# Eval("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Employee Name" SortExpression="FullName">
@@ -218,7 +220,7 @@ document.write(month+"/"+today+"/"+year)
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("FullName") %>'></asp:Label>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Hire Date">
@@ -228,7 +230,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label4" runat="server" 
-                                    Text='<%# Bind("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' 
+                                    Text='<%# Eval("AdjustedCareerHireDate", "{0:MM/dd/yyyy}") %>' 
                                     BackColor='<%# ((bool)Eval("CareerDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White ) %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -250,7 +252,7 @@ document.write(month+"/"+today+"/"+year)
                             </EditItemTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Label6" runat="server" 
-                                    Text='<%# Bind("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White )  %>'></asp:Label>
+                                    Text='<%# Eval("AdjustedApptHireDate", "{0:MM/dd/yyyy}") %>' BackColor='<%# ((bool)Eval("ApptDateHasBeenAdjusted") ? System.Drawing.Color.Red : System.Drawing.Color.White )  %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Time In Title" SortExpression="TimeInTitle">
@@ -265,10 +267,10 @@ document.write(month+"/"+today+"/"+year)
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Pay Rate" SortExpression="PayRate">
                             <EditItemTemplate>
-                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate") %>'></asp:Label>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label1" runat="server" Text='<%# Bind("PayRate", "{0:c}") %>'></asp:Label>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Department Comments">
@@ -277,7 +279,7 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Bind("DepartmentComments") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label8" runat="server" Text='<%# Bind("DepartmentComments") %>'></asp:Label>
+                                <asp:Label ID="Label8" runat="server" Text='<%# Eval("DepartmentComments") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Dean's Office Comments">
@@ -286,7 +288,7 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Bind("DeansOfficeComments") %>'></asp:TextBox>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <asp:Label ID="Label9" runat="server" Text='<%# Bind("DeansOfficeComments") %>'></asp:Label>
+                                <asp:Label ID="Label9" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -308,7 +310,7 @@ document.write(month+"/"+today+"/"+year)
                 <asp:Parameter Name="AdjustedApptHireDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
-                <asp:Parameter Name="original_ID" Type="int32" />
+                <asp:Parameter Name="original_ID" Type="String" />
             </UpdateParameters>
             <SelectParameters>
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
@@ -316,9 +318,19 @@ document.write(month+"/"+today+"/"+year)
                 <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
                     Name="titleCode" PropertyName="SelectedValue" Type="String" />
                 <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
-                    Name="pkEmployee" PropertyName="SelectedValue" Type="Int32" />
+                    Name="pkEmployee" PropertyName="SelectedValue" Type="String" />
                 <asp:ControlParameter ControlID="ddlDepartment" DefaultValue="0" 
                     Name="departmentID" PropertyName="SelectedValue" Type="String" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        
+        <asp:ObjectDataSource ID="odsEmployees" runat="server" 
+            TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
+            OldValuesParameterFormatString="original_{0}" 
+            SelectMethod="GetAll">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
         
