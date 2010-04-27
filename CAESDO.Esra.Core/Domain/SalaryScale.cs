@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CAESArch.Core.Domain;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 
 namespace CAESDO.Esra.Core.Domain

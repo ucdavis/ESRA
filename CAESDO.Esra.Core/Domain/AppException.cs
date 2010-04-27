@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using CAESArch.Core.Domain;
 using NHibernate.Mapping.Attributes;
 
 namespace CAESDO.Esra.Core.Domain
@@ -26,13 +25,13 @@ namespace CAESDO.Esra.Core.Domain
         [OneToMany(2, ClassType = typeof(Exception))]
         public virtual IList<Exception> Exceptions { get; set; }
 
-        public override bool isValid(AppException entity)
+        public override bool IsValid(AppException entity)
         {
             //An app exception has to occur before yesterday (for testing)
             if (entity.DateException > DateTime.Now.Subtract(TimeSpan.FromDays(1)))
                 return false;
 
-            return base.isValid(entity);
+            return base.IsValid(entity);
         }
 
         public AppException()

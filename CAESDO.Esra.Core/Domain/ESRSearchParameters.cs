@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CAESArch.Core.Domain;
 using CAESDO.Esra.Core.Domain;
 
 namespace CAESDO.Core.Domain

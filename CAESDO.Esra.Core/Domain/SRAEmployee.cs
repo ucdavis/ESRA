@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using CAESArch.Core.Domain;
 
 namespace CAESDO.Esra.Core.Domain
 {

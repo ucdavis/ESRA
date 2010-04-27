@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CAESArch.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dlls\CAESArch.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\Castle.DynamicProxy.dll</HintPath>
@@ -59,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataInterfaces\IDao.cs" />
     <Compile Include="DataInterfaces\IDaoFactory.cs" />
     <Compile Include="Domain\AppException.cs" />
     <Compile Include="Domain\ApptType.cs" />
@@ -69,7 +72,6 @@
     <Compile Include="Domain\ESRSearchParameters.cs" />
     <Compile Include="Domain\UCDEmployeeID.cs" />
     <Compile Include="Domain\UCDEmployee.cs" />
-    <Compile Include="Domain\DomainObject.cs" />
     <Compile Include="Domain\Exception.cs" />
     <Compile Include="Domain\ITrackable.cs" />
     <Compile Include="Domain\PayRateType.cs" />

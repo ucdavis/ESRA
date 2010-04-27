@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CAESArch.Core.Domain;
 using NHibernate.Mapping.Attributes;
 
 namespace CAESDO.Esra.Core.Domain

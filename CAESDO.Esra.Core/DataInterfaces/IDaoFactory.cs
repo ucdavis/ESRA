@@ -1,7 +1,6 @@
 ﻿using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
 using System;
-using System.ComponentModel;
 
 namespace CAESDO.Esra.Core.DataInterfaces
 {
@@ -25,23 +24,23 @@ namespace CAESDO.Esra.Core.DataInterfaces
     // But you're certainly welcome to put each declaration into its own file.
     #region Inline interface declarations
 
-    public interface IGenericDao<T, IdT> : IDao<T, IdT> { }
+    public interface IGenericDao<T, IdT> { }
 
-    public interface IDepartmentDao : IDao<Department, string> { }
+    public interface IDepartmentDao { }
 
-    public interface ITitleDao : IDao<Title, string>
+    public interface ITitleDao
     {
         IList<string> GetDistinctTitleCodesWithSalarySteps();
     }
 
-    public interface IEmployeeDao : IDao<Employee, string>
+    public interface IEmployeeDao
     {
         IList<Employee> GetByTitleCode(string titleCode, string propertyName, bool ascending);
         IList<Employee> GetEmployees(string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs);
         IList<Employee> GetAllEmployees(string propertyName, bool ascending);
     }
 
-    public interface ISalaryScaleDao : IDao<SalaryScale, int>
+    public interface ISalaryScaleDao
     {
         SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
         IList<SalaryScale> GetAllSalaryScale(string propertyName, bool ascending);
@@ -55,21 +54,21 @@ namespace CAESDO.Esra.Core.DataInterfaces
         bool HasSalaryReviewAnalysis(SalaryScale record);
     }
 
-    public interface ISalaryGradeQuartilesDao : IDao<SalaryGradeQuartiles, int>
+    public interface ISalaryGradeQuartilesDao
     {
         IList<SalaryGradeQuartiles> GetDistinct();
         IList<String> GetDistinctSalaryGrades();
     }
 
-    public interface IUserDao : IDao<User, int>
+    public interface IUserDao
     {
         User GetUserByLogin(string LoginID);
         User GetUserBySID(string SID);
     }
 
-    public interface IUnitDao : IDao<Unit, string> { }
+    public interface IUnitDao { }
 
-    public interface ISalaryReviewAnalysisDao : IDao<SalaryReviewAnalysis, int>
+    public interface ISalaryReviewAnalysisDao
     {
         IList<SalaryReviewAnalysis> GetAllSalaryReviewAnalysis(string propertyName, bool ascending);
         IList<SalaryReviewAnalysis> GetAll(string employeeID, string reviewerLogin, string creationDate, string propertyName, bool? ascending);
