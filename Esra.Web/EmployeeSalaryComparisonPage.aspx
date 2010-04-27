@@ -389,6 +389,29 @@ document.write(month+"/"+today+"/"+year)
                                     Text='<%# Eval("TimeInTitle", "{0:0.00}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Experience Begin Date" 
+                            SortExpression="ExperienceBeginDate">
+                            <EditItemTemplate>
+                            <ajax:CalendarExtender ID="ceAdjustedApptHireDate" runat="server" CssClass="calendar" TargetControlID="tbExperienceBeginDate" Format="MM/dd/yyyy">
+                                </ajax:CalendarExtender>
+                                <asp:TextBox ID="tbExperienceBeginDate" runat="server" 
+                                    Text='<%# Bind("ExperienceBeginDate", "{0:MM/dd/yyyy}") %>' ></asp:TextBox>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblExperienceBeginDate" runat="server" Text='<%# Eval("ExperienceBeginDate", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Years Of Experience" 
+                            SortExpression="YearsOfExperience">
+                            <EditItemTemplate>
+                                <%--<asp:TextBox ID="TextBox3" runat="server" 
+                                    Text='<%# Bind("YearsOfExperience") %>'></asp:TextBox>--%>
+                                    <asp:Label ID="lblEditYearsOfExperience" runat="server" Text='<%# Eval("YearsOfExperience","{0:0.00}") %>'></asp:Label>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblYearsOfExperience" runat="server" Text='<%# Eval("YearsOfExperience","{0:0.00}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Pay Rate" SortExpression="PayRate">
                             <EditItemTemplate>
                                 <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayRate", "{0:c}") %>'></asp:Label>
@@ -440,15 +463,17 @@ document.write(month+"/"+today+"/"+year)
             <UpdateParameters>
                 <asp:Parameter Name="AdjustedCareerHireDate" Type="String" />
                 <asp:Parameter Name="AdjustedApptHireDate" Type="String" />
+                <asp:Parameter Name="ExperienceBeginDate" Type="String" />
                 <asp:Parameter Name="DepartmentComments" Type="String" />
                 <asp:Parameter Name="DeansOfficeComments" Type="String" />
+                <asp:Parameter Name="IsDepartmentUser" Type="String" />
                 <asp:Parameter Name="original_ID" Type="String" />
             </UpdateParameters>
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" 
                     Type="String" />
-                <asp:Parameter DefaultValue="true" Name="isDepartmentUser" 
-                    Type="Boolean" />
+                <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
                 <asp:SessionParameter DefaultValue="0" Name="titleCodes" 

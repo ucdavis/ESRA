@@ -18,6 +18,17 @@ namespace CAESDO.Esra.Web
 {
     public partial class EmployeeSalaryComparisonPage : ApplicationPage
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Session.Remove("selectedDepartmentStrings");
+                Session.Remove("selectedDepartments");
+                Session.Remove("selectedTitles");
+                Session.Remove("selectedTitleStrings");
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //MultiView1.SetActiveView(vEmployees);
@@ -198,9 +209,10 @@ namespace CAESDO.Esra.Web
 
         protected void lbxDepartments_ClearSelectedValues()
         {
-            
+            /*
             if (IsDepartmentUser())
             {
+                Session.Add("selectedDepartmentStrings", new string[] { "0" });
                 AddUserDepartmentsToSession();
             }
             else
@@ -208,7 +220,7 @@ namespace CAESDO.Esra.Web
                 Session.Add("selectedDepartmentStrings", new string[] { "0" });
                 Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
             }
-
+            */
             Session.Add("selectedDepartmentStrings", new string[] { "0" });
             Session.Add("selectedDepartments", new List<Department>() { GetAllNamedDepartment() });
 
@@ -280,13 +292,13 @@ namespace CAESDO.Esra.Web
         {
             ESRSearchParameters sp = new ESRSearchParameters()
             {
-                SearchTitles = new List<Title>() { GetAllNamedTitle() },
-                SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() }),
-                SearchEmployee = GetAllNamedEmployee()
-
                 //SearchTitles = new List<Title>() { GetAllNamedTitle() },
-                //SearchDepartments = new List<Department>() { GetAllNamedDepartment() } ,
+                //SearchDepartments = (IsDepartmentUser() ? DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true) as List<Department> : new List<Department>() { GetAllNamedDepartment() }),
                 //SearchEmployee = GetAllNamedEmployee()
+
+                SearchTitles = new List<Title>() { GetAllNamedTitle() },
+                SearchDepartments = new List<Department>() { GetAllNamedDepartment() },
+                SearchEmployee = GetAllNamedEmployee()
             };
             List<ESRSearchParameters> esParams = new List<ESRSearchParameters>();
             esParams.Add(sp);
@@ -445,13 +457,16 @@ namespace CAESDO.Esra.Web
             // Add departments to session:
             IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true);
             Session.Add("selectedDepartments", departments);
+            Session.Add("selectedDepartmentStrings", new string[] { "0" });
 
+            /*
             List<string> selectedDepartmentStrings = new List<string>();
             foreach (Department dept in departments)
             {
                 selectedDepartmentStrings.Add(dept.ID);
             }
             Session.Add("selectedDepartmentStrings", selectedDepartmentStrings.ToArray());
+             * */
         }
 
         protected bool HasSalarySteps(object sender)
