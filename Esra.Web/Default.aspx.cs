@@ -83,8 +83,7 @@ namespace CAESDO.Esra.Web
 
         protected void ddlTitleCode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //ddlEmployee.SelectedIndex = -1;
-            //gvEmployees.DataBind();
+           
         }
 
         protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
@@ -346,6 +345,19 @@ namespace CAESDO.Esra.Web
                 searchEmployee = GetAllNamedEmployee();
             }
             return searchEmployee;
+        }
+        
+        protected void rtpSalary_OnItemDataBound(object sender, EventArgs e)
+        {
+           Repeater rpt = (Repeater)sender;
+           if (rpt.Items.Count > 0)
+           {
+               rpt.Visible = true;
+           }
+           else
+           {
+               rpt.Visible = false;
+           }
         }
     }
 }

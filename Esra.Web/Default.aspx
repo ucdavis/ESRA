@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CAESDO.Esra.Web._Default" %>
-
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
-
+<%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="CAESDO.Esra.Core.Domain" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
@@ -13,19 +13,22 @@
     <div>
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
-    Title Code:
-        <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
+        <br />
+    &nbsp;<asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode_Name" DataValueField="ID" AutoPostBack="True" 
             AppendDataBoundItems="True" 
             onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
+        <cc1:ListSearchExtender ID="ListSearchExtender4" runat="server" 
+            TargetControlID="ddlTitleCode">
+        </cc1:ListSearchExtender>
         <br />
-        
-        <asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
-            AutoGenerateColumns="False" EmptyDataText="No Title Code selected.">
+        &nbsp;<asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
+            AutoGenerateColumns="False" EmptyDataText="No Title Code selected." ShowHeader="true" HeaderStyle-HorizontalAlign="Center">
             <Columns>
                 <asp:TemplateField>
+                <HeaderTemplate>Campus-wide Salary Scale</HeaderTemplate>
                     <ItemTemplate>
                         <table>
                             <tr>
@@ -36,11 +39,12 @@
                                     <%--<td colspan="2"><asp:Label ID="lblAbbreviatedName" runat="server" 
                                             Text='<%# Eval("AbbreviatedName") %>'></asp:Label></td>--%>
                             </tr>
-                            <tr><th colspan="5">Salary Scales</th></tr>
+                            <%--<tr><th colspan="5">Salary Scales</th></tr>--%>
                             <tr>
                                 <td colspan="5">
                                     <asp:Repeater runat="server" ID="rptSalaryScale" 
                                         DataSource='<%# Eval("SalaryScales") %>'>
+                                        <HeaderTemplate><tr><th colspan="5">Salary Scales</th></tr></HeaderTemplate>
                                     <ItemTemplate>
                                         <table>
                                             <tr>
@@ -57,8 +61,6 @@
                                                 <th colspan="2">Bargaining Unit:</th>
                                                 <td><asp:Label ID="lblBargainingUnitCode" runat="server" 
                                                         Text='<%# Eval("BargainingCode") %>'></asp:Label></td>
-                                            
-                                            
                                             </tr>
                                             <tr>
                                                 <td colspan="5">
@@ -125,8 +127,7 @@
                                             <tr>
                                                 <td colspan="5">
                                                     <table>
-                                                        <asp:Repeater runat="server" ID="rptSalarySteps" 
-                                                            DataSource='<%# Eval("SalarySteps") %>'><HeaderTemplate><tr><th>Step</th><th>Annual</th><th>Monthly</th><th>Hourly</th></tr></HeaderTemplate>
+                                                        <asp:Repeater runat="server" ID="rptSalarySteps"  OnItemDataBound="rtpSalary_OnItemDataBound" DataSource='<%# Eval("SalarySteps") %>'><HeaderTemplate><tr><th>Step</th><th>Annual</th><th>Monthly</th><th>Hourly</th></tr></HeaderTemplate>
                                                             <ItemTemplate>
                                                                 <tr>
                                                                     <th><asp:Label ID="lblStep" runat="server" Text='<%# Eval("StepNumber") %>'></asp:Label></th>
@@ -148,7 +149,7 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
-        
+        <br />
     </div>
     <hr />
     <div>
@@ -194,8 +195,6 @@
        
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="vEmployees" runat="server" >
-                <center><asp:Label ID="lblEmployeeSalaryReportTitle" runat="server" Font-Bold="True" 
-                    Font-Size="Larger" Text="Employee Salary Report"></asp:Label></center>
                 <%--Report Date:
 
                 <script type="text/javascript" language="JavaScript">
@@ -209,11 +208,11 @@ document.write(month+"/"+today+"/"+year)
 </script> --%>
 
                 <br />
-                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False">
+                <asp:GridView ID="gvESRSearchParams" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Center">
                 
                     <Columns>
-                    
                         <asp:TemplateField>
+                        <HeaderTemplate>Report Generation Criteria</HeaderTemplate>
                             <ItemTemplate>
                              <table border="1">
                              <tr >
@@ -258,6 +257,7 @@ document.write(month+"/"+today+"/"+year)
                     </Columns>
                 </asp:GridView>
                 <br />
+                <center><asp:Label Font-Bold="true" runat="server" Text="Employee Salary Comparison Report" Font-Size="Large"></asp:Label></center><br />
                 <asp:GridView ID="gvEmployees" runat="server" AutoGenerateColumns="False" 
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
@@ -267,7 +267,9 @@ document.write(month+"/"+today+"/"+year)
                     <PagerSettings Position="TopAndBottom" />
                     <Columns>
                         <asp:CommandField ShowEditButton="True" />
+                        
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">
+  
                             <EditItemTemplate>
                                 <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>' />
                                 <%--<asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("HomeDepartment") %>'></asp:TextBox>--%>
@@ -369,6 +371,7 @@ document.write(month+"/"+today+"/"+year)
                             <ItemTemplate>
                                 <asp:Label ID="Label9" runat="server" Text='<%# Eval("DeansOfficeComments") %>'></asp:Label>
                             </ItemTemplate>
+                        
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
