@@ -19,7 +19,6 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MinAnnual;
-        [TypeConversionValidator(typeof(Decimal))]
         [NotNullValidator]
         public virtual decimal MinAnnual
         {
@@ -28,7 +27,6 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _FirstQrtleAnnual;
-        [TypeConversionValidator(typeof(Decimal))]
         [NotNullValidator]
         public virtual decimal FirstQrtleAnnual
         {
@@ -37,7 +35,6 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MidAnnual;
-        [TypeConversionValidator(typeof(Decimal))]
         [NotNullValidator]
         public virtual decimal MidAnnual
         {
@@ -46,7 +43,6 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _ThirdQrtleAnnual;
-        [TypeConversionValidator(typeof(Decimal))]
         [NotNullValidator]
         public virtual decimal ThirdQrtleAnnual
         {
@@ -55,7 +51,6 @@ namespace CAESDO.Esra.Core.Domain
         }
 
         private decimal _MaxAnnual;
-        [TypeConversionValidator(typeof(Decimal))]
         [NotNullValidator]
         public virtual decimal MaxAnnual
         {
