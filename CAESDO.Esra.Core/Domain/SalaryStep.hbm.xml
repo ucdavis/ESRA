@@ -23,6 +23,11 @@
 			<column name="TitleCode"/>
 			<column name="EffectiveDate"/>
 		</many-to-one>
+
+    <many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"
+                 insert="false" update="false" cascade="none" unique="true">
+      <column name="TitleCode"/>
+    </many-to-one>
 					
 	</class>
 </hibernate-mapping>

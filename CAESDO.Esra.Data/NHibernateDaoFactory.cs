@@ -40,14 +40,30 @@ namespace CAESDO.Esra.Data
 
         public class TitleDao : ITitleDao
         {
-            public IList<string> GetDistinctTitleCodesWithSalarySteps()
+            public IList<Title> GetDistinctPayrollTitlesWithSalarySteps(string propertyName, bool ascending)
             {
+                var distinctTitlesWithSalarySteps = GetDistinctTitleCodesWithSalarySteps("TitleCode", true) as List<string>;
+
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Title))
+                .Add(Expression.In("TitleCode", distinctTitlesWithSalarySteps.ToArray()))
+                .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+
+                return criteria.List<Title>();
+            }
+        
+            public IList<string> GetDistinctTitleCodesWithSalarySteps(string propertyName, bool ascending)
+            {
+                IList<string> retval = null;
+
                 ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryStep))
+                .CreateAlias("Title", "Title")
                 .SetProjection(Projections.Distinct(Projections.Property("TitleCode")))
                     //.SetProjection(Projections.GroupProperty("SalaryGrade"))
-                .AddOrder(Order.Asc("TitleCode"));
+                    .AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
 
-                return criteria.List<String>();
+                retval = criteria.List<String>();
+
+                return retval;
             }
         }
 
@@ -329,36 +345,40 @@ namespace CAESDO.Esra.Data
             public IList<SalaryScale> GetAllSalaryScalesWithSalarySteps(string titleCode, string propertyName, bool ascending)
             {
                 IList<SalaryScale> retval = null;
-
-               if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
+                if (String.IsNullOrEmpty(titleCode) == false)
+                {
+                    if (String.IsNullOrEmpty(propertyName) || propertyName.Equals("TitleCode"))
                     {
                         propertyName = "TitleCode";
 
-                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
-                          .Add(Expression.Gt("NumSalarySteps", 0));
+                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(
+                            typeof (SalaryScale))
+                            .Add(Expression.Gt("NumSalarySteps", 0));
 
                         if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
                             criteria.Add(Expression.Eq("TitleCode", titleCode));
 
                         criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)))
-                                .AddOrder(Order.Asc("EffectiveDate"));
+                            .AddOrder(Order.Asc("EffectiveDate"));
 
                         retval = criteria.List<SalaryScale>();
                     }
                     else
                     {
-                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
-                          .CreateAlias("Title", "Title")
-                          .Add(Expression.Gt("NumSalarySteps", 0));
+                        ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(
+                            typeof (SalaryScale))
+                            .CreateAlias("Title", "Title")
+                            .Add(Expression.Gt("NumSalarySteps", 0));
 
                         if (String.IsNullOrEmpty(titleCode) == false && titleCode.Equals("0") == false)
-                                criteria.Add(Expression.Eq("TitleCode", titleCode));
+                            criteria.Add(Expression.Eq("TitleCode", titleCode));
 
-                          criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+                        criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
 
                         retval = criteria.List<SalaryScale>();
                     }
-                
+                }
+
                 return retval;
             }
 

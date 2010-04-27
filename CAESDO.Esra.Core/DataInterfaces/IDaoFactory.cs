@@ -31,7 +31,8 @@ namespace CAESDO.Esra.Core.DataInterfaces
 
     public interface ITitleDao
     {
-        IList<string> GetDistinctTitleCodesWithSalarySteps();
+        IList<string> GetDistinctTitleCodesWithSalarySteps(String propertyName, bool ascending);
+        IList<Title> GetDistinctPayrollTitlesWithSalarySteps(string propertyName, bool ascending);
     }
 
     public interface IEmployeeDao

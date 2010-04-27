@@ -15,9 +15,31 @@
     <asp:MultiView ID="MultiView1" runat="server">
     <asp:View ID="vDisplaySalaryScales" runat="server" >
     <div id="divSelectTitleCode">
+        
+        
+        <asp:DropDownList ID="ddlSelectPayrollTitle" runat="server" 
+            AppendDataBoundItems="True" AutoPostBack="True" 
+            DataSourceID="odsSelectPayrollTitleSalarySteps" 
+            OnSelectedIndexChanged="ddlSelectTitle_SelectIndexChanged" DataValueField="TitleCode" DataTextField="PayrollTitle_TitleCode">
+            <asp:ListItem Value="">-- Select a Payroll Title w/Salary Steps --</asp:ListItem>
+            <asp:ListItem Value="0">-- All Payroll Titles w/Salary Steps --</asp:ListItem>
+        </asp:DropDownList>
+        <ajax:ListSearchExtender ID="ListSearchExtender2" runat="server" TargetControlID="ddlSelectTitleCode">
+        </ajax:ListSearchExtender>
+            
+        <asp:ObjectDataSource ID="odsSelectPayrollTitleSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
+            SelectMethod="GetDistinctPayrollTitlesWithSalarySteps" 
+            TypeName="CAESDO.Esra.BLL.TitleBLL">
+            <SelectParameters>
+                <asp:Parameter Name="propertyName" DefaultValue="AbbreviatedName" />
+                <asp:Parameter Name="ascending" DefaultValue="true" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
         <asp:DropDownList ID="ddlSelectTitleCode" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" 
-            DataSourceID="odsSelectTitleCodeSalarySteps" >
+            DataSourceID="odsSelectTitleCodeSalarySteps" 
+            OnSelectedIndexChanged="ddlSelectTitle_SelectIndexChanged">
+            <asp:ListItem Value="">-- Select a Title Code w/Salary Steps --</asp:ListItem>
             <asp:ListItem Value="0">-- All Title Codes w/Salary Steps --</asp:ListItem>
         </asp:DropDownList>
         <ajax:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ddlSelectTitleCode">
@@ -27,12 +49,13 @@
             SelectMethod="GetDistinctTitleCodesWithSalarySteps" 
             TypeName="CAESDO.Esra.BLL.TitleBLL">
         </asp:ObjectDataSource>
+        
         <br /><br />
         
     </div>
     <h2 class="h2_black">&nbsp;</h2>
         <asp:GridView ID="gvSalaryScales" runat="server" DataSourceID="odsSalaryScale" AutoGenerateColumns="False"
-            AllowSorting="True" OnSorting="gvSalaryScales_Sorting">
+            AllowSorting="True" OnSorting="gvSalaryScales_Sorting" EmptyDataText="No Salary Step Data Available.">
             <HeaderStyle CssClass="tr_head" />
             <AlternatingRowStyle CssClass="tr_alt" />
             <Columns>
@@ -493,15 +516,17 @@
     
     </asp:MultiView>
     <asp:ObjectDataSource ID="odsSalarySteps" runat="server" OldValuesParameterFormatString="original_{0}"
-            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL"></asp:ObjectDataSource>
+            SelectMethod="GetAll" TypeName="CAESDO.Esra.BLL.SalaryStepBLL">
+    </asp:ObjectDataSource>
             
+        <asp:HiddenField ID="hiddenTitleCode" runat="server" />    
         <asp:ObjectDataSource ID="odsSalaryScale" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetAllSalaryScalesWithSalarySteps" 
             TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
             DataObjectTypeName="CAESDO.Esra.Core.Domain.SalaryScale" 
             UpdateMethod="UpdateRecord">
             <SelectParameters>
-                <asp:ControlParameter ControlID="ddlSelectTitleCode" DefaultValue="" Name="titleCode" Type="String" />
+                <asp:ControlParameter ControlID="hiddenTitleCode" DefaultValue="" Name="titleCode" PropertyName="Value" Type="String" />
                 <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>

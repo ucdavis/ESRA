@@ -223,6 +223,16 @@ namespace CAESDO.Esra.Web
             return tbAnnual;
         }
 
+        protected void ddlSelectTitle_SelectIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = sender as DropDownList;
+
+            hiddenTitleCode.Value = ddl.SelectedValue;
+            ddlSelectPayrollTitle.SelectedValue = ddl.SelectedValue;
+            ddlSelectTitleCode.SelectedValue = ddl.SelectedValue;
+            gvSalaryScales.DataBind();
+        }
+
         protected void vNewSalaryScale_ItemUpdating(object sender, ListViewUpdateEventArgs e)
         {
             NumberStyles styles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
