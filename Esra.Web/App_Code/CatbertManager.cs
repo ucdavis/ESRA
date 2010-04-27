@@ -16,6 +16,9 @@ using CAESDO.Esra.Core.Domain;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using Roles=CAESDO.Esra.Core.Domain.Roles;
+using Unit=CAESDO.Esra.Core.Domain.Unit;
+
 //using CAESDO.Esra.Core.DataInterfaces;
 //using CAESDO.Esra.Data;
 
@@ -54,21 +57,32 @@ namespace CAESDO.Esra.Web
             return true;
         }
 
-        [DataObjectMethod(DataObjectMethodType.Select)]
-        public static Units[] GetUnits()
-        {
-            SetSecurityContext();
+        //[DataObjectMethod(DataObjectMethodType.Select)]
+        ////public static Units[] GetUnits()
+        ////{
+        ////    SetSecurityContext();
 
-            return catops.GetUnits();
-        }
+        ////    return catops.GetUnits();
+        ////}
+        //public static CAESDO.Esra.Core.Domain.Unit[] GetUnits()
+        //{
+        //    Unit[] retval = null;
+        //    var units = UnitBLL.GetUnits();
 
-        [DataObjectMethod(DataObjectMethodType.Select)]
-        public static Roles[] GetRoles()
-        {
-            SetSecurityContext();
+        //    if (units != null)
+        //    {
+        //        retval = new List<Unit>(units).ToArray();
+        //    }
+        //    return retval;
+        //}
 
-            return catops.GetRoles(AppName);
-        }
+        //[DataObjectMethod(DataObjectMethodType.Select)]
+        //public static Roles[] GetRoles()
+        //{
+        //    SetSecurityContext();
+
+        //    return catops.GetRoles(AppName);
+        //}
 
         [DataObjectMethod(DataObjectMethodType.Select)]
         public static Users[] SearchNewUsersByLogin(string EmployeeID, string FirstName, string LastName, string LoginID)
@@ -94,12 +108,12 @@ namespace CAESDO.Esra.Web
             return catops.SearchNewUser(null, null, null, login);
         }
 
-        public static bool AddUserToRole(Users user, Roles role)
-        {
-            SetSecurityContext();
+        //public static bool AddUserToRole(Users user, Roles role)
+        //{
+        //    SetSecurityContext();
 
-            return catops.AssignPermissions(user.Login, AppName, role.RoleID);
-        }
+        //    return catops.AssignPermissions(user.Login, AppName, role.RoleID);
+        //}
 
         public static bool AddUserToRole(string login, int roleID)
         {
@@ -129,19 +143,19 @@ namespace CAESDO.Esra.Web
             return catops.DeleteUnit(login, UnitID);
         }
 
-        public static Roles[] GetRolesByUser(string login)
-        {
-            SetSecurityContext();
+        //public static Roles[] GetRolesByUser(string login)
+        //{
+        //    SetSecurityContext();
 
-            return catops.GetRolesByUser(AppName, login);
-        }
+        //    return catops.GetRolesByUser(AppName, login);
+        //}
 
-        public static Units[] GetUnitsByUser(string login)
-        {
-            SetSecurityContext();
+        //public static Units[] GetUnitsByUser(string login)
+        //{
+        //    SetSecurityContext();
 
-            return catops.GetUnitsByUser(login);
-        }
+        //    return catops.GetUnitsByUser(login);
+        //}
 
         //[DataObjectMethod(DataObjectMethodType.Select)]
         //public static CatbertUsers[] GetUsersInApplication()
@@ -151,46 +165,52 @@ namespace CAESDO.Esra.Web
         //    return catops.GetUsersByApplications(AppName);
         //}
 
-        [DataObjectMethod(DataObjectMethodType.Select)]
-        public static CatbertUsersRev[] GetUsersInApplication()
-        {
-            SetSecurityContext();
+        //[DataObjectMethod(DataObjectMethodType.Select)]
+        //public static CatbertUsersRev[] GetUsersInApplication()
+        //{
+        //    SetSecurityContext();
 
-            return GetUsersWithFullName(catops.GetUsersByApplications(AppName), "Reviewer");
-        }
+        //    return GetUsersWithFullName(catops.GetUsersByApplications(AppName), "Reviewer");
+        //}
 
-        [DataObjectMethod(DataObjectMethodType.Select)]
-        public static CatbertUsersRev[] GetUsersInApplication(string[] pUnits)
-        {
-            SetSecurityContext();
+        //[DataObjectMethod(DataObjectMethodType.Select)]
+        //public static CAESDO.Esra.Core.Domain.User[] GetUsersInApplication()
+        //{
+        //    return UserBLL.GetUsersInApplication(null, "Reviewer") as CAESDO.Esra.Core.Domain.User[];   
+        //}
 
-            CatbertUsersRev[] retval = GetUsersWithFullName(catops.GetUsersByApplications(AppName), "Reviewer");
+        //[DataObjectMethod(DataObjectMethodType.Select)]
+        //public static CatbertUsersRev[] GetUsersInApplication(string[] pUnits)
+        //{
+        //    SetSecurityContext();
 
-            if (pUnits != null && pUnits.Length > 0 && String.IsNullOrEmpty(pUnits[0]) == false)
-            {
-                List<CatbertUsersRev> users = new List<CatbertUsersRev>();
-                bool userFound = false;
-                foreach (CatbertUsersRev user in retval)
-                {
-                    userFound = false;
-                    foreach(Units userUnit in user.Units)
-                    {
-                        foreach(string unitId in pUnits)
-                        {
-                            if (unitId.Equals(Convert.ToString(userUnit.UnitID)))
-                            {
-                                users.Add(user);
-                                userFound = true;
-                                break;
-                            }
-                        }
-                        if (userFound) break;
-                    }
-                }
-                retval = users.ToArray();
-            }
-            return retval;
-        }
+        //    CatbertUsersRev[] retval = GetUsersWithFullName(catops.GetUsersInApplication(AppName), "Reviewer");
+
+        //    if (pUnits != null && pUnits.Length > 0 && String.IsNullOrEmpty(pUnits[0]) == false)
+        //    {
+        //        List<CatbertUsersRev> users = new List<CatbertUsersRev>();
+        //        bool userFound = false;
+        //        foreach (CatbertUsersRev user in retval)
+        //        {
+        //            userFound = false;
+        //            foreach(Units userUnit in user.Units)
+        //            {
+        //                foreach(string unitId in pUnits)
+        //                {
+        //                    if (unitId.Equals(Convert.ToString(userUnit.UnitID)))
+        //                    {
+        //                        users.Add(user);
+        //                        userFound = true;
+        //                        break;
+        //                    }
+        //                }
+        //                if (userFound) break;
+        //            }
+        //        }
+        //        retval = users.ToArray();
+        //    }
+        //    return retval;
+        //}
 
         public static int InsertNewUser(string login)
         {
@@ -241,38 +261,49 @@ namespace CAESDO.Esra.Web
             catops.SecurityContextValue = sc;
         }
 
-        private static CatbertUsersRev[] GetUsersWithFullName(CatbertUsers[] users)
-        {
-            return GetUsersWithFullName(users, null);
-        }
-        private static CatbertUsersRev[] GetUsersWithFullName(CatbertUsers[] users, string roleName)
-        {
-            //IDaoFactory daoFactory = new NHibernateDaoFactory();
-            List<CatbertUsersRev> retval = new List<CatbertUsersRev>();
-            foreach (CatbertUsers user in users)
-            {
-                Roles[] roles = GetRolesByUser(user.Login);
-                Units[] units = GetUnitsByUser(user.Login);
+        //private static CatbertUsersRev[] GetUsersWithFullName(CatbertUsers[] users)
+        //{
+        //    return GetUsersWithFullName(users, null);
+        //}
 
-                if (String.IsNullOrEmpty(roleName) == false && roleName.Equals(user.Role) == false)
-                {
-                    retval.Add(new CatbertUsersRev(user, roles, units)); // add the user regardless of their role(s).
-                }
-                else
-                {
-                    //Roles[] roles = GetRolesByUser(user.Login);
-                    foreach (Roles role in roles)
-                    {
-                        if (role.Role.Equals(roleName))
-                        {
-                            retval.Add(new CatbertUsersRev(user, roles, units));
-                            break;
-                        }
-                    }
-                }
-            }
-            return retval.ToArray();
-        }
+        /// <summary>
+        /// Given a set of CatbertUsers, return a set of CatbertUsersRev, which 
+        /// have had FullName, Roles and Units added.
+        /// </summary>
+        /// <param name="users"></param>
+        /// <param name="roleName"></param>
+        /// <returns>set of CatbertUsersRev, which have had FullName, Roles and Units added</returns>
+        //private static CatbertUsersRev[] GetUsersWithFullName(CatbertUsers[] users, string roleName)
+        //{
+        //    //IDaoFactory daoFactory = new NHibernateDaoFactory();
+        //    List<CatbertUsersRev> retval = new List<CatbertUsersRev>();
+        //    foreach (CatbertUsers user in users)
+        //    {
+        //        var roles = UserBLL.GetRolesByUser(user.Login) as List<Roles>;
+        //        var units = UserBLL.GetUnitsByUser(user.Login) as List<Unit>;
+
+        //        if (String.IsNullOrEmpty(roleName) == false && roleName.Equals(user.Role) == false)
+        //        {
+        //            retval.Add(new CatbertUsersRev(user, roles, units)); // add the user regardless of their role(s).
+        //        }
+        //        else
+        //        {
+        //            //Roles[] roles = GetRolesByUser(user.Login);
+        //            if (roles != null)
+        //            {
+        //                foreach (CAESDO.Esra.Core.Domain.Roles role in roles)
+        //                {
+        //                    if (role.Role.Equals(roleName))
+        //                    {
+        //                        retval.Add(new CatbertUsersRev(user, roles, units));
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return retval.ToArray();
+        //}
     }
 
     // It doesn't appear that this method is currently being called by anything.

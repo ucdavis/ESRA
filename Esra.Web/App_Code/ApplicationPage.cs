@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -225,6 +226,24 @@ namespace CAESDO.Esra.Web
             //gridView.DataBind();
 
             e.Cancel = true;
+        }
+
+        protected string buildQueryString(string redirectPageNameAndCommandString)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(redirectPageNameAndCommandString);
+
+            sb.Append((redirectPageNameAndCommandString.Contains("?") ? "&" : "?")); 
+
+            sb.Append("ReturnPage="); sb.Append(Request.Url.AbsolutePath);
+
+            if (Request.QueryString["ReturnPage"] != null)
+            {
+                sb.Append("&LastReturnPage="); sb.Append(Request.QueryString["ReturnPage"]);
+            }
+
+            return sb.ToString();
         }
 
         protected void checkRecordBeforeDeleting(GridViewDeleteEventArgs e, object recordToBeDeleted, Type bllType, string deleteRecordCheckMethodName, Label lblMessage, string message)

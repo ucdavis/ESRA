@@ -61,9 +61,16 @@ namespace CAESDO.Esra.Web
             }
         }
 
-        protected List<Title> Titles { get; set; }
+        protected string ProposedTitleCode
+        {
+            get
+            {
+                return Request.QueryString[KEY_TITLE_CODE];
+            }
+        }
+        protected  List<Title> Titles { get; set; }
 
-        protected List<SRAEmployee> Employees { get; set; }
+        protected  List<SRAEmployee> Employees { get; set; }
         
         protected Dictionary<string, decimal?> Criteria
         {
@@ -172,11 +179,35 @@ namespace CAESDO.Esra.Web
                             }
                             else
                             {
-                                lblCurrentTitleCode.Text = emp.Title.TitleCode_Name;
-                                ddlProposedTitleCode.SelectedValue = emp.TitleCode;
-                                lblOriginalTitleCode.Text = emp.Title.TitleCode_Name;
+                                Title workingTitle = null;
+                                if (String.IsNullOrEmpty(ProposedTitleCode) == false)
+                                {
+                                    // Configure for reclass review
+                                    workingTitle = SalaryScaleBLL.GetEffectiveSalaryScale(ProposedTitleCode,
+                                                                                            DateTime.Today).Title;
+                                    Titles.Clear();
+                                    Titles.Add(workingTitle);
+                                   
+                                    pnlProposedTitle.Visible = true;
+                                }
+                                else
+                                {
+                                    // Configure for equity review
+                                    workingTitle = Employees[0].Title;
 
-                                MultiView1.SetActiveView(vSelectSalaryReviewType);
+                                    pnlProposedTitle.Visible = false;
+                                }
+
+                                Criteria = SalaryScaleBLL.GetCriteriaListItems(workingTitle.TitleCode);
+                                rptScenarios_Init(null);
+
+                                lblTblSRAMain_TitleCode.Text = workingTitle.TitleCode_Name;
+
+                                gvTitle.DataBind();
+                                gvEmployees.DataBind();
+                                gvEmployeeTitle.DataBind();
+
+                                MultiView1.SetActiveView(vSalaryReviewAnalysis);
                             }
                         }
                         else
@@ -769,9 +800,16 @@ namespace CAESDO.Esra.Web
             SalaryScale ss = SalaryScaleBLL.GetEffectiveSalaryScale(titleCodeString, DateTime.Today);
             Title proposedTitle = ss.Title;
 
-            Titles.Clear();
+            if (Titles != null)
+            {
+                Titles.Clear();
+            }
+            else
+            {
+                Titles = new List<Title>();
+            }
             Titles.Add(proposedTitle);
-            
+
             Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
             rptScenarios_Init(null);
 

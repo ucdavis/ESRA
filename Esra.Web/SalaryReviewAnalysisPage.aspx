@@ -239,6 +239,7 @@
                 <asp:Label ID="lblProposedTitleCodeNote" runat="server" Text="*Proposed Title Code." ></asp:Label>
                 </asp:Panel>
                 <br />
+                <div id="divCreateNewSRA">
                 &nbsp;<asp:DropDownList ID="ddlNewSAREmployee" runat="server" AppendDataBoundItems="True"
                     DataTextField="FullName" DataValueField="ID" AutoPostBack="true" OnSelectedIndexChanged="ddlNewSAREmployee_SelectedIndexChanged"
                     DataSourceID="odsFilteredEmployees">
@@ -248,7 +249,65 @@
                 </ajax:ListSearchExtender>
                 <%--&nbsp;<asp:Button ID="btnCreateNewSalaryReviewAnalysis" runat="server" Text="Create New Salary Review Analysis" OnClick="btnCreateNewSalaryReviewAnalysis_Click"/>--%>
                 <%--<asp:LinkButton ID="lbtnCreateNewSalaryReviewAnalysis" runat="server" CssClass="buttons"><img alt="Create New SRA" class="new_button" src="images/common/120px-Document_new_svg.png"/></asp:LinkButton>--%>
+                
+                </div>
             </asp:View>
+            
+            <asp:View ID="vSelectReviewType" runat ="server">
+                <asp:Label ID="lblSelectReviewTypeView" runat="server" Font-Bold="True" Font-Size="Large">Select a Salary Review Analysis Type:</asp:Label>
+                <br />
+                <br />
+                <asp:Label ID="lblNewSRAEmployeeLabel" runat="server" Font-Bold="true">Employee Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</asp:Label><asp:Label ID="lblNewSRAEmployee" runat="server"></asp:Label>
+                <br />
+                <br />
+                <asp:Label ID="lblOriginalTitleCodeLabel" runat="server" Font-Bold="true">Current Title Code:&nbsp;&nbsp;&nbsp;&nbsp;</asp:Label><asp:Label ID="lblOriginalTitleCode" runat="server" ></asp:Label>
+                <br />
+                <br />
+                <%--<asp:Label ID="lblProposedTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title Code:&nbsp;</asp:Label><asp:Label ID="lblProposedTitleCode" runat="server" ></asp:Label>
+                <br />
+                <br />--%>
+                <table id="tblCurrentProposedTitleCodes">
+                    <tr>
+                        <td><asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" DataSourceID="odsProposedTitleCodes"
+                    DataTextField="TitleCode_Name" DataValueField="TitleCode" OnSelectedIndexChanged="ddlProposedTitleCode_SelectedIndexChanged">
+                </asp:DropDownList></td>
+                <td style="padding-left:10px;"><asp:Image ID="imgReclassArrow" runat="server" 
+                    AlternateText="reclass arrow" CssClass="buttons" 
+                    ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px" />
+                &nbsp;Select a different Title Code to conduct a Reclassification Review.</td>
+                    </tr>
+                    <tr>
+                        <td ><center>-- or --</center></td><td></td>
+                    </tr>
+                    <tr>
+                        <th><asp:Button ID="Button1" runat="server" Text="Perform Equity Review" OnClick="btnDoEquityReview_Click" Width="100%"/></th>
+                        <td style="text-align:left; padding-left:10px;"><asp:Image ID="Image1" runat="server" AlternateText="equity arrow" 
+                    CssClass="buttons" ImageUrl="~/images/common/arrow_left.jpg" style="width: 14px"/>
+                &nbsp;Select &quot;Perform Equity Review&quot; to conduct an Equity Review.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <asp:Button ID="btnCancelSalaryReviewAnalysis" runat="server" 
+                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />
+                        </th>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                </table>
+                <asp:ObjectDataSource ID="odsProposedTitleCodes" runat="server" 
+                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
+                    TypeName="CAESDO.Esra.BLL.TitleBLL">
+                    <SelectParameters>
+                        <asp:Parameter DefaultValue="TitleCode" Name="propertyName" Type="String" />
+                        <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+                
+            </asp:View>
+            
             <asp:View ID="vNotAuthorized" runat="server">
             <table>
             <tr><td rowspan="2"><asp:Image ID="imgBackArrow" runat="server" 

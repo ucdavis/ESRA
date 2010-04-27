@@ -58,6 +58,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserAdminPage.aspx.cs">
+      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserAdminPage.aspx.designer.cs">
+      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SalaryReviewAnalysisViewer.aspx.cs">
+      <DependentUpon>SalaryReviewAnalysisViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SalaryReviewAnalysisViewer.aspx.designer.cs">
+      <DependentUpon>SalaryReviewAnalysisViewer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ExportToExcel.aspx.cs">
       <DependentUpon>ExportToExcel.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -86,12 +100,12 @@
     <Compile Include="NewSalarySteps_UserInputForm.aspx.designer.cs">
       <DependentUpon>NewSalarySteps_UserInputForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="UserAdminPage.aspx.cs">
-      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+    <Compile Include="OldUserAdminPage.aspx.cs">
+      <DependentUpon>OldUserAdminPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserAdminPage.aspx.designer.cs">
-      <DependentUpon>UserAdminPage.aspx</DependentUpon>
+    <Compile Include="OldUserAdminPage.aspx.designer.cs">
+      <DependentUpon>OldUserAdminPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="SalaryStep_UserInputForm.aspx.cs">
       <DependentUpon>SalaryStep_UserInputForm.aspx</DependentUpon>
@@ -185,6 +199,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UserAdminPage.aspx" />
+    <Content Include="SalaryReviewAnalysisViewer.aspx" />
     <Content Include="ExportToExcel.aspx" />
     <Content Include="images\common\adduser.png" />
     <Content Include="images\common\Cancel.png" />
@@ -216,7 +232,7 @@
     <Content Include="LogoutPage.aspx" />
     <Content Include="ModalConfirm.aspx" />
     <Content Include="NewSalarySteps_UserInputForm.aspx" />
-    <Content Include="UserAdminPage.aspx" />
+    <Content Include="OldUserAdminPage.aspx" />
     <Content Include="images\common\page-under-construction.jpg" />
     <Content Include="SalaryStep_UserInputForm.aspx" />
     <Content Include="Default.aspx" />
