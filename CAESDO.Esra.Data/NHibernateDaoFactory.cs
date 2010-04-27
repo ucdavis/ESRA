@@ -53,6 +53,49 @@ namespace CAESDO.Esra.Data
 
                 return retval;
             }
+
+            public IList<Employee> GetEmployees(string propertyName, bool ascending, int? titleCode, int? employeeID, int? departmentID)
+            {
+                IList<Employee> retval = null;
+
+                if ((titleCode == null || titleCode == 0) && 
+                    (employeeID == null || employeeID == 0) &&
+                    (departmentID == null || departmentID == 0))
+                {
+                    retval = GetAll(propertyName, ascending);
+                }
+                else
+                {
+                    ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
+
+                    if (titleCode != null && titleCode > 0)
+                    {
+                        criteria.CreateAlias("Title", "Title")
+                        .Add(Expression.Eq("Title.TitleCode", titleCode));
+                    }
+                    if (employeeID != null && employeeID > 0 )
+                    {
+                         criteria.Add(Expression.Eq("ID", employeeID));
+                    }
+                    if (departmentID != null && departmentID > 0 )
+                    {
+                        criteria.CreateAlias("HomeDepartment", "Department")
+                        .Add(Expression.Eq("Department.ID", departmentID));
+                    }
+
+                    if (propertyName.Equals("HomeDepartment"))
+                    {
+                        criteria.AddOrder((ascending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")));
+                    }
+                    else
+                    {
+                        criteria.AddOrder((ascending ? Order.Asc(propertyName) : Order.Desc(propertyName)));
+                    }
+
+                    retval = criteria.List<Employee>();
+                }
+                return retval;
+            }
         }
 
         #endregion
