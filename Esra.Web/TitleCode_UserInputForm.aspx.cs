@@ -169,7 +169,7 @@ namespace CAESDO.Esra.Web
         {
             Label lbl = (Label)Page.Master.FindControl(labelName);
             lbl.Visible = visible;
-            lbl.Text = mesage;
+            lbl.Text = message;
         }
     }
 }
