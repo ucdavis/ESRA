@@ -496,6 +496,14 @@
                     CssClass="buttons" ImageUrl="~/images/common/arrow_left.jpg" />
                 &nbsp;Select &quot;Perform Equity Review&quot; to conduct an Equity Review.</td>
                     </tr>
+                    <tr>
+                        <th>
+                            <asp:Button ID="btnCancelSalaryReviewAnalysis0" runat="server" 
+                                OnClick="btnCancelSalaryReviewAnalysis_Click" Text="Cancel/Back" />
+                        </th>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
                 </table>
                 <%--<asp:DropDownList ID="ddlProposedTitleCode" runat="server" AutoPostBack="True" DataSourceID="odsProposedTitleCodes"
                     DataTextField="TitleCode_Name" DataValueField="TitleCode" OnSelectedIndexChanged="ddlProposedTitleCode_SelectedIndexChanged">

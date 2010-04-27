@@ -30,19 +30,8 @@ namespace CAESDO.Esra.BLL
             }
         }
 
-        /// <summary>
-        /// This is the new method, which returns a list of analyses,
-        /// according to the user's department and role.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="isDepartmentUser"></param>
-        /// <param name="employeeID"></param>
-        /// <param name="reviewerLogin"></param>
-        /// <param name="creationDate"></param>
-        /// <param name="propertyName"></param>
-        /// <param name="ascending"></param>
-        /// <returns>List of filtered analyses, according to user's department and role.</returns>
-        public static IList<SalaryReviewAnalysis> GetAll(string userId,
+        public static IList<SalaryReviewAnalysis> GetAll(
+            string userId,
             bool isDepartmentUser,
             string employeeID,
             string reviewerLogin,
@@ -50,15 +39,48 @@ namespace CAESDO.Esra.BLL
             string propertyName,
             bool ascending)
         {
+            return GetAll(userId, isDepartmentUser, employeeID, reviewerLogin, creationDate, null, propertyName, ascending);
+        }
+
+        /// <summary>
+        /// This is the new method, which returns a list of analyses,
+        /// according to the user's department and role.
+        /// </summary>
+        /// <param name="userId">The Employee's id of the logged-in user.</param>
+        /// <param name="isDepartmentUser">Whether or not the user is a departmentmental user.</param>
+        /// <param name="employeeID">The Employee's id of the employee they wish to find the SRA for.</param>
+        /// <param name="reviewerLogin">The login of the person, which initially created the SRA.</param>
+        /// <param name="creationDate">The date the SRA was initially created.</param>
+        /// <param name="salaryReviewAnalysisID">The ID of the SRA.</param>
+        /// <param name="propertyName">The sort property name.</param>
+        /// <param name="ascending">Whether to sort in ascending or descending order.</param>
+        /// <returns>List of filtered analyses, according to user's department and role.</returns>
+        public static IList<SalaryReviewAnalysis> GetAll(string userId,
+            bool isDepartmentUser,
+            string employeeID,
+            string reviewerLogin,
+            string creationDate,
+            string salaryReviewAnalysisID,
+            string propertyName,
+            bool ascending)
+        {
             IList<SalaryReviewAnalysis> retval = null;
 
-            if (String.IsNullOrEmpty(employeeID)
-                && String.IsNullOrEmpty(reviewerLogin)
-                && (String.IsNullOrEmpty(creationDate)
-                    || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today))))
+            if ((String.IsNullOrEmpty(employeeID) || employeeID.Equals("0"))
+                && (String.IsNullOrEmpty(reviewerLogin) || reviewerLogin.Equals("0"))
+                && (String.IsNullOrEmpty(creationDate) 
+                    || creationDate.Equals(String.Format("{0:MM/dd/yyyy}", DateTime.Today)))
+                && (String.IsNullOrEmpty(salaryReviewAnalysisID) || salaryReviewAnalysisID.Equals("0")))
             {
                 // The underlying method takes care of the user/department filtering.
                 retval = GetAllSalaryReviewAnalysis(userId, isDepartmentUser, propertyName, ascending);
+            }
+            else if (String.IsNullOrEmpty(salaryReviewAnalysisID) == false && salaryReviewAnalysisID.Equals("0") == false)
+            {
+                // find the analysis with the corresponding reference number:
+                // for now assume that it's a legitimate SRA ID:
+                retval = new List<SalaryReviewAnalysis>();
+                retval.Add(GetByID(Convert.ToInt32(salaryReviewAnalysisID)));
             }
             else
             {

@@ -29,6 +29,27 @@
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
             </SelectParameters>
         </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsGvSalaryReviewAnalysis" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
+            TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
+            <SelectParameters>
+                <asp:SessionParameter DefaultValue="" Name="userId" SessionField="UserID" 
+                    Type="String" />
+                <asp:SessionParameter DefaultValue="false" Name="isDepartmentUser" 
+                    SessionField="IsDepartmentUser" Type="Boolean" />
+                <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="" Name="employeeID" 
+                    PropertyName="SelectedValue" Type="String" />
+                <asp:ControlParameter ControlID="ddlCreatedBy" Name="reviewerLogin" 
+                    PropertyName="SelectedValue" Type="String" />
+                <asp:ControlParameter ControlID="tbCreationDate" Name="creationDate" 
+                    PropertyName="Text" Type="String" />
+                <asp:ControlParameter ControlID="ddlReferenceNumber" 
+                    Name="salaryReviewAnalysisID" PropertyName="SelectedValue" Type="String" />
+                <asp:Parameter DefaultValue="Employee.FullName" Name="propertyName" 
+                    Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
         <asp:ObjectDataSource ID="odsEmployee" runat="server" OldValuesParameterFormatString="original_{0}"
             SelectMethod="GetEmployees" TypeName="CAESDO.Esra.BLL.EmployeeBLL">
             <SelectParameters>
@@ -59,8 +80,10 @@
                         </th>
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlReferenceNumber" runat="server" AppendDataBoundItems="True"
-                                AutoPostBack="True" DataSourceID="odsESRAs" DataTextField="ReferenceNumber" DataValueField="ID"
-                                OnSelectedIndexChanged="ddlReferenceNumber_SelectedIndexChanged">
+                                AutoPostBack="True" DataSourceID="odsESRAs" 
+                                DataTextField="ReferenceNumber" DataValueField="ID"
+                                OnSelectedIndexChanged="ddlReferenceNumber_SelectedIndexChanged" 
+                                ondatabound="ddlReferenceNumber_DataBound">
                                 <asp:ListItem Value="0">-- Select a Reference Number --</asp:ListItem>
                             </asp:DropDownList>
                             <ajax:ListSearchExtender ID="ddlReferenceNumber_ListSearchExtender" runat="server"
@@ -90,7 +113,8 @@
                     <tr>
                         <td>
                             &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" AppendDataBoundItems="True"
-                                DataSourceID="odsFilteredEmployees" DataTextField="FullName" DataValueField="ID">
+                                DataSourceID="odsFilteredEmployees" DataTextField="FullName" DataValueField="ID"
+                                ondatabound="ddlEmployee_DataBound">
                                 <asp:ListItem Value="">-- Any Employee --</asp:ListItem>
                             </asp:DropDownList>
                             <ajax:ListSearchExtender ID="ddlEmployee_ListSearchExtender" runat="server" TargetControlID="ddlEmployee">
@@ -99,7 +123,8 @@
                         <td>
                             &nbsp;<br />
                             <asp:DropDownList ID="ddlCreatedBy" runat="server" AppendDataBoundItems="True" DataSourceID="odsCreatedBy"
-                                DataTextField="FullName" DataValueField="Login">
+                                DataTextField="FullName" DataValueField="Login"
+                                ondatabound="ddlCreatedBy_DataBound">
                                 <asp:ListItem Value="">-- Any Reviewer --</asp:ListItem>
                             </asp:DropDownList>
                             <ajax:ListSearchExtender ID="ddlCreatedBy_ListSearchExtender" runat="server" TargetControlID="ddlCreatedBy">
@@ -111,7 +136,8 @@
                             </ajax:CalendarExtender>
                             <img id="btn_calendar" alt="Calendar" longdesc="images/common/Calendar_scheduleHS.png"
                                 src="images/common/Calendar_scheduleHS.png" style="width: 16px; height: 16px" />&nbsp;
-                            <asp:TextBox ID="tbCreationDate" runat="server" />
+                            <asp:TextBox ID="tbCreationDate" runat="server" 
+                            ondatabound="tbCreationDate_DataBound"/>
                         </td>
                     </tr>
                 </table>
@@ -120,7 +146,10 @@
                     EmptyDataText="No Data Found." OnSelectedIndexChanged="gvSalaryReviewAnalysis_SelectedIndexChanged"
                     DataKeyNames="ID" OnRowDeleting="gvSalaryReviewAnalysis_OnRowDeleting" 
                     OnRowDataBound="gvSalaryReviewAnalysis_OnRowDataBound" 
-                    ondatabound="gvSalaryReviewAnalysis_DataBound">
+                    ondatabound="gvSalaryReviewAnalysis_DataBound"
+                    AllowSorting="True"
+		            OnSorting="gvSalaryReviewAnalysis_Sorting" 
+                    DataSourceID="odsGvSalaryReviewAnalysis">
                     <HeaderStyle CssClass="tr_head" />
                     <AlternatingRowStyle CssClass="tr_alt" />
                     <Columns>
@@ -148,7 +177,7 @@
                                 <asp:Label ID="lblOriginatingDepartment" runat="server" Text='<%# Eval("OriginatingDepartment.Name") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Employee" SortExpression="Employee">
+                        <asp:TemplateField HeaderText="Employee" SortExpression="Employee.FullName">
                             <EditItemTemplate>
                                 <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("Employee") %>'></asp:TextBox>
                             </EditItemTemplate>
@@ -156,7 +185,7 @@
                                 <asp:Label ID="lblEmployee" runat="server" Text='<%# Eval("Employee.FullName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Title Code" SortExpression="Title.TitleCode">
+                        <asp:TemplateField HeaderText="Title Code" SortExpression="Title">
                             <EditItemTemplate>
                                 <asp:TextBox ID="tbTitleCode" runat="server" Text='<%# Bind("Title.TitleCode") %>'></asp:TextBox>
                             </EditItemTemplate>

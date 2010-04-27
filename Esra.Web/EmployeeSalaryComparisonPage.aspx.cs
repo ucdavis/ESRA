@@ -555,12 +555,18 @@ namespace CAESDO.Esra.Web
             ddlEmployee.DataBind();
         }
 
+        /// <summary>
+        /// This method hides certain user details of non-department employees 
+        /// from department users who are not in the employee's departments.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void gvEmployees_RowDataBound(object sender, EventArgs e)
         {
             GridViewRowEventArgs args = (GridViewRowEventArgs)e;
             GridViewRow gvr = args.Row;
 
-            if ((bool)Session[KEY_IS_DEPARTMENT_USER])
+            if (IsDepartmentUser())
             {
                 if (gvr.RowType.Equals(DataControlRowType.DataRow))
                 {

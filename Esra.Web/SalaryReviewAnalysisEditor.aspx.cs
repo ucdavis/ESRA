@@ -597,7 +597,12 @@ namespace CAESDO.Esra.Web
 
         protected void btnCancelSalaryReviewAnalysis_Click(object sender, EventArgs e)
         {
-            string redirectURL = "~/SalaryReviewAnalysisPage.aspx?" + KEY_REFERENCE_NUM +"=" + ReferenceNum;
+            string redirectURL = "~/SalaryReviewAnalysisPage.aspx";
+            
+            if(String.IsNullOrEmpty(ReferenceNum) == false)
+            {
+                redirectURL += "?" + KEY_REFERENCE_NUM + "=" + ReferenceNum;
+            }
             Response.Redirect(redirectURL);
         }
 
