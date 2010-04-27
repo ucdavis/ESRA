@@ -152,6 +152,12 @@ p.bbox em {
 {
 	border: 0;
 }
+.buttons .home_button
+{
+	border: 0;
+	height: 5px;
+	width: 5px;
+}
 
 .comments
 {
