@@ -30,9 +30,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _TitleCode = value; }
         }
 
-        private decimal _StepNumber;
+        private string _StepNumber;
 
-        public virtual decimal StepNumber
+        public virtual string StepNumber
         {
             get { return _StepNumber; }
             set { _StepNumber = value; }
@@ -73,7 +73,7 @@ namespace CAESDO.Esra.Core.Domain
         public override bool Equals(object obj)
         {
             bool retval = false;
-            if ((this._EffectiveDate.ToShortDateString()).Equals(((SalaryStep)obj)._EffectiveDate.ToShortDateString()) && this._TitleCode.Equals(((SalaryStep)obj)._TitleCode) && this._StepNumber == ((SalaryStep)obj)._StepNumber)
+            if ((this._EffectiveDate.ToShortDateString()).Equals(((SalaryStep)obj)._EffectiveDate.ToShortDateString()) && this._TitleCode.Equals(((SalaryStep)obj)._TitleCode) && this._StepNumber.Equals(((SalaryStep)obj)._StepNumber))
             {
                 retval = true;
             }
@@ -82,7 +82,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public override int GetHashCode()
         {
-            int retval = base.GetHashCode() / (_TitleCode + (int)Math.Round(_StepNumber,0) + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
+            int retval = base.GetHashCode() / (_TitleCode + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
             return retval;
         }
 
