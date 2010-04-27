@@ -400,7 +400,8 @@ option:hover
 .calendar .ajax__calendar_container
 {	
 	padding-top:10px;
-	background: white;
+	background: #CCCCCC;
+	border:solid 1px black;
 }
 .calendar .ajax__calendar_month
 {
@@ -411,7 +412,7 @@ option:hover
 }
 .calendar .ajax__calendar_days td
 {
-    padding:5px;
+    padding:2px;
 }
 .calendar .ajax__calendar_days thead, .calendar .ajax__calendar_days th
 {
@@ -420,6 +421,10 @@ option:hover
 .calendar .ajax__calendar_header
 {
     margin-bottom:10px;
+}
+.right_col #SRA_table .calendar td
+{
+    padding-right:0px;
 }
 .edit_header 
 {
