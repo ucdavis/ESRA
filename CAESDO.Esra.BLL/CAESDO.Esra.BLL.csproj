@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppExceptionBLL.cs" />
+    <Compile Include="TitleBLL.cs" />
+    <Compile Include="SalaryScaleBLL.cs" />
     <Compile Include="EmployeeBLL.cs" />
     <Compile Include="GenericBLL.cs" />
     <Compile Include="GenericId.cs" />
