@@ -73,7 +73,7 @@ namespace CAESDO.Esra.Core.Domain
         public override bool Equals(object obj)
         {
             bool retval = false;
-            if ((this.EffectiveDate.ToShortDateString()).Equals(((SalaryStep)obj).EffectiveDate.ToShortDateString()) && this.TitleCode.Equals(((SalaryStep)obj).TitleCode))
+            if ((this._EffectiveDate.ToShortDateString()).Equals(((SalaryStep)obj)._EffectiveDate.ToShortDateString()) && this._TitleCode.Equals(((SalaryStep)obj)._TitleCode) && this._StepNumber == ((SalaryStep)obj)._StepNumber)
             {
                 retval = true;
             }
@@ -82,7 +82,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public override int GetHashCode()
         {
-            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _TitleCode.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            int retval = base.GetHashCode() / (_TitleCode + (int)Math.Round(_StepNumber,0) + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
             return retval;
         }
 

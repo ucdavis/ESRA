@@ -161,7 +161,7 @@ namespace CAESDO.Esra.Core.Domain
 
         public override int GetHashCode()
         {
-            int retval = Convert.ToInt32(Convert.ToString(base.GetHashCode()) + _SalaryGrade.ToString() + String.Format("yyyyMMdd", _EffectiveDate));
+            int retval = base.GetHashCode() / (_SalaryGrade.GetHashCode() + Convert.ToInt32(String.Format("{0:yyyyMMdd}", _EffectiveDate)));
             return retval;
         }
 
