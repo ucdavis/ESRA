@@ -702,17 +702,11 @@
                         <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" Type="Int32" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
-                &nbsp;<asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.EmployeeBLL"
-                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetByID" UpdateMethod="UpdateRecord">
-                    <UpdateParameters>
-                        <asp:Parameter Name="AdjustedCareerHireDate" Type="String" />
-                        <asp:Parameter Name="AdjustedApptHireDate" Type="String" />
-                        <asp:Parameter Name="DepartmentComments" Type="String" />
-                        <asp:Parameter Name="DeansOfficeComments" Type="String" />
-                        <asp:Parameter Name="original_ID" Type="String" />
-                    </UpdateParameters>
+                &nbsp;<asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.SRAEmployeeBLL"
+                    OldValuesParameterFormatString="original_{0}" SelectMethod="GetByID">
                     <SelectParameters>
-                        <asp:SessionParameter DefaultValue="0" Name="id" SessionField="EmployeeID" Type="String" />
+                        <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" 
+                            Type="String" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
                 <asp:ObjectDataSource ID="odsTitle" runat="server" TypeName="CAESDO.Esra.BLL.TitleBLL"

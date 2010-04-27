@@ -66,9 +66,9 @@ namespace CAESDO.Esra.Web
             set { ViewState[KEY_TITLES] = value; }
         }
 
-        protected List<Employee> Employees
+        protected List<SRAEmployee> Employees
         {
-            get { return ViewState[KEY_EMPLOYEES] as List<Employee>; }
+            get { return ViewState[KEY_EMPLOYEES] as List<SRAEmployee>; }
             set { ViewState[KEY_EMPLOYEES] = value; }
         }
 
@@ -95,10 +95,10 @@ namespace CAESDO.Esra.Web
             //MultiView1.SetActiveView(vEmployees);
             if (!IsPostBack)
             {
-                List<Employee> empList = new List<Employee>();
+                List<SRAEmployee> empList = new List<SRAEmployee>();
                 List<Title> titleList = new List<Title>();
                 SalaryReviewAnalysis sra = null;
-                Employee emp = null;
+                SRAEmployee emp = null;
                 IList<Scenario> scenarios = null;
                 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
@@ -138,7 +138,8 @@ namespace CAESDO.Esra.Web
                 }
                 else if (String.IsNullOrEmpty(EmployeeID) == false )
                 {
-                    emp = EmployeeBLL.GetByID(EmployeeID);
+
+                    emp = new SRAEmployee(EmployeeBLL.GetByID(EmployeeID));
 
                     if (emp != null)
                     {
@@ -495,11 +496,13 @@ namespace CAESDO.Esra.Web
             SalaryReviewAnalysis sra = null;
             if (String.IsNullOrEmpty(ReferenceNum) == false)
             {
+                // Then this is an existing analysis:
+
                 sra = SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum);
                 if (sra == null)
                 {
                     User user = UserBLL.GetCurrent();
-                    Employee emp = EmployeeBLL.GetByID(EmployeeID);
+                    SRAEmployee emp = SRAEmployeeBLL.GetByID(EmployeeID);
                     string titleCode = Titles[0].TitleCode;
                     bool isReclass = false;
                     if (titleCode.Equals(emp.TitleCode) == false)
@@ -527,8 +530,10 @@ namespace CAESDO.Esra.Web
             }
             else
             {
+                // Else this is a new analysis:
+
                 User user = UserBLL.GetCurrent();
-                Employee emp = EmployeeBLL.GetByID(EmployeeID);
+                SRAEmployee emp = new SRAEmployee(EmployeeBLL.GetByID(EmployeeID));
                 string titleCode = Titles[0].TitleCode;
                 bool isReclass = false;
                 if (titleCode.Equals(emp.TitleCode) == false)
