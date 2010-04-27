@@ -30,9 +30,9 @@ namespace CAESDO.Esra.Core.Domain
             set { _ShortName = value; }
         }
 
-        private List<Employee> _Employees;
+        private IList<Employee> _Employees;
 
-        public virtual List<Employee> Employees
+        public virtual IList<Employee> Employees
         {
             get { return _Employees; }
             set { _Employees = value; }
