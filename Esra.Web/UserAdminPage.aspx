@@ -12,6 +12,20 @@
     <br />
     <asp:UpdatePanel ID="updateAddUser" runat="server" UpdateMode="Conditional">
 <ContentTemplate>
+<div>
+    <asp:ListBox ID="lbxUnits" runat="server" AppendDataBoundItems="True" 
+        DataSourceID="odsUnits" DataTextField="Unit" 
+        DataValueField="UnitID" SelectionMode="Multiple"
+        onselectedindexchanged="lbxUnits_SelectedValues" Rows="5" >
+        <asp:ListItem Value="">-- All Units --</asp:ListItem>
+    </asp:ListBox> &nbsp;&nbsp;<asp:Button ID="btnGetUnitUsers" runat="server" Text="Get Users" 
+    OnClick="btnGetUnitUsers_Click"/> 
+    
+    <asp:ObjectDataSource ID="odsUnits" runat="server" 
+        OldValuesParameterFormatString="original_{0}" SelectMethod="GetUnits" 
+        TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
+</div>
+<br />
   <asp:ImageButton ID="btnAddUser" runat="server" ImageUrl="~/images/ibAddUser.gif" />
  <asp:Panel ID="pnlAddUser" runat="server" CssClass="modalPopup" style="display:none;">
                 <span class="modalTitle">Add A User</span>
@@ -46,9 +60,9 @@
          <Columns>
              <asp:CommandField ShowSelectButton="True" SelectText="Add" />
              <asp:BoundField DataField="Login" HeaderText="Login" />
-             <asp:BoundField DataField="LastName" HeaderText="LastName" />
-             <asp:BoundField DataField="FirstName" HeaderText="FirstName" />
-             <asp:BoundField DataField="EmployeeID" HeaderText="EmployeeID" />
+             <asp:BoundField DataField="LastName" HeaderText="Last Name" />
+             <asp:BoundField DataField="FirstName" HeaderText="First Name" />
+             <asp:BoundField DataField="EmployeeID" HeaderText="Employee ID" />
              <asp:BoundField DataField="Email" HeaderText="Email" />
              <asp:TemplateField HeaderText="Role">
                 <ItemTemplate>
@@ -100,7 +114,8 @@
                 CellPadding="4" ForeColor="#333333" GridLines="None" DataSourceID="ObjectDataSource1"
                 AllowPaging="True" PageSize="25"
                 AutoGenerateColumns="False" 
-                OnSelectedIndexChanged="GViewUsers_SelectedIndexChanged">
+                OnSelectedIndexChanged="GViewUsers_SelectedIndexChanged"
+                EmptyDataText="No Users Found.">
                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
                 <EditRowStyle BackColor="#999999" />
@@ -108,22 +123,44 @@
                 <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>
-                    <asp:CommandField ShowSelectButton="True" ButtonType="Image" SelectImageUrl="~/Images/select.gif">
+                    <asp:CommandField ShowSelectButton="True" ButtonType="Image" SelectImageUrl="images/select.gif">
                         <ItemStyle CssClass="paddingLeft" />
                     </asp:CommandField>
-                    <asp:BoundField DataField="Login" HeaderText="UserName">
+                    <asp:TemplateField>
+                        <HeaderTemplate>Units</HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Repeater ID="rptUnits" runat="server" DataSource='<%# Eval("Units") %>'>
+                                <ItemTemplate>
+                                    <asp:Label ID="lblUnit" runat="server" Text='<%# Eval("Unit") %>'></asp:Label>
+                                </ItemTemplate>
+                                <SeparatorTemplate><br /></SeparatorTemplate>
+                            </asp:Repeater>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Login" HeaderText="User Name">
                         <HeaderStyle HorizontalAlign="Left" />
                     </asp:BoundField>
                     <asp:BoundField DataField="Role" HeaderText="Role">
                         <HeaderStyle HorizontalAlign="Left" Width="100px" />
                     </asp:BoundField>
-                    <asp:BoundField DataField="LastName" HeaderText="LastName">
+                     <asp:TemplateField>
+                        <HeaderTemplate>Roles</HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Repeater ID="rptRoles" runat="server" DataSource='<%# Eval("Roles") %>'>
+                                <ItemTemplate>
+                                    <asp:Label ID="lblRole" runat="server" Text='<%# Eval("Role") %>'></asp:Label>
+                                </ItemTemplate>
+                                <SeparatorTemplate><br /></SeparatorTemplate>
+                            </asp:Repeater>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="LastName" HeaderText="Last Name">
                         <HeaderStyle HorizontalAlign="Left" Width="150px" />
                     </asp:BoundField>
-                    <asp:BoundField DataField="FirstName" HeaderText="FirstName">
+                    <asp:BoundField DataField="FirstName" HeaderText="First Name">
                         <HeaderStyle HorizontalAlign="Left" Width="150px" />
                     </asp:BoundField>
-                    <asp:BoundField DataField="EmployeeID" HeaderText="EmployeeID">
+                    <asp:BoundField DataField="EmployeeID" HeaderText="Employee ID">
                         <HeaderStyle HorizontalAlign="Left" />
                     </asp:BoundField>
                 </Columns>
@@ -131,6 +168,9 @@
             <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"
                 SelectMethod="GetUsersInApplication" 
                 TypeName="CAESDO.Esra.Web.CatbertManager">
+                <SelectParameters>
+                    <asp:SessionParameter SessionField="SelectedUnits" Type="Object" Name="pUnits"/>
+               </SelectParameters>
             </asp:ObjectDataSource>
         </ContentTemplate>
         </asp:UpdatePanel>
@@ -193,14 +233,15 @@
                 <asp:Button ID="btnUserInfoAddRole" runat="server" OnClick="btnUserInfoAddRole_Click" Text="Add Role"></asp:Button>
                 
                 <br /><br />
-            <div style="text-align:right"><asp:Button ID="btnSaveUserInfo" runat="server" 
-                    Text="Save" />
-            <asp:Button ID="btnCancelUserInfo" runat="server" Text="Close" /></div>
+            <div style="text-align:right"><%--<asp:Button ID="btnSaveUserInfo" runat="server" 
+                    Text="Save" />--%>
+            <asp:Button ID="btnCancelUserInfo" runat="server" Text="Close" 
+                     CausesValidation="False" /></div>
             </div>
             </asp:Panel>
             
             <ajax:ModalPopupExtender ID="mpopupUserInfo" runat="server" BackgroundCssClass="modalBackground" 
-                    PopupControlID="pnlUserInfo" TargetControlID="btnHiddenSelectUser" CancelControlID="btnCancelUserInfo">
+                    PopupControlID="pnlUserInfo" TargetControlID="btnHiddenSelectUser" CancelControlID="btnCancelUserInfo" >
             </ajax:ModalPopupExtender>
         </ContentTemplate>
         </asp:UpdatePanel>  

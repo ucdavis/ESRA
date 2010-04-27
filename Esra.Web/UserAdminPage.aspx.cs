@@ -11,11 +11,13 @@ using System.Web.Security;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using CAESDO.Esra.Core.Domain;
+using Esra.Web.CatOps;
 
 namespace CAESDO.Esra.Web
 {
     public partial class UserAdminPage : ApplicationPage
     {
+        protected static readonly string KEY_SELECTED_UNIT_STRINGS = "SelectedUnits";
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
@@ -72,6 +74,9 @@ namespace CAESDO.Esra.Web
             gViewUserUnits.DataSource = selectedUser.Units;
             gViewUserUnits.DataBind();
 
+            GViewUsers.DataBind();
+            updateUserGrid.Update();
+
             updateUserInfo.Update();
             mpopupUserInfo.Show();
         }
@@ -85,6 +90,9 @@ namespace CAESDO.Esra.Web
 
             gViewUserUnits.DataSource = selectedUser.Units;
             gViewUserUnits.DataBind();
+
+            GViewUsers.DataBind();
+            updateUserGrid.Update();
 
             updateUserInfo.Update();
             mpopupUserInfo.Show();
@@ -152,6 +160,9 @@ namespace CAESDO.Esra.Web
             gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
             gViewUserRoles.DataBind();
 
+            GViewUsers.DataBind(); //rebind the user grid and update
+            updateUserGrid.Update();
+
             updateUserInfo.Update();
             mpopupUserInfo.Show();
         }
@@ -169,11 +180,50 @@ namespace CAESDO.Esra.Web
 
             // This fixes an issue of a user having no roles, but still showing up in the gridview.
             GViewUsers.DataBind(); //rebind the user grid and update
-            GViewUsers.SelectedIndex = -1;
+            //GViewUsers.SelectedIndex = -1;
             updateUserGrid.Update();
 
             updateUserInfo.Update();
             mpopupUserInfo.Show();
+        }
+
+        protected void btnGetUnitUsers_Click(object sender, EventArgs e)
+        {
+            GViewUsers.DataBind();
+            updateUserGrid.Update();
+        }
+
+        protected void lbxUnits_SelectedValues(object sender, EventArgs e)
+        {
+            ListBox lbx = sender as ListBox;
+            List<string> selected = new List<string>();
+            List<Units> selectedUnits = new List<Units>();
+
+            foreach (int i in lbx.GetSelectedIndices())
+            {
+                string value = lbx.Items[i].Value;
+                selected.Add(value);
+                /*
+                if (value.Equals("0") == false)
+                {
+                    selectedUnits.Add(TitleBLL.GetByID(value));
+                }
+                else
+                {
+                    selectedUnits.Add(GetAllNamedTitle());
+                }
+                 * */
+            }
+            string[] retval = selected.ToArray();
+            Session.Add(KEY_SELECTED_UNIT_STRINGS, retval);
+            //Session.Add(KEY_SELECTED_TITLES, selectedTitles);
+
+            /*
+            if (retval.Length == 1 && retval[0].Equals("0") == false)
+            {
+                lbx.SelectedValue = retval[0];
+            }
+             * */
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Esra.Web.CatOps;
+using System.Collections.Generic;
 namespace CAESDO.Esra.Web
 {
     public class CatbertUsersRev : CatbertUsers
@@ -19,25 +20,40 @@ namespace CAESDO.Esra.Web
             set { _Roles = value; }
         }
 
-        public CatbertUsersRev(CatbertUsers user) : this(user, null)
+        private Units[] _Units;
+
+        public Units[] Units
+        {
+            get { return _Units; }
+            set { _Units = value; }
+        }
+
+        public CatbertUsersRev(CatbertUsers user)
+            : this(user, null)
         {
         }
-        
-         public CatbertUsersRev(CatbertUsers user, Roles[] roles)
-         {
-             Department = user.Department;
-             Email = user.Email;
-             EmployeeID = user.EmployeeID;
-             FirstName = user.FirstName;
-             _FullName = user.LastName + ", " + user.FirstName;
-             LastName = user.LastName;
-             Login = user.Login;
-             Role = user.Role;
-             RoleID = user.RoleID;
-             SID = user.SID;
-             UserID = user.UserID;
-             _Roles = roles;
-         }
+
+        public CatbertUsersRev(CatbertUsers user, Roles[] roles)
+            : this(user, roles, null)
+        {
+        }
+
+        public CatbertUsersRev(CatbertUsers user, Roles[] roles, Units[] units)
+        {
+            Department = user.Department;
+            Email = user.Email;
+            EmployeeID = user.EmployeeID;
+            FirstName = user.FirstName;
+            _FullName = user.LastName + ", " + user.FirstName;
+            LastName = user.LastName;
+            Login = user.Login;
+            Role = user.Role;
+            RoleID = user.RoleID;
+            SID = user.SID;
+            UserID = user.UserID;
+            _Roles = roles;
+            _Units = units;
+        }
 
         public CatbertUsersRev() { }
     }
