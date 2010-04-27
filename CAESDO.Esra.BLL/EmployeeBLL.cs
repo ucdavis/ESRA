@@ -25,12 +25,13 @@ namespace CAESDO.Esra.BLL
         {
             if (isDepartmentUser && String.IsNullOrEmpty(propertyName) == false && propertyName.Equals("FullName"))
             {
-                propertyName = "HomeDepartment";  // Sort by Home department
+                propertyName = "FullName";  // Default sort by FullName
             }
             IList<Employee> employees = GetEmployees(propertyName, ascending, titleCodes, pkEmployee, departmentIDs);
             List<Employee> retval = null;
             if (isDepartmentUser)
             {
+                // Then blank out the Name, department and comments from non-departmental employees:
                 List<Employee> nullList = new List<Employee>();
                 retval = new List<Employee>();
                 UCDEmployee user = GetByProperty("EmployeeID", userID);
@@ -44,15 +45,27 @@ namespace CAESDO.Esra.BLL
                         employee.FullName = null;
                         employee.DeansOfficeComments = null;
                         employee.DepartmentComments = null;
-                        nullList.Add(employee);
+                        if (propertyName.Equals("FullName") || propertyName.Equals("HomeDepartment") || propertyName.Equals("Title"))
+                        {
+                            // if sorted by FullName, add these employees to their own array.
+                            nullList.Add(employee);
+                        }
+                        else
+                        {
+                            // otherwise just add them to the return array.
+                            retval.Add(employee);
+                        }
                     }
                     else
                     {
+                        // add them as-is to the return array.
                         retval.Add(employee);
                     }
                 }
-                if (propertyName.Equals("FullName") || propertyName.Equals("HomeDepartment"))
+
+                if (propertyName.Equals("FullName"))
                 {
+                    // sort by FullName
                     retval.Sort();
                     if (!ascending)
                     {
@@ -60,13 +73,49 @@ namespace CAESDO.Esra.BLL
                     }
                     retval.AddRange(nullList);
                 }
+                else if (propertyName.Equals("HomeDepartment"))
+                {
+                    // Sort by Departments, then by FullNames within individual departments:
+                    if (ascending)
+                    {
+                        retval.Sort(Employee.sortHomeDepartmentAscending());
+                    }
+                    else
+                    {
+                        retval.Sort(Employee.sortHomeDepartmentDescending());
+                    }
+                    retval.AddRange(nullList);
+                }
+                else if (propertyName.Equals("Title"))
+                {
+                    if (ascending)
+                    {
+                        retval.Sort(Employee.sortTitleAscending());
+                    }
+                    else
+                    {
+                        retval.Sort(Employee.sortTitleDescending());
+                    }
+                    retval.AddRange(nullList);
+                }
+                else
+                {
+                    retval.AddRange(nullList);
+                }
             }
             else
             {
+                // Return all employees as-is.
                 retval = employees as List<Employee>;
             }
             return retval;
         }
+
+        /*
+         * If sort by department, first we need the list of employees.
+         * Once we have the list of employees, we need to sort them by department name.
+         * 
+         * */
 
         public static IList<Employee> GetByDepartmentID(string departmentID, string propertyName, bool ascending)
         {
