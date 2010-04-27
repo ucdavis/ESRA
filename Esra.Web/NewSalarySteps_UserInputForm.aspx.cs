@@ -4,7 +4,6 @@ using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
-using CAESArch.Core;
 
 namespace CAESDO.Esra.Web
 {
