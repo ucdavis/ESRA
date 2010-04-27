@@ -1,7 +1,15 @@
 ﻿USE [ESRA]
 GO
 
-/****** Object:  Table [dbo].[SRAEmployee]    Script Date: 07/01/2009 13:45:27 ******/
+/****** Object:  Table [dbo].[SRAEmployee]    Script Date: 03/24/2010 11:00:19 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SRAEmployee]') AND type in (N'U'))
+DROP TABLE [dbo].[SRAEmployee]
+GO
+
+USE [ESRA]
+GO
+
+/****** Object:  Table [dbo].[SRAEmployee]    Script Date: 03/24/2010 11:00:20 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -17,7 +25,9 @@ CREATE TABLE [dbo].[SRAEmployee](
 	[EmployeeID] [char](9) NOT NULL,
 	[TitleCode] [char](4) NOT NULL,
 	[CareerHireDate] [datetime] NULL,
+	[PPSCareerHireDateChecked] [bit] NULL,
 	[ApptHireDate] [datetime] NULL,
+	[PPSApptHireDateChecked] [bit] NULL,
 	[ExperienceBeginDate] [datetime] NULL,
 	[DatesHaveBeenAdjusted] [bit] NULL,
 	[DepartmentComments] [varchar](max) NULL,
@@ -32,6 +42,7 @@ CREATE TABLE [dbo].[SRAEmployee](
 	[BargainingUnit] [varchar](2) NULL,
 	[SalaryStep] [varchar](4) NULL,
 	[FullName] [varchar](50) NULL,
+	[AdminDepartmentID] [varchar](6) NULL,
 	[HomeDepartmentID] [varchar](6) NULL,
 	[WorkDepartmentID] [varchar](6) NULL,
 	[Different] [bit] NOT NULL,
