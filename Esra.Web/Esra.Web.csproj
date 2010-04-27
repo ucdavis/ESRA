@@ -186,8 +186,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExportToExcel.aspx" />
+    <Content Include="images\common\adduser.png" />
     <Content Include="images\common\collapse_blue.jpg" />
     <Content Include="images\common\employee_salary_comparison.png" />
+    <Content Include="images\common\esra.png" />
     <Content Include="images\common\expand_blue.jpg" />
     <Content Include="images\common\feedback.png" />
     <Content Include="images\common\home_icon-full.jpg" />
@@ -196,6 +198,10 @@
     <Content Include="images\common\Logout_Button.jpg" />
     <Content Include="images\common\maintenance.png" />
     <Content Include="images\common\salary_scales.png" />
+    <Content Include="images\common\small_container.gif" />
+    <Content Include="images\common\top_left_corner.gif" />
+    <Content Include="images\common\top_left_corner_BLACK.gif" />
+    <Content Include="images\common\top_right_corner.gif" />
     <Content Include="images\common\user_admin.png" />
     <Content Include="images\delete.gif" />
     <Content Include="images\ibAddUser.gif" />
@@ -224,7 +230,6 @@
     <Content Include="images\common\caes_logo.jpg" />
     <Content Include="images\common\Calendar_scheduleHS.png" />
     <Content Include="images\common\delete.png" />
-    <Content Include="images\common\disk4.jpg" />
     <Content Include="images\common\divider.gif" />
     <Content Include="images\common\document-new.png" />
     <Content Include="images\common\document.gif" />
