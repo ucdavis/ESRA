@@ -594,3 +594,19 @@ option:hover
 {
     text-decoration:underline;
 }
+
+
+.updateProgress
+{
+	border-width: 1px;
+	border-style: solid;
+	background-color: #FFFFFF;
+	position: absolute;
+	width: 180px;
+	height: 75px;
+} 
+.updateProgress br
+{
+    margin-top:-10px;
+    margin-bottom:10px;
+} 
