@@ -136,12 +136,12 @@
     <Compile Include="SalaryGradeQuartiles_UserInputForm.aspx.designer.cs">
       <DependentUpon>SalaryGradeQuartiles_UserInputForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Test.aspx.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
+    <Compile Include="SalaryReviewAnalysisEditor.aspx.cs">
+      <DependentUpon>SalaryReviewAnalysisEditor.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Test.aspx.designer.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
+    <Compile Include="SalaryReviewAnalysisEditor.aspx.designer.cs">
+      <DependentUpon>SalaryReviewAnalysisEditor.aspx</DependentUpon>
     </Compile>
     <Compile Include="TitleCode_UserInputForm.aspx.cs">
       <DependentUpon>TitleCode_UserInputForm.aspx</DependentUpon>
@@ -203,7 +203,7 @@
     <Content Include="Esra.Master" />
     <Content Include="LoginPage.aspx" />
     <Content Include="SalaryGradeQuartiles_UserInputForm.aspx" />
-    <Content Include="Test.aspx" />
+    <Content Include="SalaryReviewAnalysisEditor.aspx" />
     <Content Include="TitleCode_UserInputForm.aspx" />
     <None Include="Web References\CatOps\catbertwebservice.disco" />
   </ItemGroup>

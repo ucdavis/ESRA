@@ -1,9 +1,13 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="Test.aspx.cs"
-    Inherits="CAESDO.Esra.Web.Test" Title="ESRA - Employees Page" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="SalaryReviewAnalysisEditor.aspx.cs"
+    Inherits="CAESDO.Esra.Web.SalaryReviewAnalysisEditor" Title="ESRA - Salary Review Analysis Editor Page" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
+<center><asp:Label ID="lblPageTitle" runat="server" 
+            Text="Salary Review Analysis Editor" Font-Bold="True" 
+            Font-Size="Larger"></asp:Label></center>
+ <br />
     <div id="divSalaryDetails">
         <hr /><br />
         <center><asp:Label ID="lblSalaryDetails" runat="server" Text="Salary Scale Details" 

@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class Test : ApplicationPage
+    public partial class SalaryReviewAnalysisEditor : ApplicationPage
     {
         protected static readonly string KEY_REFERENCE_NUM = "ReferenceNumber";
         protected static readonly string KEY_EMPLOYEE_ID = "EmployeeID";

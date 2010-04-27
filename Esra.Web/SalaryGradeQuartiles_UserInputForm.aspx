@@ -4,6 +4,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
+  <center><asp:Label ID="lblPageTitle" runat="server" Text="Salary Grade Quartiles Maintenance" Font-Bold="true" Font-Size="Larger"></asp:Label></center>
+ <br />
+ <hr />
+ <br />
     <asp:ObjectDataSource ID="odsSalaryGradeQuartiles" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
         TypeName="CAESDO.Esra.BLL.SalaryGradeQuartilesBLL">

@@ -68,7 +68,7 @@ namespace CAESDO.Esra.Web
         {
             DropDownList ddl = (DropDownList)sender;
             string id = ddl.SelectedValue;
-            string redirectURL = "~/Test.aspx?EmployeeID=" + id;
+            string redirectURL = "~/SalaryReviewAnalysisEditor.aspx?EmployeeID=" + id;
             Response.Redirect(redirectURL);
         }
 
@@ -103,7 +103,7 @@ namespace CAESDO.Esra.Web
         {
             int id = (int)Session[KEY_SALARY_REVIEW_ANALYSIS_ID];
             SalaryReviewAnalysis sra = SalaryReviewAnalysisBLL.GetByID(id);
-            string redirectURL = "~/Test.aspx?ReferenceNumber=" + sra.ReferenceNumber;
+            string redirectURL = "~/SalaryReviewAnalysisEditor.aspx?ReferenceNumber=" + sra.ReferenceNumber;
             Response.Redirect(redirectURL);
         }
     }

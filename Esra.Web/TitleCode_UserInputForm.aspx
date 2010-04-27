@@ -1,9 +1,15 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="TitleCode_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.TitleCode_UserInputForm" Title="ESRA - Title Code Averages" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="TitleCode_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.TitleCode_UserInputForm" Title="ESRA - Title Code Averages Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentBody" runat="server">
+<div> <center><asp:Label ID="lblPageTitle" runat="server" 
+            Text="Title Code Averages Maintenance" Font-Bold="True" 
+            Font-Size="Larger"></asp:Label></center>
+ <br />
+    <hr />
+    <br />
     <asp:ObjectDataSource ID="odsSalaryScale" runat="server" 
         OldValuesParameterFormatString="original_{0}" SelectMethod="GetAllSalaryScale" 
         TypeName="CAESDO.Esra.BLL.SalaryScaleBLL" 
