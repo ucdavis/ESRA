@@ -92,7 +92,8 @@ namespace CAESDO.Esra.Data
             public IList<String> GetDistinctSalaryGrades()
             {
                 ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryGradeQuartiles))
-                .SetProjection(Projections.GroupProperty("SalaryGrade"))
+                .SetProjection(Projections.Distinct(Projections.Property("SalaryGrade")))
+                //.SetProjection(Projections.GroupProperty("SalaryGrade"))
                 .AddOrder(Order.Asc("SalaryGrade"));
 
                 return criteria.List<String>();

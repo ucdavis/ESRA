@@ -46,7 +46,6 @@ namespace CAESDO.Esra.BLL
                                 // This is a special SalaryGradeQuartiles, whose SalaryGrade
                                 // equals the SalaryScale.TitleCode, that we need to delete.
                                 SalaryGradeQuartilesBLL.Remove(sgq);
-                                SalaryGradeQuartilesBLL.EnsurePersistent(ref sgq);
                             }
                             else
                             {

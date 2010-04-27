@@ -10,6 +10,37 @@ namespace CAESDO.Esra.BLL
 {
     public class SalaryGradeQuartilesBLL : GenericBLL<SalaryGradeQuartiles, int>
     {
+        public static bool CanBeDeleted(SalaryGradeQuartiles record)
+        {
+            bool retval = false;
+            if (record != null)
+            {
+                if (record.SalaryScales != null && record.SalaryScales.Count > 0)
+                    retval = false;
+                else
+                    retval = true;
+            }
+            return retval;
+        }
+
+        public static bool DeleteRecord(SalaryGradeQuartiles record, bool forceDelete)
+        {
+            bool retval = false;
+            if (record != null)
+            {
+                if (forceDelete || CanBeDeleted(record))
+                {
+                    // delete record from database:
+                    using (var ts = new TransactionScope())
+                    {
+                        Remove(record);
+                        ts.CommittTransaction();
+                        retval = true;
+                    }
+                }
+            }
+            return retval;
+        }
 
         public static void InsertRecord(SalaryGradeQuartiles record)
         {
@@ -140,6 +171,19 @@ namespace CAESDO.Esra.BLL
         public static IList<String> GetDistinctSalaryGrades()
         {
             return daoFactory.GetSalaryGradeQuartilesDao().GetDistinctSalaryGrades();
+        }
+
+        public static bool Exists(SalaryGradeQuartiles record)
+        {
+            bool retval = false;
+
+            if (record != null)
+            {
+                if (GetRecord(record) != null)
+                    retval = true;
+            }
+
+            return retval;
         }
     }
 }

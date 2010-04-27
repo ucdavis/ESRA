@@ -35,6 +35,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string MESSAGE_RECORD_SAVED_SUCCESS = "Success: New Record Successfully Saved.";
         protected static readonly string MESSAGE_RECORD_DELETED_SUCCESS = "Success: Record Successfully Deleted";
         protected static readonly string MESSAGE_RECORD_UPDATED_SUCCESS = "Success: Record Successfully Updated";
+        protected static readonly string MESSAGE_RECORD_BAD_DATA_FORMAT = "Updated Failed: Bad Data Format";
         protected static readonly string ERROR_MESSAGE_NOT_AUTHORIZED = "You are not authorized to view this page.";
         protected static readonly string MASTER_PAGE_MESSAGE_LABEL_NAME = "lbl_Message";
         protected static readonly string ROLE_ADMIN = "Admin";
@@ -339,6 +340,23 @@ namespace CAESDO.Esra.Web
             SalaryScale ss = (SalaryScale)item.DataItem;
             
             if (ss.SalarySteps != null && ss.SalarySteps.Count > 0)
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
+
+        protected bool HasSalaryScales(object sender)
+        {
+            bool retval = false;
+
+            //IDataItemContainer item = sender as IDataItemContainer;
+            //SalaryGradeQuartiles quartiles = (SalaryGradeQuartiles)item.DataItem;
+
+            SalaryGradeQuartiles quartiles = (SalaryGradeQuartiles)sender;
+
+            if (quartiles.SalaryScales != null && quartiles.SalaryScales.Count > 0)
             {
                 retval = true;
             }
