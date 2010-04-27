@@ -121,7 +121,7 @@ namespace CAESDO.Esra.Web
             //tbCreationDate.Text = String.Format("{0:MM/dd/yyyy}", DateTime.MinValue);
             if (String.IsNullOrEmpty(ddlReferenceNumber.SelectedValue) == false && ddlReferenceNumber.SelectedValue.Equals("0") == false)
             {
-                items.Add(SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue)));       
+                items.Add(SalaryReviewAnalysisBLL.GetByID(Convert.ToInt32(ddlReferenceNumber.SelectedValue)));
             }
 
             //lbtnBack_Click(null, null);
@@ -152,7 +152,7 @@ namespace CAESDO.Esra.Web
                 salaryScales.Add(sra.SalaryScale);
                 gvSalaryScale.DataSource = salaryScales;
                 gvSalaryScale.DataBind();
- 
+
                 MultiView1.SetActiveView(vSalaryReviewAnalysis);
             }
             else
@@ -184,7 +184,7 @@ namespace CAESDO.Esra.Web
             GridView gv = sender as GridView;
             GridViewRow gvr = gv.Rows[((GridViewDeleteEventArgs)e).RowIndex];
             Label referenceNumber = gvr.FindControl("lblReferenceNumber") as Label;
-          
+
             SalaryReviewAnalysisBLL.DeleteRecord(referenceNumber.Text);
 
             SetMasterPageLabel(MASTER_PAGE_MESSAGE_LABEL_NAME, MESSAGE_RECORD_DELETED_SUCCESS);
@@ -195,6 +195,24 @@ namespace CAESDO.Esra.Web
             ddlReferenceNumber.DataBind();
 
             gvSalaryReviewAnalysis.DataBind();
+        }
+
+        protected void gvSalaryReviewAnalysis_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (IsDepartmentUser())
+            {
+                GridView gv = sender as GridView;
+                gv.Columns[9].Visible = false;
+            }
+        }
+
+        protected void gvSARDetails_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (IsDepartmentUser())
+            {
+                GridView gv = sender as GridView;
+                gv.Columns[5].Visible = false;
+            }
         }
     }
 }
