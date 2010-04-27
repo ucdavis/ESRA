@@ -234,7 +234,7 @@ namespace CAESDO.Esra.Web
         {
             if (e.CommandName.Equals("Save"))
             {
-                SalaryScale ss = SalaryScaleBLL.GetSalaryScale(CurrentSalaryScale.TitleCode, CurrentSalaryScale.EffectiveDate);
+                CAESDO.Esra.Core.Domain.SalaryScale ss = SalaryScaleBLL.GetSalaryScale(CurrentSalaryScale.TitleCode, CurrentSalaryScale.EffectiveDate);
 
                 // This is necessary in order for the existing SalarySteps to be removed from the
                 // relationship and the session; otherwise, we get an object with the same
