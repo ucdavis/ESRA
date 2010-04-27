@@ -164,10 +164,12 @@
                     </td>
                 </tr>
                 <tr><td colspan="2">
-                    <asp:Button ID="btnSave" runat="server" CommandName="save" 
-                        oncommand="btnClick_Command" Text="Save" />
-                    &nbsp;<asp:Button ID="btnCancel" runat="server" CommandName="cancel" 
-                        oncommand="btnClick_Command" Text="Cancel" CausesValidation="false"/>
+                    <asp:LinkButton ID="lbtnSave" runat="server" CommandName="save" oncommand="btnClick_Command" Text="Save" ToolTip="Save" CssClass="buttons">
+                        <img alt="Save" class="new_button" src="images/common/disk4.jpg"/>
+                    </asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CommandName="cancel" 
+                        oncommand="btnClick_Command" Text="Cancel" CausesValidation="false" ToolTip="Cancel" CssClass="buttons"><img alt="Cancel" class="cancel_button" src="images/common/Cancel.png"/>
+                    </asp:LinkButton>
                     &nbsp;</td>
                 </tr>
             </table>
