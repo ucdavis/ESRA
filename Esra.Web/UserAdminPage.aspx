@@ -132,10 +132,10 @@
         </ContentTemplate>
         </asp:UpdatePanel>
 
-        <asp:UpdatePanel ID="updateUserInfo" runat="server" UpdateMode="conditional">
+        <asp:UpdatePanel ID="updateUserInfo" runat="server" UpdateMode="conditional" >
         <ContentTemplate>
             <asp:Button ID="btnHiddenSelectUser" runat="server" style="display:none; visibility:hidden;" />       
-            <asp:Panel ID="pnlUserInfo" runat="server" style="display:none" CssClass="modalPopup">
+            <asp:Panel ID="pnlUserInfo" runat="server" style="display:none" CssClass="modalPopup" >
             <span class="modalTitle">User Information for <asp:Label ID="lblUserInfoName" runat="server" Text="" ></asp:Label></span>
             <div style="height:410px; width: 500px; overflow:auto; padding: 20px;">  
             <span style="font-weight:bold;">LoginID:</span> <asp:Label ID="lblUserInfoLoginID" runat="server" Text=""></asp:Label>
@@ -190,7 +190,8 @@
                 <asp:Button ID="btnUserInfoAddRole" runat="server" OnClick="btnUserInfoAddRole_Click" Text="Add Role"></asp:Button>
                 
                 <br /><br />
-            <div style="text-align:right"><asp:Button ID="btnSaveUserInfo" runat="server" Text="Save" />
+            <div style="text-align:right"><asp:Button ID="btnSaveUserInfo" runat="server" 
+                    Text="Save" />
             <asp:Button ID="btnCancelUserInfo" runat="server" Text="Close" /></div>
             </div>
             </asp:Panel>

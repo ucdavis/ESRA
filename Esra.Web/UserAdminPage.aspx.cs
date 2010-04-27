@@ -157,6 +157,11 @@ namespace CAESDO.Esra.Web
             gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
             gViewUserRoles.DataBind();
 
+            // This fixes an issue of a user having no roles, but still showing up in the gridview.
+            GViewUsers.DataBind(); //rebind the user grid and update
+            GViewUsers.SelectedIndex = -1;
+            updateUserGrid.Update();
+
             updateUserInfo.Update();
             mpopupUserInfo.Show();
         }
