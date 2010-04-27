@@ -140,9 +140,9 @@
                     <asp:BoundField DataField="Login" HeaderText="User Name">
                         <HeaderStyle HorizontalAlign="Left" />
                     </asp:BoundField>
-                    <asp:BoundField DataField="Role" HeaderText="Role">
+                   <%-- <asp:BoundField DataField="Role" HeaderText="Role">
                         <HeaderStyle HorizontalAlign="Left" Width="100px" />
-                    </asp:BoundField>
+                    </asp:BoundField>--%>
                      <asp:TemplateField>
                         <HeaderTemplate>Roles</HeaderTemplate>
                         <ItemTemplate>
