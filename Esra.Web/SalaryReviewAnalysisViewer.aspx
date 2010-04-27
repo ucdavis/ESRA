@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="server">
     <h1 id="page_title"><asp:Label ID="lblPageTitle" runat="server" Text="Salary Review Analysis Viewer"></asp:Label></h1>
-<%--<div class="left_col_empty"></div>--%>
+<div class="left_col_empty"></div>
 <div class="right_col">
 <div id="SRA_scale">
         <asp:ObjectDataSource ID="odsEmployee" runat="server" OldValuesParameterFormatString="original_{0}"
@@ -39,26 +39,23 @@
                         <Columns>
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    Campus-wide Salary Scale</HeaderTemplate>
+                                    Campus-wide Salary Scale<br /><br /></HeaderTemplate>
                                 <ItemTemplate>
                                     <table>
                                         <tr>
-                                            <th>
+                                            <th >
                                                 Title Code
                                             </th>
                                             <th colspan="2">
                                                 Payroll Title
                                             </th>
-                                            <%--<th colspan="2">Abbreviated Name</th>--%></tr>
                                         <tr>
-                                            <td>
+                                            <td >
                                                 <asp:Label ID="lblTitle" runat="server" Text='<%# Eval("Title.TitleCode") %>'></asp:Label>
                                             </td>
                                             <td colspan="2">
                                                 <asp:Label ID="lblPayrollTitle" runat="server" Text='<%# Eval("Title.PayrollTitle") %>'></asp:Label>
                                             </td>
-                                            <%--<td colspan="2"><asp:Label ID="lblAbbreviatedName" runat="server" 
-                                            Text='<%# Eval("AbbreviatedName") %>'></asp:Label></td>--%>
                                         </tr>
                                         <tr>
                                             <td colspan="5">
@@ -70,7 +67,7 @@
                                                 <table>
                                                     <tr>
                                                         <th colspan="2">
-                                                            Effective Date:
+                                                        Effective Date:
                                                         </th>
                                                         <td colspan="3">
                                                             <asp:Label ID="lblEffectiveDate" runat="server" Text='<%# Eval("SalaryGradeQuartiles.EffectiveDate","{0:MM/dd/yyyy}") %>'></asp:Label>
@@ -222,9 +219,6 @@
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                        <%--</tr>
-                                            
-                                            <tr>--%>
                                                         <td colspan="5">
                                                             <table>
                                                                 <asp:Repeater runat="server" ID="rptSalarySteps" OnItemDataBound="rtpSalary_OnItemDataBound"
@@ -352,22 +346,6 @@
                                 <asp:Label ID="lblDeptName" runat="server" Text='<%# Eval("HomeDepartment.Name") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <%--<asp:TemplateField HeaderText="Title Code">
-                            <EditItemTemplate>
-                                <asp:Label ID="lblEditTitleCode" runat="server" Text='<%# Eval("TitleCode") %>' />
-                            </EditItemTemplate>
-                            <ItemTemplate>
-                                <asp:Label ID="lblTitleCode" runat="server" Text='<%# Eval("TitleCode") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Bargaining Unit">
-                            <EditItemTemplate>
-                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
-                            </EditItemTemplate>
-                            <ItemTemplate>
-                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("BargainingUnitCode", "{0:0.00}") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>--%>
                         <asp:TemplateField HeaderText="Employee Name">
                             <EditItemTemplate>
                                 <asp:Label ID="Label3" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
@@ -531,28 +509,35 @@
                     </Columns>
                 </asp:GridView>
                 </div>
+                
+                <asp:HiddenField ID="hiddenCurrentSarID" runat="server" />
+                
                 <asp:ObjectDataSource ID="odsSARDetails" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="GetByID" TypeName="CAESDO.Esra.BLL.SalaryReviewAnalysisBLL">
                     <SelectParameters>
-                        <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" Type="Int32" />
+                        <asp:ControlParameter ControlID="hiddenCurrentSarID" DefaultValue="0" Name="id"
+                        PropertyName="Value" Type="Int32" />
                     </SelectParameters> 
                 </asp:ObjectDataSource>
                 
                 <asp:ObjectDataSource ID="odsSAREmployee" runat="server" TypeName="CAESDO.Esra.BLL.SRAEmployeeBLL"
                     OldValuesParameterFormatString="original_{0}" SelectMethod="GetBySalaryReviewAnalysisID">
                     <SelectParameters>
-                        <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentSarID" 
-                            Type="Int32" />
+                        <asp:ControlParameter ControlID="hiddenCurrentSarID" DefaultValue="0" Name="id"
+                        PropertyName="Value" Type="Int32" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
+                
+                <asp:HiddenField ID="hiddenCurrentTitleCode" runat="server" />
                 
                 <asp:ObjectDataSource ID="odsTitle" runat="server" TypeName="CAESDO.Esra.BLL.TitleBLL"
                     OldValuesParameterFormatString="original_{0}" SelectMethod="GetByTitleCode">
                     <SelectParameters>
-                        <asp:SessionParameter DefaultValue="0" Name="id" SessionField="CurrentTitleCode"
-                            Type="String" />
+                        <asp:ControlParameter ControlID="hiddenCurrentTitleCode" DefaultValue="0" Name="id"
+                        PropertyName="Value" Type="String" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
+                
                 <asp:LinkButton runat="server" ID="lbtnBack" OnClick="lbtnBack_Click" ToolTip="Back"
                     CssClass="buttons" Text="&lt;img alt=&quot;Back&quot; class=&quot;back_button&quot; 
                     src=&quot;images/common/arrow_left.jpg&quot;/&gt; Back"></asp:LinkButton>
@@ -563,21 +548,13 @@
                     CssClass="buttons">Print <img id="imgPrintButton" alt="Print" class="print_button" src="images/common/printer.gif"/></asp:LinkButton>
             </asp:View>
         </asp:MultiView>
+        
     <asp:ObjectDataSource ID="odsCriteria" runat="server" OldValuesParameterFormatString="original_{0}"
         SelectMethod="GetCriteriaListItems" TypeName="CAESDO.Esra.BLL.SalaryScaleBLL">
         <SelectParameters>
-            <asp:SessionParameter DefaultValue="0" Name="titleCode" SessionField="titleCode"
-                Type="String" />
-        </SelectParameters>
+            <asp:ControlParameter ControlID="hiddenCurrentTitleCode" DefaultValue="0" Name="titleCode"
+                        PropertyName="Value" Type="String" />
+         </SelectParameters>
     </asp:ObjectDataSource>
-    <asp:ObjectDataSource ID="odsFilteredEmployees" runat="server" TypeName="CAESDO.Esra.BLL.EmployeeBLL"
-        SelectMethod="GetEmployees">
-        <SelectParameters>
-            <asp:SessionParameter DefaultValue="0" Name="userID" SessionField="UserID" Type="String" />
-            <asp:SessionParameter DefaultValue="true" Name="isDepartmentUser" SessionField="IsDepartmentUser"
-                Type="Boolean" />
-            <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
-            <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
-        </SelectParameters>
-    </asp:ObjectDataSource>
+    
 </asp:Content>
