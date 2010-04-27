@@ -28,7 +28,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
 
     public interface ISalaryScaleDao : IDao<SalaryScale, int>
     {
-        SalaryScale GetEffectiveSalaryScale(DateTime effectiveDate);
+        SalaryScale GetEffectiveSalaryScale(string titleCode, DateTime effectiveDate);
     }
 
     #endregion
