@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>W:\Devel\Shared Libraries\net 2.0\NHibernate\Castle.DynamicProxy.dll</HintPath>
+      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\Castle.DynamicProxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -45,11 +45,11 @@
     </Reference>
     <Reference Include="NHibernate, Version=1.2.0.3001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>W:\Devel\Shared Libraries\net 2.0\NHibernate\NHibernate.dll</HintPath>
+      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\dlls\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.Mapping.Attributes, Version=1.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>W:\Devel\Shared Libraries\net 2.0\NHibernate\NHibernate.Mapping.Attributes.dll</HintPath>
+      <HintPath>\\Agdean6\CRU\Devel\Shared Libraries\net 2.0\NHibernate\NHibernate.Mapping.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

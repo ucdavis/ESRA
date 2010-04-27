@@ -207,6 +207,19 @@ namespace CAESDO.Esra.Data
                 else
                     return null;
             }
+
+            public bool HasSalaryReviewAnalysis(SalaryScale record)
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
+                    .CreateAlias("SalaryReviewAnalysis", "sra")
+                    .Add(Expression.Eq("sra.SalaryScale", record))
+                    .SetProjection(Projections.RowCount());
+
+                if (criteria.UniqueResult<int>() > 0)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         public class UserDao : AbstractNHibernateDao<User, int>, IUserDao

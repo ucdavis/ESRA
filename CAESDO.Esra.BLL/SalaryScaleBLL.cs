@@ -16,9 +16,10 @@ namespace CAESDO.Esra.BLL
             bool retval = false;
             if (record != null)
             {
-                //TODO: business rules for deleting a SalaryScale go here:
-                // Perhaps check if any salary review analysis is using this salary scale?
-                retval = true;
+                if (HasSalaryReviewAnalysis(record))
+                    retval = false;
+                else
+                    retval = true;
             }
             return retval;
         }
@@ -128,5 +129,6 @@ namespace CAESDO.Esra.BLL
         public static bool Exists(SalaryScale record) { return daoFactory.GetSalaryScaleDao().Exists(record);  }
         public static bool HasSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalaryGradeQuartiles(record); }
         public static SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record) { return daoFactory.GetSalaryScaleDao().GetSalaryGradeQuartiles(record); }
+        public static bool HasSalaryReviewAnalysis(SalaryScale record) { return daoFactory.GetSalaryScaleDao().HasSalaryReviewAnalysis(record); }
     }
 }

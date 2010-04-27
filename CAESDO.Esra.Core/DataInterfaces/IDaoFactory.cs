@@ -37,6 +37,7 @@ namespace CAESDO.Esra.Core.DataInterfaces
         bool Exists(SalaryScale record);
         bool HasSalaryGradeQuartiles(SalaryScale record);
         SalaryGradeQuartiles GetSalaryGradeQuartiles(SalaryScale record);
+        bool HasSalaryReviewAnalysis(SalaryScale record);
     }
 
     public interface IUserDao : IDao<User, int>
