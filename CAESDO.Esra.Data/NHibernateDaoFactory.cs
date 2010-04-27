@@ -290,9 +290,8 @@ namespace CAESDO.Esra.Data
 
             public bool HasSalaryReviewAnalysis(SalaryScale record)
             {
-                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale))
-                    .CreateAlias("SalaryReviewAnalysis", "sra")
-                    .Add(Expression.Eq("sra.SalaryScale", record))
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis))
+                    .Add(Expression.Eq("SalaryScale", record))
                     .SetProjection(Projections.RowCount());
 
                 if (criteria.UniqueResult<int>() > 0)
