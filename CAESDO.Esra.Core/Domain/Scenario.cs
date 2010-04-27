@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class Scenario : DomainObject<Scenario, int>
     {
         private SalaryReviewAnalysis _SalaryReviewAnalysis;
