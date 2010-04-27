@@ -14,14 +14,17 @@
             <asp:Parameter Name="ascending" Type="Boolean" DefaultValue="true" />
         </SelectParameters>
     </asp:ObjectDataSource>
-    <asp:GridView ID="gvSalaryScale" runat="server" DataSourceID="odsSalaryScale" 
+    <asp:MultiView ID="MultiView1" runat="server">
+        <asp:View ID="vTitleCodeAverages" runat="server">
+        <asp:GridView ID="gvSalaryScale" runat="server" DataSourceID="odsSalaryScale" 
         AutoGenerateColumns="False" AllowSorting="True" 
         onsorting="gvSalaryScale_Sorting" 
-        OnRowDataBound="gvSalaryScale_OnRowDataBound">
+        OnRowDataBound="gvSalaryScale_OnRowDataBound" 
+        onselectedindexchanged="gvSalaryScale_SelectedIndexChanged" DataKeyNames="Title">
         <HeaderStyle cssclass="tr_head" />
         <AlternatingRowStyle CssClass="tr_alt" />
         <Columns>
-            <asp:CommandField ShowEditButton="True" />
+            <asp:CommandField ShowEditButton="True" ShowSelectButton="True" />
              <asp:BoundField DataField="TitleCode" HeaderText="Title Code" 
                 SortExpression="TitleCode" ReadOnly="true"/>
             <asp:TemplateField HeaderText="Title" 
@@ -78,4 +81,41 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+        </asp:View>
+        <asp:View ID="vInsertNewTitleCodeAverages" runat="server">
+            <table style="width:100%;" id="tblNewTitleCodeAverages">
+                <tr>
+                    <th>Title Code</th>
+                    <th>Payroll Title</th>
+                    <th>Effective Date</th>
+                    <th>Salary Grade</th>
+                    <th>Bargaining Code</th>
+                    <th>Labor Market WAS</th>
+                    <th>Labor Market Mid (Annual)</th>
+                    <th>College Average (Annual)</th>
+                    <th>Campus Average (Annual)</th>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="lblTitleCode" runat="server" Text="Label"></asp:Label></td>
+                    <td>
+                        <asp:Label ID="lblPayrollTitle" runat="server" Text="Label"></asp:Label></td>
+                    <td>
+                        <asp:TextBox ID="tbEffectiveDate" runat="server" ReadOnly="true"></asp:TextBox></td>
+                    <td>
+                        </td>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        &nbsp;</td>
+                </tr>
+                
+            </table>
+        </asp:View>
+    </asp:MultiView>
+    
 </asp:Content>

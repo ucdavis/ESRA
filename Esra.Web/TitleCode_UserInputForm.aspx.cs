@@ -13,9 +13,13 @@ namespace CAESDO.Esra.Web
 {
     public partial class TitleCode_UserInputForm : ApplicationPage
     {
+        protected readonly string CURRENT_SELECTED_TITLECODE_KEY_NAME = "CurrentSelectedTitleCode";
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                MultiView1.SetActiveView(vTitleCodeAverages);
+            }
         }
 
         protected void gvSalaryScale_Sorting(object sender, GridViewSortEventArgs e)
@@ -26,6 +30,13 @@ namespace CAESDO.Esra.Web
         protected void gvSalaryScale_OnRowDataBound(object sender, GridViewRowEventArgs e)
         {
             gridView_OnRowDataBound((GridView)sender, e, "tbLaborMarketWAS");
+        }
+
+        protected void gvSalaryScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            Session.Add(CURRENT_SELECTED_TITLECODE_KEY_NAME, ((GridView)sender).SelectedValue);
+            MultiView1.SetActiveView(vInsertNewTitleCodeAverages);
         }
     }
 }
