@@ -55,7 +55,7 @@ namespace CAESDO.Esra.Web
                 // Revised to use Catbert user
                 User user = UserBLL.GetCurrent();
                 
-                ViewState.Add(KEY_CURRENT_USER, user);
+                //ViewState.Add(KEY_CURRENT_USER, user);
                 MultiView1.SetActiveView(vEmployees);
 
                 lbxDepartments_ClearSelectedValues();
@@ -591,7 +591,8 @@ namespace CAESDO.Esra.Web
                 if (gvr.RowType.Equals(DataControlRowType.DataRow))
                 {
                     // Revised to use Catbert user.
-                    User user = ViewState[KEY_CURRENT_USER] as User;
+                    //User user = ViewState[KEY_CURRENT_USER] as User;
+                    User user = UserBLL.GetCurrent();
                     if (user != null)
                     {
                         Employee employee = gvr.DataItem as Employee;
@@ -612,7 +613,9 @@ namespace CAESDO.Esra.Web
         private void AddUserDepartmentsToSession()
         {
             // Add departments to session:
-            IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true);
+            //IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(Session[KEY_CURRENT_USER_ID] as string, "Name", true);
+            IList<Department> departments = DepartmentBLL.GetAllDepartmentsForUser(UserBLL.GetCurrent().EmployeeID as string, "Name", true);
+            
             Session.Add(KEY_SELECTED_DEPARTMENTS, departments);
             Session.Add(KEY_SELECTED_DEPARTMENT_STRINGS, new string[] { "0" });
 
