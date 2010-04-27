@@ -36,7 +36,7 @@ namespace CAESDO.Esra.Core.Domain
             set { _CorrespondingAnalysisID = value; }
         }
 
-        /*
+        /* Shouldn't need theses here, since I moved the code to the base class.
         public virtual int CompareTo(SRAEmployee item)
         {
             return String.Compare(this.ID, item.ID);
