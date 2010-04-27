@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CAESDO.Esra.Core.Domain
 {
+    [Serializable]
     public class Department : DomainObject<Department, string>, IComparable<Department>
     {
         private string _DepartmentNumber;
