@@ -1,5 +1,4 @@
 ﻿using CAESArch.Data.NHibernate;
-using System.Data.SqlClient;
 using System;
 
 namespace CAESDO.Esra.Test.ViewSetup
@@ -14,8 +13,8 @@ namespace CAESDO.Esra.Test.ViewSetup
                 string employeeId = i.ToString();
                 employeeId = employeeId.PadLeft(9, '9');
 
-                string titleCode = "4722";
-                string dept = "030000";
+                const string titleCode = "4722";
+                const string dept = "030000";
                 
                 var cmdInsertUCDEmployee = NHibernateSessionManager.Instance.GetSession().Connection.CreateCommand();
                 cmdInsertUCDEmployee.CommandText = 
@@ -31,7 +30,7 @@ namespace CAESDO.Esra.Test.ViewSetup
             }
         }
 
-        public static string GetCurrentConnectionString()
+        private static string GetCurrentConnectionString()
         {
             return NHibernateSessionManager.Instance.GetSession().Connection.ConnectionString;
         }
