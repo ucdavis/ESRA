@@ -626,10 +626,16 @@ option:hover
     background-color:#97d092;
 }
 
+.bold
+{
+    font-weight:bold;
+}
+
 .light_green_edit
 {
     padding:2px 5px 2px 5px;
 }
+
 .note
 {
     clear:both;
