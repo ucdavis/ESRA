@@ -70,7 +70,8 @@ namespace CAESDO.Esra.Web
                 ddlEmployee_ClearSelectedValue();
 
                 gvESRSearchParams_Init();
-                
+
+                Page.Form.DefaultButton = btnSearch.UniqueID;
             }
 
             /*
