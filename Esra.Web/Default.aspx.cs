@@ -47,6 +47,49 @@ namespace CAESDO.Esra.Web
 
         protected void ddlTitleCode_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ddlEmployee.SelectedIndex = -1;
+            gvEmployees.DataBind();
+        }
+
+        protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlTitleCode.SelectedIndex = -1;
+            ddlDepartment.SelectedIndex = -1;
+            gvEmployees.DataBind();
+        }
+
+        protected void ddlDepartment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlEmployee.SelectedIndex = -1;
+            gvEmployees.DataBind();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (ddlTitleCode.SelectedIndex > 0 && ddlDepartment.SelectedIndex > 0)
+            {
+                // Get all the employees for a given department with the matching title code.
+                ddlEmployee.SelectedIndex = -1;
+            }
+            else if (ddlEmployee.SelectedIndex > 0)
+            {
+                // Get a specific employee.
+                ddlTitleCode.SelectedIndex = -1;
+                ddlDepartment.SelectedIndex = -1;
+            }
+            else if (ddlDepartment.SelectedIndex > 0)
+            {
+                // Get all employees in the given department with any title code.
+                ddlEmployee.SelectedIndex = -1;
+                ddlTitleCode.SelectedIndex = -1;
+            }
+            else
+            {
+                // Get all employees regardless of their department or title code.
+                ddlTitleCode.SelectedIndex = -1;
+                ddlEmployee.SelectedIndex = -1;
+                ddlDepartment.SelectedIndex = -1;
+            }
             gvEmployees.DataBind();
         }
     }

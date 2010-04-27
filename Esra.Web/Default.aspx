@@ -13,13 +13,29 @@
         Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode" DataValueField="id" AutoPostBack="True" 
-            onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
+            AppendDataBoundItems="True">
+            <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
+        
+        &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" 
+            AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployee" 
+            DataTextField="FullName" DataValueField="ID" 
+            >
+            <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
+        </asp:DropDownList>
+&nbsp;<asp:DropDownList ID="ddlDepartment" runat="server" AppendDataBoundItems="True" 
+            AutoPostBack="True" DataSourceID="odsDepartments" DataTextField="Name" 
+            DataValueField="ID">
+            <asp:ListItem Value="0">-- Select a Department --</asp:ListItem>
+        </asp:DropDownList>
+        
+        &nbsp;<asp:Button ID="btnSearch" runat="server" onclick="btnSearch_Click" 
+            Text="Search" />
         
         <br />
         
         <asp:GridView ID="gvTitle" runat="server" DataSourceID="odsTitle" 
-            AutoGenerateColumns="False" EmptyDataText="No Data Found.">
+            AutoGenerateColumns="False" EmptyDataText="No Title Code selected.">
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
@@ -195,12 +211,16 @@ document.write(month+"/"+today+"/"+year)
         <asp:ObjectDataSource ID="odsEmployee" runat="server" 
             TypeName="CAESDO.Esra.BLL.EmployeeBLL" 
             OldValuesParameterFormatString="original_{0}" 
-            SelectMethod="GetByTitleCode">
+            SelectMethod="GetEmployees">
             <SelectParameters>
-                <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
-                    Name="titleCode" PropertyName="SelectedValue" Type="String" />
                 <asp:Parameter DefaultValue="FullName" Name="propertyName" Type="String" />
                 <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+                <asp:ControlParameter ControlID="ddlTitleCode" DefaultValue="0" 
+                    Name="titleCode" PropertyName="SelectedValue" Type="String" />
+                <asp:ControlParameter ControlID="ddlEmployee" DefaultValue="0" 
+                    Name="employeeID" PropertyName="SelectedValue" Type="String" />
+                <asp:ControlParameter ControlID="ddlDepartment" DefaultValue="0" 
+                    Name="departmentID" PropertyName="SelectedValue" Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
         
@@ -222,6 +242,15 @@ document.write(month+"/"+today+"/"+year)
             </SelectParameters>
             
         </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odsDepartments" runat="server" 
+            OldValuesParameterFormatString="original_{0}" SelectMethod="GetAll" 
+            TypeName="CAESDO.Esra.BLL.DepartmentBLL">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="Name" Name="propertyName" Type="String" />
+                <asp:Parameter DefaultValue="true" Name="ascending" Type="Boolean" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <br />
     </div>
     </form>
 </body>
