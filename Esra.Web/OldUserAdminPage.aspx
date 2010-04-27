@@ -1,4 +1,4 @@
-﻿<%@ Page Title="ESRA - User Admin Page" Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="UserAdminPage.aspx.cs" Inherits="CAESDO.Esra.Web.UserAdminPage" %>
+﻿<%@ Page Title="ESRA - User Admin Page" Language="C#" MasterPageFile="~/Esra.Master" AutoEventWireup="true" CodeBehind="OldUserAdminPage.aspx.cs" Inherits="CAESDO.Esra.Web.OldUserAdminPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentHeader" runat="server">
@@ -37,14 +37,14 @@
             Searching ... 
         </ProgressTemplate>
     </asp:UpdateProgress>
-     <asp:GridView ID="gViewAddUserSearch" skinID="gridViewUserManagement" runat="server" DataKeyNames="Login" CellPadding="4" DataSourceID="ObjectDataUserSearch" 
+     <asp:GridView ID="gViewAddUserSearch" skinID="gridViewUserManagement" runat="server" DataKeyNames="LoginID" CellPadding="4" DataSourceID="ObjectDataUserSearch" 
                     EmptyDataText="No Matching Users Found" ForeColor="#333333" GridLines="None" Visible="False" AutoGenerateColumns="False"
                     OnSelectedIndexChanged="gViewAddUserSearch_SelectedIndexChanged">
          <FooterStyle BackColor="#000000" Font-Bold="True" ForeColor="White" />
          <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
          <Columns>
              <asp:CommandField ShowSelectButton="True" SelectText="Add" />
-             <asp:BoundField DataField="Login" HeaderText="Login" />
+             <asp:BoundField DataField="LoginID" HeaderText="Login" />
              <asp:BoundField DataField="LastName" HeaderText="Last Name" />
              <asp:BoundField DataField="FirstName" HeaderText="First Name" />
              <asp:BoundField DataField="EmployeeID" HeaderText="Employee ID" />
@@ -53,14 +53,14 @@
                 <ItemTemplate>
                     <asp:DropDownList ID="dlistAddUserRoles" runat="server" DataSourceID="ObjectDataRoles" DataTextField="Role" DataValueField="RoleID"></asp:DropDownList>
                     <asp:ObjectDataSource ID="ObjectDataRoles" runat="server" EnableCaching="true" OldValuesParameterFormatString="original_{0}"
-                        SelectMethod="GetRoles" TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
+                        SelectMethod="GetRoles" TypeName="CAESDO.Esra.BLL.RoleBLL"></asp:ObjectDataSource>
                 </ItemTemplate>
              </asp:TemplateField>
              <asp:TemplateField HeaderText="Unit">
                 <ItemTemplate>
-                    <asp:DropDownList ID="dlistAddUserUnits" runat="server" DataSourceID="ObjectDataUnits" DataTextField="Unit" DataValueField="UnitID"></asp:DropDownList>
+                    <asp:DropDownList ID="dlistAddUserUnits" runat="server" DataSourceID="ObjectDataUnits" DataTextField="FullName" DataValueField="UnitID"></asp:DropDownList>
                     <asp:ObjectDataSource ID="ObjectDataUnits" runat="server" EnableCaching="true" OldValuesParameterFormatString="original_{0}"
-                        SelectMethod="GetUnits" TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
+                        SelectMethod="GetUnits" TypeName="CAESDO.Esra.BLL.UnitBLL"></asp:ObjectDataSource>
                 </ItemTemplate>
              </asp:TemplateField>
          </Columns>
@@ -97,7 +97,7 @@
         <asp:UpdatePanel ID="updateUserGrid" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
         
-            <asp:GridView ID="GViewUsers" SkinID="gridViewUM" runat="server" DataKeyNames="Login"
+            <asp:GridView ID="GViewUsers" SkinID="gridViewUM" runat="server" DataKeyNames="LoginID"
                 CellPadding="4" ForeColor="#333333" GridLines="None" DataSourceID="ObjectDataSource1"
                 AllowPaging="True" PageSize="25"
                 AutoGenerateColumns="False" 
@@ -115,13 +115,13 @@
                         <ItemTemplate>
                             <asp:Repeater ID="rptUnits" runat="server" DataSource='<%# Eval("Units") %>'>
                                 <ItemTemplate>
-                                    <asp:Label ID="lblUnit" runat="server" Text='<%# Eval("Unit") %>'></asp:Label>
+                                    <asp:Label ID="lblUnit" runat="server" Text='<%# Eval("FullName") %>'></asp:Label>
                                 </ItemTemplate>
                                 <SeparatorTemplate><br /></SeparatorTemplate>
                             </asp:Repeater>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="Login" HeaderText="User Name">
+                    <asp:BoundField DataField="LoginID" HeaderText="User Name">
                         <HeaderStyle HorizontalAlign="Left" />
                     </asp:BoundField>
                    <%-- <asp:BoundField DataField="Role" HeaderText="Role">
@@ -151,9 +151,10 @@
             </asp:GridView>
             <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"
                 SelectMethod="GetUsersInApplication" 
-                TypeName="CAESDO.Esra.Web.CatbertManager">
+                TypeName="CAESDO.Esra.BLL.UserBLL">
                 <SelectParameters>
                     <asp:SessionParameter SessionField="SelectedUnits" Type="Object" Name="pUnits"/>
+                    <asp:Parameter Name="roleName" Type="String" />
                </SelectParameters>
             </asp:ObjectDataSource>
         </ContentTemplate>
@@ -188,8 +189,8 @@
                     </Columns>  
                 </asp:GridView>
                 <br />
-                <asp:DropDownList ID="dlistUnits" runat="server" DataTextField="Unit" DataValueField="UnitID" DataSourceID="ObjectDataUnits"></asp:DropDownList><asp:ObjectDataSource ID="ObjectDataUnits" runat="server" OldValuesParameterFormatString="original_{0}"
-                    SelectMethod="GetUnits" TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
+                <asp:DropDownList ID="dlistUnits" runat="server" DataTextField="FullName" DataValueField="UnitID" DataSourceID="ObjectDataUnits"></asp:DropDownList><asp:ObjectDataSource ID="ObjectDataUnits" runat="server" OldValuesParameterFormatString="original_{0}"
+                    SelectMethod="GetUnits" TypeName="CAESDO.Esra.BLL.UnitBLL"></asp:ObjectDataSource>
                 <asp:Button ID="btnUserInfoAddUnit" runat="server" OnClick="btnUserInfoAddUnit_Click" Text="Add Unit"></asp:Button>
                 <br /><br />
                 <br />
@@ -214,7 +215,7 @@
                 <asp:DropDownList ID="dlistRoles" runat="server" DataSourceID="ObjectDataRoles" DataTextField="Role"
                     DataValueField="RoleID">
                 </asp:DropDownList><asp:ObjectDataSource ID="ObjectDataRoles" runat="server" OldValuesParameterFormatString="original_{0}"
-                    SelectMethod="GetRoles" TypeName="CAESDO.Esra.Web.CatbertManager"></asp:ObjectDataSource>
+                    SelectMethod="GetRoles" TypeName="CAESDO.Esra.BLL.RoleBLL"></asp:ObjectDataSource>
                 <asp:Button ID="btnUserInfoAddRole" runat="server" OnClick="btnUserInfoAddRole_Click" Text="Add Role"></asp:Button>
                 
                 <br /><br />

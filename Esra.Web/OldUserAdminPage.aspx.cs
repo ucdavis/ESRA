@@ -10,12 +10,13 @@ using System.Collections;
 using System.Web.Security;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using CAESDO.Esra.BLL;
 using CAESDO.Esra.Core.Domain;
 using Esra.Web.CatOps;
 
 namespace CAESDO.Esra.Web
 {
-    public partial class UserAdminPage : ApplicationPage
+    public partial class OldUserAdminPage : ApplicationPage
     {
         protected static readonly string KEY_SELECTED_UNIT_STRINGS = "SelectedUnits";
         protected override void Page_Load(object sender, EventArgs e)
@@ -38,7 +39,7 @@ namespace CAESDO.Esra.Web
             //Grab the loginID for the selected user from the DataKeys
             GridView gview = (GridView)sender;
 
-            string selectedLoginID = gview.SelectedDataKey["Login"].ToString();
+            string selectedLoginID = gview.SelectedDataKey["LoginID"].ToString();
 
             //Now get the selected user's corresponding object
             User selectedUser = daoFactory.GetUserDao().GetUserByLogin(selectedLoginID);
@@ -52,7 +53,8 @@ namespace CAESDO.Esra.Web
             gViewUserUnits.DataSource = selectedUser.Units;
             gViewUserUnits.DataBind();
 
-            gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(selectedLoginID);
+            //gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(selectedLoginID);
+            gViewUserRoles.DataSource = selectedUser.Roles;
             gViewUserRoles.DataBind();
 
             //Update the panel with the newest information and show the modal popup
@@ -110,7 +112,7 @@ namespace CAESDO.Esra.Web
             GridView gview = (GridView)sender;
 
             //insert the new user
-            string loginID = gview.SelectedDataKey["Login"] as string;
+            string loginID = gview.SelectedDataKey["LoginID"] as string;
 
             int userID = -1;
             //Check to see if the user is already in CATBERT
@@ -157,7 +159,8 @@ namespace CAESDO.Esra.Web
             bool success = CatbertManager.AddUserToRole(lblUserInfoLoginID.Text, int.Parse(dlistRoles.SelectedValue));
 
             //update the grid
-            gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
+            //gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
+            gViewUserRoles.DataSource = UserBLL.GetRolesByUser(lblUserInfoLoginID.Text);
             gViewUserRoles.DataBind();
 
             GViewUsers.DataBind(); //rebind the user grid and update
@@ -175,7 +178,8 @@ namespace CAESDO.Esra.Web
             bool success = CatbertManager.RemoveUserFromRole((int)gv.DataKeys[e.RowIndex].Value, lblUserInfoLoginID.Text);
 
             //update the grid
-            gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
+            //gViewUserRoles.DataSource = CatbertManager.GetRolesByUser(lblUserInfoLoginID.Text);
+            gViewUserRoles.DataSource = UserBLL.GetRolesByUser(lblUserInfoLoginID.Text);
             gViewUserRoles.DataBind();
 
             // This fixes an issue of a user having no roles, but still showing up in the gridview.
