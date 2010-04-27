@@ -13,7 +13,8 @@
         Title Code:
         <asp:DropDownList ID="ddlTitleCode" runat="server" DataSourceID="odsTitles" 
             DataTextField="TitleCode" DataValueField="id" AutoPostBack="True" 
-            AppendDataBoundItems="True">
+            AppendDataBoundItems="True" 
+            onselectedindexchanged="ddlTitleCode_SelectedIndexChanged">
             <asp:ListItem Value="0">-- Select a Title Code --</asp:ListItem>
         </asp:DropDownList>
         
@@ -25,7 +26,7 @@
         
         &nbsp;<asp:DropDownList ID="ddlEmployee" runat="server" 
             AppendDataBoundItems="True" AutoPostBack="True" DataSourceID="odsEmployee" 
-            DataTextField="FullName" DataValueField="ID" 
+            DataTextField="FullName" DataValueField="ID" onselectedindexchanged="ddlEmployee_SelectedIndexChanged" 
             >
             <asp:ListItem Value="0">-- Select an Employee Name --</asp:ListItem>
         </asp:DropDownList>
@@ -182,7 +183,7 @@ document.write(month+"/"+today+"/"+year)
                     DataSourceID="odsEmployee" EmptyDataText="No Data Found." 
                     OnSelectedIndexChanged="gvEmployees_SelectedIndexChanged" AllowSorting="True" 
                     DataKeyNames="ID" OnSorting="gvEmployees_Sorting" 
-                    onrowupdated="gvEmployees_RowUpdated">
+                    onrowupdated="gvEmployees_RowUpdated" ondatabound="gvEmployees_DataBound">
                     <Columns>
                         <asp:CommandField ShowEditButton="True" />
                         <asp:TemplateField HeaderText="Department Name" SortExpression="HomeDepartment">

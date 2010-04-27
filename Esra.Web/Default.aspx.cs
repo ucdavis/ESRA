@@ -72,20 +72,25 @@ namespace CAESDO.Esra.Web
         protected void ddlTitleCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlEmployee.SelectedIndex = -1;
-            gvEmployees.DataBind();
+            //gvEmployees.DataBind();
         }
 
         protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlTitleCode.SelectedIndex = -1;
+            // Assume that if the employees ddl was selected, that they want a single 
+            // employee and their associated title code.
+            string id = ((DropDownList)sender).SelectedValue.ToString();
+            Employee emp = EmployeeBLL.GetByID(id);
+            ddlTitleCode.SelectedValue = emp.Title.ID.ToString();
+            //ddlTitleCode.SelectedIndex = -1;
             ddlDepartment.SelectedIndex = -1;
-            gvEmployees.DataBind();
+            //gvEmployees.DataBind();
         }
 
         protected void ddlDepartment_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlEmployee.SelectedIndex = -1;
-            gvEmployees.DataBind();
+            //gvEmployees.DataBind();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -120,6 +125,7 @@ namespace CAESDO.Esra.Web
 
         protected void gvEmployees_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
 
         }
 
@@ -140,6 +146,22 @@ namespace CAESDO.Esra.Web
             string pathString = Page.Request.Url.AbsolutePath;
             Response.Redirect(pathString+"?"+queryString);
              */
+        }
+
+        protected void gvEmployees_DataBound(object sender, EventArgs e)
+        {
+           // If a single row is returned, then set the ddlTitleCode's selected value to that
+           // of the employee returned.
+            //GridView gv = (GridView)sender;
+            //if (gv.Rows.Count == 1)
+            //{
+            //    string id = gv.DataKeys[0].Value.ToString();
+            //    Employee emp = EmployeeBLL.GetByID(id);
+            //    ddlTitleCode.SelectedValue = emp.Title.ID.ToString();
+            //    string queryString = "TitleCode=" + ddlTitleCode.SelectedValue + "&Department=" + ddlDepartment.SelectedValue + "&EmployeeID=" + ddlEmployee.SelectedValue;
+            //    string pathString = Page.Request.Url.AbsolutePath;
+            //    Response.Redirect(pathString + "?" + queryString);
+            //}
         }
     }
 }
