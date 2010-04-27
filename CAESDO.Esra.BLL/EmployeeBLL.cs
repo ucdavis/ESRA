@@ -21,6 +21,20 @@ namespace CAESDO.Esra.BLL
             return GetEmployees(propertyName, ascending, null, null, new string[] { user.HomeDepartment.ID, user.WorkDepartment.ID });
         }
 
+        public static bool IsDepartmentEmployee(UCDEmployee user, Employee employee) 
+        {
+            // Business rules for determining whether or not a employee is visible to a user:
+            bool retval = false;
+
+            if ((employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(user.HomeDepartmentID)) ||
+                (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(user.HomeDepartmentID)))
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
+
         public static IList<Employee> GetAllEmployeesForUser(string userID, bool isDepartmentUser, string propertyName, bool ascending, string[] titleCodes, string pkEmployee, string[] departmentIDs)
         {
             if (isDepartmentUser && String.IsNullOrEmpty(propertyName) == false && propertyName.Equals("FullName"))
@@ -38,28 +52,35 @@ namespace CAESDO.Esra.BLL
 
                 foreach (Employee employee in employees)
                 {
-                    if (employee.HomeDepartment.Equals(user.HomeDepartment) == false && employee.WorkDepartment.Equals(user.HomeDepartment) == false)
+                    try
                     {
-                        // blank out the username, department and comments:
-                        employee.HomeDepartment = null;
-                        employee.FullName = null;
-                        employee.DeansOfficeComments = null;
-                        employee.DepartmentComments = null;
-                        if (propertyName.Equals("FullName") || propertyName.Equals("HomeDepartment") || propertyName.Equals("Title"))
+                        if (!IsDepartmentEmployee(user, employee))
                         {
-                            // if sorted by FullName, add these employees to their own array.
-                            nullList.Add(employee);
+                            // blank out the username, department and comments:
+                            //employee.HomeDepartment = null;
+                            //employee.FullName = null;
+                            //employee.DeansOfficeComments = null;
+                            //employee.DepartmentComments = null;
+                            if (propertyName.Equals("FullName") || propertyName.Equals("HomeDepartment") || propertyName.Equals("Title"))
+                            {
+                                // if sorted by FullName, add these employees to their own array.
+                                nullList.Add(employee);
+                            }
+                            else
+                            {
+                                // otherwise just add them to the return array.
+                                retval.Add(employee);
+                            }
                         }
                         else
                         {
-                            // otherwise just add them to the return array.
+                            // add them as-is to the return array.
                             retval.Add(employee);
                         }
                     }
-                    else
+                    catch (System.Exception ex)
                     {
-                        // add them as-is to the return array.
-                        retval.Add(employee);
+                        System.Console.Out.WriteLine(ex.InnerException);
                     }
                 }
 
