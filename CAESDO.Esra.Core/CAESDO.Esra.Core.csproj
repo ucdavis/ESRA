@@ -67,7 +67,7 @@
     <Compile Include="Domain\Lookups.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\ESRSearchParameters.cs" />
-    <Compile Include="Domain\UCDEmlpoyeeID.cs" />
+    <Compile Include="Domain\UCDEmployeeID.cs" />
     <Compile Include="Domain\UCDEmployee.cs" />
     <Compile Include="Domain\DomainObject.cs" />
     <Compile Include="Domain\Exception.cs" />

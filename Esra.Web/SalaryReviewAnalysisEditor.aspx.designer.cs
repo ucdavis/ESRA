@@ -203,22 +203,13 @@ namespace CAESDO.Esra.Web {
         protected global::System.Web.UI.WebControls.View vSalaryReviewAnalysis;
         
         /// <summary>
-        /// lblTblSRAMain_CurrentTitleCodeTitle control.
+        /// pnlProposedTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTblSRAMain_CurrentTitleCodeTitle;
-        
-        /// <summary>
-        /// lblTblSRAMain_CurrentTitleCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTblSRAMain_CurrentTitleCode;
+        protected global::System.Web.UI.WebControls.Panel pnlProposedTitle;
         
         /// <summary>
         /// blTblSRAMain_ProposedTitleCodeTitle control.

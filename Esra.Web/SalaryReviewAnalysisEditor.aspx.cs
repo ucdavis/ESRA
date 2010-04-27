@@ -100,6 +100,7 @@ namespace CAESDO.Esra.Web
                 SalaryReviewAnalysis sra = null;
                 SRAEmployee emp = null;
                 IList<Scenario> scenarios = null;
+                pnlProposedTitle.Visible = false;
                 
                 if (String.IsNullOrEmpty(ReferenceNum) == false)
                 {
@@ -120,8 +121,13 @@ namespace CAESDO.Esra.Web
 
                         rptScenarios_Init(scenarios);
 
-                        lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
+                        //lblTblSRAMain_CurrentTitleCode.Text = TitleBLL.GetByTitleCode(sra.CurrentTitleCode).TitleCode_Name;
+
                         lblTblSRAMain_TitleCode.Text = sra.Title.TitleCode_Name;
+                        if (sra.IsReclass)
+                        {
+                            pnlProposedTitle.Visible = true;
+                        }
 
                         empList.Add(emp);
                         Employees = empList; // Save the employees list to the ViewState recall later.
@@ -699,8 +705,9 @@ namespace CAESDO.Esra.Web
             Criteria = SalaryScaleBLL.GetCriteriaListItems(proposedTitle.TitleCode);
             rptScenarios_Init(null);
 
-            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
+            //lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
             lblTblSRAMain_TitleCode.Text = proposedTitle.TitleCode_Name;
+            pnlProposedTitle.Visible = true;
 
             gvTitle.DataBind();
             gvEmployees.DataBind();
@@ -714,8 +721,10 @@ namespace CAESDO.Esra.Web
             Criteria = SalaryScaleBLL.GetCriteriaListItems(Employees[0].TitleCode);
             rptScenarios_Init(null);
 
-            lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
+            //lblTblSRAMain_CurrentTitleCode.Text = Employees[0].Title.TitleCode_Name;
+
             lblTblSRAMain_TitleCode.Text = Employees[0].Title.TitleCode_Name;
+            pnlProposedTitle.Visible = false;
 
             gvTitle.DataBind();
             gvEmployees.DataBind();

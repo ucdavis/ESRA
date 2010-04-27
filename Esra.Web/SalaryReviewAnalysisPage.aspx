@@ -460,7 +460,7 @@
                 </div>
                 <asp:Panel ID="pnlProposedTitle" runat="server">
                 <br />
-                <asp:Label ID="lblCurrentTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title:</asp:Label> <asp:Label ID="lblCurrentTitleCode" runat="server" Text="Title Code"></asp:Label>
+                <asp:Label ID="lblCurrentTitleCodeLabel" runat="server" Font-Bold="true">Proposed Title:</asp:Label> <asp:Label ID="lblCurrentTitleCode" runat="server" Text="[ProposedTitle]"></asp:Label>
                 <br />
                 </asp:Panel>
                 

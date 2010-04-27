@@ -60,6 +60,8 @@ namespace CAESDO.Esra.Web
             if (!IsPostBack)
             {
                 pnlProposedTitleCodeNote.Visible = false;
+                pnlProposedTitle.Visible = false;
+
                 UCDEmployee user = EmployeeBLL.GetByProperty("EmployeeID", Session[KEY_CURRENT_USER_ID] as string);
                 ViewState.Add(KEY_CURRENT_USER, user);
 
@@ -78,6 +80,14 @@ namespace CAESDO.Esra.Web
                         salaryScales.Add(sra.SalaryScale);
                         gvSalaryScale.DataSource = salaryScales;
                         gvSalaryScale.DataBind();
+
+                        // new logic for setting the Proposed title as applicable:
+                        
+                        if (sra.IsReclass)
+                        {
+                            pnlProposedTitle.Visible = true;
+                            lblCurrentTitleCode.Text = sra.Title.TitleCode_Name;
+                        }
 
                         MultiView1.SetActiveView(vSalaryReviewAnalysis);
                     }
@@ -211,7 +221,7 @@ namespace CAESDO.Esra.Web
             if (IsDepartmentUser())
             {
                 GridView gv = sender as GridView;
-                gv.Columns[9].Visible = false;
+                gv.Columns[10].Visible = false;
             }
         }
 

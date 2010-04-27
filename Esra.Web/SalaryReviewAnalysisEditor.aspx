@@ -525,20 +525,22 @@
             <asp:View ID="vSalaryReviewAnalysis" runat="server">
                 <table id="tblSRAMain" border="1" cellpadding="2" cellspacing="0" width="100%">
                     <%--<th colspan="2">Abbreviated Name</th>--%>
-                    <tr>
+                    <%--<tr>
                         <td>
                             <asp:Label ID="lblTblSRAMain_CurrentTitleCodeTitle" runat="server" Text="Original Title Code:"
                                 Font-Bold="True"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <asp:Label ID="lblTblSRAMain_CurrentTitleCode" runat="server"></asp:Label>
                         </td>
-                    </tr>
+                    </tr>--%>
+                    <asp:Panel ID="pnlProposedTitle" runat="server">
                     <tr>
                         <td>
-                            <asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title Code:"
+                            <asp:Label ID="blTblSRAMain_ProposedTitleCodeTitle" runat="server" Text="Proposed Title:"
                                 Font-Bold="True"></asp:Label>&nbsp;
                             <asp:Label ID="lblTblSRAMain_TitleCode" runat="server"></asp:Label>
                         </td>
                     </tr>
+                    </asp:Panel>
                     <tr>
                         <td>
                             <asp:GridView ID="gvSalaryReviewAnaysis" runat="server" AutoGenerateColumns="False"
@@ -577,7 +579,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="9">
+                        <td>
                             <asp:UpdatePanel runat="server" ID="upScenarios">
                                 <ContentTemplate>
                                     <asp:Repeater runat="server" ID="rptScenarios">
@@ -646,7 +648,7 @@
                                                 ' />
                                                 </th>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSourceID="odsCriteria"
+                                                    <asp:DropDownList ID="ddlCriteriaAlt" runat="server" AutoPostBack="True" DataSource='<%# Criteria %>'
                                                         DataTextField="Key" DataValueField="Value" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlCriteria_SelectedIndexChanged"
                                                         SelectedValue='<%# GetSelectedValue(Container) %>'>
                                                         <%--<asp:ListItem Text="-- Select Target Criteria --" Value=""></asp:ListItem>--%>
