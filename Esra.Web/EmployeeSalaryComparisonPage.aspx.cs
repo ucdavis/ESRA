@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CAESDO.Core.Domain;
 using System.Web.Services;
+using CAESOps;
 
 namespace CAESDO.Esra.Web
 {
@@ -23,6 +24,7 @@ namespace CAESDO.Esra.Web
         protected static readonly string KEY_SELECTED_DEPARTMENTS = "selectedDepartments";
         protected static readonly string KEY_SELECTED_TITLE_STRINGS = "selectedTitleStrings";
         protected static readonly string KEY_SELECTED_TITLES = "selectedTitles";
+        protected static readonly string KEY_SEARCH_PARAMETERS = "searchParameters";
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -33,6 +35,7 @@ namespace CAESDO.Esra.Web
                 Session.Remove(KEY_SELECTED_TITLES);
                 Session.Remove(KEY_SELECTED_TITLE_STRINGS);
                 Session.Remove(KEY_EMPLOYEE_ID);
+                Session.Remove(KEY_SEARCH_PARAMETERS);
             }
         }
 
@@ -141,24 +144,39 @@ namespace CAESDO.Esra.Web
                 departmentStrings);
             
             // Convert the employees list to a datatable
+
+            CAESOps.ExcelOps eops = new CAESOps.ExcelOps();
+            List<CAESOps.ExcelBorder> borders = new List<CAESOps.ExcelBorder>();
+
+            string tempString = "";
+            Type stringType = tempString.GetType();
+
+            Decimal tempDecimal = new Decimal();
+            Type decimalType = tempDecimal.GetType();
+
+            Double tempDouble = new Double();
+            Type doubleType = tempDouble.GetType();
+
             DataTable dt = new DataTable();
-            dt.Columns.Add("Department Name", Type.GetType("System.String"));
-            dt.Columns.Add("Title Code", Type.GetType("System.String"));
-            dt.Columns.Add("Salary Grade", Type.GetType("System.String"));
-            dt.Columns.Add("Bargaining Unit", Type.GetType("System.String"));
-            dt.Columns.Add("Employee Name", Type.GetType("System.String"));
-            dt.Columns.Add("Hire Date", Type.GetType("System.String"));
-            dt.Columns.Add("Years Of Service", Type.GetType("System.String"));
-            dt.Columns.Add("Begin Date (In Title)", Type.GetType("System.String"));
-            dt.Columns.Add("Time In Title", Type.GetType("System.String"));
-            dt.Columns.Add("Experience Begin Date", Type.GetType("System.String"));
-            dt.Columns.Add("Years Of Experience", Type.GetType("System.String"));
-            dt.Columns.Add("Pay Rate", Type.GetType("System.String"));
-            dt.Columns.Add("Department Comments", Type.GetType("System.String"));
-            dt.Columns.Add("Deans Office Comments", Type.GetType("System.String"));
+            
+            // Add the data headers:
+            dt.Columns.Add("Department Name", stringType);
+            dt.Columns.Add("Title Code", stringType);
+            dt.Columns.Add("Salary Grade", stringType);
+            dt.Columns.Add("Bargaining Unit", stringType);
+            dt.Columns.Add("Employee Name", stringType);
+            dt.Columns.Add("Hire Date", stringType);
+            dt.Columns.Add("Years Of Service", doubleType);
+            dt.Columns.Add("Begin Date (In Title)", stringType);
+            dt.Columns.Add("Time In Title", doubleType);
+            dt.Columns.Add("Experience Begin Date", stringType);
+            dt.Columns.Add("Years Of Experience", doubleType);
+            dt.Columns.Add("Pay Rate", doubleType);
+            dt.Columns.Add("Department Comments", stringType);
+            dt.Columns.Add("Deans Office Comments", stringType);
 
             DataRow row;
-            
+
             foreach (Employee emp in employees)
             {
                 row = dt.NewRow();
@@ -175,8 +193,9 @@ namespace CAESDO.Esra.Web
                 row["Begin Date (In Title)"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
                 row["Time In Title"] = emp.TimeInTitle;
                 row["Experience Begin Date"] = String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate);
-                row["Years Of Experience"] = emp.YearsOfExperience;
-                row["Pay Rate"] = String.Format("{0:c}", emp.PayRate);
+                row["Years Of Experience"] = (emp.YearsOfExperience != null ? emp.YearsOfExperience : 0d);
+                //row["Years Of Experience"] = emp.YearsOfExperience;
+                row["Pay Rate"] = emp.PayRate;
 
                 if (isDepartmentUser)
                 {
@@ -189,14 +208,20 @@ namespace CAESDO.Esra.Web
                         row["Deans Office Comments"] = null;
                     }
                 }
-                
+
                 dt.Rows.Add(row);
             }
-            
-            CAESOps.ExcelOps eops = new CAESOps.ExcelOps();
-            List<CAESOps.ExcelBorder> borders = new List<CAESOps.ExcelBorder>();
 
             eops.HorizontalFreeze = 1;
+            ExcelStyle numberTwoDecimalStyle = new ExcelStyle();
+            numberTwoDecimalStyle.Format = PredefinedExcelStyles.NumberTwoDecimal;
+            eops.AddColumnStyle("Years Of Service", numberTwoDecimalStyle);
+            eops.AddColumnStyle("Time In Title", numberTwoDecimalStyle);
+            eops.AddColumnStyle("Years Of Experience", numberTwoDecimalStyle);
+            ExcelStyle currencyStyle = new ExcelStyle();
+            currencyStyle.Format = PredefinedExcelStyles.CurrencyTwoDecimal;
+            eops.AddColumnStyle("Pay Rate", currencyStyle);
+
             byte[] byteArray = eops.ExportToExcel(dt);
 
             HttpContext.Current.Session["ExportExcel"] = byteArray;
@@ -442,6 +467,7 @@ namespace CAESDO.Esra.Web
 
             gvESRSearchParams.DataSource = esParams;
             gvESRSearchParams.DataBind();
+            Session.Add(KEY_SEARCH_PARAMETERS, sp);
         }
 
         protected void gvESRSearchParams_Load(Employee emp)
@@ -472,7 +498,7 @@ namespace CAESDO.Esra.Web
         //    };
         //}
 
-        protected Title GetAllNamedTitle()
+        protected static Title GetAllNamedTitle()
         {
             return new Title()
             {
@@ -483,12 +509,12 @@ namespace CAESDO.Esra.Web
             };
         }
 
-        protected Department GetAllNamedDepartment()
+        protected static Department GetAllNamedDepartment()
         {
             return new Department() { Name = "Any" };
         }
 
-        protected Employee GetAllNamedEmployee()
+        protected static Employee GetAllNamedEmployee()
         {
             return new Employee() { FullName = "Any" };
         }
