@@ -63,6 +63,8 @@ namespace CAESDO.Esra.Web
                     //Session.Add(KEY_CURRENT_USER_ROLE, ROLE_ADMIN);
                     //Session.Add(KEY_IS_DEPARTMENT_USER, false);
                     MultiView1.SetActiveView(vAdmin);
+                    if (User.IsInRole(ROLE_EMULATION_USER))
+                        div_emulate1.Visible = true;
                 }
                 else if (User.IsInRole(ROLE_DOUser))
                 {

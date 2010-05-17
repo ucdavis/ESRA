@@ -49,6 +49,10 @@
                 Add, Edit or Remove a User from the System.</dd>
             
         </dl>
+        <div id="div_emulate1" runat="server" visible="false">
+                <asp:TextBox ID="tbEmulate1" runat="server" ></asp:TextBox>
+                &nbsp;<asp:Button ID="btnEmulate1" runat="server" Text="Emulate" OnClick="btnEmulate_Click"/>
+            </div>
         </asp:View>
         <asp:View ID="vDeansOffice" runat="server">
         <dl>
