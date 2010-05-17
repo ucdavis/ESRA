@@ -19,7 +19,7 @@
             </asp:RadioButtonList>
             <div id="div_emulate" runat="server" visible="false">
                 <asp:TextBox ID="tbEmulate" runat="server" ></asp:TextBox>
-                &nbsp;<asp:Button ID="btnEmulate" runat="server" Text="Emulate" OnClick="btnEmulate_Click"/>
+                &nbsp;<asp:Button ID="btnEmulate" runat="server" Text="Emulate" OnClick="btnEmulate_Click" CommandArgument="tbEmulate"/>
             </div>
         </asp:View>
         <asp:View ID="vAdmin" runat="server">
@@ -51,7 +51,7 @@
         </dl>
         <div id="div_emulate1" runat="server" visible="false">
                 <asp:TextBox ID="tbEmulate1" runat="server" ></asp:TextBox>
-                &nbsp;<asp:Button ID="btnEmulate1" runat="server" Text="Emulate" OnClick="btnEmulate_Click"/>
+                &nbsp;<asp:Button ID="btnEmulate1" runat="server" Text="Emulate" OnClick="btnEmulate_Click" CommandArgument="tbEmulate1"/>
             </div>
         </asp:View>
         <asp:View ID="vDeansOffice" runat="server">

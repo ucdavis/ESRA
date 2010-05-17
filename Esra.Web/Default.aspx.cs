@@ -130,12 +130,16 @@ namespace CAESDO.Esra.Web
 
         protected void btnEmulate_Click(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
+            String textBoxName = btn.CommandArgument;
+            TextBox tb = btn.Parent.FindControl(textBoxName) as TextBox;
+
             FormsAuthentication.SignOut();
 
             FormsAuthentication.Initialize();
 
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
-                tbEmulate.Text,
+                tb.Text,
                 DateTime.Now,
                 DateTime.Now.AddMinutes(15),
                 false,
