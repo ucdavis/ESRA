@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="ESRA - Salary Steps Editor" Language="C#" MasterPageFile="~/Esra.Master"
-    AutoEventWireup="true" CodeBehind="NewSalarySteps_UserInputForm.aspx.cs" Inherits="CAESDO.Esra.Web.NewSalarySteps_UserInputForm" %>
+    AutoEventWireup="true" CodeBehind="NewSalarySteps_UserInputForm.aspx.cs" Inherits="Esra.Web.NewSalarySteps_UserInputForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

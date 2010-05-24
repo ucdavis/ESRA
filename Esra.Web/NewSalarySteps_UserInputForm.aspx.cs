@@ -4,8 +4,10 @@ using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
 using CAESArch.Core.Domain;
+using CAESDO.Esra.Web;
+using CAESDO.Esra;
 
-namespace CAESDO.Esra.Web
+namespace Esra.Web
 {
     public partial class NewSalarySteps_UserInputForm : ApplicationPage
     {
@@ -203,7 +205,7 @@ namespace CAESDO.Esra.Web
 
             CurrentSalaryScale = ss; // Save current Salary Scale to View State.
 
-            IList<Core.Domain.SalaryScale> list = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
+            IList<CAESDO.Esra.Core.Domain.SalaryScale> list = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             list.Add(ss);
 
             gvSalaryScale.DataSource = list;
@@ -221,7 +223,7 @@ namespace CAESDO.Esra.Web
             int dataItemIndex = item.DataItemIndex;
             CurrentSalaryScale.SalarySteps.Remove(CurrentSalaryScale.SalarySteps[dataItemIndex]);
 
-            IList<Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
+            IList<CAESDO.Esra.Core.Domain.SalaryScale> scales = new List<CAESDO.Esra.Core.Domain.SalaryScale>();
             scales.Add(CurrentSalaryScale);
 
             gvSalaryScale.DataSource = scales;
