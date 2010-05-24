@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using System.Globalization;
 using CAESDO.Esra.BLL;
-using CAESArch.Core;
 
 namespace CAESDO.Esra.Web
 {
@@ -11,7 +10,7 @@ namespace CAESDO.Esra.Web
     {
         public static readonly string KEY_CURRENT_SALARY_SCALE = "CurrentSalaryScale";
 
-        protected Core.Domain.SalaryScale CurrentSalaryScale
+        protected CAESDO.Esra.Core.Domain.SalaryScale CurrentSalaryScale
         {
             get { return ViewState[KEY_CURRENT_SALARY_SCALE] as Core.Domain.SalaryScale; }
             set { ViewState.Add(KEY_CURRENT_SALARY_SCALE, value); }
