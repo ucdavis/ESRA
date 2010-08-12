@@ -78,7 +78,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'INSERT d
       ,[DeansOfficeComments]
       ,[YearsOfService]
       ,[TimeInTitle])
-SELECT TOP (100) PERCENT
+SELECT DISTINCT TOP (100) PERCENT
 	UCDEmployee.PkEmployee,
 	UCDEmployee.EmployeeID,
 	UCDEmployee.TC, 
