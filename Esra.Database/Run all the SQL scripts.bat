@@ -33,7 +33,7 @@ REM        "Run all the SQL scripts.bat" null script_path
    IF %1.==null set server=donbot
    IF %2.==. set script_path=%USERPROFILE%\Documents\Visual Studio 2008\Projects\ESRA\Esra.Database
   
-  echo Starting to ESRA database and load data...
+  echo Starting to create ESRA database and load data...
   SQLCMD -S %server% -i "%script_path%\Create ESRA database and Populate with data.sql" -e -o "%script_path%\Create ESRA database and Populate with data.log"
   echo Finished creating ESRA database and loading data.
   echo Creating SQL Server Agent job: ESRA dbo.Employee_TimeLenghtsRefresher
