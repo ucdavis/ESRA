@@ -13,7 +13,6 @@ Begin DataProject = "Esra.Database"
       Begin Folder = "Insert Data"
       End
       Begin Folder = "SQL Server Agent Jobs"
-         Script = "Create SS Agent Job ESRA dbo.Employee_TimeLenghtsRefresher.sql"
       End
       Begin Folder = "Tables"
          Script = "dbo.UCDEmployee_AddIns (We still might need this.).sql"
@@ -21,6 +20,7 @@ Begin DataProject = "Esra.Database"
       Begin Folder = "Views"
       End
    End
+   Script = "Create SS Agent Job ESRA dbo.Employee_TimeLenghtsRefresher.sql"
    Begin Folder = "Database Diagrams"
       Node = "Esra with updates and ChangeType.vsd"
    End
