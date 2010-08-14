@@ -29,7 +29,7 @@ REM        "Run all the SQL scripts.bat" null script_path
    
    set server=%1
    set script_path=%2
-   IF %1.==. OR %1.==null set server=donbot
+   IF %1.==. set server=donbot
    IF %1==null set server=donbot
    IF %2.==. set script_path=%USERPROFILE%\Documents\Visual Studio 2008\Projects\ESRA\Esra.Database
   
