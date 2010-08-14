@@ -25,7 +25,7 @@ REM Updated to accept database server name as param 1, and file path as param 2.
 REM Usage: "Run all the SQL scripts.bat" [database_server] [script_path]
 REM        "Run all the SQL scripts.bat" null script_path
 
-REM echo off
+   echo off
    
    set server=%1
    set script_path=%2
