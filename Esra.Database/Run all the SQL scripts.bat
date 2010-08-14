@@ -37,8 +37,8 @@ REM        "Run all the SQL scripts.bat" null script_path
   SQLCMD -S %server% -i "%script_path%\Create ESRA database and Populate with data.sql" -e -o "%script_path%\Create ESRA database and Populate with data.log"
   echo Finished creating ESRA database and loading data.
   echo Creating SQL Server Agent job: ESRA dbo.Employee_TimeLenghtsRefresher
-  SQLCMD -S %server% -i "%script_path%\Create SS Agent Job ESRA dbo.Employee_TimeLenghtsRefresher.sql" -e -o "%script_path%\ESRA Create SS Agent Job output.log"
-  echo "Finished creating SQL Server Agent job: ESRA dbo.Employee_TimeLenghtsRefresher"
-  echo "Starting ESRA dbo.Employee_TimeLenghtsRefresher SQL Server Agent job."
+  SQLCMD -S %server% -i "%script_path%\Create SS Agent Job ESRA dbo.Employee_TimeLenghtsRefresher.sql" -e -o "%script_path%\Create SS Agent Job ESRA dbo.Employee_TimeLenghtsRefresher.log"
+  echo Finished creating SQL Server Agent job: ESRA dbo.Employee_TimeLenghtsRefresher
+  echo Starting ESRA dbo.Employee_TimeLenghtsRefresher SQL Server Agent job.
   SQLCMD -S %server% -Q "USE msdb; DECLARE @return_value int; EXEC @return_value = dbo.sp_start_job @job_name = [ESRA.dbo.Employee_TimeLengthsRefresher], @server_name= %server%; SELECT 'Return Value ' = CASE @return_value WHEN 0 THEN '0 - Success' ELSE '1 - Failure' END"
-  echo "ESRA dbo.Employee_TimeLenghtsRefresher SQL Server Agent job has started but will need time to complete running."
+  echo ESRA dbo.Employee_TimeLenghtsRefresher SQL Server Agent job has started but will need time to complete running.
