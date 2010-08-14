@@ -25,12 +25,12 @@ REM Updated to accept database server name as param 1, and file path as param 2.
 REM Usage: "Run all the SQL scripts.bat" [database_server] [script_path]
 REM        "Run all the SQL scripts.bat" null script_path
 
-   echo off
+REM echo off
    
    set server=%1
    set script_path=%2
    IF %1.==. set server=donbot
-   IF %1==null set server=donbot
+   IF %1.==null set server=donbot
    IF %2.==. set script_path=%USERPROFILE%\Documents\Visual Studio 2008\Projects\ESRA\Esra.Database
   
   echo Starting to ESRA database and load data...
