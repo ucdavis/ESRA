@@ -7,6 +7,11 @@ Begin DataProject = "Esra.Database"
    SccAuxPath = "SAK"
    SccProvider = "SAK"
    Begin Folder = "Change Scripts"
+      Begin Folder = "Views"
+         Script = "AllUCDEmployees.sql"
+         Script = "Departments.sql"
+         Script = "UCDEmployee.sql"
+      End
    End
    Script = "Create ESRA database and Populate with data.sql"
    Begin Folder = "Create Scripts"
