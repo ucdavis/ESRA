@@ -32,8 +32,22 @@
     <EnableUpdateable>true</EnableUpdateable>
     <UseMerge>true</UseMerge>
     <SingleAssemblyName>Esra.Web.csproj_deploy</SingleAssemblyName>
+    <UseWebConfigReplacement>true</UseWebConfigReplacement>
+    <UseExernalWebConfigReplacementFile>false</UseExernalWebConfigReplacementFile>
+    <ValidateWebConfigReplacement>false</ValidateWebConfigReplacement>
   </PropertyGroup>
   <ItemGroup>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <WebConfigReplacementFiles Include="applicationsettings.config">
+      <Section>applicationSettings/Esra.Web.Properties.Settings</Section>
+    </WebConfigReplacementFiles>
+    <WebConfigReplacementFiles Include="appsettings.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
+    <WebConfigReplacementFiles Include="connectstrings.config">
+      <Section>connectionStrings</Section>
+    </WebConfigReplacementFiles>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
