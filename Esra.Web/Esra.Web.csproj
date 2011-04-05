@@ -278,6 +278,8 @@
     <Content Include="SalaryGradeQuartiles_UserInputForm.aspx" />
     <Content Include="SalaryReviewAnalysisEditor.aspx" />
     <Content Include="TitleCode_UserInputForm.aspx" />
+    <None Include="connectstrings.config" />
+    <None Include="appsettings.config" />
     <None Include="Web References\CatOps\catbertwebservice.disco" />
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +299,10 @@
     <Reference Include="CAESArch.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=667f3cb07abadf4b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\CAESArch.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CAESDO.Esra.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CAESDO.Esra.Core\bin\Debug\CAESDO.Esra.Core.dll</HintPath>
     </Reference>
     <Reference Include="CAESOps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -335,10 +341,6 @@
       <Project>{6CA7EB51-4A95-4270-8A92-DA22BC67E4C4}</Project>
       <Name>CAESDO.Esra.BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CAESDO.Esra.Core\CAESDO.Esra.Core.csproj">
-      <Project>{0E6DB3B4-00A0-4C1F-9B33-C8412E349806}</Project>
-      <Name>CAESDO.Esra.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CAESDO.Esra.Data\CAESDO.Esra.Data.csproj">
       <Project>{3D25136A-064D-4B0D-9E2D-7CA0D057DBF2}</Project>
       <Name>CAESDO.Esra.Data</Name>
@@ -348,6 +350,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="applicationSettings.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
