@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Esra.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApplicationController
     {
         public ActionResult Index()
         {
@@ -16,6 +16,11 @@ namespace Esra.Web.Controllers
         }
 
         public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Sample()
         {
             return View();
         }
