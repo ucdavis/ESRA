@@ -1,0 +1,60 @@
+﻿@model Esra.Core.Domain.SalaryScale
+
+@{
+    ViewBag.Title = "SalaryScaleDetails";
+}
+
+<h2>SalaryScaleDetails</h2>
+
+
+@section SubNav
+{
+	<ul class="navigation">
+					<li>@Html.ActionLink("Edit", "Edit", new { id=Model.Id }) </li>
+			<li>@Html.ActionLink("Back to List", "Index")</li>
+			</ul>
+}
+
+<fieldset class="display-form">
+    <legend>SalaryScale</legend>
+	<ul>
+		<li>
+			<div class="display-label">TitleCode</div>
+			<div class="display-details">@Model.TitleCode</div>
+		</li>
+		<li>
+			<div class="display-label">EffectiveDate</div>
+			<div class="display-details">@String.Format("{0:g}", Model.EffectiveDate)</div>
+		</li>
+		<li>
+			<div class="display-label">SalaryGrade</div>
+			<div class="display-details">@Model.SalaryGrade</div>
+		</li>
+		<li>
+			<div class="display-label">BargainingCode</div>
+			<div class="display-details">@Model.BargainingCode</div>
+		</li>
+		<li>
+			<div class="display-label">NumSalarySteps</div>
+			<div class="display-details">@Model.NumSalarySteps</div>
+		</li>
+		<li>
+			<div class="display-label">LaborMarketWAS</div>
+			<div class="display-details">@String.Format("{0:F}", Model.LaborMarketWAS)</div>
+		</li>
+		<li>
+			<div class="display-label">LaborMarketMidAnnual</div>
+			<div class="display-details">@String.Format("{0:F}", Model.LaborMarketMidAnnual)</div>
+		</li>
+		<li>
+			<div class="display-label">CollegeAverageAnnual</div>
+			<div class="display-details">@String.Format("{0:F}", Model.CollegeAverageAnnual)</div>
+		</li>
+		<li>
+			<div class="display-label">CampusAverageAnnual</div>
+			<div class="display-details">@String.Format("{0:F}", Model.CampusAverageAnnual)</div>
+		</li>
+	</ul>
+</fieldset>
+
+

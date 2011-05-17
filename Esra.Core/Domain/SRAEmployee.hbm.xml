@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="CAESDO.Esra.Core.Domain.SRAEmployee, CAESDO.Esra.Core" table="SRAEmployee">
+
+    <id name="ID" access="nosetter.lowercase" column="PkSRAEmployee" unsaved-value="0">
+      <generator class="identity">
+
+      </generator>
+    </id>
+
+    <property name="DatesHaveBeenAdjusted" column="DatesHaveBeenAdjusted" />
+    
+    <property name="HireDate" column="HireDate"/>
+    <property name="CareerHireDate" column="CareerHireDate" />
+    <property name="PPSCareerHireDateChecked" column="PPSCareerHireDateChecked" />
+    
+    <property name="BeginDate" column="BeginDate"/>
+    <property name="ApptHireDate" column="ApptHireDate" />
+    <property name="PPSApptHireDateChecked" column="PPSApptHireDateChecked" />
+    
+    <property name="ExperienceBeginDate" column="ExperienceBeginDate" />
+    <property name="DepartmentComments" column="DepartmentComments" />
+    <property name="DeansOfficeComments" column="DeansOfficeComments"/>
+    <property name="YearsOfService" column="YearsOfService"/>
+    <property name="TimeInTitle" column="TimeInTitle"/>
+    <property name="YearsOfExperience" column="YearsOfExperience"/>
+
+    <property name="PkEmployee" column="PkEmployee"/>
+    <property name="Created" column="Created" />
+    <property name="EmployeeID" column="EmployeeID"/>
+    <property name="PayRate" column="PayRate"/>
+    <property name="SalaryGrade" column="SalaryGrade"/>
+    <property name="SalaryStep" column="SalaryStep"/>
+    <property name="BargainingUnitCode" column="BargainingUnit"/>
+
+    <property name="FullName" column="FullName"/>
+    <property name="FirstName" column="FirstName"/>
+    <property name="MiddleName" column="MiddleName"/>
+    <property name="LastName" column="LastName"/>
+
+    <many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"  insert="false" update="false" column="TitleCode" foreign-key="TitleCode"/>
+    <property name="TitleCode" column="TitleCode" />
+
+    <many-to-one name="AdminDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="AdminDepartmentID"  insert="false" update="false"/>
+    <property name="AdminDepartmentID" column="AdminDepartmentID"/>
+
+    <many-to-one name="HomeDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="HomeDepartmentID"  insert="false" update="false"/>
+    <property name="HomeDepartmentID" column="HomeDepartmentID"/>
+
+    <many-to-one name="WorkDepartment" class="CAESDO.Esra.Core.Domain.Department, CAESDO.Esra.Core" column="WorkDepartmentID"  insert="false" update="false"/>
+    <property name="WorkDepartmentID" column="WorkDepartmentID"/>
+
+    <property name="Different" column="Different"/>
+
+    <many-to-one name="CorrespondingAnalysis"
+                 class="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core"
+                 column="SalaryReviewAnalysisID"  foreign-key="SalaryReviewAnalysisID" update="false" insert="false"/>
+    <property name="CorrespondingAnalysisID" column="SalaryReviewAnalysisID"/>
+  </class>
+</hibernate-mapping>
+
