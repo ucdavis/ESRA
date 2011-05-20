@@ -15,7 +15,7 @@
     
     <!--Set Title insert="false"; update="false" in order to be able to save the SalaryScale; otherwise TitleCode 
     shows up twice in the result list!-->
-		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false">
+		<many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core" insert="false" update="false" fetch="join">
 			<column name="TitleCode"/>
 		</many-to-one>
 

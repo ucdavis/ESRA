@@ -96,6 +96,7 @@ namespace CAESDO.Esra.Web
 
         public ApplicationPage()
         {
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
         }
 
         public IDaoFactory daoFactory
