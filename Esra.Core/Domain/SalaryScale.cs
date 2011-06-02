@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -155,6 +156,45 @@ namespace Esra.Core.Domain
 
         public SalaryScale()
         {
+        }
+    }
+
+    public class SalaryScaleMap : ClassMap<SalaryScale>
+    {
+        public SalaryScaleMap()
+        {
+            Table("SalaryScale");
+            CompositeId()
+               .KeyProperty(x => x.TitleCode)
+               .KeyProperty(x => x.EffectiveDate)
+               .UnsavedValue("any");
+
+            References(x => x.Title, "TitleCode")
+                .Cascade.None()
+                .Not.Insert()
+                .Not.Update();
+
+            Map(x => x.TitleCode).Not.Update().Not.Insert();
+            Map(x => x.EffectiveDate).Not.Update().Not.Insert();
+            Map(x => x.SalaryGrade);
+            Map(x => x.BargainingCode);
+            Map(x => x.NumSalarySteps);
+            Map(x => x.LaborMarketWAS);
+            Map(x => x.LaborMarketMidAnnual);
+            Map(x => x.CollegeAverageAnnual, "CollegeAvgAnnual");
+            Map(x => x.CampusAverageAnnual, "CampusAvgAnnual");
+
+            References(x => x.SalaryGradeQuartiles)
+                .Columns("SalaryGrade", "EffectiveDate")
+                .Not.Insert()
+                .Not.Update()
+                .Cascade.None();
+
+            HasMany(x => x.SalarySteps)
+                .KeyColumns.Add("TitleCode", "EffectiveDate")
+                .Inverse()
+                .Cascade.AllDeleteOrphan()
+                .OrderBy("Annual");
         }
     }
 }

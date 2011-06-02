@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -34,6 +35,21 @@ namespace Esra.Core.Domain
 
         public ApptType()
         {
+        }
+    }
+
+    public class ApptTypeMap : ClassMap<ApptType>
+    {
+        public ApptTypeMap()
+        {
+            Table("ApptType");
+            Id(x => x.Id, "ApptTypeID")
+                .UnsavedValue("0")
+                .GeneratedBy.Identity();
+
+            Map(x => x.Type);
+            Map(x => x.ShortType);
+            Map(x => x.Description);
         }
     }
 }

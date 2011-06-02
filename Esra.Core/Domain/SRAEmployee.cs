@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -422,6 +423,77 @@ namespace Esra.Core.Domain
             _WorkDepartmentID = emp.WorkDepartmentID;
             _WorkDepartment = emp.WorkDepartment;
             _Different = (bool)emp.Different;
+        }
+    }
+
+    public class SRAEmployeeMap : ClassMap<SRAEmployee>
+    {
+        public SRAEmployeeMap()
+        {
+            Table("SRAEmployee");
+
+            Id(x => x.Id, "PkSRAEmployee")
+               .UnsavedValue("0")
+               .GeneratedBy.Identity();
+
+            Map(x => x.DatesHaveBeenAdjusted);
+
+            Map(x => x.HireDate);
+            Map(x => x.CareerHireDate);
+            Map(x => x.PPSCareerHireDateChecked);
+
+            Map(x => x.BeginDate);
+            Map(x => x.ApptHireDate);
+            Map(x => x.PPSApptHireDateChecked);
+
+            Map(x => x.ExperienceBeginDate);
+            Map(x => x.DepartmentComments);
+            Map(x => x.DeansOfficeComments);
+            Map(x => x.YearsOfService);
+            Map(x => x.TimeInTitle);
+            Map(x => x.YearsOfExperience);
+
+            Map(x => x.PkEmployee);
+            Map(x => x.Created);
+            Map(x => x.EmployeeID);
+            Map(x => x.PayRate);
+            Map(x => x.SalaryGrade);
+            Map(x => x.SalaryStep);
+            Map(x => x.BargainingUnitCode);
+
+            Map(x => x.FullName);
+            Map(x => x.FirstName);
+            Map(x => x.MiddleName);
+            Map(x => x.LastName);
+
+            References(x => x.Title, "TitleCode")
+                .Not.Insert()
+                .Not.Update()
+                .ForeignKey("TitleCode");
+            Map(x => x.TitleCode);
+
+            References(x => x.AdminDepartment, "AdminDepartmentID")
+                .Not.Insert()
+                .Not.Update();
+            Map(x => x.AdminDepartmentID);
+
+            References(x => x.HomeDepartment, "HomeDepartmentID")
+               .Not.Insert()
+               .Not.Update();
+            Map(x => x.HomeDepartmentID);
+
+            References(x => x.WorkDepartment, "WorkDepartmentID")
+              .Not.Insert()
+              .Not.Update();
+            Map(x => x.WorkDepartmentID);
+
+            Map(x => x.Different);
+
+            References(x => x.CorrespondingAnalysis, "SalaryReviewAnalysisID")
+                .ForeignKey("SalaryReviewAnalysisID")
+                .Not.Insert()
+                .Not.Update();
+            Map(x => x.CorrespondingAnalysisID);
         }
     }
 }

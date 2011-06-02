@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.SalaryStep, CAESDO.Esra.Core" table="SalarySteps" dynamic-update="true">
-		<!--<id name="ID" access="nosetter.lowercase" column="SalaryScaleID" unsaved-value="0">
+  <class name="Esra.Core.Domain.SalaryStep, Esra.Core" table="SalarySteps" dynamic-update="true">
+    <!--<id name="Id" column="SalaryScaleID" unsaved-value="0">
 			<generator class="identity" />
 		</id>-->
-		
-		<composite-id unsaved-value="any">
-			<key-property name="TitleCode" column="TitleCode"/>
-			<key-property name="EffectiveDate" column="EffectiveDate"/>
-			<key-property name="StepNumber" column="Step"/>
-		</composite-id>
-		
-		<property name="TitleCode" column="TitleCode" insert="false" update="false"/>
-		<property name="EffectiveDate" column="EffectiveDate" insert="false" update="false"/>
-		<property name="StepNumber" column ="Step" insert="false" update="false"/>
-		<property name="Annual" column="Annual" />
-		<property name="Monthly" column="Monthly" />
-		<property name="Hourly" column="Hourly" />
 
-		<many-to-one name="SalaryScale" class="CAESDO.Esra.Core.Domain.SalaryScale, CAESDO.Esra.Core" 
+    <composite-id unsaved-value="any">
+      <key-property name="TitleCode" column="TitleCode"/>
+      <key-property name="EffectiveDate" column="EffectiveDate"/>
+      <key-property name="StepNumber" column="Step"/>
+    </composite-id>
+
+    <property name="TitleCode" column="TitleCode" insert="false" update="false"/>
+    <property name="EffectiveDate" column="EffectiveDate" insert="false" update="false"/>
+    <property name="StepNumber" column ="Step" insert="false" update="false"/>
+    <property name="Annual" column="Annual" />
+    <property name="Monthly" column="Monthly" />
+    <property name="Hourly" column="Hourly" />
+
+    <many-to-one name="SalaryScale" class="Esra.Core.Domain.SalaryScale, Esra.Core"
                  insert="false" update="false" cascade="none" unique="true">
-			<column name="TitleCode"/>
-			<column name="EffectiveDate"/>
-		</many-to-one>
+      <column name="TitleCode"/>
+      <column name="EffectiveDate"/>
+    </many-to-one>
 
-    <many-to-one name="Title" class="CAESDO.Esra.Core.Domain.Title, CAESDO.Esra.Core"
+    <many-to-one name="Title" class="Esra.Core.Domain.Title, Esra.Core"
                  insert="false" update="false" cascade="none" unique="true">
       <column name="TitleCode"/>
     </many-to-one>
-					
-	</class>
+
+  </class>
 </hibernate-mapping>

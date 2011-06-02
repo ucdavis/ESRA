@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -138,6 +139,49 @@ namespace Esra.Core.Domain
 
         public SalaryReviewAnalysis()
         {
+        }
+    }
+
+    public class SalaryReviewAnalysisMap : ClassMap<SalaryReviewAnalysis>
+    {
+        public SalaryReviewAnalysisMap()
+        {
+            Table("SalaryReviewAnalysis");
+
+            Id(x => x.Id, "SalaryReviewAnalysisID")
+               .UnsavedValue("0")
+               .GeneratedBy.Identity();
+
+            Map(x => x.ReferenceNumber);
+
+            References(x => x.Employee, "PkSRAEmployee")
+                .Cascade.All();
+
+            References(x => x.Title, "TitleCode").Not.Insert().Not.Update();
+
+            Map(x => x.CurrentTitleCode);
+            Map(x => x.DateApproved);
+            Map(x => x.DepartmentComments);
+            Map(x => x.DeansOfficeComments);
+            Map(x => x.InitiatedByReviewerName);
+
+            References(x => x.OriginatingDepartment, "DepartmentNumber");
+
+            References(x => x.ApprovedScenario, "ApprovedScenarioID").ForeignKey("ScenarioID");
+
+            HasMany(x => x.Scenarios)
+                .Table("Scenario")
+                .AsBag()
+                .KeyColumn("SalaryReviewAnalysisID")
+                .Inverse()
+                .Cascade.All();
+
+            References(x => x.SalaryScale)
+                .Columns("TitleCode", "EffectiveDate")
+                .Cascade.None()
+                .Not.Update();
+
+            Map(x => x.IsReclass);
         }
     }
 }

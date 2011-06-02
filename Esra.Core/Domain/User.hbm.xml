@@ -1,39 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class
-    name="CAESDO.Esra.Core.Domain.User, CAESDO.Esra.Core"
+  <class
+    name="Esra.Core.Domain.User, Esra.Core"
     table="Catbert3_vUsers" >
-		<id name="ID" access="nosetter.lowercase" column="UserID" unsaved-value="0">
-			<generator class="identity" />
-		</id>
+    <id name="Id" column="UserID" unsaved-value="0">
+      <generator class="identity" />
+    </id>
 
     <property name="LoginID" column="LoginID"/>
     <property name="Email" column="Email"/>
     <property name="Phone" column="Phone" />
-		<property name="FirstName" column="FirstName" />
-		<property name="LastName" column="LastName" />
-		<property name="EmployeeID" column="EmployeeID" />
-		<property name="StudentID" column="StudentID" />
+    <property name="FirstName" column="FirstName" />
+    <property name="LastName" column="LastName" />
+    <property name="EmployeeID" column="EmployeeID" />
+    <property name="StudentID" column="StudentID" />
     <property name="UserImage" column="UserImage" />
     <property name="SID" column="SID" />
-		<!--<property name="Inactive" column="Inactive" />-->
-		<property name="UserKey" column="UserKey" />
-    
+    <!--<property name="Inactive" column="Inactive" />-->
+    <property name="UserKey" column="UserKey" />
 
-		<!--<bag name="LoginIDs" table="Catbert3_vLogin" inverse="true">
+    <!--<bag name="LoginIDs" table="Catbert3_vLogin" inverse="true">
 			<key column="UserID" />
-			<one-to-many class="CAESDO.Esra.Core.Domain.Login, CAESDO.Esra.Core" />
+			<one-to-many class="Esra.Core.Domain.Login, Esra.Core" />
 		</bag>-->
 
-		<bag name="Units" table="Catbert3_vUserUnit" >
+    <bag name="Units" table="Catbert3_vUserUnit" >
       <key column="UserID"/>
-      <many-to-many column="UnitID" class="CAESDO.Esra.Core.Domain.Unit, CAESDO.Esra.Core" />
-		</bag>
+      <many-to-many column="UnitID" class="Esra.Core.Domain.Unit, Esra.Core" />
+    </bag>
 
     <bag name="Roles" table="Catbert3_vUserRoles" >
       <key column="UserID"/>
-      <many-to-many column="RoleID" class="CAESDO.Esra.Core.Domain.Roles, CAESDO.Esra.Core" />
+      <many-to-many column="RoleID" class="Esra.Core.Domain.Roles, Esra.Core" />
     </bag>
 
-	</class>
+  </class>
 </hibernate-mapping>

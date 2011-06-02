@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -22,6 +23,24 @@ namespace Esra.Core.Domain
 
         public EmployeeChanges()
         {
+        }
+    }
+
+    public class EmployeeChangesMap : ClassMap<EmployeeChanges>
+    {
+        public EmployeeChangesMap()
+        {
+            Id(x => x.Id, "EmployeeChangesID")
+               .UnsavedValue("0")
+               .GeneratedBy.Identity();
+
+            Map(x => x.EmployeeID, "FkEmployee").Not.Insert().Not.Update();
+            References(x => x.Employee, "FkEmployee").ForeignKey("PkEmployee");
+            References(x => x.Title, "TitleCode").ForeignKey("TitleCode");
+            References(x => x.User, "UserID").ForeignKey("UserID");
+            References(x => x.ChangeType, "ChangeTypeID").ForeignKey("ChangeTypeID");
+            Map(x => x.DateChanged);
+            Map(x => x.Comments);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 //using CAESArch.Core.Domain;
@@ -116,6 +117,38 @@ namespace Esra.Core.Domain
 
         public SalaryStep()
         {
+        }
+    }
+
+    public class SalaryStepMap : ClassMap<SalaryStep>
+    {
+        public SalaryStepMap()
+        {
+            Table("SalarySteps");
+            CompositeId()
+                .KeyProperty(x => x.TitleCode)
+                .KeyProperty(x => x.EffectiveDate)
+                .KeyProperty(x => x.StepNumber, "Step")
+                .UnsavedValue("any");
+
+            Map(x => x.TitleCode).Not.Update().Not.Insert();
+            Map(x => x.EffectiveDate).Not.Update().Not.Insert();
+            Map(x => x.StepNumber).Column("Step").Not.Update().Not.Insert();
+            Map(x => x.Annual);
+            Map(x => x.Monthly);
+            Map(x => x.Hourly);
+
+            References(x => x.SalaryScale)
+                .Not.Insert()
+                .Not.Update()
+                .Cascade.None()
+                .Unique()
+                .Columns("TitleCode", "EffectiveDate");
+
+            References(x => x.Title, "TitleCode")
+                .Not.Insert()
+                .Not.Update()
+                .Cascade.None();
         }
     }
 }

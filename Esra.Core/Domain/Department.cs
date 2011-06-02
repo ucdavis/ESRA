@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -77,6 +78,30 @@ namespace Esra.Core.Domain
 
         public Department()
         {
+        }
+    }
+
+    public class DepartmentMap : ClassMap<Department>
+    {
+        public DepartmentMap()
+        {
+            Id(x => x.Id, "DepartmentNumber")
+               .UnsavedValue("0")
+               .GeneratedBy.Assigned()
+               .CustomType("string")
+               .Length(6);
+
+            Map(x => x.DepartmentNumber);
+            Map(x => x.Name);
+            Map(x => x.ShortName);
+            Map(x => x.SchoolCode);
+
+            HasMany(x => x.Employees)
+                .Table("UCDEmployees")
+                .AsBag()
+                .Inverse()
+                .Cascade.None()
+                .KeyColumn("HomeDept");
         }
     }
 }

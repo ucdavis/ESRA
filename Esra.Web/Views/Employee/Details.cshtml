@@ -1,0 +1,31 @@
+﻿@model Esra.Web.Controllers.EmployeeViewModel
+@{
+    ViewBag.Title = "Employee Details";
+}
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+<div id="drop-down-lists">
+    @Html.Partial("_EmployeeTitleDepartmentSelectLists")
+</div>
+<fieldset class="display-form">
+    <div id="result">
+        @{
+            if (Model.Employees == null)
+            {
+            <fieldset>
+                <h3>
+                    No Employees Found</h3>
+            </fieldset>
+            }
+            else
+            {
+            @Html.Partial("_Employee")
+            }
+        }
+    </div>
+</fieldset>

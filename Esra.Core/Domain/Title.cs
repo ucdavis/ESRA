@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -70,6 +71,31 @@ namespace Esra.Core.Domain
 
         public Title()
         {
+        }
+    }
+
+    public class TitleMap : ClassMap<Title>
+    {
+        public TitleMap()
+        {
+            Table("Title");
+
+            Id(x => x.Id, "TitleCode")
+               .UnsavedValue("0")
+               .CustomType("string")
+               .Length(4)
+               .GeneratedBy.Assigned();
+
+            Map(x => x.TitleCode);
+            Map(x => x.PayrollTitle);
+            Map(x => x.AbbreviatedName);
+
+            HasMany(x => x.SalaryScales)
+                .Table("SalaryScale")
+                .AsBag()
+                .KeyColumn("TitleCode")
+                .Inverse()
+                .Cascade.None();
         }
     }
 }

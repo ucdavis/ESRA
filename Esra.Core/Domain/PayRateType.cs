@@ -1,9 +1,12 @@
-﻿using UCDArch.Core.DomainModel;
+﻿using FluentNHibernate.Mapping;
+using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
 {
     public class PayRateType : DomainObject
     {
+        //public virtual int id { get { return Id; } }
+
         private string _Type;
 
         // i.e. Hourly, Annually, Monthly.
@@ -32,6 +35,22 @@ namespace Esra.Core.Domain
 
         public PayRateType()
         {
+        }
+    }
+
+    public class PayRateTypeMap : ClassMap<PayRateType>
+    {
+        public PayRateTypeMap()
+        {
+            Table("PayRateType");
+
+            Id(x => x.Id, "PayRateTypeID")
+                .UnsavedValue("0")
+                .GeneratedBy.Identity();
+
+            Map(x => x.Type);
+            Map(x => x.ShortType);
+            Map(x => x.Description);
         }
     }
 }

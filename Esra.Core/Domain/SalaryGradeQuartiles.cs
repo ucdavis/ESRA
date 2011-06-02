@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -179,6 +180,33 @@ namespace Esra.Core.Domain
 
         public SalaryGradeQuartiles()
         {
+        }
+    }
+
+    public class SalaryGradeQuartilesMap : ClassMap<SalaryGradeQuartiles>
+    {
+        public SalaryGradeQuartilesMap()
+        {
+            Table("SalaryGradeMatrix");
+            CompositeId()
+                .KeyProperty(x => x.SalaryGrade)
+                .KeyProperty(x => x.EffectiveDate)
+                .UnsavedValue("any");
+
+            HasMany(x => x.SalaryScales)
+               .Table("SalaryScale")
+               .AsBag()
+               .Inverse()
+               .Cascade.None()
+               .KeyColumns.Add("SalaryGrade", "EffectiveDate");
+
+            Map(x => x.SalaryGrade).Not.Update().Not.Insert();
+            Map(x => x.MinAnnual);
+            Map(x => x.FirstQrtleAnnual);
+            Map(x => x.MidAnnual);
+            Map(x => x.ThirdQrtleAnnual);
+            Map(x => x.MaxAnnual);
+            Map(x => x.EffectiveDate).Not.Update().Not.Insert();
         }
     }
 }

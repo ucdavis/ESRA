@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.PayRateType, CAESDO.Esra.Core" table="PayRateType" dynamic-update="true">
-		<id name="ID" access="nosetter.lowercase" column="PayRateTypeID" unsaved-value="0">
-			<generator class="identity" />
-		</id>
-		<property name="Type" column="Type" />
-		<property name="ShortType" column="ShortType" />
-		<property name="Description" column="Description" />
-	</class>
+  <class name="Esra.Core.Domain.PayRateType, Esra.Core" table="PayRateType" dynamic-update="true">
+    <id name="Id" column="PayRateTypeID" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="Type" column="Type" />
+    <property name="ShortType" column="ShortType" />
+    <property name="Description" column="Description" />
+  </class>
 </hibernate-mapping>

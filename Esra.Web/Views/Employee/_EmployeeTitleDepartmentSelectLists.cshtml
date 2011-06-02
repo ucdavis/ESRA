@@ -1,0 +1,79 @@
+﻿@model Esra.Web.Controllers.EmployeeViewModel
+
+<div>
+     @using (Html.BeginForm("Details", "Employee", FormMethod.Get))
+     {
+            <ul>
+                <li>
+                    <div class="editor-field" >
+                        @Html.ListBoxFor(x => x.SelectedTitleCodes,
+                            new MultiSelectList(Model.TitlesList,
+                            "TitleCode",
+                            "PayrollTitle_TitleCode",
+                            Model.SelectedTitles)
+                        )
+                    </div>
+                </li>
+
+                <li>
+                    <div class="editor-field" >
+                        @Html.ListBoxFor(x => x.SelectedTitleCodes,
+                            new MultiSelectList(Model.TitleCodesList,
+                            "TitleCode",
+                            "TitleCode",
+                            Model.SelectedTitles)
+
+                        )
+                    </div>
+                </li>
+
+                <li>
+                    <div class="editor-field" >
+                        @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
+                        new MultiSelectList(Model.DepartmentsList,
+                        "DepartmentNumber",
+                        "Name_DepartmentNumber",
+                        Model.SelectedDepartments)
+                        )
+                    </div>
+                </li>
+
+                <li>
+                    <div class="editor-field" >
+                        @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
+                            new MultiSelectList(Model.DepartmentCodesList,
+                            "DepartmentNumber",
+                            "DepartmentNumber",
+                            Model.SelectedDepartments)
+                            )
+                    </div>
+                </li>
+
+                @*<li>
+                    <div class="editor-field" >
+                        @Html.DropDownListFor(x => x.SelectedEmployee,
+                        new SelectList(Model.EmployeesList,
+                        "EmployeeID",
+                        "FullName",
+                         Model.Employee != null ? Model.Employee.EmployeeID.ToString() : string.Empty),
+                        "--Any Employee(s)--"
+                        )
+                    </div>
+                </li>*@
+
+            </ul>
+
+              <input type="submit" value="Get Employee(s)" />
+ }
+
+    <script type="text/javascript" \>
+
+        $('submit').change(function () {
+            var selectedText = $(this).find('option:selected').text();
+            $('#result').html(selectedText);
+            $(this).parents('form').submit();
+        });
+
+       </script>
+
+</div>

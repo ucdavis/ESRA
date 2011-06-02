@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
 using Esra.Web.Controllers;
@@ -13,7 +9,7 @@ using UCDArch.Web.ModelBinder;
 
 namespace Esra.Web
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode,
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication
@@ -32,7 +28,6 @@ namespace Esra.Web
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
@@ -50,7 +45,7 @@ namespace Esra.Web
 
             AutomapperConfig.Configure();
 
-            //NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(Customer).Assembly);
+            //NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(UCDEmployee).Assembly);
 
             IWindsorContainer container = InitializeServiceLocator();
         }

@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-	<class name="CAESDO.Esra.Core.Domain.Scenario, CAESDO.Esra.Core" table="Scenario" dynamic-update="true">
-		<id name="ID" access="nosetter.lowercase" column="ScenarioID" unsaved-value="0">
-			<generator class="identity" />
-		</id>
-		
-		<property name="ScenarioNumber" column="ScenarioNumber"/>
-		<property name="PercentIncrease" column="PercentIncrease" />
-		<property name="SalaryAmount" column="SalaryAmount" />
-		<property name="Approved" column="Approved"/>
+  <class name="Esra.Core.Domain.Scenario, Esra.Core" table="Scenario" dynamic-update="true">
+    <id name="Id" column="ScenarioID" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+
+    <property name="ScenarioNumber" column="ScenarioNumber"/>
+    <property name="PercentIncrease" column="PercentIncrease" />
+    <property name="SalaryAmount" column="SalaryAmount" />
+    <property name="Approved" column="Approved"/>
     <property name="SalaryReviewAnalysisID" column="SalaryReviewAnalysisID" update="false" insert="false"/>
     <property name="SelectionType" column="SelectionType"/>
-		<many-to-one name="SalaryReviewAnalysis" class="CAESDO.Esra.Core.Domain.SalaryReviewAnalysis, CAESDO.Esra.Core" column="SalaryReviewAnalysisID"/>
-    
-    </class>
+    <many-to-one name="SalaryReviewAnalysis" class="Esra.Core.Domain.SalaryReviewAnalysis, Esra.Core" column="SalaryReviewAnalysisID"/>
+
+  </class>
 </hibernate-mapping>

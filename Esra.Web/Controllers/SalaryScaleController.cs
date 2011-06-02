@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Data.NHibernate;
 
 namespace Esra.Web.Controllers
 {
@@ -23,9 +25,20 @@ namespace Esra.Web.Controllers
         // GET: /SalaryScale/
         public ActionResult Index()
         {
-            var salaryScaleList = _salaryScaleRepository.Queryable;
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
 
-            return View(salaryScaleList.ToList());
+            salaryScaleModel.Titles = Repository.OfType<Title>()
+                                  .Queryable
+                                  .OrderBy(t => t.AbbreviatedName)
+                // .ThenBy(t => t.TitleCode)
+                                  .ToList();
+
+            salaryScaleModel.TitleCodes = Repository.OfType<Title>()
+                       .Queryable
+                       .OrderBy(t => t.TitleCode)
+                       .ToList();
+
+            return View(salaryScaleModel);
         }
 
         //
@@ -43,15 +56,112 @@ namespace Esra.Web.Controllers
         // GET: /SalaryScale/Details?TitleCode=4001
         public ActionResult Details(string titleCode)
         {
-            //var salaryScale = _salaryScaleRepository.Queryable
+            //ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(TypeOf(SalaryScale))
+            //    .SetFetchMode("SalarySteps", FetchMode.Eager);
+
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
+
+            salaryScaleModel.TitleCode = titleCode;
+
+            salaryScaleModel.Titles = Repository.OfType<Title>()
+                                  .Queryable
+                                  .OrderBy(t => t.AbbreviatedName)
+                // .ThenBy(t => t.TitleCode)
+                                  .ToList();
+
+            salaryScaleModel.TitleCodes = Repository.OfType<Title>()
+                       .Queryable
+                       .OrderBy(t => t.TitleCode)
+                       .ToList();
+
+            var salaryScale = _salaryScaleRepository.Queryable
+                .Where(r => r.TitleCode == titleCode)
+                .FirstOrDefault();
+            //var salaryScale = Repository.OfType<SalaryScale>()
+            //    .Queryable
             //    .Where(r => r.TitleCode == titleCode)
             //    .FirstOrDefault();
 
-            var salaryScale = _salaryScaleRepository.Queryable.FirstOrDefault();
+            if (salaryScale != null)
+            {
+                salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                    .Queryable
+                    .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    .ToList();
 
-            if (salaryScale == null) return RedirectToAction("Index");
+                salaryScaleModel.SalaryScale = salaryScale;
+            }
 
-            return View(salaryScale);
+            //var titles = Repository.OfType<Title>()
+            //                      .Queryable
+            //                      .Select(t => new { t.TitleCode, t.PayrollTitle })
+            //                      .OrderBy(t => t.PayrollTitle)
+            //                      .ToList() as IDictionary<string, string>;
+
+            //salaryScaleModel.Titles = Repository.OfType<Title>()
+            //                      .Queryable
+
+            //                      .OrderBy(t => t.PayrollTitle)
+            //                      .ToList();
+
+            //salaryScaleModel.TitleCodes = Repository.OfType<Title>()
+            //           .Queryable
+
+            //           .OrderBy(t => t.TitleCode)
+            //           .ToList();
+
+            //if (salaryScale == null) return RedirectToAction("Index");
+            //if (salaryScale == null)
+            //{
+            //    return RedirectToAction("Index");
+            //}
+            return View(salaryScaleModel);
+        }
+
+        public ActionResult _SalaryScale(string titleCode)
+        {
+            //ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(TypeOf(SalaryScale))
+            //    .SetFetchMode("SalarySteps", FetchMode.Eager);
+
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
+
+            var salaryScale = _salaryScaleRepository.Queryable
+                .Where(r => r.TitleCode == titleCode)
+                .FirstOrDefault();
+            //var salaryScale = Repository.OfType<SalaryScale>()
+            //    .Queryable
+            //    .Where(r => r.TitleCode == titleCode)
+            //    .FirstOrDefault();
+
+            if (salaryScale != null)
+            {
+                salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                    .Queryable
+                    .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    .ToList();
+
+                salaryScaleModel.SalaryScale = salaryScale;
+            }
+
+            //var titles = Repository.OfType<Title>()
+            //                      .Queryable
+            //                      .Select(t => new { t.TitleCode, t.PayrollTitle })
+            //                      .OrderBy(t => t.PayrollTitle)
+            //                      .ToList() as IDictionary<string, string>;
+
+            //salaryScaleModel.Titles = Repository.OfType<Title>()
+            //                      .Queryable
+
+            //                      .OrderBy(t => t.PayrollTitle)
+            //                      .ToList();
+
+            //salaryScaleModel.TitleCodes = Repository.OfType<Title>()
+            //           .Queryable
+
+            //           .OrderBy(t => t.TitleCode)
+            //           .ToList();
+
+            return PartialView(salaryScaleModel);
         }
 
         //
@@ -174,6 +284,14 @@ namespace Esra.Web.Controllers
     /// </summary>
     public class SalaryScaleViewModel
     {
+        public string TitleCode { get; set; }
+
+        public Title Title { get; set; }
+
+        public IList<Title> Titles { get; set; }
+
+        public IList<Title> TitleCodes { get; set; }
+
         public SalaryScale SalaryScale { get; set; }
 
         public static SalaryScaleViewModel Create(IRepository repository)

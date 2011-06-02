@@ -1,4 +1,5 @@
-﻿using UCDArch.Core.DomainModel;
+﻿using FluentNHibernate.Mapping;
+using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
 {
@@ -32,6 +33,21 @@ namespace Esra.Core.Domain
 
         public QuartileType()
         {
+        }
+    }
+
+    public class QuartileTypeMap : ClassMap<QuartileType>
+    {
+        public QuartileTypeMap()
+        {
+            Table("QuartileType");
+            Id(x => x.Id, "QuartileTypeID")
+               .UnsavedValue("0")
+               .GeneratedBy.Identity();
+
+            Map(x => x.Type);
+            Map(x => x.ShortType);
+            Map(x => x.Description);
         }
     }
 }

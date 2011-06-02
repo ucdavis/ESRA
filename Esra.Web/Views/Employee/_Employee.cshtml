@@ -1,0 +1,139 @@
+﻿@model Esra.Web.Controllers.EmployeeViewModel
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+<fieldset class="display-form">
+    <legend>Employee Salary Comparison</legend>
+    <ul>
+        <li>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="display-label">
+                                    Department Name</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Title<br />
+                                    Code</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Salary<br />
+                                    Grade</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Bargaining<br />
+                                    Unit</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Employee Name</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Hire Date</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Years<br />
+                                    of<br />
+                                    Service</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Begin Date<br />
+                                    (in Title)</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Time<br />
+                                    In<br />
+                                    Title</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Experience<br />
+                                    Begin Date</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Years Of<br />
+                                    Experience</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Pay Rate</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Department<br />
+                                    Comments</div>
+                            </td>
+                            <td>
+                                <div class="display-label">
+                                    Dean's<br />
+                                    Office<br />
+                                    Comments</div>
+                            </td>
+                        </tr>
+                        @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="display-details">@emp.HomeDepartment.ShortName</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.TitleCode</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.SalaryGrade</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.BargainingUnitCode</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.FullName</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:MM/dd/yyyy}", emp.HireDate)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:F}", emp.YearsOfService)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:MM/dd/yyyy}", emp.BeginDate)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:F}", emp.TimeInTitle)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:F}", emp.YearsOfExperience)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@String.Format("{0:c}", emp.PayRate)</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.DepartmentComments</div>
+                                </td>
+                                <td>
+                                    <div class="display-details">@emp.DeansOfficeComments</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+</fieldset>

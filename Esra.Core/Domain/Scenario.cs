@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -70,6 +71,25 @@ namespace Esra.Core.Domain
 
         public Scenario()
         {
+        }
+    }
+
+    public class ScenarioMap : ClassMap<Scenario>
+    {
+        public ScenarioMap()
+        {
+            Table("Scenario");
+            Id(x => x.Id, "ScenarioID")
+               .UnsavedValue("0")
+               .GeneratedBy.Identity();
+
+            Map(x => x.ScenarioNumber);
+            Map(x => x.PercentIncrease);
+            Map(x => x.SalaryAmount);
+            Map(x => x.Approved);
+            Map(x => x.SalaryReviewAnalysisID).Not.Update().Not.Insert();
+            Map(x => x.SelectionType);
+            References(x => x.SalaryReviewAnalysis, "SalaryReviewAnalysisID");
         }
     }
 }

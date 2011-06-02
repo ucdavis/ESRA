@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 
 namespace Esra.Core.Domain
 {
@@ -327,6 +328,31 @@ namespace Esra.Core.Domain
 
         public Employee()
         {
+        }
+    }
+
+    public class EmployeeMap : SubclassMap<Employee>
+    {
+        public EmployeeMap()
+        {
+            Table("Employee");
+
+            KeyColumn("PkEmployee");
+
+            Map(x => x.DatesHaveBeenAdjusted);
+
+            Map(x => x.CareerHireDate);
+            Map(x => x.PPSCareerHireDateChecked);
+
+            Map(x => x.ApptHireDate);
+            Map(x => x.PPSApptHireDateChecked);
+
+            Map(x => x.ExperienceBeginDate);
+            Map(x => x.DepartmentComments);
+            Map(x => x.DeansOfficeComments);
+            Map(x => x.YearsOfService);
+            Map(x => x.TimeInTitle);
+            Map(x => x.YearsOfExperience);
         }
     }
 }

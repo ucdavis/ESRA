@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -15,6 +16,21 @@ namespace Esra.Core.Domain
 
         public Login()
         {
+        }
+    }
+
+    public class LoginMap : ClassMap<Login>
+    {
+        public LoginMap()
+        {
+            Table("Catbert3_vLogin");
+
+            Id(x => x.Id, "LoginID")
+                .UnsavedValue("empty")
+                .GeneratedBy.Assigned();
+
+            References(x => x.User, "UserID")
+                .Not.Nullable();
         }
     }
 
@@ -94,6 +110,26 @@ namespace Esra.Core.Domain
         }
     }
 
+    public class UnitMap : ClassMap<Unit>
+    {
+        public UnitMap()
+        {
+            Table("Catbert3_vUnit");
+
+            Id(x => x.Id, "UnitID")
+                .UnsavedValue("0")
+                .GeneratedBy.Assigned();
+
+            Map(x => x.FullName);
+            Map(x => x.ShortName);
+            Map(x => x.PPSCode);
+            Map(x => x.FISCode);
+            Map(x => x.SchoolCode);
+
+            ReadOnly();
+        }
+    }
+
     [Serializable]
     public class Roles : DomainObject
     {
@@ -123,6 +159,20 @@ namespace Esra.Core.Domain
 
         public Roles()
         {
+        }
+    }
+
+    public class RolesMap : ClassMap<Roles>
+    {
+        public RolesMap()
+        {
+            Table("Catbert3_vRoles");
+
+            Id(x => x.Id, "RoleID")
+                .UnsavedValue("0")
+                .GeneratedBy.Assigned();
+
+            Map(x => x.Role);
         }
     }
 }

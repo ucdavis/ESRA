@@ -59,6 +59,15 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MvcContrib">
+      <HintPath>..\Bin\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.FluentHtml">
+      <HintPath>..\Bin\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.ByteCode.Spring">
       <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>
     </Reference>
@@ -89,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
@@ -127,6 +137,7 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Css\extended.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Css\images\ui-bg_glass_0_014a81_1x400.png" />
@@ -142,7 +153,7 @@
     <Content Include="Css\images\ui-icons_fffff_256x240.png" />
     <Content Include="Css\jquery-ui-1.8.11.custom.css" />
     <Content Include="Css\main.css" />
-    <Content Include="favicon.ico" />
+    <EmbeddedResource Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\comment.png" />
     <Content Include="Images\delete.png" />
@@ -226,7 +237,17 @@
     <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
+    <Content Include="Views\SalaryScale\DetailsWholePage.cshtml" />
+    <Content Include="Views\Shared\_NavigationExample.cshtml" />
+    <Content Include="Views\Shared\_LayoutExample.cshtml" />
+    <Content Include="Views\SalaryScale\Details2.cshtml" />
+    <Content Include="Views\SalaryScale\Index.cshtml" />
+    <Content Include="Views\SalaryScale\Copy of Index.cshtml" />
     <Content Include="Views\SalaryScale\Details.cshtml" />
+    <Content Include="Views\SalaryScale\_SalaryScale.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Employee\_EmployeeTitleDepartmentSelectLists.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -254,7 +275,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>16617</DevelopmentServerPort>
+          <DevelopmentServerPort>61370</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

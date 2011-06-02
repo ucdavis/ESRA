@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -134,6 +135,41 @@ namespace Esra.Core.Domain
 
         public User()
         {
+        }
+    }
+
+    public class UserMap : ClassMap<User>
+    {
+        public UserMap()
+        {
+            Table("Catbert3_vUsers");
+
+            Id(x => x.Id, "UserID")
+                .UnsavedValue("0")
+                .GeneratedBy.Identity();
+
+            Map(x => x.LoginID);
+            Map(x => x.Email);
+            Map(x => x.Phone);
+            Map(x => x.FirstName);
+            Map(x => x.LastName);
+            Map(x => x.EmployeeID);
+            Map(x => x.StudentID);
+            Map(x => x.UserImage);
+            Map(x => x.SID);
+            Map(x => x.UserKey);
+
+            HasManyToMany(x => x.Units)
+                .Table("Catbert3_vUserUnit")
+                .AsBag()
+                .ParentKeyColumn("UserID")
+                .ChildKeyColumn("UnitID");
+
+            HasManyToMany(x => x.Roles)
+                .Table("Catbert3_vUserRoles")
+                .AsBag()
+                .ParentKeyColumn("UserID")
+                .ChildKeyColumn("RoleID");
         }
     }
 }

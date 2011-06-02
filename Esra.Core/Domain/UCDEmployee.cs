@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace Esra.Core.Domain
@@ -128,6 +129,11 @@ namespace Esra.Core.Domain
         }
 
         // End of nested classes.
+        public virtual string id
+        {
+            get { return Id; }
+        }
+
         protected string _EmployeeID;
 
         public virtual string EmployeeID
@@ -351,6 +357,63 @@ namespace Esra.Core.Domain
 
         public UCDEmployee()
         {
+        }
+    }
+
+    public class UCDEmployeeMap : ClassMap<UCDEmployee>
+    {
+        public UCDEmployeeMap()
+        {
+            Table("UCDEmployee");
+
+            Id(x => x.Id)
+                .Column("PkEmployee")
+                .UnsavedValue("0")
+                .GeneratedBy.Assigned();
+
+            Map(x => x.EmployeeID).Not.Insert().Not.Update();
+            References(x => x.HomeDepartment, "HomeDept").Not.Insert().Not.Update();
+            Map(x => x.HomeDepartmentID, "HomeDept").Not.Insert().Not.Update();
+            References(x => x.WorkDepartment, "WorkDept").Not.Insert().Not.Update();
+            Map(x => x.WorkDepartmentID, "WorkDept").Not.Insert().Not.Update();
+            References(x => x.AdminDepartment, "AdminDept").Not.Insert().Not.Update();
+            Map(x => x.AdminDepartmentID, "AdminDept").Not.Insert().Not.Update();
+            Map(x => x.Different).Not.Insert().Not.Update();
+            Map(x => x.FullName).Not.Insert().Not.Update();
+            Map(x => x.FirstName).Not.Insert().Not.Update();
+            Map(x => x.MiddleName).Not.Insert().Not.Update();
+            Map(x => x.LastName).Not.Insert().Not.Update();
+            References(x => x.Title, "TC").ForeignKey("TitleCode").Not.Insert().Not.Update();
+            Map(x => x.TitleCode, "TC").Not.Update().Not.Insert();
+            Map(x => x.HireDate).Not.Update().Not.Insert();
+            Map(x => x.BeginDate).Not.Update().Not.Insert();
+            Map(x => x.PayRate).Not.Update().Not.Insert();
+            References(x => x.ApptType).Not.Insert().Not.Update();
+            Map(x => x.SalaryGrade);
+            Map(x => x.SalaryStep);
+            Map(x => x.BargainingUnitCode);
+
+            // Note: See the Employee class for sub-class mapping.
+            //JoinedSubClass<Employee>("PkEmployee", m =>
+            //{
+            //    Table("Employee");
+
+            //    m.Map(e => e.DatesHaveBeenAdjusted);
+
+            //    m.Map(e => e.CareerHireDate);
+            //    m.Map(e => e.PPSCareerHireDateChecked);
+
+            //    m.Map(e => e.ApptHireDate);
+            //    m.Map(e => e.PPSApptHireDateChecked);
+
+            //    m.Map(e => e.ExperienceBeginDate);
+            //    m.Map(e => e.DepartmentComments);
+            //    m.Map(e => e.DeansOfficeComments);
+            //    m.Map(e => e.YearsOfService);
+            //    m.Map(e => e.TimeInTitle);
+            //    m.Map(e => e.YearsOfExperience);
+            //}
+            //);
         }
     }
 }
