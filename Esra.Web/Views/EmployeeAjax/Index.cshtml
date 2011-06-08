@@ -5,8 +5,9 @@
 
 @section AdditionalScripts{
 
+    <link href="../../Css/jquery.multiselect.css" rel="stylesheet" type="text/css" />
     <script src="@Url.Script("DataTables-1.8.0/media/js/jquery.dataTables.js")" type="text/javascript"></script>
-
+    <script src="../../Scripts/jquery.multiselect.min.js" type="text/javascript"></script>
     <script>
         $(function () {
             $('#employees').dataTable({
@@ -16,11 +17,31 @@
                 "sPaginationType": "full_numbers",
                 "sAjaxSource": '@Url.Action("List")'
             });
+
+            $("#titleCodes")
+                .multiselect({
+                    noneSelectedText: 'Select titles to filter by.  Leave blank for *All Titles*',
+                    selectedList: 4,
+                    minWidth: 500
+            }).multiselectfilter();
         });
     </script>
 
 }
 
+@*@Html.DropDownList("department", new SelectList(ViewBag.TitlesList, "AbbreviatedName", "TitleCode"))*@
+
+@using (Html.BeginForm("Index", "EmployeeAjax", FormMethod.Get)) { 
+    <fieldset>
+        <legend>Filter Results</legend>
+        
+        @this.MultiSelect("titleCodes").Options(ViewBag.TitlesList, "TitleCode", "AbbreviatedName").Selected(ViewBag.SelectedTitles)
+
+        <input type="submit" value="Search" />
+    </fieldset>
+}
+
+<br /><br />
 <table id="employees">
     <thead> 
 		<tr> 

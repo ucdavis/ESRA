@@ -8,6 +8,7 @@ using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 using Esra.Core.Domain;
 using UCDArch.Web.ActionResults;
+using UCDArch.Web.Attributes;
 
 namespace Esra.Web.Controllers
 {
@@ -25,8 +26,14 @@ namespace Esra.Web.Controllers
     
         //
         // GET: /EmployeeAjax/
-        public ActionResult Index()
+        public ActionResult Index(string[] titleCodes)
         {
+            ViewBag.SelectedTitles = titleCodes;
+            ViewBag.TitlesList = Repository.OfType<Title>()
+                .Queryable
+                .OrderBy(t => t.AbbreviatedName)
+                .ToList();
+                
             return View();
         }
 
