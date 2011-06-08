@@ -50,6 +50,14 @@ namespace Esra.Web
             IWindsorContainer container = InitializeServiceLocator();
         }
 
+        protected void Application_BeginRequest(object sender, System.EventArgs e)
+        {
+            if (Request.IsLocal)
+            {
+                //MiniProfiler.Start();
+            } 
+        }
+
         private static IWindsorContainer InitializeServiceLocator()
         {
             IWindsorContainer container = new WindsorContainer();

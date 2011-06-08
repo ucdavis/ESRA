@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\EmployeeAjaxController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
@@ -110,6 +111,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\DataTables-1.8.0\extras\AutoFill\media\css\AutoFill.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\ColReorder\media\css\ColReorder.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\ColVis\media\css\ColVis.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\ColVis\media\css\ColVisAlt.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\FixedColumns\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\FixedColumns\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\FixedColumns\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\Scroller\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\Scroller\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\Scroller\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\TableTools\media\css\TableTools.css" />
+    <Content Include="Content\DataTables-1.8.0\extras\TableTools\media\css\TableTools_JUI.css" />
+    <Content Include="Content\DataTables-1.8.0\media\css\demo_page.css" />
+    <Content Include="Content\DataTables-1.8.0\media\css\demo_table.css" />
+    <Content Include="Content\DataTables-1.8.0\media\css\demo_table_jui.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -164,11 +180,40 @@
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\AutoFill\media\js\AutoFill.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\AutoFill\media\js\AutoFill.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\ColReorder\media\js\ColReorder.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\ColReorder\media\js\ColReorder.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\ColVis\media\js\ColVis.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\ColVis\media\js\ColVis.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\media\js\FixedColumns.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\FixedColumns\media\js\FixedColumns.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\js\Scroller.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\Scroller\media\js\Scroller.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\TableTools\media\js\TableTools.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\TableTools\media\js\TableTools.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\extras\TableTools\media\js\ZeroClipboard.js" />
+    <Content Include="Scripts\DataTables-1.8.0\media\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables-1.8.0\media\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables-1.8.0\media\js\jquery.js" />
     <Content Include="Scripts\jquery-1.6-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.1.js" />
+    <Content Include="Scripts\jquery-1.6.1.min.js" />
     <Content Include="Scripts\jquery-1.6.js" />
     <Content Include="Scripts\jquery-1.6.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.12.js" />
     <Content Include="Scripts\jquery-ui-1.8.12.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.13.js" />
+    <Content Include="Scripts\jquery-ui-1.8.13.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -248,6 +293,14 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Details.cshtml" />
     <Content Include="Views\Employee\_EmployeeTitleDepartmentSelectLists.cshtml" />
+    <None Include="Scripts\DataTables-1.8.0\extras\AutoFill\media\js\AutoFill.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\extras\ColReorder\media\js\ColReorder.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\extras\ColVis\media\js\ColVis.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\extras\FixedColumns\media\js\FixedColumns.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\extras\Scroller\media\js\Scroller.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\extras\TableTools\media\js\TableTools.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.0\media\js\jquery.dataTables.min.js.gz" />
+    <Content Include="Views\EmployeeAjax\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
