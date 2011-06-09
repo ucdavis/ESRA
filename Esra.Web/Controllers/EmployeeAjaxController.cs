@@ -4,11 +4,13 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Web.Mvc;
+using MvcMiniProfiler;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 using Esra.Core.Domain;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Attributes;
+using System.Web.Routing;
 
 namespace Esra.Web.Controllers
 {
@@ -26,13 +28,18 @@ namespace Esra.Web.Controllers
     
         //
         // GET: /EmployeeAjax/
-        public ActionResult Index(string[] titleCodes)
+        [BypassAntiForgeryToken]
+        public ActionResult Index(EmployeeAjaxFilters filters)
         {
-            ViewBag.SelectedTitles = titleCodes;
-            ViewBag.TitlesList = Repository.OfType<Title>()
-                .Queryable
-                .OrderBy(t => t.AbbreviatedName)
-                .ToList();
+            ViewBag.SelectedTitles = filters.TitleCodes;
+
+            using (MiniProfiler.Current.Step("Title Query"))
+            {
+                ViewBag.TitlesList = Repository.OfType<Title>()
+                    .Queryable
+                    .OrderBy(t => t.AbbreviatedName)
+                    .ToList();   
+            }
                 
             return View();
         }
@@ -53,6 +60,11 @@ namespace Esra.Web.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
                 
         }
+    }
+
+    public class EmployeeAjaxFilters
+    {
+        public string[] TitleCodes { get; set; }    
     }
 
 	/// <summary>

@@ -4,6 +4,7 @@ using Castle.Windsor;
 using Esra.Web.Controllers;
 using Esra.Web.Helpers;
 using Microsoft.Practices.ServiceLocation;
+using MvcMiniProfiler;
 using UCDArch.Web.IoC;
 using UCDArch.Web.ModelBinder;
 
@@ -54,8 +55,13 @@ namespace Esra.Web
         {
             if (Request.IsLocal)
             {
-                //MiniProfiler.Start();
+                MiniProfiler.Start();
             } 
+        }
+
+        protected void Application_EndRequest(object sender, System.EventArgs e)
+        {
+            MiniProfiler.Stop();
         }
 
         private static IWindsorContainer InitializeServiceLocator()

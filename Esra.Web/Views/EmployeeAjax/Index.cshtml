@@ -31,7 +31,7 @@
 
 @*@Html.DropDownList("department", new SelectList(ViewBag.TitlesList, "AbbreviatedName", "TitleCode"))*@
 
-@using (Html.BeginForm("Index", "EmployeeAjax", FormMethod.Get)) { 
+@using (Html.BeginForm()) { 
     <fieldset>
         <legend>Filter Results</legend>
         
