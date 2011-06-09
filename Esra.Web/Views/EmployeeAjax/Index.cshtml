@@ -67,7 +67,7 @@
     <fieldset>
         <legend>Filter Results</legend>
         
-        @this.MultiSelect("titleCodes").Options(ViewBag.TitlesList, "TitleCode", "AbbreviatedName").Selected(ViewBag.SelectedTitles)
+        @this.MultiSelect("titleCodes").Options(ViewBag.TitlesList, "TitleCode", "PayrollTitle_TitleCode").Selected(ViewBag.SelectedTitles)
 
         <input type="submit" value="Search" />
     </fieldset>
