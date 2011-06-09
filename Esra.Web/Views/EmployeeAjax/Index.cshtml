@@ -10,12 +10,20 @@
     <script src="../../Scripts/jquery.multiselect.min.js" type="text/javascript"></script>
     <script>
         $(function () {
-            $('#employees').dataTable({
+            var dtable = $('#employees').dataTable({
                 "bProcessing": true,
                 //"bServerSide": true,
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
                 "sAjaxSource": '@Url.Action("List")'
+//                "fnServerData": function (sSource, aoData, fnCallback) {
+//                    var filterData = $("form").serialize();
+//                    console.log(filterData);
+//                    /* Add some extra data to the sender */
+//                    $.getJSON(sSource + "?" + filterData, aoData, function (json) {
+//                        fnCallback(json)
+//                    });
+//                }
             });
 
             $("#titleCodes")
@@ -23,8 +31,32 @@
                     noneSelectedText: 'Select titles to filter by.  Leave blank for *All Titles*',
                     selectedList: 4,
                     minWidth: 500
-            }).multiselectfilter();
+                }).multiselectfilter();
+
+            $("form").submit(function(e){
+                e.preventDefault(); //don't post, do an ajax call
+                dtable.fnReloadAjax(dtable.fnSettings());
+            });
         });
+
+        $.fn.dataTableExt.oApi.fnReloadAjax = function (oSettings) {
+            var filterData = $("form").serialize();
+            oSettings.sAjaxSource = oSettings.sAjaxSource + "?" + filterData;
+            this.fnClearTable(this);
+            this.oApi._fnProcessingDisplay(oSettings, true);
+            var that = this;
+
+            $.getJSON(oSettings.sAjaxSource, null, function (json) {
+                /* Got the data - add it to the table */
+                for (var i = 0; i < json.aaData.length; i++) {
+                    that.oApi._fnAddData(oSettings, json.aaData[i]);
+                }
+
+                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+                that.fnDraw(that);
+                that.oApi._fnProcessingDisplay(oSettings, false);
+            });
+        }
     </script>
 
 }
