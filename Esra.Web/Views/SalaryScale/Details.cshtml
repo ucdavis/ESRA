@@ -1,122 +1,29 @@
-﻿@model Esra.Web.Controllers.SalaryScaleViewModel
-
+﻿@model Esra.Web.Models.SalaryScaleViewModel
 @{
-    ViewBag.Title = "Salary Scale Details";
+    ViewBag.Title = "Salary Scale";
 }
 <div>
- @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
- {
-     // @Html.AntiForgeryToken()  // used for post.
-
-     // <fieldset>
-
-            <ul>
-                @*<li>
-                    <div class="editor-label" id="titlecodes-drop-down-label">
-                        Title Code
-                    </div>
-                 </li>*@
-
-                <li>
-                    <div class="editor-field" >
-                        @Html.DropDownListFor(x => x.TitleCode,
-                        new SelectList(Model.TitleCodes,
-                            "TitleCode",
-                            "TitleCode",
-                             Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
-                            "--Select a Title Code--",
-         //new { onchange = "this.form.submit()" }
-                 new { id = "titlecodes-drop-down" }
-                            )
-                    </div>
-                </li>
-
-            </ul>
-
-     //</fieldset>
-     // end SelectTitleCode form
- }
-    -- or --
-     @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
-     {
-         // @Html.AntiForgeryToken()  // used for post.
-
-         // <fieldset>
-
-            <ul>
-                @*<li>
-                    <div class="editor-label" id="titles-drop-down-label">
-                        Title
-                    </div>
-                 </li>*@
-
-                <li>
-                    <div class="editor-field" >
-                        @Html.DropDownListFor(x => x.TitleCode,
-                        new SelectList(Model.Titles,
-                            "TitleCode",
-                            "PayrollTitle_TitleCode",
-                             Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
-                            "--Select a Title--",
-             //new { onchange = "this.form.submit()" }
-                 new { id = "titles-drop-down" }
-                            )
-                    </div>
-                </li>
-
-            </ul>
-
-         //  </fieldset>
-         // end SelectTitleForm
-     }
-
-    <div id="result">
-    @{
-
-        if (Model.TitleCode == null) { }
-        else if (Model.SalaryScale.Title == null)
-        {
-            <fieldset>
-                <h3>No Salary Data Available</h3>
-           </fieldset>
-        }
-        else
-        {
-            @Html.Partial("_SalaryScale")
-         }
-    }
+    <div id="selectlists">
+        @Html.Partial("_SalaryScaleSelectLists")
     </div>
-
-    <script type="text/javascript" \>
-
-        $('#titlecodes-drop-down').change(function () {
-            // debugger;
-
-            //            var selectedText = $(this).find('option:selected').text();
-            //            //data["titleCode"] = selectedText;
-            //            var token = $('[name=__RequestVerificationToken]').val();
-            //            //data["__RequestVerificationToken"] = token;
-
-            //            //data = $.appendAntiForgeryToken(data, null);
-            //            $('#titleCodeValue').html(selectedText);
-            //            $.post('SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: selectedText }, function (result) {
-            //                if (result != true) {
-            //                    $("#result").html(result.toString());
-            //                }
-            //                else {
-            //                    $("#result").html("No Data Found");
-            //                }
+    <div id="result">
+        @{
+            if (Model.SalaryScale.TitleCode != null)
+            {
+            @Html.Partial("_SalaryScale")
+            }
+            else
+            {
+            <fieldset>
+                <h3>
+                    No Salary Data Available</h3>
+            </fieldset>
+            }
+        }
+    </div>
+    <script type="text/javascript">
+        $('select').change(function () {
             $(this).parents('form').submit();
         });
-
-         $('#titles-drop-down').change(function () {
-             $(this).parents('form').submit();
-        });
-
-       </script>
-       <div id="titleCodeValue" />
-
-       <div id="salaryScaleValue" >
-       </div>
-
+    </script>
 </div>

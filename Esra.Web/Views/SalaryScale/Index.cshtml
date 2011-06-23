@@ -1,71 +1,19 @@
 ﻿@*@model Esra.Core.Domain.Title*@
-@model Esra.Web.Controllers.SalaryScaleViewModel
-
-<div>
- @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
-    {
-       // @Html.AntiForgeryToken()
-
-        <fieldset>
-
-            <ul>
-                <li>
-                    <div class="editor-label" id="titles-drop-down-label">
-                        @Html.LabelFor(model => model.Titles)
-                    </div>
-                 </li>
-
-                <li>
-                    <div class="editor-field" >
-                        @Html.DropDownListFor(x => x.TitleCode,
-                        new SelectList(Model.TitleCodes,
-                            "TitleCode",
-                            "TitleCode",
-                             Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
-                            "--Select a Title Code--",
-            //new { onchange = "this.form.submit()" }
-                 new { id = "titlecodes-drop-down3" }
-                            )
-                    </div>
-                </li>
-
-            </ul>
-
-        </fieldset>
-
+@model Esra.Web.Models.SalaryScaleViewModel
+@{
+    ViewBag.Title = "Salary Scale Selection";
+}
+<div id="result">
+    @{
+        @Html.Partial("_SalaryScaleSelectLists");
     }
-    @*<div id="result">
-    @if (Model.SalaryScale == null) { <text>No Data Found</text> } else {
-    @Html.Partial("_SalaryScale")
-    }
-    </div>*@
-
-    <script type="text/javascript" \>
-
-        $('#titlecodes-drop-down3').change(function () {
-           // debugger;
-
-//            var selectedText = $(this).find('option:selected').text();
-//            //data["titleCode"] = selectedText;
-//            var token = $('[name=__RequestVerificationToken]').val();
-//            //data["__RequestVerificationToken"] = token;
-
-//            //data = $.appendAntiForgeryToken(data, null);
-//            $('#titleCodeValue').html(selectedText);
-//            $.post('SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: selectedText }, function (result) {
-//                if (result != true) {
-//                    $("#result").html(result.toString());
-//                }
-//                else {
-//                    $("#result").html("No Data Found");
-//                }
- $(this).parents('form').submit();
+    <script language="JavaScript" type="text/javascript">
+    <!--        //
+        $('select').change(function () {
+            $(this).parents('form').submit();
         });
-
-       </script>
-       <div id="titleCodeValue" />
-
-       <div id="salaryScaleValue" >
-       </div>
-
+//-->
+    </script>
+</div>
+<div id="salaryscale-results">
 </div>

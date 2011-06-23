@@ -98,7 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeSalaryComparisonController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
@@ -107,6 +107,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeComparisonViewModel_bak.cs" />
+    <Compile Include="Models\EmployeeSalaryComparisonViewModel.cs" />
+    <Compile Include="Models\SalaryScaleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -244,10 +246,15 @@
     <Content Include="Views\SalaryScale\Index.cshtml" />
     <Content Include="Views\SalaryScale\Copy of Index.cshtml" />
     <Content Include="Views\SalaryScale\Details.cshtml" />
-    <Content Include="Views\SalaryScale\_SalaryScale.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\Details.cshtml" />
-    <Content Include="Views\Employee\_EmployeeTitleDepartmentSelectLists.cshtml" />
+    <Content Include="Views\Shared\_SalaryScale.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\Index.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\Details.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_EmployeeTitleDepartmentSelectLists.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_Employees.cshtml" />
+    <Content Include="Views\Shared\_SalaryScaleSelectLists.cshtml" />
+    <Content Include="Views\SalaryScale\Copy %282%29 of Index.cshtml" />
+    <Content Include="Views\SalaryScale\Index_bak.cshtml" />
+    <Content Include="Views\Shared\_SalaryScaleWrapper.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -275,7 +282,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>61370</DevelopmentServerPort>
+          <DevelopmentServerPort>10644</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

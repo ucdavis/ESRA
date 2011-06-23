@@ -1,0 +1,85 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+@{
+    ViewBag.Title = "Employee Salary Comparison";
+}
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+<div id="salary-scale">
+    @Html.AntiForgeryToken()
+    @Html.Partial("_SalaryScaleSelectLists", Model.SalaryScaleViewModel)
+    @*<div id="salaryscale-result" />*@
+    <script language="JavaScript" type="text/javascript">
+    <!--        //
+        $('#titlecode-drop-down').change(function () {
+            //debugger;
+
+            var selectedText = $(this).find('option:selected').text();
+            var otherControl = $('#title-drop-down');
+            otherControl.val($(this).val());
+
+            var token = $('[name=__RequestVerificationToken]').val();
+
+            $.post('/SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: $(this).val() }, function (result) {
+
+                if (result.length > 50) {
+                    $("#salary-scale-partial").html(result.toString());
+                }
+                else {
+                    $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                }
+            }
+        );
+        });
+
+        $('#title-drop-down').change(function () {
+            //debugger;
+
+            var selectedText = $(this).find('option:selected').text();
+            var otherControl = $('#titlecode-drop-down');
+            otherControl.val($(this).val());
+
+            var token = $('[name=__RequestVerificationToken]').val();
+
+            $.post('/SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: $(this).val() }, function (result) {
+
+                if (result.length > 50) {
+                    $("#salary-scale-partial").html(result.toString());
+                }
+                else {
+                    $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                }
+            }
+        );
+        });
+//-->
+    </script>
+</div>
+<div id="salary-scale-partial">
+    @{
+        @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+
+    }
+</div>
+<div id="employee-drop-down-lists">
+    @Html.Partial("_EmployeeTitleDepartmentSelectLists")
+</div>
+<div id="result">
+    @{
+        if (Model.Employees != null && Model.Employees.Count() > 0)
+        {
+        @Html.Partial("_Employees")
+        }
+        else
+        {
+        <fieldset>
+            <h3>
+                No Employees Found</h3>
+        </fieldset>
+        }
+    }
+</div>

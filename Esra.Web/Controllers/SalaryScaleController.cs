@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
+using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
 using UCDArch.Data.NHibernate;
 
 namespace Esra.Web.Controllers
@@ -27,16 +26,15 @@ namespace Esra.Web.Controllers
         {
             var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
 
-            salaryScaleModel.Titles = Repository.OfType<Title>()
-                                  .Queryable
-                                  .OrderBy(t => t.AbbreviatedName)
-                // .ThenBy(t => t.TitleCode)
-                                  .ToList();
+            //salaryScaleModel.Titles = Repository.OfType<Title>()
+            //                      .Queryable
+            //                      .OrderBy(t => t.AbbreviatedName)
+            //    // .ThenBy(t => t.TitleCode)
+            //                      .ToList();
 
-            salaryScaleModel.TitleCodes = Repository.OfType<Title>()
-                       .Queryable
-                       .OrderBy(t => t.TitleCode)
-                       .ToList();
+            salaryScaleModel.TitleCodes = salaryScaleModel.Titles
+                .OrderBy(t => t.TitleCode)
+                .ToList();
 
             return View(salaryScaleModel);
         }
@@ -63,14 +61,13 @@ namespace Esra.Web.Controllers
 
             salaryScaleModel.TitleCode = titleCode;
 
-            salaryScaleModel.Titles = Repository.OfType<Title>()
-                                  .Queryable
-                                  .OrderBy(t => t.AbbreviatedName)
-                // .ThenBy(t => t.TitleCode)
-                                  .ToList();
+            //salaryScaleModel.Titles = Repository.OfType<Title>()
+            //                      .Queryable
+            //                      .OrderBy(t => t.AbbreviatedName)
+            //    // .ThenBy(t => t.TitleCode)
+            //                      .ToList();
 
-            salaryScaleModel.TitleCodes = Repository.OfType<Title>()
-                       .Queryable
+            salaryScaleModel.TitleCodes = salaryScaleModel.Titles
                        .OrderBy(t => t.TitleCode)
                        .ToList();
 
@@ -279,28 +276,28 @@ namespace Esra.Web.Controllers
         }
     }
 
-    /// <summary>
-    /// ViewModel for the SalaryScale class
-    /// </summary>
-    public class SalaryScaleViewModel
-    {
-        public string TitleCode { get; set; }
+    ///// <summary>
+    ///// ViewModel for the SalaryScale class
+    ///// </summary>
+    //public class SalaryScaleViewModel
+    //{
+    //    public string TitleCode { get; set; }
 
-        public Title Title { get; set; }
+    //    public Title Title { get; set; }
 
-        public IList<Title> Titles { get; set; }
+    //    public IList<Title> Titles { get; set; }
 
-        public IList<Title> TitleCodes { get; set; }
+    //    public IList<Title> TitleCodes { get; set; }
 
-        public SalaryScale SalaryScale { get; set; }
+    //    public SalaryScale SalaryScale { get; set; }
 
-        public static SalaryScaleViewModel Create(IRepository repository)
-        {
-            Check.Require(repository != null, "Repository must be supplied");
+    //    public static SalaryScaleViewModel Create(IRepository repository)
+    //    {
+    //        Check.Require(repository != null, "Repository must be supplied");
 
-            var viewModel = new SalaryScaleViewModel { SalaryScale = new SalaryScale() };
+    //        var viewModel = new SalaryScaleViewModel { SalaryScale = new SalaryScale() };
 
-            return viewModel;
-        }
-    }
+    //        return viewModel;
+    //    }
+    //}
 }

@@ -1,0 +1,108 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+<fieldset class="display-form">
+    <legend>Employees</legend>
+    <ul>
+        @{
+            if (Model.Employees.Count > 0)
+            {
+            <li>
+                <div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Department Name
+                                </th>
+                                <th>
+                                    Title<br />
+                                    Code
+                                </th>
+                                <th>
+                                    Salary<br />
+                                    Grade
+                                </th>
+                                <th>
+                                    Bargaining<br />
+                                    Unit
+                                </th>
+                                <th>
+                                    Employee Name
+                                </th>
+                                <th>
+                                    Hire Date
+                                </th>
+                                <th>
+                                    Years Of<br />
+                                    Service
+                                </th>
+                                <th>
+                                    Begin Date<br />
+                                    (in Title)
+                                </th>
+                                <th>
+                                    Time<br />
+                                    In<br />
+                                    Title
+                                </th>
+                                <th>
+                                    Experience<br />
+                                    Begin Date
+                                </th>
+                                <th>
+                                    Years Of<br />
+                                    Experience
+                                </th>
+                                <th>
+                                    Pay Rate
+                                </th>
+                                <th>
+                                    Department<br />
+                                    Comments<br />
+                                </th>
+                                <th>
+                                    Dean's<br />
+                                    Office<br />
+                                    Comments<br />
+                                </th>
+                            </tr>
+                            @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
+                            {
+                                <tr>
+                                    <td>@emp.HomeDepartment.Name
+                                    </td>
+                                    <td>@emp.TitleCode
+                                    </td>
+                                    <td>@emp.SalaryGrade
+                                    </td>
+                                    <td>@emp.BargainingUnitCode
+                                    </td>
+                                    <td>@emp.FullName
+                                    </td>
+                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.HireDate)
+                                    </td>
+                                    <td>@String.Format("{0:0.00}", emp.YearsOfService)
+                                    </td>
+                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.BeginDate)
+                                    </td>
+                                    <td>@String.Format("{0:0.00}", emp.TimeInTitle)
+                                    </td>
+                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
+                                    </td>
+                                    <td>@String.Format("{0:0.00}", emp.YearsOfExperience)
+                                    </td>
+                                    <td>@String.Format("{0:c}", emp.PayRate)
+                                    </td>
+                                    <td>@emp.DepartmentComments
+                                    </td>
+                                    <td>@emp.DeansOfficeComments
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+            }
+        }
+    </ul>
+</fieldset>

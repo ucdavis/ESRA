@@ -1,0 +1,177 @@
+﻿@model Esra.Web.Models.SalaryScaleViewModel
+@{
+    if (Model.SalaryScale != null && Model.SalaryScale.TitleCode != null)
+    {
+    <fieldset class="display-form">
+        <legend>Campus-wide Salary Scale</legend>
+        <ul>
+            <li>
+                <div class="display-label">
+                    Title Code</div>
+                <div class="display-details">@Model.SalaryScale.TitleCode</div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="display-label">
+                    Payroll Title</div>
+                <div class="display-details">@Model.SalaryScale.Title.PayrollTitle</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    Effective Date</div>
+                <div class="display-details">@String.Format("{0:MM/dd/yyyy}", Model.SalaryScale.EffectiveDate)</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    Salary Grade</div>
+                <div class="display-details">@Model.SalaryScale.SalaryGrade</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    Bargaining Code</div>
+                <div class="display-details">@Model.SalaryScale.BargainingCode</div>
+            </li>
+            @{
+        if (Model.SalaryScale.SalarySteps.Count > 0)
+        {
+                <li>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Step
+                                    </th>
+                                    <th>
+                                        Annual
+                                    </th>
+                                    <th>
+                                        Monthly
+                                    </th>
+                                    <th>
+                                        Hourly
+                                    </th>
+                                </tr>
+                                @foreach (Esra.Core.Domain.SalaryStep step in Model.SalaryScale.SalarySteps)
+                                {
+                                    <tr>
+                                        <td>@step.StepNumber
+                                        </td>
+                                        <td>@String.Format("{0:c}", step.Annual)
+                                        </td>
+                                        <td>@String.Format("{0:c}", step.Monthly)
+                                        </td>
+                                        <td>@String.Format("{0:c}", step.Hourly)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+        }
+            }
+            @{
+        if (Model.SalaryScale.SalaryGradeQuartiles != null)
+        {
+                <li>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Quartile
+                                    </th>
+                                    <th>
+                                        Annual
+                                    </th>
+                                    <th>
+                                        Monthly
+                                    </th>
+                                    <th>
+                                        Hourly
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Min
+                                    </th>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MinAnnual)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MinMonthly)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MinHourly)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        First
+                                    </th>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.FirstQrtleAnnual)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.FirstQrtleMonthly)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.FirstQrtleHourly)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Mid
+                                    </th>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MidAnnual)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MidMonthly)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MidHourly)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Third
+                                    </th>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.ThirdQrtleMonthly)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.ThirdQrtleHourly)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Max
+                                    </th>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MaxAnnual)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MaxMonthly)
+                                    </td>
+                                    <td>@String.Format("{0:c}", Model.SalaryScale.SalaryGradeQuartiles.MaxHourly)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+        }
+            }
+            <li>
+                <div class="display-label">
+                    Labor Market WAS</div>
+                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.LaborMarketWAS)</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    Labor Market Mid Annual</div>
+                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.LaborMarketMidAnnual)</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    College Average Annual</div>
+                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.CollegeAverageAnnual)</div>
+            </li>
+            <li>
+                <div class="display-label">
+                    Campus Average Annual</div>
+                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.CampusAverageAnnual)</div>
+            </li>
+        </ul>
+    </fieldset>
+    }
+}
