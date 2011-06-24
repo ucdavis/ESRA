@@ -2,16 +2,13 @@
 <div>
     @using (Html.BeginForm("Details", "EmployeeSalaryComparison", FormMethod.Get))
     {
+        <h3>
+            Employee Search Parameters</h3>
         <table>
             <tr>
                 <th>
-                    Titles
+                    Titles:
                 </th>
-                <th>
-                    Title Codes
-                </th>
-            </tr>
-            <tr>
                 <td>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedTitleCodes,
@@ -23,6 +20,9 @@
                         @* @this.MultiSelect("SelectedTitleCodes").Options(Model.TitlesList.OrderBy(x => x.AbbreviatedName), t => t.TitleCode, t => t.PayrollTitle_TitleCode).FirstOption("Any","--Any Title(s)--").Selected(Model.SelectedTitles)*@
                     </div>
                 </td>
+                <th>
+                    Title Codes:
+                </th>
                 <td>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedTitleCodes,
@@ -37,13 +37,8 @@
             </tr>
             <tr>
                 <th>
-                    Departments
+                    Departments:
                 </th>
-                <th>
-                    Department Codes/IDs
-                </th>
-            </tr>
-            <tr>
                 <td>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
@@ -55,7 +50,10 @@
                         @*@this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.Name).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.Name_DepartmentNumber).FirstOption("Any", "--Any Department(s)--").Selected(Model.SelectedDepartments)*@
                     </div>
                 </td>
-                <td align="left">
+                <th>
+                    Department Codes/IDs:
+                </th>
+                <td>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
                             new MultiSelectList(Model.DepartmentsList
@@ -70,6 +68,9 @@
                 </td>
             </tr>
             <tr>
+                <th>
+                    Employee:
+                </th>
                 <td colspan="2">
                     <div class="editor-field">
                         @Html.DropDownListFor(x => x.SelectedEmployeeId,
@@ -81,13 +82,17 @@
                         )
                     </div>
                 </td>
+                <td>
+                    &nbsp;
+                </td>
             </tr>
             <tr>
-                <td>
-                    <input type="submit" value="Get Employee(s)" />
-                </td>
-                <td>
+                <td colspan="2">
+                    <br />
+                    <input type="submit" value="Get Employee Salary Report" />&nbsp; &nbsp; &nbsp; &nbsp;
                     <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
+                    <br />
+                    <br />
                 </td>
             </tr>
         </table>

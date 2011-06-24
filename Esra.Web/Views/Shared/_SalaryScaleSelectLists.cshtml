@@ -1,41 +1,44 @@
 ﻿@model Esra.Web.Models.SalaryScaleViewModel
 <div>
-    @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
-    {
-        //@Html.AntiForgeryToken()
-        <ul>
-            <li>
-                <div class="editor-field">
-                    @Html.DropDownListFor(x => x.TitleCode,
+    <fieldset class="display-form">
+        <legend>Salary Scales</legend>
+        @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
+        {
+            //@Html.AntiForgeryToken()
+            <ul>
+                <li>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(x => x.TitleCode,
                         new SelectList(Model.Titles.OrderBy(x => x.TitleCode),
                             "TitleCode",
                             "TitleCode",
                              Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
                             "--Select a Title Code--", new { id = "titlecode-drop-down" }
                             )
-                </div>
-            </li>
-        </ul>
+                    </div>
+                </li>
+            </ul>
 
-        // end SelectTitleCodeForm
-    }
-    -- or --
-    @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
-    {
-        <ul>
-            <li>
-                <div class="editor-field">
-                    @Html.DropDownListFor(x => x.TitleCode,
+            // end SelectTitleCodeForm
+        }
+        -- or --
+        @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
+        {
+            <ul>
+                <li>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(x => x.TitleCode,
                         new SelectList(Model.Titles,
                             "TitleCode",
                             "PayrollTitle_TitleCode",
                              Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
                      "--Select a Title--", new { id = "title-drop-down" }
                             )
-                </div>
-            </li>
-        </ul>
+                    </div>
+                </li>
+            </ul>
 
-        // end SelectTitleForm
-    }
+            // end SelectTitleForm
+        }
+    </fieldset>
 </div>

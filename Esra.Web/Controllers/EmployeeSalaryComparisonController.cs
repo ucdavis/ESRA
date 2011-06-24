@@ -40,8 +40,9 @@ namespace Esra.Web.Controllers
             // var salaryScaleViewModel = SalaryScaleViewModel.Create(Repository);
             var employeeSalaryComparisonModel = EmployeeSalaryComparisonViewModel.Create(Repository, SalaryScaleViewModel.Create(Repository));
 
-            bool isAnyTitleCode = QueryBuilderHelper.IsAny(selectedTitleCodes);
-            bool isAnyDepartmentCode = QueryBuilderHelper.IsAny(selectedDepartmentCodes);
+            bool isAnyTitle = true;
+            bool isAnyDepartment = true;
+            bool isAnyEmployee = true;
 
             //employeeModel.SelectedTitleCodes = selectedTitleCodes;
             //employeeModel.SelectedDepartmentCodes = selectedDepartmentCodes;
@@ -56,27 +57,31 @@ namespace Esra.Web.Controllers
             {
                 // get the employee by employee ID:
                 employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedEmployeeId.Equals(r.EmployeeID))
-                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
+                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                isAnyEmployee = false;
             }
             // if both are null; get them all
             else if ((selectedDepartmentCodes == null || selectedDepartmentCodes.Count() == 0 || (selectedDepartmentCodes.Count() == 1 && selectedDepartmentCodes[0].Equals(String.Empty))) && (selectedTitleCodes == null || selectedTitleCodes.Count() == 0 || (selectedTitleCodes.Count() == 1 && selectedTitleCodes[0].Equals(String.Empty))))
             {
                 // get all records:
                 employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable
-                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
+                    .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
             }
-            else if (selectedDepartmentCodes != null && selectedDepartmentCodes.Count() > 0 && !selectedDepartmentCodes[0].Equals(String.Empty))
+            else if ((selectedDepartmentCodes != null && selectedDepartmentCodes.Count() > 0 && !selectedDepartmentCodes[0].Equals(String.Empty)) &&
+                (selectedTitleCodes == null || selectedTitleCodes.Count() == 0 || (selectedTitleCodes.Count() == 1 && selectedTitleCodes[0].Equals(String.Empty))))
             {
                 // get those with matching department codes:
                 employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
+                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                isAnyDepartment = false;
             }
-            else if (selectedTitleCodes != null && selectedTitleCodes.Count() > 0 && !selectedTitleCodes[0].Equals(String.Empty))
+            else if ((selectedTitleCodes != null && selectedTitleCodes.Count() > 0 && !selectedTitleCodes[0].Equals(String.Empty)) &&
+            (selectedDepartmentCodes == null || selectedDepartmentCodes.Count() == 0 || (selectedDepartmentCodes.Count() == 1 && selectedDepartmentCodes[0].Equals(String.Empty))))
             {
                 // get those with matching title codes:
                 employeeSalaryComparisonModel.Employees =
                     _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode))
-                        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
+                        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
 
                 var salaryScales = _salaryScaleRepository
                     .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
@@ -91,7 +96,76 @@ namespace Esra.Web.Controllers
 
                     employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
                 }
+                isAnyTitle = false;
             }
+            else
+            {
+                // get those with matching department and title codes:
+                employeeSalaryComparisonModel.Employees =
+                    _employeeRepository.Queryable.Where(
+                    r => selectedTitleCodes.Contains(r.TitleCode) &&
+                    selectedDepartmentCodes.Contains(r.HomeDepartmentID))
+                        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+
+                var salaryScales = _salaryScaleRepository
+                    .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
+
+                if (salaryScales.Count == 1)
+                {
+                    var salaryScale = salaryScales[0];
+                    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                        .Queryable
+                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        .ToList();
+
+                    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                }
+                isAnyDepartment = false;
+                isAnyTitle = false;
+            }
+
+            // Logic for initializing ESR Search Parameters:
+            employeeSalaryComparisonModel.EsrSearchParameters = new ESRSearchParameters()
+            {
+                SearchEmployee = employeeSalaryComparisonModel.SelectedEmployee,
+                SearchTitles = employeeSalaryComparisonModel.SelectedTitles.ToList(),
+                SearchDepartments = employeeSalaryComparisonModel.SelectedDepartments.ToList()
+            };
+            if (!isAnyEmployee)
+            {
+                employeeSalaryComparisonModel.SelectedEmployee = employeeSalaryComparisonModel.EmployeesList.Where(
+                    r => selectedEmployeeId.Equals(r.EmployeeID)).FirstOrDefault();
+                employeeSalaryComparisonModel.EsrSearchParameters.SearchEmployee =
+                    employeeSalaryComparisonModel.SelectedEmployee;
+            }
+            if (!isAnyDepartment)
+            {
+                employeeSalaryComparisonModel.SelectedDepartments =
+                    employeeSalaryComparisonModel.DepartmentsList.Where(
+                        r => selectedDepartmentCodes.Contains(r.DepartmentNumber)).OrderBy(r => r.Name).ToList();
+                employeeSalaryComparisonModel.EsrSearchParameters.SearchDepartments =
+                    employeeSalaryComparisonModel.SelectedDepartments.ToList();
+            }
+            if (!isAnyTitle)
+            {
+                employeeSalaryComparisonModel.SelectedTitles =
+                    employeeSalaryComparisonModel.TitlesList.Where(
+                        r => selectedTitleCodes.Contains(r.TitleCode)).OrderBy(r => r.AbbreviatedName).ToList();
+                employeeSalaryComparisonModel.EsrSearchParameters.SearchTitles =
+                    employeeSalaryComparisonModel.SelectedTitles.ToList();
+            }
+
+            //employeeSalaryComparisonModel.EsrSearchParameters = new ESRSearchParameters();
+            //{
+            //    SearchEmployee =
+            //        employeeSalaryComparisonModel.
+            //        SelectedEmployee,
+            //    SearchTitles =
+            //        employeeSalaryComparisonModel.SelectedTitles.ToList(),
+            //    SearchDepartments =
+            //        employeeSalaryComparisonModel.
+            //        SelectedDepartments.ToList()
+            //};
 
             //if (isAnyTitleCode == false && isAnyDepartmentCode == false)
             //{

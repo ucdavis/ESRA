@@ -1,108 +1,129 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
-<fieldset class="display-form">
-    <legend>Employees</legend>
-    <ul>
-        @{
-            if (Model.Employees.Count > 0)
-            {
-            <li>
-                <div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>
-                                    Department Name
-                                </th>
-                                <th>
-                                    Title<br />
-                                    Code
-                                </th>
-                                <th>
-                                    Salary<br />
-                                    Grade
-                                </th>
-                                <th>
-                                    Bargaining<br />
-                                    Unit
-                                </th>
-                                <th>
-                                    Employee Name
-                                </th>
-                                <th>
-                                    Hire Date
-                                </th>
-                                <th>
-                                    Years Of<br />
-                                    Service
-                                </th>
-                                <th>
-                                    Begin Date<br />
-                                    (in Title)
-                                </th>
-                                <th>
-                                    Time<br />
-                                    In<br />
-                                    Title
-                                </th>
-                                <th>
-                                    Experience<br />
-                                    Begin Date
-                                </th>
-                                <th>
-                                    Years Of<br />
-                                    Experience
-                                </th>
-                                <th>
-                                    Pay Rate
-                                </th>
-                                <th>
-                                    Department<br />
-                                    Comments<br />
-                                </th>
-                                <th>
-                                    Dean's<br />
-                                    Office<br />
-                                    Comments<br />
-                                </th>
-                            </tr>
-                            @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
-                            {
-                                <tr>
-                                    <td>@emp.HomeDepartment.Name
-                                    </td>
-                                    <td>@emp.TitleCode
-                                    </td>
-                                    <td>@emp.SalaryGrade
-                                    </td>
-                                    <td>@emp.BargainingUnitCode
-                                    </td>
-                                    <td>@emp.FullName
-                                    </td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.HireDate)
-                                    </td>
-                                    <td>@String.Format("{0:0.00}", emp.YearsOfService)
-                                    </td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.BeginDate)
-                                    </td>
-                                    <td>@String.Format("{0:0.00}", emp.TimeInTitle)
-                                    </td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
-                                    </td>
-                                    <td>@String.Format("{0:0.00}", emp.YearsOfExperience)
-                                    </td>
-                                    <td>@String.Format("{0:c}", emp.PayRate)
-                                    </td>
-                                    <td>@emp.DepartmentComments
-                                    </td>
-                                    <td>@emp.DeansOfficeComments
-                                    </td>
-                                </tr>
+@using System.Text;
+@*<legend>Employees</legend>*@@*<ul>*@
+@{
+    if (Model.Employees.Count > 0)
+    {
+@* <li>*@
+    <div id="employee-salary-comparison-report">
+        <div>
+            <br />
+            Items highlighted in <font style="background: #90EE90;">light green</font> indicate
+            a change from PPS.<br />
+            Dates with <strong>bolded</strong> text have been validated to be correct in PPS.<br />
+            <br />
+        </div>
+        <h3>
+            Employee Salary Comparison Report</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <th>
+                        Department Name
+                    </th>
+                    <th>
+                        Title<br />
+                        Code
+                    </th>
+                    <th>
+                        Salary<br />
+                        Grade
+                    </th>
+                    <th>
+                        Bargaining<br />
+                        Unit
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                    <th>
+                        Hire Date
+                    </th>
+                    <th>
+                        Years Of<br />
+                        Service
+                    </th>
+                    <th>
+                        Begin Date<br />
+                        (in Title)
+                    </th>
+                    <th>
+                        Time<br />
+                        In<br />
+                        Title
+                    </th>
+                    <th>
+                        Experience<br />
+                        Begin Date
+                    </th>
+                    <th>
+                        Years Of<br />
+                        Experience
+                    </th>
+                    <th>
+                        Pay Rate
+                    </th>
+                    <th>
+                        Department<br />
+                        Comments<br />
+                    </th>
+                    <th>
+                        Dean's<br />
+                        Office<br />
+                        Comments<br />
+                    </th>
+                </tr>
+                @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
+                {
+                    <tr>
+                        <td>@emp.HomeDepartment.Name
+                        </td>
+                        <td>@emp.TitleCode
+                        </td>
+                        <td>@emp.SalaryGrade
+                        </td>
+                        <td>@emp.BargainingUnitCode
+                        </td>
+                        <td>@emp.FullName
+                        </td>
+                        <td>
+                            @{
+                    var hireDate = String.Format("{0:MM/dd/yyyy}", emp.HireDate);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(hireDate);
+                    if (emp.PPSCareerHireDateChecked) { sb.Insert(0, "<strong>"); sb.Append("</string>"); }
+                    if (emp.CareerDateHasBeenAdjusted) { sb.Insert(0, "<font style='background: #90EE90;'>"); sb.Append("</font>"); }
+                    WriteLiteral(@sb.ToString());
                             }
-                        </tbody>
-                    </table>
-                </div>
-            </li>
-            }
-        }
-    </ul>
-</fieldset>
+                        </td>
+                        <td>@String.Format("{0:0.00}", emp.YearsOfService)
+                        </td>
+                        <td>
+                            @{
+                    var apptDate = String.Format("{0:MM/dd/yyyy}", emp.BeginDate);
+                    sb.Clear();
+                    sb.Append(hireDate);
+                    if (emp.PPSApptHireDateChecked) { sb.Insert(0, "<strong>"); sb.Append("</string>"); }
+                    if (emp.ApptDateHasBeenAdjusted) { sb.Insert(0, "<font style='background: #90EE90;'>"); sb.Append("</font>"); }
+                    WriteLiteral(@sb.ToString());
+                            }
+                        </td>
+                        <td>@String.Format("{0:0.00}", emp.TimeInTitle)
+                        </td>
+                        <td>@String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
+                        </td>
+                        <td>@String.Format("{0:0.00}", emp.YearsOfExperience)
+                        </td>
+                        <td>@String.Format("{0:c}", emp.PayRate)
+                        </td>
+                        <td>@emp.DepartmentComments
+                        </td>
+                        <td>@emp.DeansOfficeComments
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+@* </li>*@ } }
+@* </ul>*@ @*</fieldset>*@

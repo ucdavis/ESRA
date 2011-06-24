@@ -254,7 +254,7 @@
     <Content Include="Views\Shared\_SalaryScaleSelectLists.cshtml" />
     <Content Include="Views\SalaryScale\Copy %282%29 of Index.cshtml" />
     <Content Include="Views\SalaryScale\Index_bak.cshtml" />
-    <Content Include="Views\Shared\_SalaryScaleWrapper.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_ReportGenerationCriteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

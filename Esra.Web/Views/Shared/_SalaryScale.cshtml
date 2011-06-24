@@ -29,9 +29,8 @@
                     Bargaining Code</div>
                 <div class="display-details">@Model.SalaryScale.BargainingCode</div>
             </li>
-            @{
-        if (Model.SalaryScale.SalarySteps.Count > 0)
-        {
+            @if (Model.SalaryScale.SalarySteps.Count > 0)
+            {
                 <li>
                     <div>
                         <table>
@@ -50,10 +49,31 @@
                                         Hourly
                                     </th>
                                 </tr>
+                                @{var i = 0;
+                                  var middleStep = Model.SalaryScale.NumSalarySteps / 2;}
                                 @foreach (Esra.Core.Domain.SalaryStep step in Model.SalaryScale.SalarySteps)
                                 {
+                                    if (i == middleStep)
+                                    {
                                     <tr>
-                                        <td>@step.StepNumber
+                                        <td>
+                                            <strong>@step.StepNumber</strong>
+                                        </td>
+                                        <td>
+                                            <strong>@String.Format("{0:c}", step.Annual)</strong>
+                                        </td>
+                                        <td>
+                                            <strong>@String.Format("{0:c}", step.Monthly)</strong>
+                                        </td>
+                                        <td>
+                                            <strong>@String.Format("{0:c}", step.Hourly)</strong>
+                                        </td>
+                                    </tr>
+                                    }
+                                    else
+                                    { <tr>
+                                        <td>
+                                            @step.StepNumber
                                         </td>
                                         <td>@String.Format("{0:c}", step.Annual)
                                         </td>
@@ -62,16 +82,16 @@
                                         <td>@String.Format("{0:c}", step.Hourly)
                                         </td>
                                     </tr>
+                                    }
+                                    i = i + 1;
                                 }
                             </tbody>
                         </table>
                     </div>
                 </li>
-        }
             }
-            @{
-        if (Model.SalaryScale.SalaryGradeQuartiles != null)
-        {
+            @if (Model.SalaryScale.SalaryGradeQuartiles != null)
+            {
                 <li>
                     <div>
                         <table>
@@ -149,7 +169,6 @@
                         </table>
                     </div>
                 </li>
-        }
             }
             <li>
                 <div class="display-label">
