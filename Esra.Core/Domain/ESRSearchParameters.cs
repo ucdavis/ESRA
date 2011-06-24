@@ -8,6 +8,21 @@ namespace Esra.Core.Domain
     {
         private List<Title> _SearchTitles;
 
+        public virtual bool IsAnyTitle
+        {
+            get { return (_SearchTitles == null || _SearchTitles.Count == 0 || _SearchTitles[0].TitleCode == null ? true : false); }
+        }
+
+        public virtual bool IsAnyDepartment
+        {
+            get { return (_SearchDepartments == null || _SearchDepartments.Count == 0 || _SearchDepartments[0].DepartmentNumber == null ? true : false); }
+        }
+
+        public virtual bool IsAnyEmployee
+        {
+            get { return (_SearchEmployee == null || _SearchEmployee.EmployeeID == null ? true : false); }
+        }
+
         // Contains a list of the Titles that were present in the Employee Salary Report search criteria.
         public virtual List<Title> SearchTitles
         {
