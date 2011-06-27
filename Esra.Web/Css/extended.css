@@ -61,3 +61,13 @@ fieldset.display-form
 {
     z-index: 0;
 }
+
+.date-checked 
+{
+    font-weight: bold;
+}
+
+.date-adjusted 
+{
+    background-color: #90EE90;
+}

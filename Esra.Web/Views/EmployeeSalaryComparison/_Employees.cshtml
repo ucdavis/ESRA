@@ -1,5 +1,11 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
 @using System.Text; @*<legend>Employees</legend>*@@*<ul>*@
+@helper GetEditedClassNames(bool dateChecked, bool dateAdjusted){
+    <text>@(dateChecked ? "date-checked" : string.Empty) @(dateAdjusted ? "date-adjusted" : string.Empty)</text>
+}
+
+@GetEditedClassNames(true, true)
+
 @{
     if (Model.Employees.Count > 0)
     {
@@ -89,27 +95,13 @@
                         </td>
                         <td>@emp.FullName
                         </td>
-                        <td>
-                            @{
-                       var hireDate = String.Format("{0:MM/dd/yyyy}", emp.HireDate);
-                       StringBuilder sb = new StringBuilder();
-                       sb.Append(hireDate);
-                       if (emp.PPSCareerHireDateChecked) { sb.Insert(0, "<strong>"); sb.Append("</strong>"); }
-                       if (emp.CareerDateHasBeenAdjusted) { sb.Insert(0, "<font style='background: #90EE90;'>"); sb.Append("</font>"); }
-                       WriteLiteral(@sb.ToString());
-                            }
+                        <td class="@GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
+                            @emp.HireDate.ToShortDateString()
                         </td>
                         <td>@String.Format("{0:0.00}", emp.YearsOfService)
                         </td>
-                        <td>
-                            @{
-                       var apptDate = String.Format("{0:MM/dd/yyyy}", emp.BeginDate);
-                       sb.Clear();
-                       sb.Append(hireDate);
-                       if (emp.PPSApptHireDateChecked) { sb.Insert(0, "<strong>"); sb.Append("</strong>"); }
-                       if (emp.ApptDateHasBeenAdjusted) { sb.Insert(0, "<font style='background: #90EE90;'>"); sb.Append("</font>"); }
-                       WriteLiteral(@sb.ToString());
-                            }
+                        <td class="@GetEditedClassNames(emp.PPSApptHireDateChecked, emp.ApptDateHasBeenAdjusted)">
+                            @emp.BeginDate.ToShortDateString()
                         </td>
                         <td>@String.Format("{0:0.00}", emp.TimeInTitle)
                         </td>
