@@ -15,6 +15,13 @@
     @*<div id="salaryscale-result" />*@
 <script language="JavaScript" type="text/javascript">
     $(function () {
+        var dtable = $('#employees').dataTable({
+            "bProcessing": true,
+            //"bServerSide": true,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers"
+        });
+
         $('#titlecode-drop-down').change(function () {
             //debugger;
 
