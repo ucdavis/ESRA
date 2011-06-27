@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeSalaryComparisonController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
@@ -258,6 +259,7 @@
     <Content Include="Views\SalaryScale\Copy %282%29 of Index.cshtml" />
     <Content Include="Views\SalaryScale\Index_bak.cshtml" />
     <Content Include="Views\EmployeeSalaryComparison\_ReportGenerationCriteria.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

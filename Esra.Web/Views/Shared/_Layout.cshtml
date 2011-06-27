@@ -44,16 +44,14 @@
                 </div>
             </span>
         </div>
-        @* Update depending on user login status *@ @*
         <div id="personalbar">
             <div class="col1">
-                <span id="welcome_user">Welcome _username_!</span>
+                <span id="welcome_user">Welcome @User.Identity.Name!</span>
             </div>
             <div class="col2" id="LogOffOn">
-                <a href="#">logoff</a>
+                @Html.ActionLink("Logoff", "LogOut", "Account")
             </div>
         </div>
-        *@
         <div class="main">
             <div id="messagecontainer">
                 @if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
