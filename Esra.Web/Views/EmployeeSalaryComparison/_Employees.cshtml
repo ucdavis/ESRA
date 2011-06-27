@@ -17,6 +17,7 @@
         <table id="employees">
             <thead>
                 <tr>
+                    <th></th>
                     <th>
                         Department Name
                     </th>
@@ -77,6 +78,7 @@
                 @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
                 {
                     <tr>
+                        <td><a href="#" class="edit-row">Edit</a></td>
                         <td>@emp.HomeDepartment.Name
                         </td>
                         <td>@emp.TitleCode
