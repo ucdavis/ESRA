@@ -13,8 +13,8 @@
     @Html.AntiForgeryToken()
     @Html.Partial("_SalaryScaleSelectLists", Model.SalaryScaleViewModel)
     @*<div id="salaryscale-result" />*@
-    <script language="JavaScript" type="text/javascript">
-    <!--        //
+<script language="JavaScript" type="text/javascript">
+    $(function () {
         $('#titlecode-drop-down').change(function () {
             //debugger;
 
@@ -24,16 +24,17 @@
 
             var token = $('[name=__RequestVerificationToken]').val();
 
-            $.post('/SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: $(this).val() }, function (result) {
-
-                if (result.length > 50) {
-                    $("#salary-scale-partial").html(result.toString());
+            $.post('/SalaryScale/_SalaryScale',
+                { __RequestVerificationToken: token, titleCode: $(this).val() },
+                function (result) {
+                    if (result.length > 50) {
+                        $("#salary-scale-partial").html(result.toString());
+                    }
+                    else {
+                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                    }
                 }
-                else {
-                    $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
-                }
-            }
-        );
+            );
         });
 
         $('#title-drop-down').change(function () {
@@ -45,19 +46,20 @@
 
             var token = $('[name=__RequestVerificationToken]').val();
 
-            $.post('/SalaryScale/_SalaryScale', { __RequestVerificationToken: token, titleCode: $(this).val() }, function (result) {
-
-                if (result.length > 50) {
-                    $("#salary-scale-partial").html(result.toString());
+            $.post('/SalaryScale/_SalaryScale',
+                { __RequestVerificationToken: token, titleCode: $(this).val() },
+                function (result) {
+                    if (result.length > 50) {
+                        $("#salary-scale-partial").html(result.toString());
+                    }
+                    else {
+                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                    }
                 }
-                else {
-                    $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
-                }
-            }
-        );
+            );
         });
-//-->
-    </script>
+    });
+</script>
 </div>
 <div id="salary-scale-partial">
     @{
