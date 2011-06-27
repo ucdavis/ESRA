@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\EmployeeSalaryComparisonController.cs" />
+    <Compile Include="Controllers\SalaryReviewAnalysisController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
@@ -109,6 +110,7 @@
     </Compile>
     <Compile Include="Models\EmployeeComparisonViewModel_bak.cs" />
     <Compile Include="Models\EmployeeSalaryComparisonViewModel.cs" />
+    <Compile Include="Models\SalaryReviewAnalysisViewModel.cs" />
     <Compile Include="Models\SalaryScaleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -255,6 +257,11 @@
     <Content Include="Views\SalaryScale\Copy %282%29 of Index.cshtml" />
     <Content Include="Views\SalaryScale\Index_bak.cshtml" />
     <Content Include="Views\EmployeeSalaryComparison\_ReportGenerationCriteria.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Index.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Details.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Edit.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

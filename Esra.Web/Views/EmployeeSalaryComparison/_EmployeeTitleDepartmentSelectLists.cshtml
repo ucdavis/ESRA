@@ -100,7 +100,8 @@
     <script language="JavaScript" type="text/javascript">
     <!--
         $('submit').change(function () {
-            debugger; alert("test1"); var selectedText = $(this).find('option:selected').text();
+            //debugger; alert("test1");
+            var selectedText = $(this).find('option:selected').text();
             $('#result').html(selectedText); $(this).parents('form').submit();
         });
 
