@@ -262,7 +262,6 @@
     <Content Include="Views\SalaryScale\Index_bak.cshtml" />
     <Content Include="Views\EmployeeSalaryComparison\_ReportGenerationCriteria.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
-    <Content Include="Views\SalaryReviewAnalysis\Index.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Details.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Edit.cshtml" />
