@@ -1,11 +1,13 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
-@using System.Text; @*<legend>Employees</legend>*@@*<ul>*@
-@helper GetEditedClassNames(bool dateChecked, bool dateAdjusted){
-    <text>@(dateChecked ? "date-checked" : string.Empty) @(dateAdjusted ? "date-adjusted" : string.Empty)</text>
+@using System.Text;
+@*<legend>Employees</legend>*@@*<ul>*@
+@helper GetEditedClassNames(bool dateChecked, bool dateAdjusted)
+    {
+    <text>
+    @(dateChecked && dateAdjusted ? "date-checked-and-adjusted" : dateChecked ? "date-checked" : dateAdjusted ? "date-adjusted" : string.Empty)
+    </text>
 }
-
 @GetEditedClassNames(true, true)
-
 @{
     if (Model.Employees.Count > 0)
     {
@@ -23,7 +25,8 @@
         <table id="employees">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                    </th>
                     <th>
                         Department Name
                     </th>
@@ -84,7 +87,9 @@
                 @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
                 {
                     <tr>
-                        <td><a href="#" class="edit-row">Edit</a></td>
+                        <td>
+                            <a href="#" class="edit-row">Edit</a>
+                        </td>
                         <td>@emp.HomeDepartment.Name
                         </td>
                         <td>@emp.TitleCode

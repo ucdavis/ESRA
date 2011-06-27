@@ -62,12 +62,18 @@ fieldset.display-form
     z-index: 0;
 }
 
-.date-checked 
+.date-checked-and-adjusted
+{
+    font-weight: bold;
+    background-color: #90EE90;
+}
+
+.date-checked
 {
     font-weight: bold;
 }
 
-.date-adjusted 
+.date-adjusted
 {
     background-color: #90EE90;
 }
