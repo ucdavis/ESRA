@@ -56,3 +56,8 @@ fieldset.display-form
     vertical-align: top;
     font-weight: bold;
 }
+
+#branding
+{
+    z-index: 0;
+}
