@@ -1,4 +1,5 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+@using System.Text;
 @{
     ViewBag.Title = "Employee Salary Comparison";
 }
@@ -90,16 +91,49 @@
             //            sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
             //            sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" /><a class="close-row" href="#">Close</a></td></tr>';
             //            sOut += '</table>';
-            var sOut = aData[5] + '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-            sOut += '<tr><th>Hire Date:</th><th>Begin Date<br />(in Title):</th><th>Experience Begin Date:</th><th>Department<br/ >Comments:</th><th>Deans Office<br />Comments:</th>';
-            sOut += '<tr><td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[7] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[6] + '"/></td>';
-            sOut += '    <td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[10] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[9] + '"/></td>';
-            sOut += '    <td><br /><input type="text" value="' + aData[12] + '"/></td>';
-            sOut += '    <td><textarea name="tbDeansOfficeComments" rows="3" cols="20">' + aData[15] + '</textarea></td>';
-            sOut += '    <td><textarea name="tbDepartmentComments" rows="3" cols="20" >' + aData[16] + '</textarea></td></tr>';
+
+            var sOut = '';
+            sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+            sOut += '<tr><th>Department:</th><th>Title Code:</th><th>Salary Grade:</th><th>Bargaining<br />Unit:</th>';
+            sOut += '<th>Employee<br />Name:</th><th>Hire Date:</th><th>Years<br />of<br />Service:</th><th>Begin Date<br />(in Title):</th>';
+            sOut += '<th>Time<br />in<br />Title:</th><th>Experience Begin Date:</th><th>Years<br />of<br />Experience:</th>';
+            sOut += '<th>Pay Rate:</th><th>Department<br/ >Comments:</th><th>Dean' + "'" + 's Office<br />Comments:</th>';
+
+            sOut += '<tr><td><br /><input type="text" disabled="true" value="' + aData[1] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[2] + '"/></td>';
+            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[3] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[4] + '"/></td>';
+            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[5] + '"/></td>';
+            sOut += '<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[7] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[6] + '"/></td>';
+            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[8] + '"/></td>';
+            sOut += '<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[10] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[9] + '"/></td>';
+            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[11] + '"/></td>';
+            sOut += '<td><br /><input type="text" value="' + aData[12] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[13] + '"/></td>';
+            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[14] + '"/></td>';
+            sOut += '<td><textarea name="tbDeansOfficeComments" rows="3" cols="20">' + aData[15] + '</textarea></td>';
+            sOut += '<td><textarea name="tbDepartmentComments" rows="3" cols="20" >' + aData[16] + '</textarea></td></tr>';
             sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
             sOut += '</table>';
             return sOut;
+
+            //            var sb = new System.Text.StringBuilder();
+            //            sb.Append('<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">');
+            //            sb.Append('<tr><th>Department</th><th>Title Code</th><th>Salary Grade</th><th>Bargaining<br />Unit</th>');
+            //            sb.Append('<th>Employee<br />Name</th><th>Hire Date:</th><th>Years<br />of<br />Service</th><th>Begin Date<br />(in Title):</th>');
+            //            sb.Append('<th>Time<br />in<br />Title</th><th>Experience Begin Date:</th><th>Years<br />of<br />Experience</th>');
+            //            sb.Append('<th>Pay Rate</th><th>Department<br/ >Comments:</th><th>Deans Office<br />Comments:</th>');
+            //            sb.Append('<tr><td><br /><input type="text" disabled="true" value="' + aData[1] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[2] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" disabled="true" value="' + aData[3] + '"/>';</td><td><br /><input type="text" disabled="true" value="' + aData[4] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" disabled="true" value="' + aData[5] + '"/></td>');
+            //            sb.Append('<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[7] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[6] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" disabled="true" value="' + aData[8] + '"/></td>');
+            //            sb.Append('<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[10] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[9] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" disabled="true" value="' + aData[11] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" value="' + aData[12] + '"/></td><td><br /><input type="text" value="' + aData[13] + '"/></td>');
+            //            sb.Append('<td><br /><input type="text" value="' + aData[14] + '"/></td>');
+            //            sb.Append('<td><textarea name="tbDeansOfficeComments" rows="3" cols="20">' + aData[15] + '</textarea></td>');
+            //            sb.Append('<td><textarea name="tbDepartmentComments" rows="3" cols="20" >' + aData[16] + '</textarea></td></tr>');
+            //            sb.Append('<tr><td>&nbsp;</td><td><input type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>');
+            //            sb.Append('</table>');
+            //            return sb.ToString();
         }
     </script>
 </div>
