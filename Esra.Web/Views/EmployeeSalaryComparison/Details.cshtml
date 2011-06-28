@@ -13,37 +13,37 @@
     @Html.AntiForgeryToken()
     @Html.Partial("_SalaryScaleSelectLists", Model.SalaryScaleViewModel)
     @*<div id="salaryscale-result" />*@
-<script language="JavaScript" type="text/javascript">
-    $(function () {
-        var dtable = $('#employees').dataTable({
-            "bProcessing": true,
-            //"bServerSide": true,
-            "bJQueryUI": true,
-            "sPaginationType": "full_numbers"
-        });
+    <script language="JavaScript" type="text/javascript">
+        $(function () {
+            var dtable = $('#employees').dataTable({
+                "bProcessing": true,
+                //"bServerSide": true,
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers"
+            });
 
-        $('#employees a.edit-row').live('click', function (e) {
-            var row = this.parentNode.parentNode;
-            dtable.fnOpen(row, fnFormatDetails(dtable, row), 'details');
-            e.preventDefault();
-        });
+            $('#employees a.edit-row').live('click', function (e) {
+                var row = this.parentNode.parentNode;
+                dtable.fnOpen(row, fnFormatDetails(dtable, row), 'details');
+                e.preventDefault();
+            });
 
-        $('#employees a.close-row').live('click', function (e) {
-            var row = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.previousSibling;
-            dtable.fnClose(row);
-            e.preventDefault();
-        });
+            $('#employees a.close-row').live('click', function (e) {
+                var row = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.previousSibling;
+                dtable.fnClose(row);
+                e.preventDefault();
+            });
 
-        $('#titlecode-drop-down').change(function () {
-            //debugger;
+            $('#titlecode-drop-down').change(function () {
+                //debugger;
 
-            var selectedText = $(this).find('option:selected').text();
-            var otherControl = $('#title-drop-down');
-            otherControl.val($(this).val());
+                var selectedText = $(this).find('option:selected').text();
+                var otherControl = $('#title-drop-down');
+                otherControl.val($(this).val());
 
-            var token = $('[name=__RequestVerificationToken]').val();
+                var token = $('[name=__RequestVerificationToken]').val();
 
-            $.post('/SalaryScale/_SalaryScale',
+                $.post('/SalaryScale/_SalaryScale',
                 { __RequestVerificationToken: token, titleCode: $(this).val() },
                 function (result) {
                     if (result.length > 50) {
@@ -54,18 +54,18 @@
                     }
                 }
             );
-        });
+            });
 
-        $('#title-drop-down').change(function () {
-            //debugger;
+            $('#title-drop-down').change(function () {
+                //debugger;
 
-            var selectedText = $(this).find('option:selected').text();
-            var otherControl = $('#titlecode-drop-down');
-            otherControl.val($(this).val());
+                var selectedText = $(this).find('option:selected').text();
+                var otherControl = $('#titlecode-drop-down');
+                otherControl.val($(this).val());
 
-            var token = $('[name=__RequestVerificationToken]').val();
+                var token = $('[name=__RequestVerificationToken]').val();
 
-            $.post('/SalaryScale/_SalaryScale',
+                $.post('/SalaryScale/_SalaryScale',
                 { __RequestVerificationToken: token, titleCode: $(this).val() },
                 function (result) {
                     if (result.length > 50) {
@@ -76,23 +76,32 @@
                     }
                 }
             );
+            });
         });
-    });
 
-    /* Formating function for row details */
-    function fnFormatDetails(dTable, row) {
-        var aData = dTable.fnGetData(row);
-        var sOut = aData[5] + '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-        sOut += '<tr><td>Hire Date:</td><td><input type="text" value="' + aData[6] + '"/></td></tr>';
-        sOut += '<tr><td>Begin Date:</td><td><input type="text" value="' + aData[8] + '"/></td></tr>';
-        sOut += '<tr><td>Experience Begin Date:</td><td><input type="text" value="' + aData[10] + '"/></td></tr>';
-        sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
-        sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" /><a class="close-row" href="#">Close</a></td></tr>';
-        sOut += '</table>';
+        /* Formating function for row details */
+        function fnFormatDetails(dTable, row) {
 
-        return sOut;
-    }
-</script>
+            var aData = dTable.fnGetData(row);
+            // var sOut = aData[5] + '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+            //            sOut += '<tr><td>Hire Date:</td><td><input type="text" value="' + aData[6] + '"/></td></tr>';
+            //            sOut += '<tr><td>Begin Date:</td><td><input type="text" value="' + aData[8] + '"/></td></tr>';
+            //            sOut += '<tr><td>Experience Begin Date:</td><td><input type="text" value="' + aData[10] + '"/></td></tr>';
+            //            sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
+            //            sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" /><a class="close-row" href="#">Close</a></td></tr>';
+            //            sOut += '</table>';
+            var sOut = aData[5] + '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+            sOut += '<tr><th>Hire Date:</th><th>Begin Date<br />(in Title):</th><th>Experience Begin Date:</th><th>Department<br/ >Comments:</th><th>Deans Office<br />Comments:</th>';
+            sOut += '<tr><td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[7] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[6] + '"/></td>';
+            sOut += '    <td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (aData[10] == "Y" ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[9] + '"/></td>';
+            sOut += '    <td><br /><input type="text" value="' + aData[12] + '"/></td>';
+            sOut += '    <td><textarea name="tbDeansOfficeComments" rows="3" cols="20">' + aData[15] + '</textarea></td>';
+            sOut += '    <td><textarea name="tbDepartmentComments" rows="3" cols="20" >' + aData[16] + '</textarea></td></tr>';
+            sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
+            sOut += '</table>';
+            return sOut;
+        }
+    </script>
 </div>
 <div id="salary-scale-partial">
     @{
