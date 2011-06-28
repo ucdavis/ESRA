@@ -78,7 +78,7 @@
                         "EmployeeID",
                         "FullName",
                          Model.SelectedEmployee != null ? Model.SelectedEmployee.EmployeeID.ToString() : string.Empty),
-                        "--Any Employee(s)--"
+             "--Any Employee(s)--", new { id = "employee-drop-down" }
                         )
                     </div>
                 </td>
@@ -89,7 +89,8 @@
             <tr>
                 <td colspan="2">
                     <br />
-                    <input type="submit" value="Get Employee Salary Report" />&nbsp; &nbsp; &nbsp; &nbsp;
+                    <input id="btnGetEmployeeSalaryReport" type="submit" value="Get Employee Salary Report" />&nbsp;
+                    &nbsp; &nbsp; &nbsp;
                     <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
                     <br />
                     <br />
@@ -99,10 +100,17 @@
     }
     <script language="JavaScript" type="text/javascript">
     <!--
-        $('submit').change(function () {
-            //debugger; alert("test1");
-            var selectedText = $(this).find('option:selected').text();
-            $('#result').html(selectedText); $(this).parents('form').submit();
+        $("#btnGetEmployeeSalaryReport").click(function () {
+            // reset the employee-drop-down when the submit button is "pressed"
+            var selectedEmployeeId = $('#employee-drop-down')[0];
+            selectedEmployeeId.selectedIndex = 0;
+            selectedEmployeeId.options[0].selected = true;
+            $(this).parents('form').submit();
+        });
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        $('#employee-drop-down').change(function () {
+            $(this).parents('form').submit();
         });
 
         function resetForm(form) {
