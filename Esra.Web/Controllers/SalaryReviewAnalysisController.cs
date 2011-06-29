@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
@@ -23,9 +22,9 @@ namespace Esra.Web.Controllers
         // GET: /SalaryReviewAnalysis/
         public ActionResult Index()
         {
-            var salaryReviewAnalysisList = _salaryReviewAnalysisRepository.Queryable;
+            var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository);
 
-            return View(salaryReviewAnalysisList.ToList());
+            return View(salaryReviewAnalysisModel);
         }
 
         //

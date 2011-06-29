@@ -46,7 +46,7 @@ namespace Esra.Web.Models
         {
             Check.Require(repository != null, "Repository must be supplied");
 
-            var viewModel = new SalaryReviewAnalysisViewModel { SalaryReviewAnalysis = new SalaryReviewAnalysis() };
+            var viewModel = new SalaryReviewAnalysisViewModel();
 
             return viewModel;
         }

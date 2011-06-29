@@ -1,8 +1,30 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Esra.Web.Resources
+@{
+    ViewBag.Title = "ESRA Home";
 }
-
 <h2>@ViewBag.Message</h2>
+<div id="roles">
+    @Html.Partial("_UserRoles")
+</div>
+<div id="menu">
+    @if (User.IsInRole(GlobalConstants.ROLE_ADMIN))
+    {
+        @Html.Partial("_AdminMenu")
+    }
+    else if (User.IsInRole(GlobalConstants.ROLE_DO_USER))
+    {
+        @Html.Partial("_DeansOfficeMenu")
+    }
+    else if (User.IsInRole(GlobalConstants.ROLE_REVIEWER))
+    {
+        @Html.Partial("_ReviewerMenu")
+    }
+    else
+    {
+        @Html.Partial("_DepartmentsMenu")
+    }
+</div>
 <p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
+    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">
+        http://asp.net/mvc</a>.
 </p>

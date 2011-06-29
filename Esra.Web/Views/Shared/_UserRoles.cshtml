@@ -1,0 +1,77 @@
+﻿<div id="test">
+    @{
+        var ADMIN = "Admin";
+        var USER = "User";
+        var EMULATION_USER = "EmulationUser";
+        var DO_USER = "DOUser";
+        var REVIEWER = "Reviewer";
+        var APPLICATION_MANAGER = "ApplicationManager";
+        var MANAGE_ALL = "ManageAll";
+        var MANAGE_SCHOOL = "ManageSchool";
+
+        <text>
+        <br />
+        <table>
+            <tr>
+                <th colspan="8">@User.Identity.Name's Roles:
+                </th>
+            </tr>
+            <tr>
+                <th>@ADMIN
+                </th>
+                <th>@USER
+                </th>
+                <th>@EMULATION_USER
+                </th>
+                <th>@DO_USER
+                </th>
+                <th>@REVIEWER
+                </th>
+                <th>@APPLICATION_MANAGER
+                </th>
+                <th>@MANAGE_ALL
+                </th>
+                <th>@MANAGE_SCHOOL
+                </th>
+            </tr>
+            <tr>
+                <td>@Html.CheckBox("IsAdmin", @User.IsInRole(ADMIN), new { disabled = "true" })
+                </td>
+                <td>
+                    @Html.CheckBox("IsUser", @User.IsInRole(USER), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsEmulationUser", @User.IsInRole(EMULATION_USER), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsDOUser", @User.IsInRole(DO_USER), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsReviewer", @User.IsInRole(REVIEWER), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsApplicationManager", @User.IsInRole(APPLICATION_MANAGER), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsManageAll", @User.IsInRole(MANAGE_ALL), new { disabled = "true" })
+                </td>
+                <td>@Html.CheckBox("IsManageSchool", @User.IsInRole(MANAGE_SCHOOL), new { disabled = "true" })
+                </td>
+            </tr>
+        </table>
+        <br />
+        </text>
+
+@*<text>Is user in role @ADMIN? @User.IsInRole(ADMIN)
+        <br /></text>
+        <text>Is user in role @USER? @User.IsInRole(USER)
+        <br /></text>
+        <text>Is user in role @EMULATION_USER? @User.IsInRole(EMULATION_USER)
+        <br /></text>
+        <text>Is user in role @DO_USER? @User.IsInRole(DO_USER)
+        <br /></text>
+        <text>Is user in role @REVIEWER? @User.IsInRole(REVIEWER)
+        <br /></text>
+        <text>Is user in role @APPLICATION_MANAGER? @User.IsInRole(APPLICATION_MANAGER)
+        <br /></text>
+        <text>Is user in role @MANAGE_ALL? @User.IsInRole(MANAGE_ALL)
+        <br /></text>
+        <text>Is user in role @MANAGE_SCHOOL? @User.IsInRole(MANAGE_SCHOOL)
+        <br /></text>*@
+    }
+</div>
