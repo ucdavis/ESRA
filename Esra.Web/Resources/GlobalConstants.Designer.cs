@@ -106,11 +106,29 @@ namespace Esra.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ManageSchool.
+        /// </summary>
+        public static string ROLE_MANAGE_SCHOOL {
+            get {
+                return ResourceManager.GetString("ROLE_MANAGE_SCHOOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reviewer.
         /// </summary>
         public static string ROLE_REVIEWER {
             get {
                 return ResourceManager.GetString("ROLE_REVIEWER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SchoolAdmin.
+        /// </summary>
+        public static string ROLE_SCHOOL_ADMIN {
+            get {
+                return ResourceManager.GetString("ROLE_SCHOOL_ADMIN", resourceCulture);
             }
         }
         

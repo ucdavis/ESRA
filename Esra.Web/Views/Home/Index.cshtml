@@ -1,6 +1,6 @@
 ﻿@using Esra.Web.Resources
 @{
-    ViewBag.Title = "ESRA Home";
+    ViewBag.Title = "Home";
 }
 <h2>@ViewBag.Message</h2>
 <div id="roles">
@@ -21,6 +21,7 @@
     }
     else
     {
+        //GlobalConstants.ROLE_USER
         @Html.Partial("_DepartmentsMenu")
     }
 </div>

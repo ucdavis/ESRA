@@ -1,4 +1,4 @@
-﻿<div id="admin-menu">
+﻿<div id="deans-office-menu">
     <dl>
         <dt>
             @Html.ActionLink("Salary Scales", "Index", "SalaryScale")
@@ -36,11 +36,6 @@
             Create a New Copy of/or Edit the Amounts of an Existing Set of Salary Steps.</dd>
         <dd>
             Note: This applies to titles, which currently have Salary Steps.</dd>*@
-        <dt>
-            @Html.ActionLink("User Administration", "UserAdmin")
-        </dt>
-        <dd>
-            Add, Edit or Remove a User from the System.</dd>
     </dl>
     <div id="div-emulate-user" @if (User.IsInRole("EmulationUser") == false)
                                { <text>style="display: none;"</text> }

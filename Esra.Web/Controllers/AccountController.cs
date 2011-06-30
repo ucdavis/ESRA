@@ -13,6 +13,7 @@ namespace Esra.Web.Controllers
         {
             set { TempData["Message"] = value; }
         }
+
         public ActionResult LogOn(string returnUrl)
         {
             string resultUrl = CASHelper.Login(); //Do the CAS Login
@@ -30,7 +31,16 @@ namespace Esra.Web.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
-            return Redirect("https://cas.ucdavis.edu/cas/logout");
+            Session.Abandon();
+            var myLogoutPage = "LoggedOut";
+            var postBackUrl = "https://cas.ucdavis.edu/cas/logout?service=" + Request.Url.ToString().Substring(0, Request.Url.ToString().LastIndexOf("/") + 1) + myLogoutPage;
+
+            return Redirect(postBackUrl);
+        }
+
+        public ActionResult LoggedOut()
+        {
+            return View();
         }
 
         public RedirectToRouteResult Emulate(string id /* Login ID*/)

@@ -103,6 +103,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeSalaryComparisonController.cs" />
+    <Compile Include="Controllers\Filters\RoleFilters.cs" />
+    <Compile Include="Controllers\Filters\RoleNames.cs" />
     <Compile Include="Controllers\SalaryReviewAnalysisController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
@@ -167,6 +169,7 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Css\cas.css" />
     <Content Include="Css\extended.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -326,6 +329,10 @@
     <Content Include="Views\Shared\_UserRoles.cshtml" />
     <Content Include="Views\Home\_AdminMenu.cshtml" />
     <Content Include="Views\Home\UserAdmin.cshtml" />
+    <Content Include="Views\Home\_DepartmentsMenu.cshtml" />
+    <Content Include="Views\Home\_DeansOfficeMenu.cshtml" />
+    <Content Include="Views\Home\_ReviewerMenu.cshtml" />
+    <Content Include="Views\Account\LoggedOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
