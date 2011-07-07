@@ -107,6 +107,7 @@
     <Compile Include="Controllers\Filters\RoleNames.cs" />
     <Compile Include="Controllers\SalaryReviewAnalysisController.cs" />
     <Compile Include="Controllers\SalaryScaleController.cs" />
+    <Compile Include="Controllers\UserAdministrationController.cs" />
     <Compile Include="Helpers\AutoMapperConfig.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -328,11 +329,13 @@
     <None Include="Scripts\DataTables-1.8.1\media\js\jquery.dataTables.min.js.gz" />
     <Content Include="Views\Shared\_UserRoles.cshtml" />
     <Content Include="Views\Home\_AdminMenu.cshtml" />
-    <Content Include="Views\Home\UserAdmin.cshtml" />
+    <Content Include="Views\UserAdministration\Index.cshtml" />
     <Content Include="Views\Home\_DepartmentsMenu.cshtml" />
     <Content Include="Views\Home\_DeansOfficeMenu.cshtml" />
     <Content Include="Views\Home\_ReviewerMenu.cshtml" />
     <Content Include="Views\Account\LoggedOut.cshtml" />
+    <Content Include="Views\Home\_DemoRoleSelector.cshtml" />
+    <Content Include="Views\Home\_EmulateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

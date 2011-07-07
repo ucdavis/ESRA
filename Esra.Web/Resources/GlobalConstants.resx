@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MODE_DEMO" xml:space="preserve">
+    <value>demo</value>
+    <comment>Used to enable and initially show the Role/Demo feature.</comment>
+  </data>
   <data name="ROLE_ADMIN" xml:space="preserve">
     <value>Admin</value>
     <comment>Allows access to all features, including User Admin.  Includes access to title and salary scale maintenance.  Note: user must also have "ManageAll" role to actually be able to edit users within the user admin "plug-in".</comment>

@@ -1,7 +1,16 @@
-﻿<ul class="navigation">
+﻿@using Esra.Web.Resources
+<ul class="navigation">
     <li>@Html.ActionLink("Home", "Index", "Home")</li>
     <li>@Html.ActionLink("Salary Scales", "Index", "SalaryScale")</li>
     <li>@Html.ActionLink("Employee Salary Comparison", "Index", "EmployeeSalaryComparison")</li>
     <li>@Html.ActionLink("Salary Review Analysis", "Index", "SalaryReviewAnalysis")</li>
+    @{
+        if (User.IsInRole(GlobalConstants.ROLE_ADMIN))
+        {
+        <li>
+            @Html.ActionLink("User Administration", "Index", "UserAdministration")
+        </li>
+        }
+    }
     <li>@Html.ActionLink("About", "About", "Home")</li>
 </ul>

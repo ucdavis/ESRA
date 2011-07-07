@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Esra.Web;
+﻿using System.Web.Mvc;
 using Esra.Web.Controllers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Esra.Core.Domain;
 
 namespace Esra.Tests.Controllers
 {
@@ -16,7 +12,7 @@ namespace Esra.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(null);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -29,7 +25,7 @@ namespace Esra.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(null);
 
             // Act
             ViewResult result = controller.About() as ViewResult;

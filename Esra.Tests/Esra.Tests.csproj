@@ -59,6 +59,10 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Esra.Core\Esra.Core.csproj">
+      <Project>{AF622928-B2D4-456D-ADA9-0FF669B3A316}</Project>
+      <Name>Esra.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Esra.Web\Esra.Web.csproj">
       <Project>{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}</Project>
       <Name>Esra.Web</Name>

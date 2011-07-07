@@ -37,19 +37,9 @@
         <dd>
             Note: This applies to titles, which currently have Salary Steps.</dd>*@
         <dt>
-            @Html.ActionLink("User Administration", "UserAdmin")
+            @Html.ActionLink("User Administration", "Index", "UserAdministration")
         </dt>
         <dd>
             Add, Edit or Remove a User from the System.</dd>
     </dl>
-    <div id="div-emulate-user" @if (User.IsInRole("EmulationUser") == false)
-                               { <text>style="display: none;"</text> }
-                                 >
-        @using (Html.BeginForm("Emulate", "Account", FormMethod.Post))
-        {
-            @Html.TextBox("id")
-
-            <input id="btnEmulateUserSubmit" type="submit" value="Emulate" />
-        }
-    </div>
 </div>

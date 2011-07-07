@@ -61,6 +61,15 @@ namespace Esra.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to demo.
+        /// </summary>
+        public static string MODE_DEMO {
+            get {
+                return ResourceManager.GetString("MODE_DEMO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string ROLE_ADMIN {

@@ -17,14 +17,4 @@
             Create a New Salary Review Analysis or Search For and View an Existing Salary Review
             Analysis.</dd>
     </dl>
-    <div id="div-emulate-user" @if (User.IsInRole("EmulationUser") == false)
-                               { <text>style="display: none;"</text> }
-                                 >
-        @using (Html.BeginForm("Emulate", "Account", FormMethod.Post))
-        {
-            @Html.TextBox("id")
-
-            <input id="btnEmulateUserSubmit" type="submit" value="Emulate" />
-        }
-    </div>
 </div>

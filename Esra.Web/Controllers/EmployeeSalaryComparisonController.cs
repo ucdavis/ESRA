@@ -29,6 +29,9 @@ namespace Esra.Web.Controllers
         public ActionResult Index()
         {
             var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, null);
+            employeeSalaryComparisonModel.User =
+                Repository.OfType<User>().Queryable
+                .Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
 
             return View(employeeSalaryComparisonModel);
         }

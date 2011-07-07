@@ -1,28 +1,32 @@
-﻿@using Esra.Web.Resources
+﻿@model Esra.Web.Models.HomeViewModel
+@using Esra.Web.Resources
+@using System.Web.Configuration
 @{
     ViewBag.Title = "Home";
 }
 <h2>@ViewBag.Message</h2>
-<div id="roles">
-    @Html.Partial("_UserRoles")
+<div id="demo-role-selector">
+    @{
+        if (Model.IsDemoMode)
+        {
+        @Html.Partial("_DemoRoleSelector")
+        }
+    }
 </div>
 <div id="menu">
-    @if (User.IsInRole(GlobalConstants.ROLE_ADMIN))
-    {
-        @Html.Partial("_AdminMenu")
+    @{
+        if (!String.IsNullOrEmpty(Model.MenuViewName))
+        {
+        @Html.Partial(Model.MenuViewName)
+        }
     }
-    else if (User.IsInRole(GlobalConstants.ROLE_DO_USER))
-    {
-        @Html.Partial("_DeansOfficeMenu")
-    }
-    else if (User.IsInRole(GlobalConstants.ROLE_REVIEWER))
-    {
-        @Html.Partial("_ReviewerMenu")
-    }
-    else
-    {
-        //GlobalConstants.ROLE_USER
-        @Html.Partial("_DepartmentsMenu")
+</div>
+<div id="emulate-user">
+    @{
+        if (User.IsInRole(GlobalConstants.ROLE_EMULATION_USER))
+        {
+        @Html.Partial("_EmulateUser")
+        }
     }
 </div>
 <p>

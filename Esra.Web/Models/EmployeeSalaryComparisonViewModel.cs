@@ -8,6 +8,8 @@ namespace Esra.Web.Models
 {
     public class EmployeeSalaryComparisonViewModel
     {
+        public User User { get; set; }
+
         public SalaryScaleViewModel SalaryScaleViewModel { get; set; }
 
         public ESRSearchParameters EsrSearchParameters { get; set; }
