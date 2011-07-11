@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Configuration;
+using Esra.Core.Domain;
 using Esra.Web.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -13,6 +14,8 @@ namespace Esra.Web.Models
         public bool IsDemoMode { get; set; }
 
         public string MenuViewName { get; set; }
+
+        public User User { get; set; }
 
         public static HomeViewModel Create(IRepository repository)
         {

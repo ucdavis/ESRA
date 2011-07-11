@@ -336,6 +336,8 @@
     <Content Include="Views\Account\LoggedOut.cshtml" />
     <Content Include="Views\Home\_DemoRoleSelector.cshtml" />
     <Content Include="Views\Home\_EmulateUser.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchParamaters.cshtml" />
+    <Content Include="Views\Shared\Hidden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

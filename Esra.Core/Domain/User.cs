@@ -128,6 +128,11 @@ namespace Esra.Core.Domain
             set { _Roles = value; }
         }
 
+        /// <summary>
+        /// This is in order to demo an "entitled" user as a department user.
+        /// </summary>
+        public virtual bool IsDepartmentUser { get; set; }
+
         public static List<string> FindUCDKerberosIDs(string NameToMatch)
         {
             throw new System.NotImplementedException();
@@ -135,6 +140,7 @@ namespace Esra.Core.Domain
 
         public User()
         {
+            IsDepartmentUser = false;
         }
     }
 

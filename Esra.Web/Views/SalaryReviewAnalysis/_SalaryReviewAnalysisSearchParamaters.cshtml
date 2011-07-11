@@ -1,0 +1,94 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<div>
+    @using (@Html.BeginForm("Index", "SalaryReviewAnalysis", FormMethod.Get))
+    {
+        <table id="SRA_table">
+            <tr>
+                <th colspan="4">
+                    <h2>
+                        Search Parameters</h2>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    &nbsp;Reference Number
+                </th>
+                <td>
+                    &nbsp;<div class="editor-field">
+                        @Html.DropDownListFor(x => x.SelectedReferenceNumber,
+                        new SelectList(Model.FilteredSalaryReviewAnalysis,
+                        "ReferenceNumber",
+                        "ReferenceNumber",
+                         Model.SalaryReviewAnalysis != null ? Model.SalaryReviewAnalysis.ReferenceNumber : string.Empty),
+             "-- Select a Reference Number --", new { id = "ddlReferenceNumber" }
+                        )
+                    </div>
+                </td>
+                <td colspan="2">
+                    (Use today&#39;s date for any date)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    &nbsp;Employee
+                </th>
+                <th>
+                    &nbsp;Created By
+                </th>
+                <th>
+                    &nbsp;Creation Date
+                </th>
+                <td rowspan="2">
+                    <center>
+                        <input type="button" id="btnFindSRA" onclick="btnFindSRA_Click" value="Find Salary Review Analysis" />
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    &nbsp;<div class="editor-field">
+                        @Html.DropDownListFor(x => x.SelectedEmployee,
+                        new SelectList(Model.FilteredEmployees,
+                        "EmployeeID",
+                        "FullName",
+                         Model.SalaryReviewAnalysis != null && Model.SalaryReviewAnalysis.Employee != null ? Model.SalaryReviewAnalysis.Employee.EmployeeID : string.Empty),
+             "-- Any Employee --", new { id = "ddlEmployee" }
+                        )
+                    </div>
+                </td>
+                <td>
+                    <br />
+                    &nbsp;<div class="editor-field">
+                        @Html.DropDownListFor(x => x.SelectedUser,
+                        new SelectList(Model.FilteredUsers,
+                        "LoginID",
+                        "FullName",
+                         Model.SalaryReviewAnalysis != null && String.IsNullOrEmpty(Model.SalaryReviewAnalysis.InitiatedByReviewerName) == false ? Model.SalaryReviewAnalysis.InitiatedByReviewerName : string.Empty),
+             "-- Any Reviewer --", new { id = "ddlCreatedBy" }
+                        )
+                    </div>
+                </td>
+                <td>
+                    <br />
+                    <ajax:calendarextender id="ceCreationDate" runat="server" format="MM/dd/yyyy" targetcontrolid="tbCreationDate"
+                        popupposition="BottomRight" popupbuttonid="btn_calendar" cssclass="calendar">
+                            </ajax:calendarextender>
+                    <img id="btn_calendar" alt="Calendar" longdesc="images/common/Calendar_scheduleHS.png"
+                        src="images/common/Calendar_scheduleHS.png" style="width: 16px; height: 16px" />&nbsp;
+                    <asp:textbox id="tbCreationDate" runat="server" ondatabound="tbCreationDate_DataBound" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+    }
+</div>

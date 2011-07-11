@@ -85,6 +85,10 @@ namespace Esra.Web.Controllers
         public ActionResult _DemoMenu(string demoRole)
         {
             var viewModel = Models.HomeViewModel.Create(Repository);
+            viewModel.User = Repository.OfType<User>().
+                Queryable.
+                Where(r => r.LoginID == User.Identity.Name)
+                .FirstOrDefault();
             var viewName = "";
 
             if (!String.IsNullOrEmpty(demoRole) && viewModel.IsDemoMode)
@@ -106,6 +110,8 @@ namespace Esra.Web.Controllers
                 else
                 {
                     viewName = "_DepartmentsMenu";
+                    viewModel.User.IsDepartmentUser = true;
+                    //TempData.Add("IsDepartmentUser", true);
                 }
 
                 viewModel.MenuViewName = viewName;

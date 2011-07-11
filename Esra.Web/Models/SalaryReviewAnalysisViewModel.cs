@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Esra.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -14,6 +15,12 @@ namespace Esra.Web.Models
         public String HiddenUserId { get; set; }
 
         public bool HiddenIsDepartmentUser { get; set; }
+
+        public String SelectedReferenceNumber { get; set; }
+
+        public Employee SelectedEmployee { get; set; }
+
+        public User SelectedUser { get; set; }
 
         // The SalaryReviewAnalysis creation date sought for
         // formerly populated from tbCreationDate
@@ -44,10 +51,34 @@ namespace Esra.Web.Models
 
         public static SalaryReviewAnalysisViewModel Create(IRepository repository)
         {
+            return Create(repository, "false");
+        }
+
+        public static SalaryReviewAnalysisViewModel Create(IRepository repository, string isDepartmentUser)
+        {
             Check.Require(repository != null, "Repository must be supplied");
 
-            var viewModel = new SalaryReviewAnalysisViewModel();
+            var viewModel = new SalaryReviewAnalysisViewModel
+                                {
+                                    SelectedEmployee = new Employee(),
+                                    SelectedUser = new User(),
+                                    SalaryReviewAnalysis = new SalaryReviewAnalysis(),
+                                    HiddenIsDepartmentUser = Boolean.Parse(isDepartmentUser),
+                                    FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
+                                        .Queryable
+                                        .OrderBy(t => t.ReferenceNumber)
+                                        .ToList(),
 
+                                    FilteredEmployees = repository.OfType<Employee>()
+                                        .Queryable
+                                        .OrderBy(t => t.FullName)
+                                        .ToList(),
+
+                                    FilteredUsers = repository.OfType<User>()
+                                    .Queryable
+                                    .OrderBy(t => t.LoginID)
+                                    .ToList()
+                                };
             return viewModel;
         }
     }
