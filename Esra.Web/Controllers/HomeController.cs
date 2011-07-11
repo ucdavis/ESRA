@@ -55,6 +55,7 @@ namespace Esra.Web.Controllers
                 else
                 {
                     menuViewName = "_DepartmentsMenu";
+                    viewModel.IsDepartmentUser = true;
                 }
             }
             else
@@ -74,6 +75,7 @@ namespace Esra.Web.Controllers
                 else
                 {
                     menuViewName = "_DepartmentsMenu";
+                    viewModel.IsDepartmentUser = true;
                 }
             }
 
@@ -111,6 +113,7 @@ namespace Esra.Web.Controllers
                 {
                     viewName = "_DepartmentsMenu";
                     viewModel.User.IsDepartmentUser = true;
+                    viewModel.IsDepartmentUser = true;
                     //TempData.Add("IsDepartmentUser", true);
                 }
 

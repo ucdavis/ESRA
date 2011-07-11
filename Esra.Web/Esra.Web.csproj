@@ -115,6 +115,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EsraBaseViewModel.cs" />
     <Compile Include="Models\EmployeeComparisonViewModel_bak.cs" />
     <Compile Include="Models\EmployeeSalaryComparisonViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -337,7 +338,7 @@
     <Content Include="Views\Home\_DemoRoleSelector.cshtml" />
     <Content Include="Views\Home\_EmulateUser.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchParamaters.cshtml" />
-    <Content Include="Views\Shared\Hidden.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

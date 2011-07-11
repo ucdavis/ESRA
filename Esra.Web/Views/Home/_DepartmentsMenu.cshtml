@@ -11,7 +11,7 @@
         <dd>
             Compare Employees' Salaries By Title.</dd>
         <dt>
-            @Html.ActionLink("Salary Review Analysis", "Index", "SalaryReviewAnalysis", new { isDepartmentUser = true }, null)
+            @Html.ActionLink("Salary Review Analysis", "Index", "SalaryReviewAnalysis", new { isDepartmentUser = Model.IsDepartmentUser }, null)
         </dt>
         <dd>
             Create a New Salary Review Analysis or Search For and View an Existing Salary Review

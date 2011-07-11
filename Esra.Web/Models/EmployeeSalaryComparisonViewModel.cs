@@ -6,7 +6,7 @@ using UCDArch.Core.Utils;
 
 namespace Esra.Web.Models
 {
-    public class EmployeeSalaryComparisonViewModel
+    public class EmployeeSalaryComparisonViewModel : EsraBaseViewModel
     {
         public User User { get; set; }
 

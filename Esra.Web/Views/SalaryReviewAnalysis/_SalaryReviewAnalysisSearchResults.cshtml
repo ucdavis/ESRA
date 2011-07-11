@@ -1,0 +1,106 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+@{
+    if (Model.SalaryReviewAnalysisResults.Count > 0)
+    {
+    <div id="salary-review-analysis-results">
+        <table id="analysis-table">
+            <thead>
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        Reference<br />
+                        Number
+                    </th>
+                    <th>
+                        Originating<br />
+                        Department
+                    </th>
+                    <th>
+                        Home<br />
+                        Department
+                    </th>
+                    <th>
+                        Employee
+                    </th>
+                    <th>
+                        Title<br />
+                        Code
+                    </th>
+                    <th>
+                        Date<br />
+                        Initiated
+                    </th>
+                    <th>
+                        Initiated&nbsp;By<br />
+                        Reviewer<br />
+                        Name
+                    </th>
+                    <th>
+                        Date<br />
+                        Approved
+                    </th>
+                    <th>
+                        Approved<br />
+                        Scenario
+                    </th>
+                    <th>
+                        Department<br />
+                        Comments
+                    </th>
+                    <th>
+                        Dean's<br />
+                        Office<br />
+                        Comments
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Esra.Core.Domain.SalaryReviewAnalysis a in Model.SalaryReviewAnalysisResults)
+                {
+                    <tr>
+                        <td>
+                            <a href="#" class="edit-row">Edit</a>
+                        </td>
+                        <td>
+                            @a.ReferenceNumber
+                        </td>
+                        <td>
+                            @a.OriginatingDepartment.Name
+                        </td>
+                        <td>
+                            @a.Employee.HomeDepartment.Name
+                        </td>
+                        <td>
+                            @a.Employee.FullName
+                        </td>
+                        <td>
+                            @if (a.IsReclass)
+                            { <strong>@a.Title.TitleCode + "*"</strong><br /> }
+                            @a.CurrentTitleCode
+                        </td>
+                        <td>
+                            @String.Format("{0:MM/dd/yyyy}", a.DateInitiated)
+                        </td>
+                        <td>@a.InitiatedByReviewerName
+                        </td>
+                        <td>
+                            @String.Format("{0:MM/dd/yyyy}", a.DateApproved)
+                        </td>
+                        <td>
+                            @a.ApprovedScenario.ScenarioNumber
+                        </td>
+                        <td>
+                            @a.DepartmentComments
+                        </td>
+                        <td>
+                            @a.DeansOfficeComments
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+}

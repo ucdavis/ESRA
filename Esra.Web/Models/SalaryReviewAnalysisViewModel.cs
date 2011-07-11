@@ -10,11 +10,9 @@ namespace Esra.Web.Models
     /// <summary>
     /// ViewModel for the SalaryReviewAnalysis class
     /// </summary>
-    public class SalaryReviewAnalysisViewModel
+    public class SalaryReviewAnalysisViewModel : EsraBaseViewModel
     {
         public String HiddenUserId { get; set; }
-
-        public bool HiddenIsDepartmentUser { get; set; }
 
         public String SelectedReferenceNumber { get; set; }
 
@@ -24,6 +22,9 @@ namespace Esra.Web.Models
 
         // The SalaryReviewAnalysis creation date sought for
         // formerly populated from tbCreationDate
+        //[DataType(DataType.Time)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        //public DateTime CreationDateString { get; set; }
         public String CreationDateString { get; set; }
 
         // This is a list of all possible users that can be "seen" based on the logged-in user's unit(s) and role Name
@@ -58,12 +59,17 @@ namespace Esra.Web.Models
         {
             Check.Require(repository != null, "Repository must be supplied");
 
+            bool isDepartmentUserBool =
+            Boolean.TryParse(isDepartmentUser, out isDepartmentUserBool) ? isDepartmentUserBool : false;
+
             var viewModel = new SalaryReviewAnalysisViewModel
                                 {
+                                    CreationDateString = DateTime.Now.ToShortDateString(),
                                     SelectedEmployee = new Employee(),
                                     SelectedUser = new User(),
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
-                                    HiddenIsDepartmentUser = Boolean.Parse(isDepartmentUser),
+                                    IsDepartmentUser = isDepartmentUserBool,
+
                                     FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
                                         .Queryable
                                         .OrderBy(t => t.ReferenceNumber)
@@ -77,6 +83,11 @@ namespace Esra.Web.Models
                                     FilteredUsers = repository.OfType<User>()
                                     .Queryable
                                     .OrderBy(t => t.LoginID)
+                                    .ToList(),
+
+                                    SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
+                                    .Queryable
+                                    .OrderBy(t => t.Employee.FullName)
                                     .ToList()
                                 };
             return viewModel;

@@ -7,7 +7,7 @@ using UCDArch.Core.Utils;
 
 namespace Esra.Web.Models
 {
-    public class HomeViewModel
+    public class HomeViewModel : EsraBaseViewModel
     {
         public string DemoUserRole { get; set; }
 

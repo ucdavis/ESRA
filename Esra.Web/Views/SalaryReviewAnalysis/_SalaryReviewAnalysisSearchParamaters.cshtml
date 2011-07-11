@@ -1,4 +1,10 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<script type="text/javascript">
+
+    $(function () {
+        $("#CreationDateString").datepicker();
+    });
+</script>
 <div>
     @using (@Html.BeginForm("Index", "SalaryReviewAnalysis", FormMethod.Get))
     {
@@ -45,7 +51,7 @@
                 </th>
                 <td rowspan="2">
                     <center>
-                        <input type="button" id="btnFindSRA" onclick="btnFindSRA_Click" value="Find Salary Review Analysis" />
+                        <input type="submit" id="btnFindSRA" value="Find Salary Review Analysis" />
                     </center>
                 </td>
             </tr>
@@ -76,12 +82,9 @@
                 </td>
                 <td>
                     <br />
-                    <ajax:calendarextender id="ceCreationDate" runat="server" format="MM/dd/yyyy" targetcontrolid="tbCreationDate"
-                        popupposition="BottomRight" popupbuttonid="btn_calendar" cssclass="calendar">
-                            </ajax:calendarextender>
-                    <img id="btn_calendar" alt="Calendar" longdesc="images/common/Calendar_scheduleHS.png"
-                        src="images/common/Calendar_scheduleHS.png" style="width: 16px; height: 16px" />&nbsp;
-                    <asp:textbox id="tbCreationDate" runat="server" ondatabound="tbCreationDate_DataBound" />
+                    &nbsp;<div class="editor-field">
+                        @Html.TextBoxFor(a => a.CreationDateString)
+                    </div>
                 </td>
             </tr>
             <tr>
