@@ -20,9 +20,10 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/
-        public ActionResult Index(string isDepartmentUser)
+        //public ActionResult Index(string isDepartmentUser, string selectedReferenceNumber, string selectedEmployee, string selectedUser, string creationDateString)
+        public ActionResult Index(string isDepartmentUser, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
         {
-            var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository, isDepartmentUser);
+            var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository, isDepartmentUser, salaryReviewAnalysisSearchParamsModel);
 
             return View(salaryReviewAnalysisModel);
         }

@@ -121,6 +121,7 @@
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\SalaryReviewAnalysisViewModel.cs" />
     <Compile Include="Models\SalaryScaleViewModel.cs" />
+    <Compile Include="Models\SalaryReviewAnalysisSearchParamsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\GlobalConstants.Designer.cs">
       <AutoGen>True</AutoGen>

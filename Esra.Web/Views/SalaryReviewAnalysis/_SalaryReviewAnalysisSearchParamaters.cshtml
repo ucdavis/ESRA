@@ -21,7 +21,7 @@
                 </th>
                 <td>
                     &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SelectedReferenceNumber,
+                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
                         new SelectList(Model.FilteredSalaryReviewAnalysis,
                         "ReferenceNumber",
                         "ReferenceNumber",
@@ -59,23 +59,24 @@
                 <td>
                     <br />
                     &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SelectedEmployee,
+                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee,
                         new SelectList(Model.FilteredEmployees,
-                        "EmployeeID",
+                        "Id",
                         "FullName",
-                         Model.SalaryReviewAnalysis != null && Model.SalaryReviewAnalysis.Employee != null ? Model.SalaryReviewAnalysis.Employee.EmployeeID : string.Empty),
+                        Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id),
              "-- Any Employee --", new { id = "ddlEmployee" }
                         )
                     </div>
                 </td>
                 <td>
                     <br />
+                    @Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id
                     &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SelectedUser,
+                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedUser,
                         new SelectList(Model.FilteredUsers,
-                        "LoginID",
+                        "Id",
                         "FullName",
-                         Model.SalaryReviewAnalysis != null && String.IsNullOrEmpty(Model.SalaryReviewAnalysis.InitiatedByReviewerName) == false ? Model.SalaryReviewAnalysis.InitiatedByReviewerName : string.Empty),
+                        Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id),
              "-- Any Reviewer --", new { id = "ddlCreatedBy" }
                         )
                     </div>
@@ -83,7 +84,7 @@
                 <td>
                     <br />
                     &nbsp;<div class="editor-field">
-                        @Html.TextBoxFor(a => a.CreationDateString)
+                        @Html.TextBoxFor(a => a.SalaryReviewAnalysisSearchParamsModel.CreationDateString)
                     </div>
                 </td>
             </tr>

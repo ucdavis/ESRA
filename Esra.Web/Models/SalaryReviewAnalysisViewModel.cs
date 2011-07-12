@@ -12,20 +12,22 @@ namespace Esra.Web.Models
     /// </summary>
     public class SalaryReviewAnalysisViewModel : EsraBaseViewModel
     {
+        public SalaryReviewAnalysisSearchParamsModel SalaryReviewAnalysisSearchParamsModel { get; set; }
+
         public String HiddenUserId { get; set; }
 
-        public String SelectedReferenceNumber { get; set; }
+        //public String SelectedReferenceNumber { get; set; }
 
-        public Employee SelectedEmployee { get; set; }
+        //public Employee SelectedEmployee { get; set; }
 
-        public User SelectedUser { get; set; }
+        //public User SelectedUser { get; set; }
 
-        // The SalaryReviewAnalysis creation date sought for
-        // formerly populated from tbCreationDate
-        //[DataType(DataType.Time)]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        //public DateTime CreationDateString { get; set; }
-        public String CreationDateString { get; set; }
+        //// The SalaryReviewAnalysis creation date sought for
+        //// formerly populated from tbCreationDate
+        ////[DataType(DataType.Time)]
+        ////[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        ////public DateTime CreationDateString { get; set; }
+        //public String CreationDateString { get; set; }
 
         // This is a list of all possible users that can be "seen" based on the logged-in user's unit(s) and role Name
         // Used to populate the "Created By" drop-down search list.
@@ -52,10 +54,10 @@ namespace Esra.Web.Models
 
         public static SalaryReviewAnalysisViewModel Create(IRepository repository)
         {
-            return Create(repository, "false");
+            return Create(repository, "false", null);
         }
 
-        public static SalaryReviewAnalysisViewModel Create(IRepository repository, string isDepartmentUser)
+        public static SalaryReviewAnalysisViewModel Create(IRepository repository, string isDepartmentUser, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -64,10 +66,10 @@ namespace Esra.Web.Models
 
             var viewModel = new SalaryReviewAnalysisViewModel
                                 {
-                                    CreationDateString = DateTime.Now.ToShortDateString(),
-                                    SelectedEmployee = new Employee(),
-                                    SelectedUser = new User(),
+                                    SalaryReviewAnalysisSearchParamsModel = SalaryReviewAnalysisSearchParamsModel.Create(repository, salaryReviewAnalysisSearchParamsModel),
+
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
+
                                     IsDepartmentUser = isDepartmentUserBool,
 
                                     FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
@@ -87,9 +89,11 @@ namespace Esra.Web.Models
 
                                     SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
                                     .Queryable
+
                                     .OrderBy(t => t.Employee.FullName)
                                     .ToList()
                                 };
+
             return viewModel;
         }
     }
