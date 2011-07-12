@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             @if (a.IsReclass)
-                            { <strong>@a.Title.TitleCode + "*"</strong><br /> }
+                            { <strong>@a.Title.TitleCode*</strong><br /> }
                             @a.CurrentTitleCode
                         </td>
                         <td>
@@ -89,7 +89,10 @@
                             @String.Format("{0:MM/dd/yyyy}", a.DateApproved)
                         </td>
                         <td>
-                            @a.ApprovedScenario.ScenarioNumber
+                            @if (a.ApprovedScenario != null)
+                            {
+                                @a.ApprovedScenario.ScenarioNumber
+                            }
                         </td>
                         <td>
                             @a.DepartmentComments
