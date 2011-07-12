@@ -78,6 +78,8 @@ namespace Esra.Core.Domain
     {
         public TitleMap()
         {
+            Cache.ReadOnly();
+
             Table("Title");
 
             Id(x => x.Id, "TitleCode")

@@ -79,7 +79,7 @@ namespace Esra.Web.Models
                                     TitlesList = repository.OfType<Title>()
                                          .Queryable
                                          .OrderBy(t => t.AbbreviatedName)
-                                         .ToList(),
+                                         .Cache().ToList(),
                                     SelectedTitles = new List<Title>()
                                     //TitleCodesList = repository.OfType<Title>()
                                     //    .Queryable
