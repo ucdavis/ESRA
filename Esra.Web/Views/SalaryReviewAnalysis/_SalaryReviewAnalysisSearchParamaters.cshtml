@@ -31,12 +31,10 @@
                         )
                     </div>
                 </td>
-                <td colspan="2">
-                    (Use today&#39;s date for any date)
+                <td>
+                    &nbsp;
                 </td>
-            </tr>
-            <tr>
-                <td colspan="5">
+                <td>
                     &nbsp;
                 </td>
             </tr>
@@ -50,15 +48,12 @@
                 <th>
                     &nbsp;Creation Date
                 </th>
-                <td rowspan="2">
-                    <center>
-                        <input type="submit" id="btnFindSRA" value="Find Salary Review Analysis" />
-                    </center>
+                <td>
+                    (Use&nbsp;today&#39;s&nbsp;date&nbsp;for&nbsp;any&nbsp;date)
                 </td>
             </tr>
             <tr>
                 <td>
-                    <br />
                     @* @(Model.SelectedEmployee != null ? Model.SelectedEmployee.Id.ToString() : String.Empty)*@
                     &nbsp;<div class="editor-field">
                         @Html.DropDownListFor(x => x.SelectedEmployee,
@@ -71,7 +66,6 @@ null),
                     </div>
                 </td>
                 <td>
-                    <br />
                     @* @(Model.SelectedUser != null ? Model.SelectedUser.Id.ToString()
                     : "0")*@ &nbsp;<div class="editor-field">
                         @Html.DropDownListFor(x => x.SelectedUser,
@@ -84,17 +78,81 @@ null),
                     </div>
                 </td>
                 <td>
-                    <br />
                     &nbsp;<div class="editor-field">
                         @Html.TextBoxFor(a => a.CreationDateString)
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>
-                    &nbsp;
+                <td colspan="4">
+                    <br />
+                    <center>
+                        <input type="submit" id="btnFindSRA" value="Find Salary Review Analysis" />
+                        &nbsp; &nbsp; &nbsp; &nbsp;<input type="reset" value="Reset Selection(s)" onclick="resetForm(this.form); return false;" />
+                    </center>
+                    <br />
+                    <br />
                 </td>
             </tr>
         </table>
     }
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        $("#btnFindSRA").click(function () {
+            // reset the ddlReferenceNumber when the submit button is "pressed"
+            var selectedReferenceNum = $('#ddlReferenceNumber')[0];
+            selectedReferenceNum.selectedIndex = 0;
+            selectedReferenceNum.options[0].selected = true;
+            $(this).parents('form').submit();
+        });
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        $('#ddlReferenceNumber').change(function () {
+            debugger;
+            var selectedEmployee = $('#ddlEmployee')[0];
+            selectedEmployee.selectedIndex = 0;
+            selectedEmployee.options[0].selected = true;
+
+            var selectedUser = $('#ddlCreatedBy')[0];
+            selectedUser.selectedIndex = 0;
+            selectedUser.options[0].selected = true;
+
+            var creationDateString = $('#CreationDateString')[0];
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            if (dd < 10) { dd = '0' + dd }
+            if (mm < 10) { mm = '0' + mm }
+            creationDateString.value = mm + '/' + dd + '/' + yyyy;
+
+            $(this).parents('form').submit();
+        });
+
+        function resetForm(form) {
+
+            var selectedReferenceNumber = form.ddlReferenceNumber;
+            selectedReferenceNumber.selectedIndex = 0;
+            selectedReferenceNumber.options[0].selected = true;
+
+            var selectedEmployee = form.ddlEmployee;
+            selectedEmployee.selectedIndex = 0;
+            selectedEmployee.options[0].selected = true;
+
+            var selectedUser = form.ddlCreatedBy;
+            selectedUser.selectedIndex = 0;
+            selectedUser.options[0].selected = true;
+
+            var creationDateString = form.CreationDateString;
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            if (dd < 10) { dd = '0' + dd }
+            if (mm < 10) { mm = '0' + mm }
+            creationDateString.value = mm + '/' + dd + '/' + yyyy;
+        };
+
+        //-->
+    </script>
 </div>

@@ -42,25 +42,25 @@ namespace Esra.Web.Models
 
         public string SelectedEmployeeId { get; set; }
 
-        public SalaryReviewAnalysisSearchParamsModel() { }
+        public SalaryReviewAnalysisSearchParamsModel()
+        {
+            CreationDateString = DateTime.Now.ToShortDateString();
+            SelectedEmployee = new Employee();
+            SelectedUser = new User();
+            SelectedReferenceNumber = String.Empty;
+            SalaryReviewAnalysisSearchExpression = null; // Initially set to null to get all records; don't add a where clause.
+            HasCreateDateOnly = true;   // assume only today's date present in parameters.
+            HasCreateDate = false;
+            HasEmployee = false;
+            HasEmployeeId = false;
+            HasUser = false;
+            HasUserId = false;
+            HasReferenceNumber = false;
+        }
 
         public static SalaryReviewAnalysisSearchParamsModel Create(IRepository repository, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
         {
-            var viewModel = new SalaryReviewAnalysisSearchParamsModel
-                                {
-                                    CreationDateString = DateTime.Now.ToShortDateString(),
-                                    SelectedEmployee = new Employee(),
-                                    SelectedUser = new User(),
-                                    SelectedReferenceNumber = String.Empty,
-                                    SalaryReviewAnalysisSearchExpression = null, // Initially set to null to get all records; don't add a where clause.
-                                    HasCreateDateOnly = true,   // assume only today's date present in parameters.
-                                    HasCreateDate = false,
-                                    HasEmployee = false,
-                                    HasEmployeeId = false,
-                                    HasUser = false,
-                                    HasUserId = false,
-                                    HasReferenceNumber = false
-                                };
+            var viewModel = new SalaryReviewAnalysisSearchParamsModel();
 
             if (salaryReviewAnalysisSearchParamsModel != null)
             {
