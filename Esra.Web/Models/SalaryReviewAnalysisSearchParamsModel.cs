@@ -1,11 +1,16 @@
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Esra.Core.Domain;
+using Esra.Web.Controllers;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Esra.Web.Models
 {
     public class SalaryReviewAnalysisSearchParamsModel
     {
+        public Expression<Func<SalaryReviewAnalysis, bool>> SalaryReviewAnalysisSearchExpression { get; set; }
+
         public bool HasCreateDateOnly { get; set; }
 
         // The SalaryReviewAnalysis creation date sought for
@@ -25,14 +30,17 @@ namespace Esra.Web.Models
 
         public bool HasEmployee { get; set; }
 
+        public bool HasEmployeeId { get; set; }
+
         public User SelectedUser { get; set; }
 
-        public int SelectedUserId
-        {
-            get { return SelectedUser.Id; }
-        }
+        public int? SelectedUserId { get; set; }
 
         public bool HasUser { get; set; }
+
+        public bool HasUserId { get; set; }
+
+        public string SelectedEmployeeId { get; set; }
 
         public SalaryReviewAnalysisSearchParamsModel() { }
 
@@ -43,38 +51,101 @@ namespace Esra.Web.Models
                                     CreationDateString = DateTime.Now.ToShortDateString(),
                                     SelectedEmployee = new Employee(),
                                     SelectedUser = new User(),
-                                    SelectedReferenceNumber = String.Empty
+                                    SelectedReferenceNumber = String.Empty,
+                                    SalaryReviewAnalysisSearchExpression = null, // Initially set to null to get all records; don't add a where clause.
+                                    HasCreateDateOnly = true,   // assume only today's date present in parameters.
+                                    HasCreateDate = false,
+                                    HasEmployee = false,
+                                    HasEmployeeId = false,
+                                    HasUser = false,
+                                    HasUserId = false,
+                                    HasReferenceNumber = false
                                 };
-
-            viewModel.HasCreateDate = (salaryReviewAnalysisSearchParamsModel != null && !String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.CreationDateString) ? true : false);
-            viewModel.HasEmployee = (salaryReviewAnalysisSearchParamsModel != null && salaryReviewAnalysisSearchParamsModel.SelectedEmployee != null ? true : false);
-            viewModel.HasUser = (salaryReviewAnalysisSearchParamsModel != null && salaryReviewAnalysisSearchParamsModel.SelectedUser != null ? true : false);
-            viewModel.HasReferenceNumber = (salaryReviewAnalysisSearchParamsModel != null && !String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber) ? true : false);
-            viewModel.HasCreateDateOnly = (viewModel.HasCreateDate && !viewModel.HasEmployee && !viewModel.HasUser && !viewModel.HasReferenceNumber ? true : false);
 
             if (salaryReviewAnalysisSearchParamsModel != null)
             {
-                if (viewModel.HasCreateDateOnly)
+                viewModel.SalaryReviewAnalysisSearchExpression = PredicateBuilder.True<SalaryReviewAnalysis>();
+
+                if (salaryReviewAnalysisSearchParamsModel.SelectedEmployee != null && String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.SelectedEmployee.id) == false)
                 {
-                    // Get all records; don't add a where clause.
+                    viewModel.SelectedEmployee = salaryReviewAnalysisSearchParamsModel.SelectedEmployee;
+                    viewModel.HasEmployee = true;
+                    viewModel.HasCreateDateOnly = false;
+
+                    viewModel.SalaryReviewAnalysisSearchExpression =
+                            viewModel.SalaryReviewAnalysisSearchExpression.And(
+                                p => p.Employee.PkEmployee.Equals(viewModel.SelectedEmployee.id));
                 }
-                else
+
+                if (String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.SelectedEmployeeId) == false)
                 {
-                    if (viewModel.HasCreateDate)
+                    viewModel.SelectedEmployeeId = salaryReviewAnalysisSearchParamsModel.SelectedEmployeeId;
+                    viewModel.HasEmployeeId = true;
+                    viewModel.HasCreateDateOnly = false;
+
+                    viewModel.SelectedEmployee = repository.OfType<Employee>()
+                            .Queryable.Where(r => r.id == viewModel.SelectedEmployeeId)
+                            .FirstOrDefault();
+
+                    viewModel.SalaryReviewAnalysisSearchExpression =
+                        viewModel.SalaryReviewAnalysisSearchExpression.And(
+                            p => p.Employee.PkEmployee.Equals(viewModel.SelectedEmployeeId));
+                }
+
+                if (salaryReviewAnalysisSearchParamsModel.SelectedUser != null && salaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0)
+                {
+                    viewModel.SelectedUser = salaryReviewAnalysisSearchParamsModel.SelectedUser;
+                    viewModel.HasUser = true;
+                    viewModel.HasCreateDateOnly = false;
+
+                    viewModel.SalaryReviewAnalysisSearchExpression =
+                           viewModel.SalaryReviewAnalysisSearchExpression.And(
+                               p => p.InitiatedByReviewerName.Equals(viewModel.SelectedUser.FullName));
+                }
+
+                if (salaryReviewAnalysisSearchParamsModel.SelectedUserId != null && salaryReviewAnalysisSearchParamsModel.SelectedUserId != 0)
+                {
+                    viewModel.SelectedUserId = salaryReviewAnalysisSearchParamsModel.SelectedUserId;
+                    viewModel.HasUserId = true;
+                    viewModel.HasCreateDateOnly = false;
+
+                    viewModel.SelectedUser = repository.OfType<User>()
+                            .Queryable.Where(r => r.Id == viewModel.SelectedUserId)
+                            .FirstOrDefault();
+
+                    viewModel.SalaryReviewAnalysisSearchExpression =
+                           viewModel.SalaryReviewAnalysisSearchExpression.And(
+                               p => p.InitiatedByReviewerName.Equals(viewModel.SelectedUser.FullName));
+                }
+
+                if (!String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber))
+                {
+                    viewModel.SelectedReferenceNumber = salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber;
+                    viewModel.HasReferenceNumber = true;
+                    viewModel.HasCreateDateOnly = false;
+
+                    viewModel.SalaryReviewAnalysisSearchExpression =
+                          viewModel.SalaryReviewAnalysisSearchExpression.And(
+                              p => p.ReferenceNumber.Equals(viewModel.SelectedReferenceNumber));
+                }
+
+                if (!String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.CreationDateString))
+                {
+                    // if createDate != today then true
+                    var createDate = new DateTime();
+
+                    if (DateTime.TryParse(salaryReviewAnalysisSearchParamsModel.CreationDateString, out createDate))
                     {
-                        viewModel.CreationDateString = salaryReviewAnalysisSearchParamsModel.CreationDateString;
+                        viewModel.CreationDateString = createDate.ToString("MM/dd/yyyy");
                     }
-                    if (viewModel.HasEmployee)
+
+                    if (String.IsNullOrEmpty(viewModel.CreationDateString) == false && DateTime.Now.ToString("MM/dd/yyyy").Equals(viewModel.CreationDateString) == false)
                     {
-                        viewModel.SelectedEmployee = salaryReviewAnalysisSearchParamsModel.SelectedEmployee;
-                    }
-                    if (viewModel.HasUser)
-                    {
-                        viewModel.SelectedUser = salaryReviewAnalysisSearchParamsModel.SelectedUser;
-                    }
-                    if (viewModel.HasReferenceNumber)
-                    {
-                        viewModel.SelectedReferenceNumber = salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber;
+                        viewModel.HasCreateDate = true;
+
+                        createDate = Convert.ToDateTime(viewModel.CreationDateString);
+
+                        viewModel.SalaryReviewAnalysisSearchExpression = viewModel.SalaryReviewAnalysisSearchExpression.And(p => p.DateInitiated == createDate);
                     }
                 }
             }

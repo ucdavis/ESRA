@@ -14,20 +14,18 @@ namespace Esra.Web.Models
     {
         public SalaryReviewAnalysisSearchParamsModel SalaryReviewAnalysisSearchParamsModel { get; set; }
 
-        public String HiddenUserId { get; set; }
+        public String SelectedReferenceNumber { get; set; }
 
-        //public String SelectedReferenceNumber { get; set; }
+        public Employee SelectedEmployee { get; set; }
 
-        //public Employee SelectedEmployee { get; set; }
+        public User SelectedUser { get; set; }
 
-        //public User SelectedUser { get; set; }
-
-        //// The SalaryReviewAnalysis creation date sought for
-        //// formerly populated from tbCreationDate
-        ////[DataType(DataType.Time)]
-        ////[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        ////public DateTime CreationDateString { get; set; }
-        //public String CreationDateString { get; set; }
+        // The SalaryReviewAnalysis creation date sought for
+        // formerly populated from tbCreationDate
+        //[DataType(DataType.Time)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        //public DateTime CreationDateString { get; set; }
+        public String CreationDateString { get; set; }
 
         // This is a list of all possible users that can be "seen" based on the logged-in user's unit(s) and role Name
         // Used to populate the "Created By" drop-down search list.
@@ -67,6 +65,10 @@ namespace Esra.Web.Models
             var viewModel = new SalaryReviewAnalysisViewModel
                                 {
                                     SalaryReviewAnalysisSearchParamsModel = SalaryReviewAnalysisSearchParamsModel.Create(repository, salaryReviewAnalysisSearchParamsModel),
+                                    SelectedEmployee = salaryReviewAnalysisSearchParamsModel.SelectedEmployee,
+                                    SelectedUser = salaryReviewAnalysisSearchParamsModel.SelectedUser,
+                                    SelectedReferenceNumber = salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
+                                    CreationDateString = salaryReviewAnalysisSearchParamsModel.CreationDateString,
 
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
 
@@ -86,13 +88,23 @@ namespace Esra.Web.Models
                                     .Queryable
                                     .OrderBy(t => t.LoginID)
                                     .ToList(),
-
-                                    SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
-                                    .Queryable
-
-                                    .OrderBy(t => t.Employee.FullName)
-                                    .ToList()
                                 };
+
+            if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression != null)
+            {
+                viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
+                    .Queryable
+                    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
+                    .OrderBy(t => t.Employee.FullName)
+                    .ToList();
+            }
+            else
+            {
+                viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
+                    .Queryable
+                    .OrderBy(t => t.Employee.FullName)
+                    .ToList();
+            }
 
             return viewModel;
         }

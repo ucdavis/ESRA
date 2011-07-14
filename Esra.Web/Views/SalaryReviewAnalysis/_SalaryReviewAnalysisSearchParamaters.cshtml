@@ -20,12 +20,13 @@
                     &nbsp;Reference Number
                 </th>
                 <td>
+                    @* @( Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber != null ? Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber : string.Empty)*@
                     &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
+                        @Html.DropDownListFor(x => x.SelectedReferenceNumber,
                         new SelectList(Model.FilteredSalaryReviewAnalysis,
                         "ReferenceNumber",
                         "ReferenceNumber",
-                         Model.SalaryReviewAnalysis != null ? Model.SalaryReviewAnalysis.ReferenceNumber : string.Empty),
+                         String.IsNullOrEmpty(Model.SelectedReferenceNumber) == false ? Model.SelectedReferenceNumber : String.Empty),
              "-- Select a Reference Number --", new { id = "ddlReferenceNumber" }
                         )
                     </div>
@@ -58,25 +59,26 @@
             <tr>
                 <td>
                     <br />
+                    @* @(Model.SelectedEmployee != null ? Model.SelectedEmployee.Id.ToString() : String.Empty)*@
                     &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee,
+                        @Html.DropDownListFor(x => x.SelectedEmployee,
                         new SelectList(Model.FilteredEmployees,
-                        "Id",
+                        "id",
                         "FullName",
-                        Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id),
+null),
              "-- Any Employee --", new { id = "ddlEmployee" }
                         )
                     </div>
                 </td>
                 <td>
                     <br />
-                    @Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id
-                    &nbsp;<div class="editor-field">
-                        @Html.DropDownListFor(x => x.SalaryReviewAnalysisSearchParamsModel.SelectedUser,
+                    @* @(Model.SelectedUser != null ? Model.SelectedUser.Id.ToString()
+                    : "0")*@ &nbsp;<div class="editor-field">
+                        @Html.DropDownListFor(x => x.SelectedUser,
                         new SelectList(Model.FilteredUsers,
                         "Id",
                         "FullName",
-                        Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id),
+  null),
              "-- Any Reviewer --", new { id = "ddlCreatedBy" }
                         )
                     </div>
@@ -84,7 +86,7 @@
                 <td>
                     <br />
                     &nbsp;<div class="editor-field">
-                        @Html.TextBoxFor(a => a.SalaryReviewAnalysisSearchParamsModel.CreationDateString)
+                        @Html.TextBoxFor(a => a.CreationDateString)
                     </div>
                 </td>
             </tr>
