@@ -108,7 +108,6 @@ null),
         // This allows the form to submit when a selection is made from the
         // employees drop-down.
         $('#ddlReferenceNumber').change(function () {
-            debugger;
             var selectedEmployee = $('#ddlEmployee')[0];
             selectedEmployee.selectedIndex = 0;
             selectedEmployee.options[0].selected = true;
@@ -118,19 +117,12 @@ null),
             selectedUser.options[0].selected = true;
 
             var creationDateString = $('#CreationDateString')[0];
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-            if (dd < 10) { dd = '0' + dd }
-            if (mm < 10) { mm = '0' + mm }
-            creationDateString.value = mm + '/' + dd + '/' + yyyy;
+            creationDateString.value = getDate();
 
             $(this).parents('form').submit();
         });
 
         function resetForm(form) {
-
             var selectedReferenceNumber = form.ddlReferenceNumber;
             selectedReferenceNumber.selectedIndex = 0;
             selectedReferenceNumber.options[0].selected = true;
@@ -144,14 +136,19 @@ null),
             selectedUser.options[0].selected = true;
 
             var creationDateString = form.CreationDateString;
+            creationDateString.value = getDate();
+        };
+
+        function getDate()
+        {
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() + 1; //January is 0!
             var yyyy = today.getFullYear();
             if (dd < 10) { dd = '0' + dd }
             if (mm < 10) { mm = '0' + mm }
-            creationDateString.value = mm + '/' + dd + '/' + yyyy;
-        };
+            return = mm + '/' + dd + '/' + yyyy;
+        }
 
         //-->
     </script>
