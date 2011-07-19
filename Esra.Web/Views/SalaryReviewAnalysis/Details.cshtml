@@ -1,8 +1,29 @@
-﻿@model SalaryReviewAnalysisViewModel
-
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Salary Review Analysis Viewer";
 }
+<br />
+@if (Model.SalaryReviewAnalysis != null)
+{
+    <div id="salary-scale">
+        @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+    </div>
 
-<h2>Details</h2>
+    if (Model.ProposedTitle != null)
+    {
+    <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
+    @Model.ProposedTitle.TitleCode_Name
+    }
 
+    <div id="employee-title-info">
+        @Html.Partial("_SraEmployeeTitle", Model.SalaryReviewAnalysis.Employee)
+    </div>
+
+    <div id="employee-info">
+        @Html.Partial("_SraEmployeeInfo", Model.SalaryReviewAnalysis.Employee)
+    </div>
+
+    <div id="sra-details">
+        @Html.Partial("_SraDetails", Model)
+    </div>
+}

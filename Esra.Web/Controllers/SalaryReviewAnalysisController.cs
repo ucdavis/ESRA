@@ -39,20 +39,37 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string referenceNumber)
         {
-            var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
 
-            if (salaryReviewAnalysis == null) return RedirectToAction("Index");
+            if (viewModel == null) return RedirectToAction("Index");
 
-            return View(salaryReviewAnalysis);
+            return View(viewModel);
+        }
+
+        //
+        // GET: /SalaryReviewAnalysis/Select
+        public ActionResult Select(string newSraEmployee)
+        {
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee);
+            //viewModel.NewSraEmployee = Repository.OfType<Employee>()
+            //    .Queryable
+            //    .Where(e => e.id.Equals(newSraEmployee))
+            //        .FirstOrDefault();
+
+            return View(viewModel);
         }
 
         //
         // GET: /SalaryReviewAnalysis/Create
-        public ActionResult Create()
+        public ActionResult Create(string newSraEmployee, string proposedTitle)
         {
-            var viewModel = SalaryReviewAnalysisViewModel.Create(Repository);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, null);
+            //viewModel.NewSraEmployee = Repository.OfType<Employee>()
+            //    .Queryable
+            //    .Where(e => e.id.Equals(newSraEmployee))
+            //        .FirstOrDefault();)
 
             return View(viewModel);
         }

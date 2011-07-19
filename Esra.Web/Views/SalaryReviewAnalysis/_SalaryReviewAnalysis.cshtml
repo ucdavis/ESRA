@@ -1,0 +1,159 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
+<script type="text/javascript">
+
+    $(function () {
+        $("#DateApproved").datepicker();
+    });
+</script>
+<div>
+    <h2>
+        Salary Review Analysis</h2>
+    @if (Model.ProposedTitle != null)
+    {
+        <center>
+            <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
+            @Model.ProposedTitle.TitleCode_Name</center>
+    }
+    <table>
+        @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
+        {
+            <tr>
+                <td>
+                    -- Salary Review Analysis has yet to be saved --
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <th>
+                    Reference Number
+                </th>
+                <th>
+                    Date Initiated
+                </th>
+                <th>
+                    Date Approved
+                </th>
+                <th>
+                    Initiated By (Reviewer Name)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.SalaryReviewAnalysis.ReferenceNumber
+                </td>
+                <td>
+                    @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
+                </td>
+                <td>
+                    @Html.TextBoxFor(x => x.SalaryReviewAnalysis.DateApproved)
+                </td>
+                <td>
+                    @Model.SalaryReviewAnalysis.InitiatedByReviewerName
+                </td>
+            </tr>
+
+        }
+    </table>
+    <table>
+        <tr>
+            <th>
+                Scenario No.
+            </th>
+            <th>
+                Criteria
+            </th>
+            <th>
+                Percent Increase (%)
+            </th>
+            <th>
+                New Annual Salary ($)
+            </th>
+            <th>
+                Approved
+            </th>
+            <th>
+                &nbsp
+            </th>
+        </tr>
+        @foreach (Esra.Core.Domain.Scenario scene in Model.SalaryReviewAnalysis.Scenarios)
+        {
+            <tr>
+                <th>
+                    @scene.ScenarioNumber.
+                </th>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(x => scene.SelectionType, new SelectList(Model.SelectionTypes,
+                        "Type", "ShortType", String.IsNullOrEmpty(scene.SelectionType) == false
+                        ? scene.SelectionType : String.Empty), null, new { id = "ddlSelectionType" })
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.TextBox("PercentIncrease", scene.PercentIncrease)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.TextBox("SalaryAmount", String.Format("{0:c}", scene.SalaryAmount))
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.CheckBox("Approved", scene.Approved)
+                    </div>
+                </td>
+                <td>
+                    <input type="button" value="Reset" onclick="resetScenario(this)" />&nbsp;&nbsp;
+                    <img alt="deleteScenario" id="deleteScenarioImgButton" src="../../Images/delete.png"
+                        onclick="deleteScenario(this)" />
+                </td>
+            </tr>
+        }
+        <tr>
+            <th>
+                Department Comments:
+            </th>
+            <td>
+                <div class="editor-field">
+                    @Model.SalaryReviewAnalysis.DepartmentComments
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Comments:
+            </th>
+            <td>
+                <div class="editor-field">
+                    @Model.SalaryReviewAnalysis.DeansOfficeComments
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Add another scenario
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+       <!--
+        function resetScenario(scene) {
+            // reset a scenario's values back to their default values.
+            debugger;
+
+            return false;
+        }
+
+        function deleteScenario(scene) {
+            // delete a scenario from the scenarios array.
+            debugger;
+
+            return false;
+        }
+
+        //-->
+    </script>
+</div>

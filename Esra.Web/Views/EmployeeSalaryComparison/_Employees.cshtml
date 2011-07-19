@@ -109,7 +109,7 @@
                         <td>@emp.FullName
                         </td>
                         <td class="@GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
-                            @emp.HireDate.ToShortDateString()
+                            @emp.AdjustedCareerHireDate.ToShortDateString()
                         </td>
                         @*<td>
                             @(emp.PPSCareerHireDateChecked != null && emp.PPSCareerHireDateChecked ? "Y" : "N")
@@ -117,7 +117,7 @@
                         <td>@String.Format("{0:0.00}", emp.YearsOfService)
                         </td>
                         <td class="@GetEditedClassNames(emp.PPSApptHireDateChecked, emp.ApptDateHasBeenAdjusted)">
-                            @emp.BeginDate.ToShortDateString()
+                            @emp.AdjustedApptHireDate.ToShortDateString()
                         </td>
                         @*<td>
                             @(emp.PPSApptHireDateChecked != null && emp.PPSApptHireDateChecked ? "Y" : "N")

@@ -1,0 +1,29 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<div id="divCreateNewSRA">
+    @using (@Html.BeginForm("Select", "SalaryReviewAnalysis", FormMethod.Get))
+    {
+        <div class="editor-field">
+            &nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
+                        new SelectList(Model.FilteredEmployees,
+                        "id",
+                        "FullName"),
+                               "-- Select an Employee to Create a New Salary Review Analysis --", new { id = "ddlNewSAREmployee" }
+                        )
+        </div>
+    }
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        $('#ddlNewSAREmployee').change(function () {
+
+            var newSraEmployee = $('#ddlNewSAREmployee')[0];
+
+            if (newSraEmployee.value.length > 0) {
+                $(this).parents('form').submit();
+            }
+            return false;
+        });
+        //-->
+    </script>
+</div>

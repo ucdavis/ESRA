@@ -61,13 +61,16 @@
                 {
                     <tr>
                         <td>
-                            <a href="#" class="edit-row">Edit</a>
+                            <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { ReferenceNumber = @a.ReferenceNumber })'>
+                                <img alt="View Details" src='@Url.Image("Details.png")' />
+                            </a>&nbsp;&nbsp; @*<img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
+                                onclick="deleteSra(this)" />*@
                         </td>
                         <td>
                             @a.ReferenceNumber
                         </td>
                         <td>
-                            @a.OriginatingDepartment.Name
+                            @(a.OriginatingDepartment != null && String.IsNullOrEmpty(a.OriginatingDepartment.Name) == false ? a.OriginatingDepartment.Name : String.Empty)
                         </td>
                         <td>
                             @a.Employee.HomeDepartment.Name
@@ -104,6 +107,9 @@
                 }
             </tbody>
         </table>
+        <span id="pnlProposedTitleCodeNote">
+            <text id="lblProposedTitleCodeNote">*Proposed Title Code</text>
+        </span>
     </div>
     }
     else
@@ -116,3 +122,11 @@
     </fieldset>
     }
 }
+<script type="text/javascript">
+<!--
+    function deleteSra(row) {
+        return false;
+    }
+
+// -->
+</script>

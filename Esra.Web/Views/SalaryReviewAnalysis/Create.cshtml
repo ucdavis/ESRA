@@ -1,8 +1,15 @@
-﻿@model SalaryReviewAnalysisViewModel
-
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create/Edit";
 }
-
-<h2>Create</h2>
-
+<div id="salary-scale-details">
+    <h2>
+        Salary Scale Details</h2>
+    @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+</div>
+<div id="employee-details">
+    @Html.Partial("_EmployeeDetails")
+</div>
+<div id="salary-review-analysis">
+    @Html.Partial("_SalaryReviewAnalysis")
+</div>

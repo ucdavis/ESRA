@@ -50,6 +50,21 @@ namespace Esra.Web.Models
         // This is the particular salary review analysis sought, once selected from list
         public SalaryReviewAnalysis SalaryReviewAnalysis { get; set; }
 
+        /// <summary>
+        /// This is the employee for which a new salary review analysis is to be created.
+        /// </summary>
+        public Employee NewSraEmployee { get; set; }
+
+        /// <summary>
+        /// This is a list of titles that can be used for reclassification.
+        /// </summary>
+        public IList<Title> ProposedTitles { get; set; }
+
+        /// <summary>
+        /// This is the proposed title code submitted for a reclassification.
+        /// </summary>
+        public string ProposedTitleCode { get; set; }
+
         public static SalaryReviewAnalysisViewModel Create(IRepository repository)
         {
             return Create(repository, "false", null);
@@ -88,6 +103,12 @@ namespace Esra.Web.Models
                                     .Queryable
                                     .OrderBy(t => t.LoginID)
                                     .ToList(),
+
+                                    ProposedTitles = repository.OfType<Title>()
+                                  .Queryable
+                                  .OrderBy(t => t.TitleCode)
+                                        // .ThenBy(t => t.AbbreviatedName)
+                                  .ToList()
                                 };
 
             if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression != null)
