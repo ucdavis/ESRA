@@ -50,8 +50,8 @@ namespace Esra.Web.Controllers
         }
 
         //
-        // GET: /SalaryReviewAnalysis/Select
-        public ActionResult Select(string newSraEmployee)
+        // GET: /SalaryReviewAnalysis/Create?NewSraEmployee=2749660017247
+        public ActionResult Create(string newSraEmployee)
         {
             var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee);
             //viewModel.NewSraEmployee = Repository.OfType<Employee>()
@@ -62,18 +62,18 @@ namespace Esra.Web.Controllers
             return View(viewModel);
         }
 
-        //
-        // GET: /SalaryReviewAnalysis/Create
-        public ActionResult Create(string newSraEmployee, string proposedTitle)
-        {
-            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, null);
-            //viewModel.NewSraEmployee = Repository.OfType<Employee>()
-            //    .Queryable
-            //    .Where(e => e.id.Equals(newSraEmployee))
-            //        .FirstOrDefault();)
+        ////
+        //// GET: /SalaryReviewAnalysis/Create
+        //public ActionResult Create(string newSraEmployee, string proposedTitle)
+        //{
+        //    var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, null);
+        //    //viewModel.NewSraEmployee = Repository.OfType<Employee>()
+        //    //    .Queryable
+        //    //    .Where(e => e.id.Equals(newSraEmployee))
+        //    //        .FirstOrDefault();)
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
         //
         // POST: /SalaryReviewAnalysis/Create
@@ -103,9 +103,11 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
-        public ActionResult Edit(string referenceNumber)
+        //public ActionResult Edit(string referenceNumber)
+        public ActionResult CreateEdit(string newSraEmployee, string proposedTitle, string referenceNumber)
         {
-            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+            //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber);
             //var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
 
             if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
@@ -119,7 +121,7 @@ namespace Esra.Web.Controllers
         //
         // POST: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
         [HttpPost]
-        public ActionResult Edit(SalaryReviewAnalysis salaryReviewAnalysis)
+        public ActionResult CreateEdit(SalaryReviewAnalysis salaryReviewAnalysis)
         {
             var salaryReviewAnalysisToEdit = _salaryReviewAnalysisRepository
                 .Queryable

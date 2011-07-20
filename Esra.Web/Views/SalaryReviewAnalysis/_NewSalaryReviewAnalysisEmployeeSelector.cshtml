@@ -1,6 +1,6 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
 <div id="divCreateNewSRA">
-    @using (@Html.BeginForm("Select", "SalaryReviewAnalysis", FormMethod.Get))
+    @using (@Html.BeginForm("Create", "SalaryReviewAnalysis", FormMethod.Get))
     {
         <div class="editor-field">
             &nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,

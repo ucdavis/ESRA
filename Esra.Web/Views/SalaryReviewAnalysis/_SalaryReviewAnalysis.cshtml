@@ -49,7 +49,7 @@
                     @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
                 </td>
                 <td>
-                    @Html.TextBoxFor(x => x.SalaryReviewAnalysis.DateApproved)
+                    @Html.EditorFor(x => x.SalaryReviewAnalysis.DateApproved)
                 </td>
                 <td>
                     @Model.SalaryReviewAnalysis.InitiatedByReviewerName
@@ -140,6 +140,7 @@
                 <center>
                     <a id="btnAddAnotherScenario" href="javascript:__doPostBack('btnAddAnotherScenario','')"
                         style="text-decoration: underline;">Add another scenario</a></center>
+                <br />
             </td>
         </tr>
     </table>

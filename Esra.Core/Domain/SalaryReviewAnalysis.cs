@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
-using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace Esra.Core.Domain
 {
@@ -73,6 +73,7 @@ namespace Esra.Core.Domain
 
         private DateTime? _DateApproved;
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public virtual DateTime? DateApproved
         {
             get { return _DateApproved; }
@@ -130,7 +131,7 @@ namespace Esra.Core.Domain
         private string _CurrentTitleCode;
 
         [Length(4)]
-        [Required]
+        [UCDArch.Core.NHibernateValidator.Extensions.Required]
         public virtual string CurrentTitleCode
         {
             get { return _CurrentTitleCode; }
