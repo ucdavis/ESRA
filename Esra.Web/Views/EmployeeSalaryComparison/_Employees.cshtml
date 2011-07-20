@@ -2,7 +2,7 @@
 @using System.Text;
 @*<legend>Employees</legend>*@@*<ul>*@
 @helper GetEditedClassNames(bool dateChecked, bool dateAdjusted)
-    {
+{
     @(dateChecked && dateAdjusted ? "date-checked-and-adjusted" : dateChecked ? "date-checked" : dateAdjusted ? "date-adjusted" : string.Empty)
 }
 @*@GetEditedClassNames(true, true)*@
@@ -108,7 +108,7 @@
                         </td>
                         <td>@emp.FullName
                         </td>
-                        <td class="@GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
+                        <td class="hire-date @GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
                             @emp.AdjustedCareerHireDate.ToShortDateString()
                         </td>
                         @*<td>
@@ -116,7 +116,7 @@
                         </td>*@
                         <td>@String.Format("{0:0.00}", emp.YearsOfService)
                         </td>
-                        <td class="@GetEditedClassNames(emp.PPSApptHireDateChecked, emp.ApptDateHasBeenAdjusted)">
+                        <td class="title-date @GetEditedClassNames(emp.PPSApptHireDateChecked, emp.ApptDateHasBeenAdjusted)">
                             @emp.AdjustedApptHireDate.ToShortDateString()
                         </td>
                         @*<td>
