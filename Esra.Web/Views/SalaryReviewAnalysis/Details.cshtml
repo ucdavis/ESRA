@@ -26,4 +26,14 @@
     <div id="sra-details">
         @Html.Partial("_SraDetails", Model)
     </div>
+
+    <div id="back-edit-print">
+        <a href='@Url.Action("Index", "SalaryReviewAnalysis")' class="buttons">
+            <img alt="Back" src='@Url.Image("arrow_left.jpg")' class="back_button" />&nbsp;Back</a>
+        <a href='@Url.Action("Edit", "SalaryReviewAnalysis", new { ReferenceNumber = @Model.SalaryReviewAnalysis.ReferenceNumber })' class="buttons" >
+            <img alt="Edit Salary Review Analysis" src='@Url.Image("edit.png")' class="edit_button" />&nbsp;Edit
+        </a><a id="lbtnPrint" title="Print" href="javascript:__doPostBack('lbtnPrint','')"
+            class="buttons" onclick="window.print();return false;">
+            <img alt="Print" src='@Url.Image("printer.gif")' class="print_button" />&nbsp;Print</a>
+    </div>
 }

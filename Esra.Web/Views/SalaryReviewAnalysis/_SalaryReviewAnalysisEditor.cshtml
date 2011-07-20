@@ -1,0 +1,21 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
+<div id="salary-scale-details">
+    <h2>
+        Salary Scale Details</h2>
+    @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+</div>
+<div id="employee-details">
+    @Html.Partial("_EmployeeDetails")
+</div>
+<div id="salary-review-analysis">
+    @Html.Partial("_SalaryReviewAnalysis")
+</div>
+<div id="save-cancel-buttons">
+    <center>
+        <br />
+        &nbsp;<input type="submit" name="btnSubmitSalaryReviewAnalysis" value="Save Salary Review Analysis"
+            id="btnSubmitSalaryReviewAnalysis" />
+        &nbsp;
+        <input type="submit" name="btnCancelSalaryReviewAnalysis" value="Cancel/Back" id="btnCancelSalaryReviewAnalysis" />
+    </center>
+</div>

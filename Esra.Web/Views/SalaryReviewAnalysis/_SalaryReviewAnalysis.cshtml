@@ -2,10 +2,12 @@
 <script type="text/javascript">
 
     $(function () {
-        $("#DateApproved").datepicker();
+        $("#SalaryReviewAnalysis_DateApproved").datepicker();
     });
 </script>
 <div>
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.SalaryReviewAnalysis.ReferenceNumber)
     <h2>
         Salary Review Analysis</h2>
     @if (Model.ProposedTitle != null)
@@ -92,7 +94,7 @@
                 </td>
                 <td>
                     <div class="editor-field">
-                        @Html.TextBox("PercentIncrease", scene.PercentIncrease)
+                        @Html.TextBox("PercentIncrease", String.Format("{0:p}", scene.PercentIncrease))
                     </div>
                 </td>
                 <td>
@@ -106,9 +108,10 @@
                     </div>
                 </td>
                 <td>
-                    <input type="button" value="Reset" onclick="resetScenario(this)" />&nbsp;&nbsp;
-                    <img alt="deleteScenario" id="deleteScenarioImgButton" src="../../Images/delete.png"
-                        onclick="deleteScenario(this)" />
+                    <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" onclick="resetScenario(this)" />&nbsp;
+                    <a onclick="return confirm('Are you sure you want to delete this scenario?'); deleteScenario(this);"
+                        id="btnDeleteScenario" class="buttons" href="javascript:__doPostBack('btnDelete','')">
+                        <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                 </td>
             </tr>
         }
@@ -116,25 +119,27 @@
             <th>
                 Department Comments:
             </th>
-            <td>
+            <td colspan="5">
                 <div class="editor-field">
-                    @Model.SalaryReviewAnalysis.DepartmentComments
+                    @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DepartmentComments, new { rows = "2", cols = "60" })
                 </div>
             </td>
         </tr>
         <tr>
             <th>
-                Comments:
+                Dean's Office Comments:
             </th>
-            <td>
+            <td colspan="5">
                 <div class="editor-field">
-                    @Model.SalaryReviewAnalysis.DeansOfficeComments
+                    @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DeansOfficeComments, new { rows = "2", cols = "60" })
                 </div>
             </td>
         </tr>
         <tr>
-            <td>
-                Add another scenario
+            <td colspan="6">
+                <center>
+                    <a id="btnAddAnotherScenario" href="javascript:__doPostBack('btnAddAnotherScenario','')"
+                        style="text-decoration: underline;">Add another scenario</a></center>
             </td>
         </tr>
     </table>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
@@ -101,25 +102,29 @@ namespace Esra.Web.Controllers
         }
 
         //
-        // GET: /SalaryReviewAnalysis/Edit/5
-        public ActionResult Edit(int id)
+        // GET: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
+        public ActionResult Edit(string referenceNumber)
         {
-            var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+            //var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
 
-            if (salaryReviewAnalysis == null) return RedirectToAction("Index");
+            if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
 
-            var viewModel = SalaryReviewAnalysisViewModel.Create(Repository);
-            viewModel.SalaryReviewAnalysis = salaryReviewAnalysis;
+            //var viewModel = SalaryReviewAnalysisViewModel.Create(Repository);
+            //viewModel.SalaryReviewAnalysis = salaryReviewAnalysis;
 
             return View(viewModel);
         }
 
         //
-        // POST: /SalaryReviewAnalysis/Edit/5
+        // POST: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
         [HttpPost]
-        public ActionResult Edit(int id, SalaryReviewAnalysis salaryReviewAnalysis)
+        public ActionResult Edit(SalaryReviewAnalysis salaryReviewAnalysis)
         {
-            var salaryReviewAnalysisToEdit = _salaryReviewAnalysisRepository.GetNullableById(id);
+            var salaryReviewAnalysisToEdit = _salaryReviewAnalysisRepository
+                .Queryable
+                .Where(x => x.ReferenceNumber.Equals(salaryReviewAnalysis.ReferenceNumber))
+                .FirstOrDefault();
 
             if (salaryReviewAnalysisToEdit == null) return RedirectToAction("Index");
 
@@ -176,7 +181,13 @@ namespace Esra.Web.Controllers
         {
             //Recommendation: Use AutoMapper
             //Mapper.Map(source, destination)
-            throw new NotImplementedException();
+            destination.Scenarios = source.Scenarios;
+            destination.ApprovedScenario = source.ApprovedScenario;
+            destination.DateApproved = source.DateApproved;
+            destination.DepartmentComments = source.DepartmentComments;
+            destination.DeansOfficeComments = source.DeansOfficeComments;
+
+            //throw new NotImplementedException();
         }
     }
 }

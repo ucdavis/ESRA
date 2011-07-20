@@ -63,8 +63,9 @@
                         <td>
                             <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { ReferenceNumber = @a.ReferenceNumber })'>
                                 <img alt="View Details" src='@Url.Image("Details.png")' />
-                            </a>&nbsp;&nbsp; @*<img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
-                                onclick="deleteSra(this)" />*@
+                            </a>&nbsp;&nbsp;
+                            <img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
+                                onclick="deleteSra(this)" />
                         </td>
                         <td>
                             @a.ReferenceNumber
@@ -108,7 +109,8 @@
             </tbody>
         </table>
         <span id="pnlProposedTitleCodeNote">
-            <text id="lblProposedTitleCodeNote">*Proposed Title Code</text>
+            <label id="lblProposedTitleCodeNote">
+                *Proposed Title Code</label>
         </span>
     </div>
     }
@@ -125,6 +127,7 @@
 <script type="text/javascript">
 <!--
     function deleteSra(row) {
+        debugger;
         return false;
     }
 

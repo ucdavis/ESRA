@@ -203,6 +203,7 @@
     <Content Include="Images\email.png" />
     <Content Include="Images\logo-caes-long-cap.png" />
     <Content Include="Images\logo-ucdavis.png" />
+    <Content Include="Images\printer.gif" />
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.js" />
@@ -349,6 +350,16 @@
     <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_EmployeeDetails.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysis.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisEditor.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SraDetails.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SraEmployeeInfo.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SraEmployeeTitle.cshtml">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

@@ -76,7 +76,7 @@
                             </td>
                             <td>
                                 <div class="editor-field">
-                                    @Html.CheckBox("Approved", scene.Approved)
+                                    <input id="approved" type="checkbox" disabled="true" @scene.Approved ? "checked" : @String.Empty />
                                 </div>
                             </td>
                         </tr>
@@ -88,6 +88,8 @@
             </td>
             <td>
                 @Model.SalaryReviewAnalysis.DeansOfficeComments
+            </td>
+            <td>@String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateApproved)
             </td>
         </tr>
     </table>
