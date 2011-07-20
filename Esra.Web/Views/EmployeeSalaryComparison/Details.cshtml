@@ -43,6 +43,7 @@
                 var row = employeeRow.next();
 
                 var data = { //Grab the data out of the rows
+                    id = rowId,
                     hireDate: row.find('.hire-date').val(),
                     titleDate: row.find('.title-date').val(),
                     experienceDate: row.find('.experience-date').val(),

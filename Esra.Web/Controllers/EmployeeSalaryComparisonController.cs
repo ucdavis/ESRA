@@ -300,6 +300,9 @@ namespace Esra.Web.Controllers
         [BypassAntiForgeryToken]
         public ActionResult Edit(EmployeeEditModel editModel)
         {
+            //TODO: Check permissions
+            var employee = _employeeRepository.GetById(editModel.Id);
+
             var result = new {hireAdjusted = false, titleAdjusted = true, success = true};
             return Json(result);
         }
@@ -317,6 +320,7 @@ namespace Esra.Web.Controllers
 
     public class EmployeeEditModel
     {
+        public int Id { get; set; }
         public DateTime? HireDate { get; set; }
         public DateTime? TitleDate { get; set; }
         public DateTime? ExperienceDate { get; set; }
