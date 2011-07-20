@@ -300,7 +300,8 @@ namespace Esra.Web.Controllers
         [BypassAntiForgeryToken]
         public ActionResult Edit(EmployeeEditModel editModel)
         {
-            return Json(true);
+            var result = new {hireAdjusted = false, titleAdjusted = true, success = true};
+            return Json(result);
         }
 
         /// <summary>

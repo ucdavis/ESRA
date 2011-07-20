@@ -71,12 +71,18 @@
                             dtable.fnUpdate(data.deptComments, resultrow, 13, false, false);
                             dtable.fnUpdate(data.deansComments, resultrow, 14);
 
-                            //updated the headers for the pps checked columns
+                            //updated the headers for the pps checked/adjusted columns
                             if (data.hireChecked) {
                                 employeeRow.find("td.hire-date").addClass("date-checked");
                             }
                             if (data.titleChecked) {
                                 employeeRow.find("td.title-date").addClass("date-checked");
+                            }
+                            if (result.hireAdjusted) {
+                                employeeRow.find("td.hire-date").addClass("date-adjusted");
+                            }
+                            if (result.titleAdjusted) {
+                                employeeRow.find("td.title-date").addClass("date-adjusted");
                             }
                         }
                         dtable.fnClose(resultrow);
