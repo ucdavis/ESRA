@@ -90,7 +90,7 @@
             <tbody>
                 @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
                 {
-                    <tr>
+                    <tr data-id="e-@emp.Id">
                         <td>
                             <a href="#" class="edit-row">Edit</a>
                             <span style="display: none;" class="career-date-checked";>@(emp.PPSCareerHireDateChecked !=

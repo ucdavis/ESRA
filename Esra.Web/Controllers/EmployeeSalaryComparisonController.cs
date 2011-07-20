@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Attributes;
 
 namespace Esra.Web.Controllers
 {
@@ -295,6 +296,13 @@ namespace Esra.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [BypassAntiForgeryToken]
+        public ActionResult Edit(EmployeeEditModel editModel)
+        {
+            return Json(true);
+        }
+
         /// <summary>
         /// Transfer editable values from source to destination
         /// </summary>
@@ -304,6 +312,17 @@ namespace Esra.Web.Controllers
             //Mapper.Map(source, destination)
             throw new NotImplementedException();
         }
+    }
+
+    public class EmployeeEditModel
+    {
+        public DateTime? HireDate { get; set; }
+        public DateTime? TitleDate { get; set; }
+        public DateTime? ExperienceDate { get; set; }
+        public bool HireChecked { get; set; }
+        public bool TitleChecked { get; set; }
+        public string DeptComments { get; set; }
+        public string DeansComments { get; set; }
     }
 
     ///// <summary>
