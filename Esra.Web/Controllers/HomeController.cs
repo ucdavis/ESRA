@@ -56,6 +56,8 @@ namespace Esra.Web.Controllers
                 {
                     menuViewName = "_DepartmentsMenu";
                     viewModel.IsDepartmentUser = true;
+                    Session.Add(GlobalConstants.KEY_IS_DEPARTMENT_USER, true);
+                    ;
                 }
             }
             else
@@ -76,6 +78,7 @@ namespace Esra.Web.Controllers
                 {
                     menuViewName = "_DepartmentsMenu";
                     viewModel.IsDepartmentUser = true;
+                    Session.Add(GlobalConstants.KEY_IS_DEPARTMENT_USER, true);
                 }
             }
 
@@ -114,6 +117,7 @@ namespace Esra.Web.Controllers
                     viewName = "_DepartmentsMenu";
                     viewModel.User.IsDepartmentUser = true;
                     viewModel.IsDepartmentUser = true;
+                    Session.Add(GlobalConstants.KEY_IS_DEPARTMENT_USER, true);
                     //TempData.Add("IsDepartmentUser", true);
                 }
 

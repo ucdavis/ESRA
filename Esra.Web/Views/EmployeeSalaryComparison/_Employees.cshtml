@@ -1,8 +1,9 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
 @using System.Text;
+@using Esra.Web.Resources;
 @*<legend>Employees</legend>*@@*<ul>*@
 @helper GetEditedClassNames(bool dateChecked, bool dateAdjusted)
-{
+    {
     @(dateChecked ? "date-checked" : string.Empty) @(dateAdjusted ? "date-adjusted" : string.Empty)
 }
 @*@GetEditedClassNames(true, true)*@
@@ -18,12 +19,14 @@
             Dates with <strong>bolded</strong> text have been validated to be correct in PPS.<br />
             <br />
         </div>
+        @Html.Hidden("IsDepartmentUser", Session["IsDepartmentUser"] ?? false)
         <h3>
             Employee Salary Comparison Report</h3>
         <table id="employees">
             <thead>
                 <tr>
                     <th>
+                        &nbsp;
                     </th>
                     <th>
                         Department Name
@@ -91,12 +94,8 @@
                 @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
                 {
                     <tr data-id="e-@emp.Id">
-                        <td>
+                        <td class="is-department-user @(Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] != null ? Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? : false)">
                             <a href="#" class="edit-row">Edit</a>
-                            @*<span style="display: none;" class="career-date-checked";>@(emp.PPSCareerHireDateChecked !=
-                                null && emp.PPSCareerHireDateChecked ? true : false)</span>
-                            <span style="display: none;" class="appt-date-checked";>@(emp.PPSApptHireDateChecked !=
-                                null && emp.PPSApptHireDateChecked ? true : false)</span>*@
                         </td>
                         <td>@emp.HomeDepartment.Name
                         </td>

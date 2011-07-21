@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="KEY_IS_DEPARTMENT_USER" xml:space="preserve">
+    <value>IsDepartmentUser</value>
+    <comment>Used as key to retrieve the value of the global session variable "IsDepartmentUser".</comment>
+  </data>
   <data name="MODE_DEMO" xml:space="preserve">
     <value>demo</value>
     <comment>Used to enable and initially show the Role/Demo feature.</comment>

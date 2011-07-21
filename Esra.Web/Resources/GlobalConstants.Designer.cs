@@ -61,6 +61,15 @@ namespace Esra.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IsDepartmentUser.
+        /// </summary>
+        public static string KEY_IS_DEPARTMENT_USER {
+            get {
+                return ResourceManager.GetString("KEY_IS_DEPARTMENT_USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to demo.
         /// </summary>
         public static string MODE_DEMO {

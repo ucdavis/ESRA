@@ -160,7 +160,10 @@ namespace Esra.Core.Domain
                     return _HireDate;
                 }
             }
-            set { _CareerHireDate = value; }
+            set
+            {
+                _CareerHireDate = value;
+            }
         }
 
         protected bool _ApptDateHasBeenAdjusted;
@@ -215,7 +218,10 @@ namespace Esra.Core.Domain
         public virtual DateTime? CareerHireDate
         {
             get { return _CareerHireDate; }
-            set { _CareerHireDate = value; }
+            set
+            {
+                _CareerHireDate = value;
+            }
         }
 
         public virtual void SetCareerHireDate(DateTime? value)
@@ -246,7 +252,10 @@ namespace Esra.Core.Domain
         public virtual DateTime? ApptHireDate
         {
             get { return _ApptHireDate; }
-            set { _ApptHireDate = value; }
+            set
+            {
+                _ApptHireDate = value;
+            }
         }
 
         public virtual void SetApptHireDate(DateTime? value)
@@ -265,7 +274,11 @@ namespace Esra.Core.Domain
             }
         }
 
-        public virtual bool PPSApptHireDateChecked { get; set; }
+        public virtual bool PPSApptHireDateChecked
+        {
+            get;
+            set;
+        }
 
         public virtual void SetPPSApptHireDateChecked(bool? value)
         {
@@ -277,7 +290,10 @@ namespace Esra.Core.Domain
         public virtual DateTime? ExperienceBeginDate
         {
             get { return _ExperienceBeginDate; }
-            set { _ExperienceBeginDate = value; }
+            set
+            {
+                _ExperienceBeginDate = value;
+            }
         }
 
         public virtual void SetExperienceBeginDate(DateTime? value)
@@ -336,12 +352,22 @@ namespace Esra.Core.Domain
             set { _DepartmentComments = value; }
         }
 
+        public virtual void SetDepartmentComments(string value, bool? isDepartmentUser)
+        {
+            SetComments(value, isDepartmentUser);
+        }
+
         protected string _DeansOfficeComments;
 
         public virtual string DeansOfficeComments
         {
             get { return _DeansOfficeComments; }
             set { _DeansOfficeComments = value; }
+        }
+
+        public virtual void SetDeansOfficeComments(string value, bool? isDepartmentUser)
+        {
+            SetComments(value, isDepartmentUser);
         }
 
         public virtual void SetComments(string value, bool? isDepartmentUser)

@@ -157,22 +157,37 @@
 
         /* Formating function for row details */
         function fnFormatDetails(dTable, row) {
-            //debugger;
+            debugger;
             var rowContents = row[0];
             var careerChecked = row.find(".hire-date").hasClass("date-checked");
             var apptChecked = row.find(".title-date").hasClass("date-checked");
+            //var isDepartmentUser = $('#is-department-user')[0].value;
+            var isDepartmentUser = row.find(".is-department-user").hasClass("True");
             var rowId = row.data("id");
 
             var aData = dTable.fnGetData(rowContents);
 
             var sOut = '';
             sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+            //sOut += '<tr><td>Is Department User: ' + isDepartmentUser + '</td></tr>';
             sOut += '<tr><td>Editing ' + aData[5] + '</td></tr>';
             sOut += '<tr><td>Hire Date: <input class="hire-date datepicker" type="text" value="' + aData[6] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
             sOut += '<tr><td>Title Begin Date: <input class="title-date datepicker" type="text" value="' + aData[8] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
             sOut += '<tr><td>Experience Begin Date: <input class="experience-date datepicker" type="text" value="' + aData[10] + '"/></td></tr>';
-            sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[13] + '</textarea></td></tr>';
-            sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[14] + '</textarea></td></tr>';
+            if (isDepartmentUser) {
+                sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[13] + '</textarea></td></tr>';
+            }
+            else {
+                sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[13] + '</textarea></td></tr>';
+            }
+
+            if (isDepartmentUser) {
+                sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[14] + '</textarea></td></tr>';
+            }
+            else {
+                sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[14] + '</textarea></td></tr>';
+            }
+
             sOut += '<tr><td><input class="save-employee" data-id="' + rowId + '" type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
             sOut += '</table>';
             return sOut;
