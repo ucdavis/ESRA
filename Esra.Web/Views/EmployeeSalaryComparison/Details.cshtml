@@ -43,7 +43,7 @@
                 var row = employeeRow.next();
 
                 var data = { //Grab the data out of the rows
-                    id = rowId,
+                    id: rowId,
                     hireDate: row.find('.hire-date').val(),
                     titleDate: row.find('.title-date').val(),
                     experienceDate: row.find('.experience-date').val(),
@@ -76,14 +76,26 @@
                             if (data.hireChecked) {
                                 employeeRow.find("td.hire-date").addClass("date-checked");
                             }
+                            else {
+                                employeeRow.find("td.hire-date").removeClass("date-checked");
+                            }
                             if (data.titleChecked) {
                                 employeeRow.find("td.title-date").addClass("date-checked");
+                            }
+                            else {
+                                employeeRow.find("td.title-date").removeClass("date-checked");
                             }
                             if (result.hireAdjusted) {
                                 employeeRow.find("td.hire-date").addClass("date-adjusted");
                             }
+                            else {
+                                employeeRow.find("td.hire-date").removeClass("date-adjusted");
+                            }
                             if (result.titleAdjusted) {
                                 employeeRow.find("td.title-date").addClass("date-adjusted");
+                            }
+                            else {
+                                employeeRow.find("td.title-date").removeClass("date-adjusted");
                             }
                         }
                         dtable.fnClose(resultrow);
@@ -146,8 +158,8 @@
         function fnFormatDetails(dTable, row) {
             //debugger;
             var rowContents = row[0];
-            var careerChecked = (row.find(".career-date-checked").html() == "True" ? true : false);
-            var apptChecked = (row.find(".appt-date-checked").html() == "True" ? true : false);
+            var careerChecked = row.find(".hire-date").hasClass("date-checked");
+            var apptChecked = row.find(".title-date").hasClass("date-checked");
             var rowId = row.data("id");
 
             var aData = dTable.fnGetData(rowContents);
@@ -155,8 +167,8 @@
             var sOut = '';
             sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
             sOut += '<tr><td>Editing ' + aData[5] + '</td></tr>';
-            sOut += '<tr><td>Hire Date: <input class="hire-date" type="text" value="' + aData[6] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Verified in PPS?</td></tr>';
-            sOut += '<tr><td>Title Begin Date: <input class="title-date" type="text" value="' + aData[8] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Verified in PPS?</td></tr>';
+            sOut += '<tr><td>Hire Date: <input class="hire-date" type="text" value="' + aData[6] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+            sOut += '<tr><td>Title Begin Date: <input class="title-date" type="text" value="' + aData[8] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
             sOut += '<tr><td>Experience Begin Date: <input class="experience-date" type="text" value="' + aData[10] + '"/></td></tr>';
             sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[13] + '</textarea></td></tr>';
             sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[14] + '</textarea></td></tr>';

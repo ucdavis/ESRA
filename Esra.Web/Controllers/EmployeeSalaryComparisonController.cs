@@ -14,12 +14,12 @@ namespace Esra.Web.Controllers
     /// </summary>
     public class EmployeeSalaryComparisonController : ApplicationController
     {
-        private readonly IRepository<Employee> _employeeRepository;
+        private readonly IRepositoryWithTypedId<Employee, string> _employeeRepository;
         private readonly IRepository<SalaryScale> _salaryScaleRepository;
 
         public static readonly string Any = "Any";
 
-        public EmployeeSalaryComparisonController(IRepository<Employee> employeeRepository, IRepository<SalaryScale> salayScaleRepository)
+        public EmployeeSalaryComparisonController(IRepositoryWithTypedId<Employee,string> employeeRepository, IRepository<SalaryScale> salayScaleRepository)
         {
             _employeeRepository = employeeRepository;
             _salaryScaleRepository = salayScaleRepository;
@@ -271,7 +271,7 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /Employee/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             var employee = _employeeRepository.GetNullableById(id);
 
@@ -283,7 +283,7 @@ namespace Esra.Web.Controllers
         //
         // POST: /Employee/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, Employee employee)
+        public ActionResult Delete(string id, Employee employee)
         {
             var employeeToDelete = _employeeRepository.GetNullableById(id);
 
@@ -300,10 +300,25 @@ namespace Esra.Web.Controllers
         [BypassAntiForgeryToken]
         public ActionResult Edit(EmployeeEditModel editModel)
         {
-            //TODO: Check permissions
-            var employee = _employeeRepository.GetById(editModel.Id);
+            var id = editModel.Id.Substring(2);
 
-            var result = new {hireAdjusted = false, titleAdjusted = true, success = true};
+            //TODO: Check permissions
+            var employee = _employeeRepository.GetById(id);
+
+            if (editModel.HireDate.HasValue) employee.AdjustedCareerHireDate = editModel.HireDate.Value;
+            if (editModel.TitleDate.HasValue) employee.AdjustedApptHireDate = editModel.TitleDate.Value;
+            if (editModel.ExperienceDate.HasValue) employee.ExperienceBeginDate = editModel.ExperienceDate.Value;
+
+            employee.PPSCareerHireDateChecked = editModel.HireChecked;
+            employee.PPSApptHireDateChecked = editModel.TitleChecked;
+
+            employee.DepartmentComments = editModel.DeptComments;
+            employee.DeansOfficeComments = editModel.DeansComments;
+
+            _employeeRepository.EnsurePersistent(employee);
+            
+            var result = new {hireAdjusted = employee.CareerDateHasBeenAdjusted, titleAdjusted = employee.ApptDateHasBeenAdjusted, success = true};
+            
             return Json(result);
         }
 
@@ -320,7 +335,7 @@ namespace Esra.Web.Controllers
 
     public class EmployeeEditModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; } /*e-id*/
         public DateTime? HireDate { get; set; }
         public DateTime? TitleDate { get; set; }
         public DateTime? ExperienceDate { get; set; }

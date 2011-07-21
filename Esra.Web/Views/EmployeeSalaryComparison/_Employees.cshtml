@@ -3,7 +3,7 @@
 @*<legend>Employees</legend>*@@*<ul>*@
 @helper GetEditedClassNames(bool dateChecked, bool dateAdjusted)
 {
-    @(dateChecked && dateAdjusted ? "date-checked-and-adjusted" : dateChecked ? "date-checked" : dateAdjusted ? "date-adjusted" : string.Empty)
+    @(dateChecked ? "date-checked" : string.Empty) @(dateAdjusted ? "date-adjusted" : string.Empty)
 }
 @*@GetEditedClassNames(true, true)*@
 @{
@@ -93,10 +93,10 @@
                     <tr data-id="e-@emp.Id">
                         <td>
                             <a href="#" class="edit-row">Edit</a>
-                            <span style="display: none;" class="career-date-checked";>@(emp.PPSCareerHireDateChecked !=
+                            @*<span style="display: none;" class="career-date-checked";>@(emp.PPSCareerHireDateChecked !=
                                 null && emp.PPSCareerHireDateChecked ? true : false)</span>
                             <span style="display: none;" class="appt-date-checked";>@(emp.PPSApptHireDateChecked !=
-                                null && emp.PPSApptHireDateChecked ? true : false)</span>
+                                null && emp.PPSApptHireDateChecked ? true : false)</span>*@
                         </td>
                         <td>@emp.HomeDepartment.Name
                         </td>
