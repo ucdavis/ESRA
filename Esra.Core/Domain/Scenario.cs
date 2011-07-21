@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -45,6 +46,7 @@ namespace Esra.Core.Domain
         private double? _PercentIncrease;
 
         // Valid only a percent increase was entered.
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:p}")]
         public virtual double? PercentIncrease
         {
             get { return _PercentIncrease; }
@@ -54,6 +56,7 @@ namespace Esra.Core.Domain
         private double? _SalaryAmount;
 
         // Valid only if a salary amount was entered.
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public virtual double? SalaryAmount
         {
             get { return _SalaryAmount; }

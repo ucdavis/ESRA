@@ -79,32 +79,36 @@
                 &nbsp
             </th>
         </tr>
-        @foreach (Esra.Core.Domain.Scenario scene in Model.SalaryReviewAnalysis.Scenarios)
-        {
+        @{
+
+            var len = Model.SalaryReviewAnalysis.Scenarios.Count;
+            for (var i = 0; i < len; i++)
+            {
+
             <tr>
                 <th>
-                    @scene.ScenarioNumber.
+                    @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
                 </th>
                 <td>
+                    @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType<br />
                     <div class="editor-field">
-                        @Html.DropDownListFor(x => scene.SelectionType, new SelectList(Model.SelectionTypes,
-                        "Type", "ShortType", String.IsNullOrEmpty(scene.SelectionType) == false
-                        ? scene.SelectionType : String.Empty), null, new { id = "ddlSelectionType" })
+                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType, new SelectList(Model.SelectionTypes,
+              "Type", "ShortType", @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType), null, new { id = "ddlSelectionType" })
                     </div>
                 </td>
                 <td>
                     <div class="editor-field">
-                        @Html.TextBox("PercentIncrease", String.Format("{0:p}", scene.PercentIncrease))
+                        @Html.EditorFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].PercentIncrease)
                     </div>
                 </td>
                 <td>
                     <div class="editor-field">
-                        @Html.TextBox("SalaryAmount", String.Format("{0:c}", scene.SalaryAmount))
+                        @Html.EditorFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)
                     </div>
                 </td>
                 <td>
                     <div class="editor-field">
-                        @Html.CheckBox("Approved", scene.Approved)
+                        @Html.CheckBox(@"SalaryReviewAnalysis.Scenarios[" + i + "].Approved", @Model.SalaryReviewAnalysis.Scenarios[i].Approved)
                     </div>
                 </td>
                 <td>
@@ -114,6 +118,7 @@
                         <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                 </td>
             </tr>
+            }
         }
         <tr>
             <th>

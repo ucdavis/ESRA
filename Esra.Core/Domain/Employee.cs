@@ -197,11 +197,16 @@ namespace Esra.Core.Domain
             set { _ApptHireDate = value; }
         }
 
+        // This probably no longer needs to be a database field
         protected bool _DatesHaveBeenAdjusted;
 
         public virtual bool DatesHaveBeenAdjusted
         {
-            get { return _DatesHaveBeenAdjusted; }
+            get
+            {
+                return ApptDateHasBeenAdjusted || CareerDateHasBeenAdjusted ? true : false;
+                //return _DatesHaveBeenAdjusted;
+            }
             set { _DatesHaveBeenAdjusted = value; }
         }
 
@@ -213,7 +218,28 @@ namespace Esra.Core.Domain
             set { _CareerHireDate = value; }
         }
 
+        public virtual void SetCareerHireDate(DateTime? value)
+        {
+            if (CareerHireDate != value)
+            {
+                CareerHireDate = value;
+                if (value == null)
+                {
+                    YearsOfService = (DateTime.Today - HireDate).TotalDays / 365.25;
+                }
+                else
+                {
+                    YearsOfService = (DateTime.Today - (DateTime)value).TotalDays / 365.25;
+                }
+            }
+        }
+
         public virtual bool PPSCareerHireDateChecked { get; set; }
+
+        public virtual void SetPPSCareerHireDateChecked(bool? value)
+        {
+            PPSCareerHireDateChecked = (value == null ? false : (bool)value);
+        }
 
         protected DateTime? _ApptHireDate;
 
@@ -223,7 +249,28 @@ namespace Esra.Core.Domain
             set { _ApptHireDate = value; }
         }
 
+        public virtual void SetApptHireDate(DateTime? value)
+        {
+            if (ApptHireDate != value)
+            {
+                ApptHireDate = value;
+                if (value == null)
+                {
+                    TimeInTitle = (DateTime.Today - BeginDate).TotalDays / 365.25;
+                }
+                else
+                {
+                    TimeInTitle = (DateTime.Today - (DateTime)value).TotalDays / 365.25;
+                }
+            }
+        }
+
         public virtual bool PPSApptHireDateChecked { get; set; }
+
+        public virtual void SetPPSApptHireDateChecked(bool? value)
+        {
+            PPSApptHireDateChecked = (value == null ? false : (bool)value);
+        }
 
         protected DateTime? _ExperienceBeginDate;
 
@@ -231,6 +278,30 @@ namespace Esra.Core.Domain
         {
             get { return _ExperienceBeginDate; }
             set { _ExperienceBeginDate = value; }
+        }
+
+        public virtual void SetExperienceBeginDate(DateTime? value)
+        {
+            // first reset the Experience begin date if needed.
+            if (ExperienceBeginDate == null)
+            {
+                YearsOfExperience = null;
+            }
+
+            if (ExperienceBeginDate != value)
+            {
+                ExperienceBeginDate = value;
+
+                if (value == null)
+                {
+                    // reset years of experience to null:
+                    YearsOfExperience = null;
+                }
+                else
+                {
+                    YearsOfExperience = (DateTime.Today - (DateTime)value).TotalDays / 365.25;
+                }
+            }
         }
 
         protected double? _YearsOfService;
@@ -271,6 +342,18 @@ namespace Esra.Core.Domain
         {
             get { return _DeansOfficeComments; }
             set { _DeansOfficeComments = value; }
+        }
+
+        public virtual void SetComments(string value, bool? isDepartmentUser)
+        {
+            if (isDepartmentUser == null || isDepartmentUser == false)
+            {
+                DeansOfficeComments = (String.IsNullOrEmpty(value) ? null : value);
+            }
+            else
+            {
+                DepartmentComments = (String.IsNullOrEmpty(value) ? null : value);
+            }
         }
 
         public virtual int CompareTo(Employee item)

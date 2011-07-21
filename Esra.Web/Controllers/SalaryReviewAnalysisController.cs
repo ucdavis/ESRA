@@ -103,7 +103,7 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
-        //public ActionResult Edit(string referenceNumber)
+        //public ActionResult CreateEdit(string referenceNumber)
         public ActionResult CreateEdit(string newSraEmployee, string proposedTitle, string referenceNumber)
         {
             //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
@@ -119,7 +119,7 @@ namespace Esra.Web.Controllers
         }
 
         //
-        // POST: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
+        // POST: /SalaryReviewAnalysis/CreateEdit?SalaryReviewAnalysis
         [HttpPost]
         public ActionResult CreateEdit(SalaryReviewAnalysis salaryReviewAnalysis)
         {
@@ -134,7 +134,7 @@ namespace Esra.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _salaryReviewAnalysisRepository.EnsurePersistent(salaryReviewAnalysisToEdit);
+                //_salaryReviewAnalysisRepository.EnsurePersistent(salaryReviewAnalysisToEdit);
 
                 Message = "SalaryReviewAnalysis Edited Successfully";
 
