@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Attributes;
 
 namespace Esra.Web.Controllers
 {
@@ -13,12 +14,12 @@ namespace Esra.Web.Controllers
     /// </summary>
     public class EmployeeSalaryComparisonController : ApplicationController
     {
-        private readonly IRepository<Employee> _employeeRepository;
+        private readonly IRepositoryWithTypedId<Employee, string> _employeeRepository;
         private readonly IRepository<SalaryScale> _salaryScaleRepository;
 
         public static readonly string Any = "Any";
 
-        public EmployeeSalaryComparisonController(IRepository<Employee> employeeRepository, IRepository<SalaryScale> salayScaleRepository)
+        public EmployeeSalaryComparisonController(IRepositoryWithTypedId<Employee,string> employeeRepository, IRepository<SalaryScale> salayScaleRepository)
         {
             _employeeRepository = employeeRepository;
             _salaryScaleRepository = salayScaleRepository;
@@ -270,7 +271,7 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /Employee/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             var employee = _employeeRepository.GetNullableById(id);
 
@@ -282,7 +283,7 @@ namespace Esra.Web.Controllers
         //
         // POST: /Employee/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, Employee employee)
+        public ActionResult Delete(string id, Employee employee)
         {
             var employeeToDelete = _employeeRepository.GetNullableById(id);
 
@@ -295,6 +296,32 @@ namespace Esra.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [BypassAntiForgeryToken]
+        public ActionResult Edit(EmployeeEditModel editModel)
+        {
+            var id = editModel.Id.Substring(2);
+
+            //TODO: Check permissions
+            var employee = _employeeRepository.GetById(id);
+
+            if (editModel.HireDate.HasValue) employee.AdjustedCareerHireDate = editModel.HireDate.Value;
+            if (editModel.TitleDate.HasValue) employee.AdjustedApptHireDate = editModel.TitleDate.Value;
+            if (editModel.ExperienceDate.HasValue) employee.ExperienceBeginDate = editModel.ExperienceDate.Value;
+
+            employee.PPSCareerHireDateChecked = editModel.HireChecked;
+            employee.PPSApptHireDateChecked = editModel.TitleChecked;
+
+            employee.DepartmentComments = editModel.DeptComments;
+            employee.DeansOfficeComments = editModel.DeansComments;
+
+            _employeeRepository.EnsurePersistent(employee);
+            
+            var result = new {hireAdjusted = employee.CareerDateHasBeenAdjusted, titleAdjusted = employee.ApptDateHasBeenAdjusted, success = true};
+            
+            return Json(result);
+        }
+
         /// <summary>
         /// Transfer editable values from source to destination
         /// </summary>
@@ -304,6 +331,18 @@ namespace Esra.Web.Controllers
             //Mapper.Map(source, destination)
             throw new NotImplementedException();
         }
+    }
+
+    public class EmployeeEditModel
+    {
+        public string Id { get; set; } /*e-id*/
+        public DateTime? HireDate { get; set; }
+        public DateTime? TitleDate { get; set; }
+        public DateTime? ExperienceDate { get; set; }
+        public bool HireChecked { get; set; }
+        public bool TitleChecked { get; set; }
+        public string DeptComments { get; set; }
+        public string DeansComments { get; set; }
     }
 
     ///// <summary>
