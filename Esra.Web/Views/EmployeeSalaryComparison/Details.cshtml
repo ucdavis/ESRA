@@ -28,12 +28,81 @@
                 var row = $(this).parents("tr");
 
                 dtable.fnOpen(row[0], fnFormatDetails(dtable, row), 'details');
+                row.next().find("input.datepicker").datepicker(); //setup datepicker for the new datetime inputs
                 e.preventDefault();
             });
 
             $('#employees a.close-row').live('click', function (e) {
                 var row = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.previousSibling;
                 dtable.fnClose(row);
+                e.preventDefault();
+            });
+
+            $('input.save-employee', '#employees').live('click', function (e) {
+                var rowId = $(this).data("id");
+                var employeeRow = $('tr[data-id=' + rowId + ']', '#employees');
+                var row = employeeRow.next();
+
+                var data = { //Grab the data out of the rows
+                    id: rowId,
+                    hireDate: row.find('.hire-date').val(),
+                    titleDate: row.find('.title-date').val(),
+                    experienceDate: row.find('.experience-date').val(),
+                    hireChecked: row.find('.hire-checked').is(":checked"),
+                    titleChecked: row.find('.title-checked').is(":checked"),
+                    deptComments: row.find('.dept-comments').val(),
+                    deansComments: row.find('.deans-comments').val()
+                }
+
+                row.html("<tr><td>Saving Data.......<td></tr>");
+
+                $.ajax({
+                    url: '@Url.Action("Edit")',
+                    data: data,
+                    type: 'POST',
+                    error: function () {
+                        alert("There was a problem saving the data for this employee. Please retry your request, and if the problem persists contact application support.");
+                        dtable.fnClose(employeeRow[0]);
+                    },
+                    success: function (result) {
+                        var resultrow = employeeRow[0];
+                        //update the row
+                        dtable.fnUpdate(data.hireDate, resultrow, 6, false, false); //False params to not redraw until second call
+                        dtable.fnUpdate(data.titleDate, resultrow, 8, false, false);
+                        dtable.fnUpdate(data.experienceDate, resultrow, 10, false, false);
+                        dtable.fnUpdate(data.deptComments, resultrow, 13, false, false);
+                        dtable.fnUpdate(data.deansComments, resultrow, 14);
+
+                        //updated the headers for the pps checked/adjusted columns
+                        if (data.hireChecked) {
+                            employeeRow.find("td.hire-date").addClass("date-checked");
+                        }
+                        else {
+                            employeeRow.find("td.hire-date").removeClass("date-checked");
+                        }
+                        if (data.titleChecked) {
+                            employeeRow.find("td.title-date").addClass("date-checked");
+                        }
+                        else {
+                            employeeRow.find("td.title-date").removeClass("date-checked");
+                        }
+                        if (result.hireAdjusted) {
+                            employeeRow.find("td.hire-date").addClass("date-adjusted");
+                        }
+                        else {
+                            employeeRow.find("td.hire-date").removeClass("date-adjusted");
+                        }
+                        if (result.titleAdjusted) {
+                            employeeRow.find("td.title-date").addClass("date-adjusted");
+                        }
+                        else {
+                            employeeRow.find("td.title-date").removeClass("date-adjusted");
+                        }
+
+                        dtable.fnClose(resultrow);
+                    }
+                });
+
                 e.preventDefault();
             });
 
@@ -82,42 +151,29 @@
             });
         });
 
+        function GetRow() {
+
+        }
+
         /* Formating function for row details */
         function fnFormatDetails(dTable, row) {
             //debugger;
             var rowContents = row[0];
-            var careerChecked = (row.find(".career-date-checked").html() == "True" ? true : false);
-            var apptChecked = (row.find(".appt-date-checked").html() == "True" ? true : false);
+            var careerChecked = row.find(".hire-date").hasClass("date-checked");
+            var apptChecked = row.find(".title-date").hasClass("date-checked");
+            var rowId = row.data("id");
 
             var aData = dTable.fnGetData(rowContents);
-            // var sOut = aData[5] + '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-            //            sOut += '<tr><td>Hire Date:</td><td><input type="text" value="' + aData[6] + '"/></td></tr>';
-            //            sOut += '<tr><td>Begin Date:</td><td><input type="text" value="' + aData[8] + '"/></td></tr>';
-            //            sOut += '<tr><td>Experience Begin Date:</td><td><input type="text" value="' + aData[10] + '"/></td></tr>';
-            //            sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
-            //            sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" /><a class="close-row" href="#">Close</a></td></tr>';
-            //            sOut += '</table>';
 
             var sOut = '';
             sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-            sOut += '<tr><th>Department:</th><th>Title Code:</th><th>Salary Grade:</th><th>Bargaining<br />Unit:</th>';
-            sOut += '<th>Employee<br />Name:</th><th>Hire Date:</th><th>Years<br />of<br />Service:</th><th>Begin Date<br />(in Title):</th>';
-            sOut += '<th>Time<br />in<br />Title:</th><th>Experience Begin Date:</th><th>Years<br />of<br />Experience:</th>';
-            sOut += '<th>Pay Rate:</th><th>Department<br/ >Comments:</th><th>Dean' + "'" + 's Office<br />Comments:</th>';
-
-            sOut += '<tr><td><br /><input type="text" disabled="true" value="' + aData[1] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[2] + '"/></td>';
-            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[3] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[4] + '"/></td>';
-            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[5] + '"/></td>';
-
-            sOut += '<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[6] + '"/></td>';
-            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[7] + '"/></td>';
-            sOut += '<td>PPS Checked?&nbsp;&nbsp;<input type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' /> <br /><input type="text" value="' + aData[8] + '"/></td>';
-            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[9] + '"/></td>';
-            sOut += '<td><br /><input type="text" value="' + aData[10] + '"/></td><td><br /><input type="text" disabled="true" value="' + aData[11] + '"/></td>';
-            sOut += '<td><br /><input type="text" disabled="true" value="' + aData[12] + '"/></td>';
-            sOut += '<td><textarea name="tbDeansOfficeComments" rows="3" cols="20">' + aData[13] + '</textarea></td>';
-            sOut += '<td><textarea name="tbDepartmentComments" rows="3" cols="20" >' + aData[14] + '</textarea></td></tr>';
-            sOut += '<tr><td>&nbsp;</td><td><input type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
+            sOut += '<tr><td>Editing ' + aData[5] + '</td></tr>';
+            sOut += '<tr><td>Hire Date: <input class="hire-date datepicker" type="text" value="' + aData[6] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+            sOut += '<tr><td>Title Begin Date: <input class="title-date datepicker" type="text" value="' + aData[8] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+            sOut += '<tr><td>Experience Begin Date: <input class="experience-date datepicker" type="text" value="' + aData[10] + '"/></td></tr>';
+            sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[13] + '</textarea></td></tr>';
+            sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[14] + '</textarea></td></tr>';
+            sOut += '<tr><td><input class="save-employee" data-id="' + rowId + '" type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
             sOut += '</table>';
             return sOut;
         }
