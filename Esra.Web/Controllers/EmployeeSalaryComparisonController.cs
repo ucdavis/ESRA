@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using CAESOps;
 using Esra.Core.Domain;
 using Esra.Web.Models;
 using Esra.Web.Resources;
@@ -31,9 +34,12 @@ namespace Esra.Web.Controllers
         public ActionResult Index()
         {
             var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, null);
-            employeeSalaryComparisonModel.User =
-                Repository.OfType<User>().Queryable
-                .Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
+
+            //employeeSalaryComparisonModel.User = Repository.OfType<User>().Queryable.Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
+            var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+            employeeSalaryComparisonModel.User = user;
+            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user.EmployeeID, null, true);
+            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, "FullName", true);
 
             return View(employeeSalaryComparisonModel);
         }
@@ -42,91 +48,133 @@ namespace Esra.Web.Controllers
         // GET: /EmployeeSalaryComparison/Details
         public ActionResult Details(string[] selectedTitleCodes, string[] selectedDepartmentCodes, string selectedEmployeeId)
         {
-            // var salaryScaleViewModel = SalaryScaleViewModel.Create(Repository);
             var employeeSalaryComparisonModel = EmployeeSalaryComparisonViewModel.Create(Repository, SalaryScaleViewModel.Create(Repository));
+
+            var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+            employeeSalaryComparisonModel.User = user;
+            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user.EmployeeID, null, true);
+            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, "FullName", true);
 
             bool isAnyTitle = true;
             bool isAnyDepartment = true;
             bool isAnyEmployee = true;
 
-            //employeeModel.SelectedTitleCodes = selectedTitleCodes;
-            //employeeModel.SelectedDepartmentCodes = selectedDepartmentCodes;
-            // employeeModel.SelectedEmployeeId = selectedEmployeeId;
+            var hasSelectedTitleCodes = selectedTitleCodes == null || selectedTitleCodes.Length == 0 ||
+                                    selectedTitleCodes[0].Equals("0") || selectedTitleCodes[0].Equals(String.Empty)
+                                        ? false
+                                        : true;
+            var hasSelectedDepartmentCodes = selectedDepartmentCodes == null || selectedDepartmentCodes.Length == 0 ||
+                                    selectedDepartmentCodes[0].Equals("0") || selectedDepartmentCodes[0].Equals(String.Empty)
+                                        ? false
+                                        : true;
+            var hasSelectedEmployeeId = String.IsNullOrEmpty(selectedEmployeeId) ||
+                                     selectedEmployeeId.Equals("0") || selectedEmployeeId.Equals(String.Empty)
+                                         ? false
+                                         : true;
 
-            //employeeModel.Employees = _employeeRepository.Queryable
-            //    .Where(r => selectedTitleCodes.Contains(r.TitleCode) && selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-            //    .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment)
-            //    .ToList();
+            employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                                       selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
 
-            if (selectedEmployeeId != null && !selectedEmployeeId.Equals(String.Empty))
+            if (hasSelectedEmployeeId)
             {
                 // get the employee by employee ID:
-                employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedEmployeeId.Equals(r.EmployeeID))
-                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                //employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedEmployeeId.Equals(r.EmployeeID))
+                //   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                //selectedTitleCodes, string[] selectedDepartmentCodes, string selectedEmployeeId
+                //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                //                       selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
                 isAnyEmployee = false;
-            }
-            // if both are null; get them all
-            else if ((selectedDepartmentCodes == null || selectedDepartmentCodes.Count() == 0 || (selectedDepartmentCodes.Count() == 1 && selectedDepartmentCodes[0].Equals(String.Empty))) && (selectedTitleCodes == null || selectedTitleCodes.Count() == 0 || (selectedTitleCodes.Count() == 1 && selectedTitleCodes[0].Equals(String.Empty))))
-            {
-                // get all records:
-                employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable
-                    .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-            }
-            else if ((selectedDepartmentCodes != null && selectedDepartmentCodes.Count() > 0 && !selectedDepartmentCodes[0].Equals(String.Empty)) &&
-                (selectedTitleCodes == null || selectedTitleCodes.Count() == 0 || (selectedTitleCodes.Count() == 1 && selectedTitleCodes[0].Equals(String.Empty))))
-            {
-                // get those with matching department codes:
-                employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-                   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-                isAnyDepartment = false;
-            }
-            else if ((selectedTitleCodes != null && selectedTitleCodes.Count() > 0 && !selectedTitleCodes[0].Equals(String.Empty)) &&
-            (selectedDepartmentCodes == null || selectedDepartmentCodes.Count() == 0 || (selectedDepartmentCodes.Count() == 1 && selectedDepartmentCodes[0].Equals(String.Empty))))
-            {
-                // get those with matching title codes:
-                employeeSalaryComparisonModel.Employees =
-                    _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode))
-                        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-
-                var salaryScales = _salaryScaleRepository
-                    .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
-
-                if (salaryScales.Count == 1)
-                {
-                    var salaryScale = salaryScales[0];
-                    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                        .Queryable
-                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                        .ToList();
-
-                    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
-                }
-                isAnyTitle = false;
             }
             else
             {
-                // get those with matching department and title codes:
-                employeeSalaryComparisonModel.Employees =
-                    _employeeRepository.Queryable.Where(
-                    r => selectedTitleCodes.Contains(r.TitleCode) &&
-                    selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-                        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-
-                var salaryScales = _salaryScaleRepository
-                    .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
-
-                if (salaryScales.Count == 1)
+                // if both are null; get them all
+                if (!hasSelectedDepartmentCodes && !hasSelectedTitleCodes)
                 {
-                    var salaryScale = salaryScales[0];
-                    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                        .Queryable
-                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                        .ToList();
-
-                    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                    // get all records:
+                    //employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable
+                    //    .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
                 }
-                isAnyDepartment = false;
-                isAnyTitle = false;
+                else if (hasSelectedDepartmentCodes && !hasSelectedTitleCodes)
+                {
+                    // get those with matching department codes:
+                    //employeeSalaryComparisonModel.Employees =
+                    //    _employeeRepository.Queryable.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID))
+                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    employeeSalaryComparisonModel.SelectedDepartmentCodesString =
+                        PipeDelimittedString.ArrayToPipeDelimittedString(selectedDepartmentCodes);
+
+                    isAnyDepartment = false;
+                }
+                else if (!hasSelectedDepartmentCodes && hasSelectedTitleCodes)
+                {
+                    // get those with matching title codes:
+                    //employeeSalaryComparisonModel.Employees =
+                    //    _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode))
+                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+
+                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    var salaryScales = _salaryScaleRepository
+                        .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
+
+                    if (salaryScales.Count == 1)
+                    {
+                        var salaryScale = salaryScales[0];
+                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                            .Queryable
+                            .Where(
+                                s =>
+                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                            .ToList();
+
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                    }
+
+                    employeeSalaryComparisonModel.SelectedTitleCodesString =
+                        PipeDelimittedString.ArrayToPipeDelimittedString(selectedTitleCodes);
+
+                    isAnyTitle = false;
+                }
+                else
+                {
+                    // get those with matching department and title codes:
+                    //employeeSalaryComparisonModel.Employees =
+                    //    _employeeRepository.Queryable.Where(
+                    //        r => selectedTitleCodes.Contains(r.TitleCode) &&
+                    //             selectedDepartmentCodes.Contains(r.HomeDepartmentID))
+                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
+                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    var salaryScales = _salaryScaleRepository
+                        .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
+
+                    if (salaryScales.Count == 1)
+                    {
+                        var salaryScale = salaryScales[0];
+                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                            .Queryable
+                            .Where(
+                                s =>
+                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                            .ToList();
+
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                    }
+                    employeeSalaryComparisonModel.SelectedDepartmentCodesString =
+                        PipeDelimittedString.ArrayToPipeDelimittedString(selectedDepartmentCodes);
+                    employeeSalaryComparisonModel.SelectedTitleCodesString =
+                        PipeDelimittedString.ArrayToPipeDelimittedString(selectedTitleCodes);
+
+                    isAnyDepartment = false;
+                    isAnyTitle = false;
+                }
             }
 
             // Logic for initializing ESR Search Parameters:
@@ -160,38 +208,123 @@ namespace Esra.Web.Controllers
                     employeeSalaryComparisonModel.SelectedTitles.ToList();
             }
 
-            //employeeSalaryComparisonModel.EsrSearchParameters = new ESRSearchParameters();
-            //{
-            //    SearchEmployee =
-            //        employeeSalaryComparisonModel.
-            //        SelectedEmployee,
-            //    SearchTitles =
-            //        employeeSalaryComparisonModel.SelectedTitles.ToList(),
-            //    SearchDepartments =
-            //        employeeSalaryComparisonModel.
-            //        SelectedDepartments.ToList()
-            //};
-
-            //if (isAnyTitleCode == false && isAnyDepartmentCode == false)
-            //{
-            //    employeeModel.Employees = _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode) && selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-            //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
-            //}
-            //else if (isAnyTitleCode == false)
-            //{
-            //    employeeModel.Employees = _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode))
-            //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
-            //}
-            //else if (isAnyDepartmentCode == false)
-            //{
-            //    employeeModel.Employees = _employeeRepository.Queryable.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-            //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment).ToList();
-            //}
-
             //if (employee == null) return RedirectToAction("Index");
 
             return View(employeeSalaryComparisonModel);
         }
+
+        #region ExcelOps
+
+        public ActionResult ExportToExcel(string sortPropertyName, string isAscending, string selectedTitleCodesString, string selectedEmployeeId, string selectedDepartmentCodesString)
+        {
+            var employee =
+                Repository.OfType<Employee>().Queryable.Where(x => x.EmployeeID == selectedEmployeeId).FirstOrDefault();
+            var pkEmployee = (employee != null && String.IsNullOrEmpty(employee.EmployeeID) == false ? employee.Id : String.Empty);
+
+            User user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
+            string userId = user.EmployeeID;
+
+            string[] titleStrings = selectedTitleCodesString.Split('|');
+
+            string[] departmentStrings = selectedDepartmentCodesString.Split('|');
+
+            IList<Employee> employees = Employee.GetAllForUser(Repository,
+                userId,
+                IsDepartmentUser,
+                sortPropertyName,
+                Convert.ToBoolean(isAscending),
+                titleStrings,
+                pkEmployee,
+                departmentStrings);
+
+            // Convert the employees list to a datatable
+
+            ExcelOps eops = new ExcelOps();
+            List<CAESOps.ExcelBorder> borders = new List<CAESOps.ExcelBorder>();
+
+            string tempString = "";
+            Type stringType = tempString.GetType();
+
+            Decimal tempDecimal = new Decimal();
+            Type decimalType = tempDecimal.GetType();
+
+            Double tempDouble = new Double();
+            Type doubleType = tempDouble.GetType();
+
+            DataTable dt = new DataTable();
+
+            // Add the data headers:
+            dt.Columns.Add("Department Name", stringType);
+            dt.Columns.Add("Title Code", stringType);
+            dt.Columns.Add("Salary Grade", stringType);
+            dt.Columns.Add("Bargaining Unit", stringType);
+            dt.Columns.Add("Employee Name", stringType);
+            dt.Columns.Add("Hire Date", stringType);
+            dt.Columns.Add("Years Of Service", doubleType);
+            dt.Columns.Add("Begin Date (In Title)", stringType);
+            dt.Columns.Add("Time In Title", doubleType);
+            dt.Columns.Add("Experience Begin Date", stringType);
+            dt.Columns.Add("Years Of Experience", doubleType);
+            dt.Columns.Add("Pay Rate", doubleType);
+            dt.Columns.Add("Department Comments", stringType);
+            dt.Columns.Add("Deans Office Comments", stringType);
+
+            DataRow row;
+
+            foreach (Employee emp in employees)
+            {
+                row = dt.NewRow();
+
+                row["Department Name"] = emp.HomeDepartment.Name;
+                row["Employee Name"] = emp.FullName;
+                row["Department Comments"] = emp.DepartmentComments;
+                row["Deans Office Comments"] = emp.DeansOfficeComments;
+                row["Title Code"] = emp.TitleCode;
+                row["Salary Grade"] = emp.SalaryGrade;
+                row["Bargaining Unit"] = emp.BargainingUnitCode;
+                row["Hire Date"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);
+                row["Years Of Service"] = (emp.YearsOfService ?? 0d);
+                row["Begin Date (In Title)"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate);
+                row["Time In Title"] = (emp.TimeInTitle ?? 0d);
+                row["Experience Begin Date"] = String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate);
+                row["Years Of Experience"] = (emp.YearsOfExperience ?? 0d);
+                //row["Years Of Experience"] = emp.YearsOfExperience;
+                row["Pay Rate"] = emp.PayRate;
+
+                if (IsDepartmentUser)
+                {
+                    // Check if is department employee and blank out field if not:
+                    //if (!Employee.IsDepartmentEmployee(user, emp))
+                    if (!emp.IsDepartmentEmployee)
+                    {
+                        row["Department Name"] = null;
+                        row["Employee Name"] = null;
+                        row["Department Comments"] = null;
+                        row["Deans Office Comments"] = null;
+                    }
+                }
+
+                dt.Rows.Add(row);
+            }
+
+            eops.HorizontalFreeze = 1;
+            ExcelStyle numberTwoDecimalStyle = new ExcelStyle();
+            numberTwoDecimalStyle.Format = PredefinedExcelStyles.NumberTwoDecimal;
+            eops.AddColumnStyle("Years Of Service", numberTwoDecimalStyle);
+            eops.AddColumnStyle("Time In Title", numberTwoDecimalStyle);
+            eops.AddColumnStyle("Years Of Experience", numberTwoDecimalStyle);
+            ExcelStyle currencyStyle = new ExcelStyle();
+            currencyStyle.Format = PredefinedExcelStyles.CurrencyTwoDecimal;
+            eops.AddColumnStyle("Pay Rate", currencyStyle);
+
+            byte[] byteArray = eops.ExportToExcel(dt);
+
+            Session["ExportExcel"] = byteArray;
+
+            return File(byteArray, "application/vnd.ms-excel", "MyExportedFile.xml");
+        }
+
+        #endregion ExcelOps
 
         ////
         //// GET: /Employee/Create
@@ -475,6 +608,27 @@ namespace Esra.Web.Controllers
             var invokedExpr = Expression.Invoke(expr2, expr1.Parameters.Cast<Expression>());
             return Expression.Lambda<Func<T, bool>>
                (Expression.AndAlso(expr1.Body, invokedExpr), expr1.Parameters);
+        }
+    }
+
+    public static class PipeDelimittedString
+    {
+        public static string ArrayToPipeDelimittedString(string[] values)
+        {
+            var retval = String.Empty;
+
+            if (values != null && values.Count() > 0)
+            {
+                for (var i = 0; i < values.Count(); i++)
+                {
+                    retval += values[i];
+                    if (i < values.Count() - 1)
+                    {
+                        retval += "|";
+                    }
+                }
+            }
+            return retval;
         }
     }
 }

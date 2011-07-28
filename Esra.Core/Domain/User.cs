@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 
 namespace Esra.Core.Domain
 {
@@ -141,6 +144,26 @@ namespace Esra.Core.Domain
         public User()
         {
             IsDepartmentUser = false;
+        }
+
+        public static User GetByLoginId(IRepository repository, string loginId)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            return repository.OfType<User>().
+               Queryable.
+               Where(r => r.LoginID == loginId)
+               .FirstOrDefault();
+        }
+
+        public static User GetByEmployeeId(IRepository repository, string employeeId)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            return repository.OfType<User>().
+               Queryable.
+               Where(r => r.EmployeeID == employeeId)
+               .FirstOrDefault();
         }
     }
 

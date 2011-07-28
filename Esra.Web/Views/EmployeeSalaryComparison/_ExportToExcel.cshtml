@@ -1,0 +1,132 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+@*@{
+        byte[] byteArray = (byte[])HttpContext.Current.Session["ExportExcel"];
+
+        // Send the XML file to the web browser for download.
+        Response.Clear();
+        Response.AppendHeader("Content-Disposition", "filename=MyExportedFile.xml");
+        Response.AppendHeader("Content-Length", byteArray.Length.ToString());
+        Response.ContentType = "application/octet-stream";
+        Response.BinaryWrite(byteArray);
+    }*@
+<div>
+    @using (Html.BeginForm("ExportToExcel", "EmployeeSalaryComparison", FormMethod.Get, new { name = "exportform" }))
+    {
+@*@Html.AntiForgeryToken()*@
+        @Html.HiddenFor(x => x.SelectedEmployeeId)
+        @Html.HiddenFor(x => x.SelectedDepartmentCodesString)
+        @Html.HiddenFor(x => x.SelectedTitleCodesString)
+        @Html.Hidden("sortPropertyName", "FullName")
+        @Html.Hidden("isAscending", true)
+        <h3 class="h3_black">
+            Employee Salary Comparison Report&nbsp;&nbsp;<input type="button" id="btnExportToExcel"
+                onclick="NewExportToExcel(); return false;" value="Export to Excel" /></h3>
+    }
+    <script type="text/javascript">
+     <!--
+        function NewExportToExcel() {
+            debugger;
+
+            var oTable;
+            oTable = $('#employees').dataTable();
+            var oSettings = oTable.fnSettings();
+
+            var oSorting = oSettings.aaSorting[0];
+            var oSortDirection = oSorting[1];
+            var oSortTableColumnNumber = oSorting[0];
+            var sortPropertyName = "";
+            var isAscending = oSortDirection != "asc" ? false : true;
+
+            switch (oSortTableColumnNumber) {
+                case 1:
+                    // emp.HomeDepartment.Name
+                    sortPropertyName = "HomeDepartment";
+                    break;
+                case 2:
+                    // emp.TitleCode
+                    sortPropertyName = "TitleCode";
+
+                    break;
+                case 3:
+                    // emp.SalaryGrade
+                    sortPropertyName = "SalaryGrade";
+                    break;
+                case 4:
+                    // emp.BargainingUnitCode
+                    sortPropertyName = "BargainingUnitCode";
+                    break;
+                case 5:
+                    // emp.FullName
+                    sortPropertyName = "FullName";
+                    break;
+                case 6:
+                    // String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate)
+                    sortPropertyName = "AdjustedCareerHireDate";
+                    break;
+                case 7:
+                    // (emp.YearsOfService ?? 0d)
+                    sortPropertyName = "YearsOfService";
+                    break;
+                case 8:
+                    // String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate)
+                    sortPropertyName = "AdjustedApptHireDate";
+                    break;
+                case 9:
+                    // (emp.TimeInTitle ?? 0d)
+                    sortPropertyName = "TimeInTitle";
+                    break;
+                case 10:
+                    // String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
+                    sortPropertyName = "ExperienceBeginDate";
+                    break;
+                case 11:
+                    // (emp.YearsOfExperience ?? 0d)
+                    sortPropertyName = "YearsOfExperience";
+                    break;
+                case 12:
+                    // emp.PayRate
+                    sortPropertyName = "PayRate";
+                    break;
+                case 13:
+                    // emp.DepartmentComments
+                    sortPropertyName = "DepartmentComments";
+
+                    break;
+                case 14:
+                    // emp.DeansOfficeComments
+                    sortPropertyName = "DeansOfficeComments";
+                    break;
+                default:
+                    sortPropertyName = "FullName";
+            }
+            $("#isAscending").val(isAscending);
+            $("#sortPropertyName").val(sortPropertyName);
+
+            /* Show an example parameter from the settings */
+            //alert("propertyName: " + sortPropertyName + "; ascending: " + ascending);
+
+            //            var token = $('[name=__RequestVerificationToken]').val();
+
+            //            $.post('/EmployeeSalaryComparison/ExportToExcel',
+            //                { dataType: "json", __RequestVerificationToken: token, sortPropertyName: sortPropertyName, isAscending: isAscending, titleCodesString: titleCodesString, pkEmployee: pkEmployeeID, departmentIdsString: departmentsString },
+            //                function (result) {
+            //                    if (result.length > 50) {
+            //                        //$.download('/export.php', 'filename=mySpreadsheet&format=xls&content=' + spreadsheetData);
+            //                        //window.location.href = result.redirect;
+            //                        // $("#excel-partial").html(result);
+            //                        $("#excel-partial").replaceWith(result.form);
+
+            //                    }
+            //                    else {
+            //                        $("#excel-partial").html("<fieldset><h3>No Employee Data Available</h3></fieldset>");
+            //                    }
+            //                }
+            //            );
+            //$(this).parents('exportform').submit();
+            document.forms["exportform"].submit();
+
+            //_ExportToExcel(sortPropertyName, isAscending, titleCodesString, pkEmployeeID, departmentsString);
+        }
+        //-->
+    </script>
+</div>

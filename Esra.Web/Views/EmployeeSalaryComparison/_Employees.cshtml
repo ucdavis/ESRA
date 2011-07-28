@@ -1,16 +1,13 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
 @using System.Text;
 @using Esra.Web.Resources;
-@*<legend>Employees</legend>*@@*<ul>*@
 @helper GetEditedClassNames(bool dateChecked, bool dateAdjusted)
     {
     @(dateChecked ? "date-checked" : string.Empty) @(dateAdjusted ? "date-adjusted" : string.Empty)
 }
-@*@GetEditedClassNames(true, true)*@
 @{
     if (Model.Employees.Count > 0)
     {
-@* <li>*@
     <div id="employee-salary-comparison-report">
         <div>
             <br />
@@ -19,9 +16,7 @@
             Dates with <strong>bolded</strong> text have been validated to be correct in PPS.<br />
             <br />
         </div>
-        @Html.Hidden("IsDepartmentUser", Session["IsDepartmentUser"] ?? false)
-        <h3>
-            Employee Salary Comparison Report</h3>
+        <div>@Html.Partial("_ExportToExcel")</div>
         <table id="employees">
             <thead>
                 <tr>
@@ -49,9 +44,6 @@
                     <th>
                         Hire Date
                     </th>
-                    @*<th>
-                        PPS Checked?
-                    </th>*@
                     <th>
                         Years Of<br />
                         Service
@@ -60,9 +52,6 @@
                         Begin Date<br />
                         (in Title)
                     </th>
-                    @*<th>
-                        PPS Checked?
-                    </th>*@
                     <th>
                         Time<br />
                         In<br />
@@ -97,7 +86,7 @@
                         <td class="is-department-user @(Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] != null ? Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? : false)">
                             <a href="#" class="edit-row">Edit</a>
                         </td>
-                        <td>@emp.HomeDepartment.Name
+                        <td>@(emp.IsDepartmentEmployee ? emp.HomeDepartment.Name : String.Empty)
                         </td>
                         <td>@emp.TitleCode
                         </td>
@@ -105,22 +94,16 @@
                         </td>
                         <td>@emp.BargainingUnitCode
                         </td>
-                        <td>@emp.FullName
+                        <td>@(emp.IsDepartmentEmployee ? emp.FullName : String.Empty)
                         </td>
                         <td class="hire-date @GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
                             @emp.AdjustedCareerHireDate.ToShortDateString()
                         </td>
-                        @*<td>
-                            @(emp.PPSCareerHireDateChecked != null && emp.PPSCareerHireDateChecked ? "Y" : "N")
-                        </td>*@
                         <td>@String.Format("{0:0.00}", emp.YearsOfService)
                         </td>
                         <td class="title-date @GetEditedClassNames(emp.PPSApptHireDateChecked, emp.ApptDateHasBeenAdjusted)">
                             @emp.AdjustedApptHireDate.ToShortDateString()
                         </td>
-                        @*<td>
-                            @(emp.PPSApptHireDateChecked != null && emp.PPSApptHireDateChecked ? "Y" : "N")
-                        </td>*@
                         <td>@String.Format("{0:0.00}", emp.TimeInTitle)
                         </td>
                         <td>@String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
@@ -129,13 +112,15 @@
                         </td>
                         <td>@String.Format("{0:c}", emp.PayRate)
                         </td>
-                        <td>@emp.DepartmentComments
+                        <td>@(emp.IsDepartmentEmployee ? emp.DepartmentComments : String.Empty)
                         </td>
-                        <td>@emp.DeansOfficeComments
+                        <td>@(emp.IsDepartmentEmployee ? emp.DeansOfficeComments : String.Empty)
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-@* </li>*@ } }@* </ul>*@ @*</fieldset>*@
+
+    }
+}

@@ -37,6 +37,9 @@
     <Reference Include="AutoMapper">
       <HintPath>..\Bin\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="CAESOps">
+      <HintPath>..\Bin\CAESOps.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\Bin\Castle.Core.dll</HintPath>
     </Reference>
@@ -347,6 +350,7 @@
     <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchParamaters.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchResults.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_NewSalaryReviewAnalysisEmployeeSelector.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_ExportToExcel.cshtml" />
     <None Include="Views\SalaryReviewAnalysis\Create.cshtml_bak" />
     <Content Include="Views\SalaryReviewAnalysis\_EmployeeDetails.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysis.cshtml">

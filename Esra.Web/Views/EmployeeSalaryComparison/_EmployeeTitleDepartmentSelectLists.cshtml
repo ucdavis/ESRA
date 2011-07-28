@@ -77,7 +77,7 @@
                         new SelectList(Model.EmployeesList,
                         "EmployeeID",
                         "FullName",
-                         Model.SelectedEmployee != null ? Model.SelectedEmployee.EmployeeID.ToString() : string.Empty),
+                        Model.SelectedEmployee != null ? Model.SelectedEmployee.EmployeeID : string.Empty),
              "--Any Employee(s)--", new { id = "employee-drop-down" }
                         )
                     </div>
@@ -110,6 +110,7 @@
         // This allows the form to submit when a selection is made from the
         // employees drop-down.
         $('#employee-drop-down').change(function () {
+            debugger;
             $(this).parents('form').submit();
         });
 

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 
 namespace Esra.Core.Domain
 {
@@ -78,6 +81,29 @@ namespace Esra.Core.Domain
 
         public Department()
         {
+        }
+
+        public static IList<Department> GetAllForUser(IRepository repository, string userId, string sortPropertyName, bool isAscending)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            List<Department> departments = new List<Department>();
+
+            User user = User.GetByEmployeeId(repository, userId);
+
+            foreach (Unit unit in user.Units)
+            {
+                departments.Add(repository.OfType<Department>()
+                                    .Queryable
+                                    .Where(d => d.Id.Equals(unit.PPSCode))
+                                    .FirstOrDefault());
+            }
+
+            departments.Sort();
+            if (!isAscending)
+                departments.Reverse();
+
+            return departments;
         }
     }
 

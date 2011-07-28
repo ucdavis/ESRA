@@ -8,6 +8,10 @@ namespace Esra.Web.Models
 {
     public class EmployeeSalaryComparisonViewModel : EsraBaseViewModel
     {
+        public string SortPropertyName { get; set; }
+
+        public bool IsAscending { get; set; }
+
         public User User { get; set; }
 
         public SalaryScaleViewModel SalaryScaleViewModel { get; set; }
@@ -16,9 +20,13 @@ namespace Esra.Web.Models
 
         public IList<SalaryScale> SelectedSalaryScales { get; set; }
 
-        public string[] SelectedTitleCodes { get; set; }
+        public string SelectedTitleCodesString { get; set; }
 
-        public string[] SelectedDepartmentCodes { get; set; }
+        public string SelectedTitleCodes { get; set; }
+
+        public string SelectedDepartmentCodesString { get; set; }
+
+        public string SelectedDepartmentCodes { get; set; }
 
         public IList<Department> SelectedDepartments { get; set; }
 
@@ -60,16 +68,19 @@ namespace Esra.Web.Models
                                     SalaryScaleViewModel = salaryScaleViewModel,
 
                                     Employee = new Employee(),
-                                    EmployeesList = repository.OfType<Employee>()
-                                        .Queryable
-                                        .OrderBy(t => t.FullName)
-                                        .ToList(),
+                                    //EmployeesList = repository.OfType<Employee>()
+                                    //    .Queryable
+                                    //    .OrderBy(t => t.FullName)
+                                    //    .ToList(),
 
-                                    DepartmentsList = repository.OfType<Department>()
-                                        .Queryable
-                                        .OrderBy(t => t.Name)
-                                        .ThenBy(t => t.SchoolCode)
-                                        .ToList(),
+                                    EmployeesList = new List<Employee>(),
+
+                                    //DepartmentsList = repository.OfType<Department>()
+                                    //    .Queryable
+                                    //    .OrderBy(t => t.Name)
+                                    //    .ThenBy(t => t.SchoolCode)
+                                    //    .ToList(),
+                                    DepartmentsList = new List<Department>(),
                                     SelectedDepartments = new List<Department>(),
                                     //DepartmentCodesList = repository.OfType<Department>()
                                     //    .Queryable
@@ -80,14 +91,17 @@ namespace Esra.Web.Models
                                          .Queryable
                                          .OrderBy(t => t.AbbreviatedName)
                                          .ToList(),
-                                    SelectedTitles = new List<Title>()
+                                    SelectedTitles = new List<Title>(),
                                     //TitleCodesList = repository.OfType<Title>()
                                     //    .Queryable
                                     //    .OrderBy(t => t.TitleCode)
                                     //    .ToList()
                                     //employeeModel.SelectedDepartments = new List<Department>()
+                                    SelectedDepartmentCodesString = string.Empty,
+                                    SelectedTitleCodesString = string.Empty
                                 };
             viewModel.SelectedEmployee = anyEmployee;
+            viewModel.SelectedEmployeeId = string.Empty;
             viewModel.SelectedDepartments.Add(anyDepartment);
             viewModel.SelectedTitles.Add(anyTitle);
 

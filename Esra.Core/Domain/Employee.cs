@@ -1,6 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
+//using System.Linq.Expressions;
 using FluentNHibernate.Mapping;
+using NHibernate;
+using NHibernate.Criterion;
+using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
+using UCDArch.Data.NHibernate;
+
+//using Expression = System.Linq.Expressions.Expression;
+
+//using Expression = NHibernate.Criterion.Expression;
 
 namespace Esra.Core.Domain
 {
@@ -437,6 +450,265 @@ namespace Esra.Core.Domain
 
         public Employee()
         {
+        }
+
+        public static IList<Employee> GetAllForUser(IRepository repository, User user, string sortPropertyName, bool isAscending)
+        {
+            var depts = user.Units.Select(unit => unit.PPSCode).ToList();
+
+            return GetAll(sortPropertyName, isAscending, null, null, depts.ToArray());
+        }
+
+        public static IList<Employee> GetAllForUser(IRepository repository, string userId, bool isDepartmentUser, string sortPropertyName, bool isAscending, string titleCodesString, string pkEmployee, string departmentIDsString)
+        {
+            string[] titleCodes = (!String.IsNullOrEmpty(titleCodesString) ? titleCodesString.Split('|') : new string[] { "0" });
+            string[] departmentIDs = (!String.IsNullOrEmpty(departmentIDsString) ? departmentIDsString.Split('|') : new string[] { "0" });
+            return GetAllForUser(repository, userId, isDepartmentUser, sortPropertyName, isAscending, titleCodes, pkEmployee, departmentIDs);
+        }
+
+        public static IList<Employee> GetAllForUser(IRepository repository, string userId, bool isDepartmentUser, string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            if (isDepartmentUser && String.IsNullOrEmpty(sortPropertyName) == false && sortPropertyName.Equals("FullName"))
+            {
+                sortPropertyName = "FullName";  // Default sort by FullName
+            }
+            if (String.IsNullOrEmpty(sortPropertyName))
+                sortPropertyName = "FullName";
+
+            IList<Employee> employees = GetAll(sortPropertyName, isAscending, titleCodes, pkEmployee, departmentIds);
+            List<Employee> retval = null;
+            if (isDepartmentUser)
+            {
+                // Then blank out the Name, department and comments from non-departmental employees:
+                List<Employee> nullList = new List<Employee>();
+                retval = new List<Employee>();
+
+                //User user = User.GetByLoginId(repository, userId);
+                User user = User.GetByEmployeeId(repository, userId);
+
+                foreach (Employee employee in employees)
+                {
+                    try
+                    {
+                        employee.IsDepartmentEmployee = true;
+                        if (!ComputeIsDepartmentEmployee(user, employee))
+                        {
+                            // Set the employee's IsDepartmentEmployee to
+                            // allow view to decide how to "blank out" fields.
+                            // blank out the username, department and comments:
+                            //employee.HomeDepartment = null;
+                            //employee.FullName = null;
+                            //employee.DeansOfficeComments = null;
+                            //employee.DepartmentComments = null;
+                            employee.IsDepartmentEmployee = false;
+
+                            if (sortPropertyName.Equals("FullName") || sortPropertyName.Equals("HomeDepartment") || sortPropertyName.Equals("Title"))
+                            {
+                                // if sorted by FullName, add these employees to their own array.
+                                nullList.Add(employee);
+                            }
+                            else
+                            {
+                                // otherwise just add them to the return array.
+                                retval.Add(employee);
+                            }
+                        }
+                        else
+                        {
+                            // add them as-is to the return array.
+                            retval.Add(employee);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Console.Out.WriteLine(ex.InnerException);
+                    }
+                }
+
+                if (sortPropertyName.Equals("FullName"))
+                {
+                    // sort by FullName
+                    retval.Sort();
+                    if (!isAscending)
+                    {
+                        retval.Reverse();
+                    }
+                    retval.AddRange(nullList);
+                }
+                else if (sortPropertyName.Equals("HomeDepartment"))
+                {
+                    // Sort by Departments, then by FullNames within individual departments:
+                    if (isAscending)
+                    {
+                        retval.Sort(Employee.sortHomeDepartmentAscending());
+                    }
+                    else
+                    {
+                        retval.Sort(Employee.sortHomeDepartmentDescending());
+                    }
+                    retval.AddRange(nullList);
+                }
+                else if (sortPropertyName.Equals("Title"))
+                {
+                    if (isAscending)
+                    {
+                        retval.Sort(Employee.sortTitleAscending());
+                    }
+                    else
+                    {
+                        retval.Sort(Employee.sortTitleDescending());
+                    }
+                    retval.AddRange(nullList);
+                }
+                else
+                {
+                    retval.AddRange(nullList);
+                }
+            }
+            else
+            {
+                // Return all employees as-is.
+                retval = employees as List<Employee>;
+            }
+            return retval;
+        }
+
+        public static IList<Employee> GetAll(string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
+        {
+            IList<Employee> retval = null;
+
+            var hasTitleCodes = (titleCodes != null) && (titleCodes.Length > 0) &&
+                                    (!titleCodes[0].Equals("0") && !titleCodes[0].Equals(String.Empty))
+                                        ? true
+                                        : false;
+            var hasDepartmentIds = (departmentIds != null) && (departmentIds.Length > 0) &&
+                                    (!departmentIds[0].Equals("0") && !departmentIds[0].Equals(String.Empty))
+                                        ? true
+                                        : false;
+            var hasPkEmployee = (!String.IsNullOrEmpty(pkEmployee)) &&
+                                     !(pkEmployee.Equals("0") && !pkEmployee.Equals(String.Empty))
+                                         ? true
+                                         : false;
+
+            if (!hasPkEmployee && !hasDepartmentIds && !hasTitleCodes)
+            {
+                retval = GetAll(sortPropertyName, isAscending);
+            }
+            else
+            {
+                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
+                Conjunction conjunction = Restrictions.Conjunction();
+
+                if (hasTitleCodes)
+                {
+                    criteria.CreateAlias("Title", "Title");
+                    conjunction.Add(Restrictions.In("Title.TitleCode", titleCodes));
+                }
+                if (hasPkEmployee)
+                {
+                    conjunction.Add(Restrictions.Eq("id", pkEmployee));
+                }
+                if (hasDepartmentIds)
+                {
+                    criteria.CreateAlias("HomeDepartment", "Department");
+                    conjunction.Add(Restrictions.In("Department.id", departmentIds));
+                }
+                criteria.Add(conjunction);
+
+                if (sortPropertyName.Equals("HomeDepartment") && (hasDepartmentIds))
+                {
+                    criteria.CreateAlias("HomeDepartment", "HomeDepartment")
+                    .AddOrder((isAscending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
+                    .AddOrder(Order.Asc("FullName"));
+                }
+                else
+                {
+                    criteria.AddOrder((isAscending ? Order.Asc(sortPropertyName) : Order.Desc(sortPropertyName)));
+                    if (sortPropertyName.Equals("FullName") == false)
+                    {
+                        criteria.AddOrder(Order.Asc("FullName"));
+                    }
+                }
+
+                retval = criteria.List<Employee>();
+            }
+            return retval;
+        }
+
+        public static IList<Employee> GetAll(string sortPropertyName, bool isAscending)
+        {
+            ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
+            if (sortPropertyName.Equals("HomeDepartment"))
+            {
+                criteria.CreateAlias("HomeDepartment", "HomeDepartment")
+                .AddOrder((isAscending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
+                .AddOrder(Order.Asc("FullName"));
+            }
+            else
+            {
+                criteria.AddOrder((isAscending ? Order.Asc(sortPropertyName) : Order.Desc(sortPropertyName)));
+                if (sortPropertyName.Equals("FullName") == false)
+                {
+                    criteria.AddOrder(Order.Asc("FullName"));
+                }
+            }
+
+            return criteria.List<Employee>();
+        }
+
+        /// <summary>
+        /// Set when Employee is "pulled" from database, based on what the
+        /// logged in user's IsDepartmentUser is and whether or not the
+        /// the employee is in the user's departments list.
+        /// Not a database field.
+        /// </summary>
+        public virtual bool IsDepartmentEmployee { get; set; }
+
+        /// <summary>
+        /// This is the method, which determines whether or not the login user can "see"
+        /// the employee's name, department, etc.
+        /// Therefore, you will need to change it if the business rules are changed for
+        /// departments (or possibly schools, etc in the future).
+        /// </summary>
+        /// <param name="user">The logged in user</param>
+        /// <param name="employee">The UCD Employee</param>
+        /// <returns>true if the employee's identifying information can be viewed by the login user.</returns>
+        public static bool ComputeIsDepartmentEmployee(User user, Employee employee)
+        {
+            // Business rules for determining whether or not a employee is visible to a user:
+            bool retval = false;
+
+            if (user != null && employee != null)
+            {
+                // Check if the employee's home or work department or admin department is in the user's list of departments:
+                retval = user.Units.Any(unit => (employee.HomeDepartmentID != null && employee.HomeDepartmentID.Equals(unit.PPSCode)) || (employee.WorkDepartmentID != null && employee.WorkDepartmentID.Equals(unit.PPSCode)) || (employee.AdminDepartmentID != null && employee.AdminDepartmentID.Equals(unit.PPSCode)));
+            }
+            return retval;
+        }
+
+        public static IQueryable GenerateSortExpression(IQueryable source, Type sourceType, string propertyName, string action)
+        {
+            System.Linq.Expressions.ParameterExpression paramExpression = System.Linq.Expressions.Expression.Parameter(sourceType, sourceType.Name);
+
+            System.Linq.Expressions.MemberExpression memExp = System.Linq.Expressions.Expression.PropertyOrField(paramExpression, propertyName);
+
+            System.Linq.Expressions.LambdaExpression lambda = System.Linq.Expressions.Expression.Lambda(memExp, paramExpression);
+
+            return source.Provider.CreateQuery(
+
+                System.Linq.Expressions.Expression.Call(
+
+                    typeof(Queryable),
+
+                    action,
+
+                    new Type[] { source.ElementType, lambda.Body.Type },
+
+                    source.Expression,
+
+                    lambda));
         }
     }
 
