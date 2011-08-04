@@ -39,6 +39,8 @@ namespace Esra.Web.Controllers
             if (!String.IsNullOrEmpty(demoRole) && viewModel.IsDemoMode)
             {
                 viewModel.DemoUserRole = demoRole;
+                viewModel.IsDepartmentUser = false;
+                Session.Remove(GlobalConstants.KEY_IS_DEPARTMENT_USER);
 
                 if (demoRole.Equals(GlobalConstants.ROLE_ADMIN))
                 {
@@ -56,12 +58,15 @@ namespace Esra.Web.Controllers
                 {
                     menuViewName = "_DepartmentsMenu";
                     viewModel.IsDepartmentUser = true;
-                    Session.Add(GlobalConstants.KEY_IS_DEPARTMENT_USER, true);
+                    Session.Remove(GlobalConstants.KEY_IS_DEPARTMENT_USER);
                     ;
                 }
             }
             else
             {
+                viewModel.IsDepartmentUser = false;
+                Session.Add(GlobalConstants.KEY_IS_DEPARTMENT_USER, false);
+
                 if (User.IsInRole(GlobalConstants.ROLE_ADMIN))
                 {
                     menuViewName = "_AdminMenu";
@@ -99,6 +104,9 @@ namespace Esra.Web.Controllers
             if (!String.IsNullOrEmpty(demoRole) && viewModel.IsDemoMode)
             {
                 viewModel.DemoUserRole = demoRole;
+                viewModel.User.IsDepartmentUser = false;
+                viewModel.IsDepartmentUser = false;
+                Session.Remove(GlobalConstants.KEY_IS_DEPARTMENT_USER);
 
                 if (demoRole.Equals(GlobalConstants.ROLE_ADMIN))
                 {

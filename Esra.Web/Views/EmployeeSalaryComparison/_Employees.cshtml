@@ -8,22 +8,22 @@
 @{
     if (Model.Employees.Count > 0)
     {
+
     <div id="employee-salary-comparison-report">
-        <div>
+        <div id="pps-dates-changed-legend">
             <br />
             Items highlighted in <font style="background: #90EE90;">light green</font> indicate
             a change from PPS.<br />
             Dates with <strong>bolded</strong> text have been validated to be correct in PPS.<br />
             <br />
         </div>
-        <div>@Html.Partial("_ExportToExcel")</div>
+        <div id="expot-to-excel">@Html.Partial("_ExportToExcel")</div>
         <table id="employees">
             <thead>
                 <tr>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
+                    <th />
+                    <th />
+                    <th id="dept-sorter">
                         Department Name
                     </th>
                     <th>
@@ -38,7 +38,7 @@
                         Bargaining<br />
                         Unit
                     </th>
-                    <th>
+                    <th id="name-sorter">
                         Employee Name
                     </th>
                     <th>
@@ -83,10 +83,12 @@
                 @foreach (Esra.Core.Domain.Employee emp in Model.Employees)
                 {
                     <tr data-id="e-@emp.Id">
+                        <td>@emp.IsDepartmentEmployee
+                        </td>
                         <td class="is-department-user @(Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] != null ? Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? : false)">
                             <a href="#" class="edit-row">Edit</a>
                         </td>
-                        <td>@(emp.IsDepartmentEmployee ? emp.HomeDepartment.Name : String.Empty)
+                        <td>@((Model.IsDepartmentUser && emp.IsDepartmentEmployee) || (!Model.IsDepartmentUser) ? emp.HomeDepartment.Name : String.Empty)
                         </td>
                         <td>@emp.TitleCode
                         </td>
@@ -94,7 +96,7 @@
                         </td>
                         <td>@emp.BargainingUnitCode
                         </td>
-                        <td>@(emp.IsDepartmentEmployee ? emp.FullName : String.Empty)
+                        <td>@((Model.IsDepartmentUser && emp.IsDepartmentEmployee) || (!Model.IsDepartmentUser) ? emp.FullName : String.Empty)
                         </td>
                         <td class="hire-date @GetEditedClassNames(emp.PPSCareerHireDateChecked, emp.CareerDateHasBeenAdjusted)">
                             @emp.AdjustedCareerHireDate.ToShortDateString()

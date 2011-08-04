@@ -35,7 +35,8 @@
                 </th>
             </tr>
             <tr>
-                <td>@Html.CheckBox("IsAdmin", @User.IsInRole(ADMIN), new { disabled = "true" })
+                <td>
+                    @Html.CheckBox("IsAdmin", @User.IsInRole(ADMIN), new { disabled = "true" })
                 </td>
                 <td>
                     @Html.CheckBox("IsUser", @User.IsInRole(USER), new { disabled = "true" })

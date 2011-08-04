@@ -34,12 +34,14 @@ namespace Esra.Web.Controllers
         public ActionResult Index()
         {
             var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, null);
-
+            var isDepartmentUser = IsDepartmentUser;
             //employeeSalaryComparisonModel.User = Repository.OfType<User>().Queryable.Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
             employeeSalaryComparisonModel.User = user;
-            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user.EmployeeID, null, true);
-            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, "FullName", true);
+            employeeSalaryComparisonModel.DepartmentsList = (isDepartmentUser ?
+                Department.GetAllForUser(Repository, user.EmployeeID, null, true) : Repository.OfType<Department>().Queryable.OrderBy(x => x.Name).ToList());
+            employeeSalaryComparisonModel.EmployeesList = (isDepartmentUser ?
+                Employee.GetAllForUser(Repository, user, "FullName", true) : Repository.OfType<Employee>().Queryable.OrderBy(x => x.FullName).ThenBy(x => x.HomeDepartment.Name).ToList());
 
             return View(employeeSalaryComparisonModel);
         }
@@ -49,11 +51,15 @@ namespace Esra.Web.Controllers
         public ActionResult Details(string[] selectedTitleCodes, string[] selectedDepartmentCodes, string selectedEmployeeId)
         {
             var employeeSalaryComparisonModel = EmployeeSalaryComparisonViewModel.Create(Repository, SalaryScaleViewModel.Create(Repository));
-
+            var isDepartmentUser = IsDepartmentUser;
+            employeeSalaryComparisonModel.IsDepartmentUser = isDepartmentUser;
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
             employeeSalaryComparisonModel.User = user;
-            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user.EmployeeID, null, true);
-            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, "FullName", true);
+
+            employeeSalaryComparisonModel.DepartmentsList = (isDepartmentUser ?
+                Department.GetAllForUser(Repository, user.EmployeeID, null, true) : Repository.OfType<Department>().Queryable.OrderBy(x => x.Name).ToList());
+            employeeSalaryComparisonModel.EmployeesList = (isDepartmentUser ?
+                Employee.GetAllForUser(Repository, user, "FullName", true) : Repository.OfType<Employee>().Queryable.OrderBy(x => x.FullName).ThenBy(x => x.HomeDepartment.Name).ToList());
 
             bool isAnyTitle = true;
             bool isAnyDepartment = true;

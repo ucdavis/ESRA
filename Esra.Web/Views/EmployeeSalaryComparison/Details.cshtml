@@ -1,5 +1,32 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
 @using System.Text;
+@section AdditionalScripts{
+    <script language="JavaScript">
+
+    // This adds string trim functionality to string data type:
+            <!-- Hide from non-JavaScript browsers
+
+            function strltrim() {
+                return this.replace(/^\s+/,'');
+            }
+
+            function strrtrim() {
+                return this.replace(/\s+$/,'');
+            }
+            function strtrim() {
+                return this.replace(/^\s+/,'').replace(/\s+$/,'');
+            }
+
+            String.prototype.ltrim = strltrim;
+            String.prototype.rtrim = strrtrim;
+            String.prototype.trim = strtrim;
+
+            // End hiding -->
+    </script>
+    <script type="text/javascript" src="../../Scripts/dataTables.naturalSort.js"></script>
+    <script type="text/javascript" src="../../Scripts/dataTables.currency.js"></script>
+    <script type="text/javascript" src="../../Scripts/dataTables.deptEmployee.js"></script>
+}
 @{
     ViewBag.Title = "Employee Salary Comparison";
 }
@@ -15,12 +42,96 @@
     @Html.Partial("_SalaryScaleSelectLists", Model.SalaryScaleViewModel)
     @*<div id="salaryscale-result" />*@
     <script language="JavaScript" type="text/javascript">
-        $(function () {
+        //$(function () {
+        $(document).ready(function () {
             var dtable = $('#employees').dataTable({
                 "bProcessing": true,
                 //"bServerSide": true,
                 "bJQueryUI": true,
-                "sPaginationType": "full_numbers"
+                "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
+                "sPaginationType": "full_numbers",
+                "aaSorting": [[0, 'desc'], [6, 'asc']], // Change default sort to IsDepartmentEmployee desc, Employee.FullName; otherwise it sorts by column 0.
+                "aoColumns": [
+                                                { "sName": "IsDepartmentEmployee", "bVisible": false },  // "bVisible": false "hides" the column from the user.
+                                                {"sName": "Edit", "bSortable": false }, // "bSortable": false disables user-enabled sorting on the column.
+                                                {"sName": "HomeDepartment" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
+                                                {"sName": "TitleCode" },
+                                                { "sName": "SalaryGrade" },
+                                                { "sName": "BargainingUnitCode" },
+                                                { "sName": "FullName", "sType": "deptEmployee" },
+                                                { "sName": "AdjustedCareerHireDate", "bSortable": false },
+                                                { "sName": "YearsOfService" },
+                                                { "sName": "AdjustedApptHireDate", "bSortable": false },
+                                                { "sName": "TimeInTitle" },
+                                                { "sName": "ExperienceBeginDate", "bSortable": false },
+                                                { "sName": "YearsOfExperience" },
+                                                { "sName": "PayRate", "sType": "currency" },
+                                                { "sName": "DepartmentComments", "bSortable": false },
+                                                { "sName": "DeansOfficeComments", "bSortable": false }
+                                            ]
+            });
+
+            $('thead th#dept-sorter').unbind(); // This removes the default sort for the Department column.
+            $('thead th').unbind("mousedown");  // This disables the user selected multi-column sort functionality.
+
+            // This did not work because it calls the default sort function regardless of any custom sort
+            // you might wish to implement, and there appears to be no way to turn off the default sort.
+            //
+            //            dtable.fnSortListener(document.getElementById('dept-sorter'), 2, function (e) {
+            //                var oTable = $('#employees').dataTable();
+            //                var oSettings = oTable.fnSettings();
+            //                var oColumns = oSettings.aoColumns;
+            //                var oSorting = (oSettings.aaSorting.length == 1 ? oSettings.aaSorting[0] : oSettings.aaSorting[1]);
+            //                var oSortDirection = oSorting[1];
+            //                var oSortColumnNumber = oSorting[0];
+            //                var oSortColumnName = oColumns[oSortColumnNumber].sName;
+            //                var newSortDirection = 'asc';
+
+            //                //alert(elem.attr("class"));
+            //                if (oSortColumnName == "HomeDepartment") {
+            //                    // sort in opposite order from current sort direction
+            //                    newSortDirection = (oSortDirection == 'asc' ? 'desc' : 'asc');
+
+            //                }
+            //                //alert(newSortDirection);
+            //                //alert("sorting: " + e.aaSorting.length + "; " + e.aaSorting)
+            //                oTable.fnSort([[0, 'desc'], [2, newSortDirection], [6, 'asc']]);
+            //                //alert("sorting: " + e.aaSorting.length + "; " + e.aaSorting)
+            //                //oSettings.bSorted = true;
+            //                return true;
+
+            //            });
+
+            // This is how I actually had to implement the multi-column sorting,
+            // i.e. order by IsDepartmentEmployee desc, Department.Name asc/desc, and Employee.FullName asc.
+            // I'm leave the Department column sortable in "aoColumns", but unbinding the default on-click
+            // event and replacing it with a custom one.  That way the sort icons work automatically without me
+            // having to set them manually.
+
+            $('#dept-sorter').click(function (event) {
+                //alert($(this).text()); //"Department Name"  // A way to view the cell contents.
+                var oTable = $('#employees').dataTable();
+                var oSettings = oTable.fnSettings();
+                var oColumns = oSettings.aoColumns;
+                var oSorting = (oSettings.aaSorting.length == 1 ? oSettings.aaSorting[0] : oSettings.aaSorting[1]);  // If there's > 1 sort properties column, then we're only interested in the 2nd one, since the first one is the IsDepartmentEmployee column.
+                var oSortDirection = oSorting[1];  // The sort direction is at [1].
+                var oSortColumnNumber = oSorting[0];  // The sort column number is at [0].
+                var oSortColumnName = oColumns[oSortColumnNumber].sName;  // Get the sName assigned to the column, based on the column number.
+                var newSortDirection = 'asc';  // set to the default sort direction to ascending.
+
+                //alert(elem.attr("class"));  // This will show you the first css class name.
+                if (oSortColumnName == "HomeDepartment") {
+                    // If the column was previously sorted by Department, then
+                    // sort in opposite order from current sort direction
+                    newSortDirection = (oSortDirection == 'asc' ? 'desc' : 'asc');
+                }
+                // otherwise sort by ascending (default).
+
+                //alert("sorting: " + event.aaSorting.length + "; " + event.aaSorting)  // e.aaSorting also contains the current, i.e. present sort columns and sort direction.
+                dtable.fnSort([[0, 'desc'], [2, newSortDirection], [6, 'asc']]);  // call the sort function to sort in the desired direction.
+                //alert("sorting: " + event.aaSorting.length + "; " + event.aaSorting) // once sorted, the sort columns and direction will change to the new ones just provided to fnSort.
+                //event.stopPropagation();  // This appears not be necessary since I'm not using fnSortListener.
+                return false;
             });
 
             $('#employees a.edit-row').live('click', function (e) {
@@ -202,6 +313,7 @@
 <div id="employee-drop-down-lists">
     @Html.Partial("_EmployeeTitleDepartmentSelectLists")
 </div>
+@*<div id="role-test">@Html.Partial("_UserRoles")</div>*@
 <div id="report-generation-criteria">
     @Html.Partial("_ReportGenerationCriteria")
 </div>
