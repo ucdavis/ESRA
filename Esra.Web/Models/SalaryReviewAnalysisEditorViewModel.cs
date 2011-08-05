@@ -19,7 +19,12 @@ namespace Esra.Web.Models
         /// <summary>
         /// This is the list of all the possible scenario types available.
         /// </summary>
-        public IList<SelectionType> SelectionTypes { get; set; }
+        //public IList<SelectionType> SelectionTypes { get; set; }
+
+        /// <summary>
+        /// This is the actual criteria list populated for a specific title code.
+        /// </summary>
+        public Dictionary<string, decimal?> CriteriaList { get; set; }
 
         // This is the new salary review analysis that will be created
         public SalaryReviewAnalysis SalaryReviewAnalysis { get; set; }
@@ -63,10 +68,11 @@ namespace Esra.Web.Models
                                         // .ThenBy(t => t.TitleCode)
                                         .ToList(),
 
-                                    SelectionTypes = repository.OfType<SelectionType>()
-                                    .Queryable
-                                    .OrderBy(s => s.SortOrder)
-                                    .ToList(),
+                                    //SelectionTypes = repository.OfType<SelectionType>()
+                                    //.Queryable
+                                    //.Where(x => x.ShortType != "Step")
+                                    //.OrderBy(s => s.SortOrder)
+                                    //.ToList(),
 
                                     ReportDate = DateTime.Today
                                 };
@@ -85,6 +91,7 @@ namespace Esra.Web.Models
                     .FirstOrDefault();
 
                 salaryReviewAnalysis = new SalaryReviewAnalysis();
+                salaryReviewAnalysis.DateInitiated = DateTime.Today;
                 var scenarios = new List<Scenario>();
                 var scenario = new Scenario
                                    {
@@ -125,6 +132,7 @@ namespace Esra.Web.Models
             }
             else
             {
+                // Reference number is present so get by reference number:
                 viewModel.SalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
                     .Queryable
                     .Where(x => x.ReferenceNumber.Equals(referenceNumber))
@@ -137,6 +145,7 @@ namespace Esra.Web.Models
                 salaryScale = viewModel.SalaryReviewAnalysis.SalaryScale;
             }
 
+            var cl = new Dictionary<string, decimal?>();
             if (salaryScale != null)
             {
                 salaryScale.SalarySteps = repository.OfType<SalaryStep>()
@@ -145,7 +154,32 @@ namespace Esra.Web.Models
                     .ToList();
 
                 salaryScaleViewModel.SalaryScale = salaryScale;
+
+                List<SelectionType> selectionTypes = repository.OfType<SelectionType>()
+                    .Queryable
+                    //.Where(x => x.ShortType != "Step")
+                    .OrderBy(s => s.SortOrder)
+                    .ToList();
+
+                if (salaryScale.SalarySteps.Count == 0)
+                {
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MIN].ShortType, salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.FIRST].ShortType, salaryScale.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MID].ShortType, salaryScale.SalaryGradeQuartiles.MidAnnual); // "Mid"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.THIRD].ShortType, salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
+                    cl.Add(selectionTypes[(int)SelectionType.Types.MAX].ShortType, salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
+                }
+                cl.Add(selectionTypes[(int)SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
+                cl.Add(selectionTypes[(int)SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(salaryScale.LaborMarketMidAnnual)); // "Labor Mkt Mid"
+                cl.Add(selectionTypes[(int)SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
+                cl.Add(selectionTypes[(int)SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
+
+                foreach (SalaryStep step in salaryScale.SalarySteps)
+                {
+                    cl.Add(selectionTypes[(int)SelectionType.Types.STEP].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual)); // "Step"
+                }
             }
+            viewModel.CriteriaList = cl;
 
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;
 

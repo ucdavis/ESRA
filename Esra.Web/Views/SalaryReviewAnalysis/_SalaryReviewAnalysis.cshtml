@@ -92,8 +92,8 @@
                 <td>
                     @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType<br />
                     <div class="editor-field">
-                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType, new SelectList(Model.SelectionTypes,
-              "Type", "ShortType", @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType), null, new { id = "ddlSelectionType" })
+                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType, new SelectList(Model.CriteriaList,
+              "Value", "Key", @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType), null, new { id = "ddlSelectionType" })
                     </div>
                 </td>
                 <td>
