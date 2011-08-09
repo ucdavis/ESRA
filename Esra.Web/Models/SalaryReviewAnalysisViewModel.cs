@@ -67,15 +67,20 @@ namespace Esra.Web.Models
 
         public static SalaryReviewAnalysisViewModel Create(IRepository repository)
         {
-            return Create(repository, "false", null);
+            return Create(repository, false, null, null);
         }
 
-        public static SalaryReviewAnalysisViewModel Create(IRepository repository, string isDepartmentUser, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
+        public static SalaryReviewAnalysisViewModel Create(IRepository repository, bool isDepartmentUser, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
+        {
+            return Create(repository, false, null, salaryReviewAnalysisSearchParamsModel);
+        }
+
+        public static SalaryReviewAnalysisViewModel Create(IRepository repository, bool isDepartmentUser, User user, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
-            bool isDepartmentUserBool =
-            Boolean.TryParse(isDepartmentUser, out isDepartmentUserBool) ? isDepartmentUserBool : false;
+            //bool isDepartmentUserBool =
+            // Boolean.TryParse(isDepartmentUser, out isDepartmentUserBool) ? isDepartmentUserBool : false;
 
             var viewModel = new SalaryReviewAnalysisViewModel
                                 {
@@ -87,22 +92,18 @@ namespace Esra.Web.Models
 
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
 
-                                    IsDepartmentUser = isDepartmentUserBool,
-
+                                    IsDepartmentUser = isDepartmentUser,
+                                    // These should be the only the one visible to the User
                                     FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
                                         .Queryable
                                         .OrderBy(t => t.ReferenceNumber)
                                         .ToList(),
 
-                                    FilteredEmployees = repository.OfType<Employee>()
-                                        .Queryable
-                                        .OrderBy(t => t.FullName)
-                                        .ToList(),
-
-                                    FilteredUsers = repository.OfType<User>()
-                                    .Queryable
-                                    .OrderBy(t => t.LoginID)
-                                    .ToList(),
+                                    //FilteredEmployees = repository.OfType<Employee>()
+                                    //    .Queryable
+                                    //    .OrderBy(t => t.FullName)
+                                    //    .ToList(),
+                                    FilteredEmployees = Employee.GetAllForUser(repository, user, isDepartmentUser, "FullName", true),
 
                                     ProposedTitles = repository.OfType<Title>()
                                   .Queryable

@@ -66,7 +66,6 @@ namespace Esra.Web.Models
             var viewModel = new EmployeeSalaryComparisonViewModel
                                 {
                                     SalaryScaleViewModel = salaryScaleViewModel,
-
                                     Employee = new Employee(),
                                     //EmployeesList = repository.OfType<Employee>()
                                     //    .Queryable
@@ -74,7 +73,6 @@ namespace Esra.Web.Models
                                     //    .ToList(),
 
                                     EmployeesList = new List<Employee>(),
-
                                     //DepartmentsList = repository.OfType<Department>()
                                     //    .Queryable
                                     //    .OrderBy(t => t.Name)
@@ -88,9 +86,9 @@ namespace Esra.Web.Models
                                     //    .ThenBy(t => t.SchoolCode)
                                     //    .ToList(),
                                     TitlesList = repository.OfType<Title>()
-                                         .Queryable
-                                         .OrderBy(t => t.AbbreviatedName)
-                                         .ToList(),
+                                        .Queryable
+                                        .OrderBy(t => t.AbbreviatedName)
+                                        .ToList(),
                                     SelectedTitles = new List<Title>(),
                                     //TitleCodesList = repository.OfType<Title>()
                                     //    .Queryable
@@ -98,10 +96,10 @@ namespace Esra.Web.Models
                                     //    .ToList()
                                     //employeeModel.SelectedDepartments = new List<Department>()
                                     SelectedDepartmentCodesString = string.Empty,
-                                    SelectedTitleCodesString = string.Empty
+                                    SelectedTitleCodesString = string.Empty,
+                                    SelectedEmployee = anyEmployee,
+                                    SelectedEmployeeId = string.Empty
                                 };
-            viewModel.SelectedEmployee = anyEmployee;
-            viewModel.SelectedEmployeeId = string.Empty;
             viewModel.SelectedDepartments.Add(anyDepartment);
             viewModel.SelectedTitles.Add(anyTitle);
 

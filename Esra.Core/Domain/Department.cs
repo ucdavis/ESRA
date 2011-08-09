@@ -54,6 +54,19 @@ namespace Esra.Core.Domain
             set { _SchoolCode = value; }
         }
 
+        /// <summary>
+        /// This is a covering school code to deal with
+        /// Deans Offices having more than a
+        /// single school code.
+        /// </summary>
+        private string _DeansOfficeSchoolCode;
+
+        public virtual string DeansOfficeSchoolCode
+        {
+            get { return _DeansOfficeSchoolCode; }
+            set { _DeansOfficeSchoolCode = value; }
+        }
+
         private IList<Employee> _Employees;
 
         public virtual IList<Employee> Employees
@@ -83,20 +96,26 @@ namespace Esra.Core.Domain
         {
         }
 
-        public static IList<Department> GetAllForUser(IRepository repository, string userId, string sortPropertyName, bool isAscending)
+        public static IList<Department> GetAllForUser(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
-            List<Department> departments = new List<Department>();
+            var departments = new List<Department>();
 
-            User user = User.GetByEmployeeId(repository, userId);
-
-            foreach (Unit unit in user.Units)
+            if (isDepartmentUser)
             {
-                departments.Add(repository.OfType<Department>()
-                                    .Queryable
-                                    .Where(d => d.Id.Equals(unit.PPSCode))
-                                    .FirstOrDefault());
+                departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
+                    .Queryable
+                    .Where(d => d.Id.Equals(unit.PPSCode))
+                    .FirstOrDefault()));
+            }
+            else
+            {
+                var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+
+                departments =
+                    repository.OfType<Department>().Queryable.Where(
+                        x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).ToList();
             }
 
             departments.Sort();
@@ -104,6 +123,17 @@ namespace Esra.Core.Domain
                 departments.Reverse();
 
             return departments;
+        }
+
+        public static IList<Department> GetAllForUser(IRepository repository, string userId, string sortPropertyName, bool isAscending)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            // lookup user:
+            User user = User.GetByEmployeeId(repository, userId);
+
+            // assume non-department user, so pass isDepartmentUser parameter to false:
+            return GetAllForUser(repository, user, false, sortPropertyName, isAscending);
         }
     }
 
@@ -121,6 +151,7 @@ namespace Esra.Core.Domain
             Map(x => x.Name);
             Map(x => x.ShortName);
             Map(x => x.SchoolCode);
+            Map(x => x.DeansOfficeSchoolCode);
 
             HasMany(x => x.Employees)
                 .Table("UCDEmployees")

@@ -21,7 +21,7 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/
-        public ActionResult Index(string isDepartmentUser, string selectedReferenceNumber, string selectedEmployee, int? selectedUser, string creationDateString)
+        public ActionResult Index(string selectedReferenceNumber, string selectedEmployee, int? selectedUser, string creationDateString)
         {
             var salaryReviewAnalysisSearchParamsModel = new SalaryReviewAnalysisSearchParamsModel
                                                             {
@@ -33,7 +33,18 @@ namespace Esra.Web.Controllers
                                                                          ? DateTime.Now.ToString("MM/dd/yyyy")
                                                                          : creationDateString)
                                                             };
-            var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository, isDepartmentUser, salaryReviewAnalysisSearchParamsModel);
+            var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository, IsDepartmentUser, Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name), salaryReviewAnalysisSearchParamsModel);
+
+            if (IsDepartmentUser)
+            {
+                // filter out non-department selections from select lists:
+                salaryReviewAnalysisModel.FilteredEmployees = salaryReviewAnalysisModel
+                    .FilteredEmployees
+                    .AsQueryable()
+                    .OfType<Employee>()
+                    .Where(x => x.IsDepartmentEmployee == true)
+                    .ToList();
+            }
 
             return View(salaryReviewAnalysisModel);
         }
@@ -108,6 +119,7 @@ namespace Esra.Web.Controllers
         {
             //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
             var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber);
+            viewModel.IsDepartmentUser = IsDepartmentUser;
             //var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
 
             if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");

@@ -5,7 +5,6 @@ using System.Linq;
 
 //using System.Linq.Expressions;
 using FluentNHibernate.Mapping;
-using NHibernate;
 using NHibernate.Criterion;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -452,21 +451,80 @@ namespace Esra.Core.Domain
         {
         }
 
-        public static IList<Employee> GetAllForUser(IRepository repository, User user, string sortPropertyName, bool isAscending)
+        /// <summary>
+        /// This will populate an Employee drop-down list based on a user and if they're a department user.
+        /// It will return all employees in the user's unit(s) if they're a department user, otherwise all
+        /// employees in the user's deans office school(s).
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="user"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAscending"></param>
+        /// <returns></returns>
+        public static IList<Employee> GetAllForUser(IRepository repository, User user, bool? isDepartmentUser, string sortPropertyName, bool isAscending)
         {
-            var depts = user.Units.Select(unit => unit.PPSCode).ToList();
+            List<String> depts;
+
+            // A null value for isDepartmentUser parameter defaults to false:
+            if ((bool)(isDepartmentUser ?? false))
+            {
+                // Get list of all user's departments assigned in Catbert:
+                depts = user.Units.Select(unit => unit.PPSCode).ToList();
+            }
+            else
+            {
+                // Get distinct list of user's deans office schools based on Catbert school code(s):
+                var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+
+                // Get list of all departments in the user's deans office school(s):
+                depts = repository.OfType<Department>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).Select(x => x.Id).ToList();
+            }
 
             return GetAll(sortPropertyName, isAscending, null, null, depts.ToArray());
         }
 
-        public static IList<Employee> GetAllForUser(IRepository repository, string userId, bool isDepartmentUser, string sortPropertyName, bool isAscending, string titleCodesString, string pkEmployee, string departmentIDsString)
+        /// <summary>
+        /// This takes into consideration IsDepartmentUser and the logged in user
+        /// when building the Employees list.
+        /// It basically splits delimited strings back into an arrays of strings before calling it's
+        /// companion method.
+        /// It is principally used by _ExportToExcel.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="user"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAscending"></param>
+        /// <param name="titleCodesString"></param>
+        /// <param name="pkEmployee"></param>
+        /// <param name="departmentIDsString"></param>
+        /// <returns></returns>
+        public static IList<Employee> GetAllForEmployeeTable(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending, string titleCodesString, string pkEmployee, string departmentIDsString)
         {
             string[] titleCodes = (!String.IsNullOrEmpty(titleCodesString) ? titleCodesString.Split('|') : new string[] { "0" });
             string[] departmentIDs = (!String.IsNullOrEmpty(departmentIDsString) ? departmentIDsString.Split('|') : new string[] { "0" });
-            return GetAllForUser(repository, userId, isDepartmentUser, sortPropertyName, isAscending, titleCodes, pkEmployee, departmentIDs);
+            return GetAllForEmployeeTable(repository, user, isDepartmentUser, sortPropertyName, isAscending, titleCodes, pkEmployee, departmentIDs);
         }
 
-        public static IList<Employee> GetAllForUser(IRepository repository, string userId, bool isDepartmentUser, string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
+        /// <summary>
+        /// This is the main get employees method used for populating Employees data table:
+        /// It takes into consideration IsDepartmentUser and the logged in user
+        /// when building the Employees list.
+        /// It will put the non-department employees at the bottom of the list
+        /// if the sort order is FullName or HomeDepartment.
+        /// It is also used by _ExportToExcel indirectly.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="user"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAscending"></param>
+        /// <param name="titleCodes"></param>
+        /// <param name="pkEmployee"></param>
+        /// <param name="departmentIds"></param>
+        /// <returns></returns>
+        public static IList<Employee> GetAllForEmployeeTable(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -477,18 +535,39 @@ namespace Esra.Core.Domain
             if (String.IsNullOrEmpty(sortPropertyName))
                 sortPropertyName = "FullName";
 
-            IList<Employee> employees = GetAll(sortPropertyName, isAscending, titleCodes, pkEmployee, departmentIds);
+            var depts = departmentIds;
+            IList<Employee> employees;
+
+            if (depts != null && !String.IsNullOrEmpty(depts[0]))
+            {
+                // Get employees list based on filter parameters provided:
+                employees = GetAll(sortPropertyName, isAscending, titleCodes, pkEmployee, depts);
+            }
+            else
+            {
+                var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+
+                // Get list of all departments in the user's deans office school(s):
+                depts =
+                    repository.OfType<Department>().Queryable.Where(
+                        x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).
+                        Select(x => x.Id).ToArray();
+
+                // Get employees based on deans office school departments and any other filter parameters provided:
+                employees = GetAll(sortPropertyName, isAscending, titleCodes, pkEmployee, depts);
+            }
+
+            // This will be the sorted employee list returned:
             List<Employee> retval = null;
+
             if (isDepartmentUser)
             {
-                // Then blank out the Name, department and comments from non-departmental employees:
-                List<Employee> nullList = new List<Employee>();
+                // Then set the employee's IsDepartmentEmployee so that the View can determine
+                // how to display or blank out the Name, department and comments from non-departmental employees:
+                var nullList = new List<Employee>();
                 retval = new List<Employee>();
 
-                //User user = User.GetByLoginId(repository, userId);
-                User user = User.GetByEmployeeId(repository, userId);
-
-                foreach (Employee employee in employees)
+                foreach (var employee in employees)
                 {
                     try
                     {
@@ -497,11 +576,7 @@ namespace Esra.Core.Domain
                         {
                             // Set the employee's IsDepartmentEmployee to
                             // allow view to decide how to "blank out" fields.
-                            // blank out the username, department and comments:
-                            //employee.HomeDepartment = null;
-                            //employee.FullName = null;
-                            //employee.DeansOfficeComments = null;
-                            //employee.DepartmentComments = null;
+
                             employee.IsDepartmentEmployee = false;
 
                             if (sortPropertyName.Equals("FullName") || sortPropertyName.Equals("HomeDepartment") || sortPropertyName.Equals("Title"))
@@ -540,26 +615,14 @@ namespace Esra.Core.Domain
                 else if (sortPropertyName.Equals("HomeDepartment"))
                 {
                     // Sort by Departments, then by FullNames within individual departments:
-                    if (isAscending)
-                    {
-                        retval.Sort(Employee.sortHomeDepartmentAscending());
-                    }
-                    else
-                    {
-                        retval.Sort(Employee.sortHomeDepartmentDescending());
-                    }
+                    retval.Sort(isAscending
+                                    ? Employee.sortHomeDepartmentAscending()
+                                    : Employee.sortHomeDepartmentDescending());
                     retval.AddRange(nullList);
                 }
                 else if (sortPropertyName.Equals("Title"))
                 {
-                    if (isAscending)
-                    {
-                        retval.Sort(Employee.sortTitleAscending());
-                    }
-                    else
-                    {
-                        retval.Sort(Employee.sortTitleDescending());
-                    }
+                    retval.Sort(isAscending ? Employee.sortTitleAscending() : Employee.sortTitleDescending());
                     retval.AddRange(nullList);
                 }
                 else
@@ -569,15 +632,28 @@ namespace Esra.Core.Domain
             }
             else
             {
-                // Return all employees as-is.
+                // Otherwise, return the employees list as-is:
                 retval = employees as List<Employee>;
             }
             return retval;
         }
 
-        public static IList<Employee> GetAll(string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
+        /// <summary>
+        /// This is used to load the employees list based on search/filter parameters provided
+        /// in the order specified.
+        /// Assumption: The departmentIds array parameter has be loaded with departments that
+        /// a user is allowed to view.
+        /// </summary>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAscending"></param>
+        /// <param name="titleCodes"></param>
+        /// <param name="pkEmployee"></param>
+        /// <param name="departmentIds"></param>
+        /// <returns></returns>
+        protected static IList<Employee> GetAll(string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
         {
             IList<Employee> retval = null;
+            var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
 
             var hasTitleCodes = (titleCodes != null) && (titleCodes.Length > 0) &&
                                     (!titleCodes[0].Equals("0") && !titleCodes[0].Equals(String.Empty))
@@ -594,11 +670,26 @@ namespace Esra.Core.Domain
 
             if (!hasPkEmployee && !hasDepartmentIds && !hasTitleCodes)
             {
-                retval = GetAll(sortPropertyName, isAscending);
+                //if (sortPropertyName.Equals("HomeDepartment"))
+                //{
+                //    criteria.CreateAlias("HomeDepartment", "HomeDepartment")
+                //    .AddOrder((isAscending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
+                //    .AddOrder(Order.Asc("FullName"));
+                //}
+                //else
+                //{
+                //    criteria.AddOrder((isAscending ? Order.Asc(sortPropertyName) : Order.Desc(sortPropertyName)));
+                //    if (sortPropertyName.Equals("FullName") == false)
+                //    {
+                //        criteria.AddOrder(Order.Asc("FullName"));
+                //    }
+                //}
+                //retval = criteria.List<Employee>();
+
+                throw new NotImplementedException("Oops! Department Id's must be provided due to use by multiple schools.");
             }
             else
             {
-                ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
                 Conjunction conjunction = Restrictions.Conjunction();
 
                 if (hasTitleCodes)
@@ -635,27 +726,6 @@ namespace Esra.Core.Domain
                 retval = criteria.List<Employee>();
             }
             return retval;
-        }
-
-        public static IList<Employee> GetAll(string sortPropertyName, bool isAscending)
-        {
-            ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(Employee));
-            if (sortPropertyName.Equals("HomeDepartment"))
-            {
-                criteria.CreateAlias("HomeDepartment", "HomeDepartment")
-                .AddOrder((isAscending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
-                .AddOrder(Order.Asc("FullName"));
-            }
-            else
-            {
-                criteria.AddOrder((isAscending ? Order.Asc(sortPropertyName) : Order.Desc(sortPropertyName)));
-                if (sortPropertyName.Equals("FullName") == false)
-                {
-                    criteria.AddOrder(Order.Asc("FullName"));
-                }
-            }
-
-            return criteria.List<Employee>();
         }
 
         /// <summary>

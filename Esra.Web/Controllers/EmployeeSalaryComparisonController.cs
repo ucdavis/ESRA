@@ -38,10 +38,8 @@ namespace Esra.Web.Controllers
             //employeeSalaryComparisonModel.User = Repository.OfType<User>().Queryable.Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
             employeeSalaryComparisonModel.User = user;
-            employeeSalaryComparisonModel.DepartmentsList = (isDepartmentUser ?
-                Department.GetAllForUser(Repository, user.EmployeeID, null, true) : Repository.OfType<Department>().Queryable.OrderBy(x => x.Name).ToList());
-            employeeSalaryComparisonModel.EmployeesList = (isDepartmentUser ?
-                Employee.GetAllForUser(Repository, user, "FullName", true) : Repository.OfType<Employee>().Queryable.OrderBy(x => x.FullName).ThenBy(x => x.HomeDepartment.Name).ToList());
+            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user, isDepartmentUser, "Name", true);
+            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, isDepartmentUser, "FullName", true);
 
             return View(employeeSalaryComparisonModel);
         }
@@ -56,14 +54,12 @@ namespace Esra.Web.Controllers
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
             employeeSalaryComparisonModel.User = user;
 
-            employeeSalaryComparisonModel.DepartmentsList = (isDepartmentUser ?
-                Department.GetAllForUser(Repository, user.EmployeeID, null, true) : Repository.OfType<Department>().Queryable.OrderBy(x => x.Name).ToList());
-            employeeSalaryComparisonModel.EmployeesList = (isDepartmentUser ?
-                Employee.GetAllForUser(Repository, user, "FullName", true) : Repository.OfType<Employee>().Queryable.OrderBy(x => x.FullName).ThenBy(x => x.HomeDepartment.Name).ToList());
+            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user, isDepartmentUser, "Name", true);
+            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, isDepartmentUser, "FullName", true);
 
-            bool isAnyTitle = true;
-            bool isAnyDepartment = true;
-            bool isAnyEmployee = true;
+            var isAnyTitle = true;
+            var isAnyDepartment = true;
+            var isAnyEmployee = true;
 
             var hasSelectedTitleCodes = selectedTitleCodes == null || selectedTitleCodes.Length == 0 ||
                                     selectedTitleCodes[0].Equals("0") || selectedTitleCodes[0].Equals(String.Empty)
@@ -78,7 +74,7 @@ namespace Esra.Web.Controllers
                                          ? false
                                          : true;
 
-            employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
+            employeeSalaryComparisonModel.Employees = Employee.GetAllForEmployeeTable(Repository, user, IsDepartmentUser, "FullName", true,
                                        selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
 
             if (hasSelectedEmployeeId)
@@ -227,15 +223,15 @@ namespace Esra.Web.Controllers
                 Repository.OfType<Employee>().Queryable.Where(x => x.EmployeeID == selectedEmployeeId).FirstOrDefault();
             var pkEmployee = (employee != null && String.IsNullOrEmpty(employee.EmployeeID) == false ? employee.Id : String.Empty);
 
-            User user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
-            string userId = user.EmployeeID;
+            var user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
+            //string userId = user.EmployeeID;
 
-            string[] titleStrings = selectedTitleCodesString.Split('|');
+            var titleStrings = selectedTitleCodesString.Split('|');
 
-            string[] departmentStrings = selectedDepartmentCodesString.Split('|');
+            var departmentStrings = selectedDepartmentCodesString.Split('|');
 
-            IList<Employee> employees = Employee.GetAllForUser(Repository,
-                userId,
+            var employees = Employee.GetAllForEmployeeTable(Repository,
+                user,
                 IsDepartmentUser,
                 sortPropertyName,
                 Convert.ToBoolean(isAscending),
@@ -245,19 +241,19 @@ namespace Esra.Web.Controllers
 
             // Convert the employees list to a datatable
 
-            ExcelOps eops = new ExcelOps();
-            List<CAESOps.ExcelBorder> borders = new List<CAESOps.ExcelBorder>();
+            var eops = new ExcelOps();
+            var borders = new List<CAESOps.ExcelBorder>();
 
-            string tempString = "";
-            Type stringType = tempString.GetType();
+            const string tempString = "";
+            var stringType = tempString.GetType();
 
-            Decimal tempDecimal = new Decimal();
-            Type decimalType = tempDecimal.GetType();
+            const decimal tempDecimal = new Decimal();
+            var decimalType = tempDecimal.GetType();
 
-            Double tempDouble = new Double();
-            Type doubleType = tempDouble.GetType();
+            const double tempDouble = new Double();
+            var doubleType = tempDouble.GetType();
 
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
 
             // Add the data headers:
             dt.Columns.Add("Department Name", stringType);
@@ -275,11 +271,9 @@ namespace Esra.Web.Controllers
             dt.Columns.Add("Department Comments", stringType);
             dt.Columns.Add("Deans Office Comments", stringType);
 
-            DataRow row;
-
-            foreach (Employee emp in employees)
+            foreach (var emp in employees)
             {
-                row = dt.NewRow();
+                var row = dt.NewRow();
 
                 row["Department Name"] = emp.HomeDepartment.Name;
                 row["Employee Name"] = emp.FullName;
@@ -314,16 +308,14 @@ namespace Esra.Web.Controllers
             }
 
             eops.HorizontalFreeze = 1;
-            ExcelStyle numberTwoDecimalStyle = new ExcelStyle();
-            numberTwoDecimalStyle.Format = PredefinedExcelStyles.NumberTwoDecimal;
+            var numberTwoDecimalStyle = new ExcelStyle { Format = PredefinedExcelStyles.NumberTwoDecimal };
             eops.AddColumnStyle("Years Of Service", numberTwoDecimalStyle);
             eops.AddColumnStyle("Time In Title", numberTwoDecimalStyle);
             eops.AddColumnStyle("Years Of Experience", numberTwoDecimalStyle);
-            ExcelStyle currencyStyle = new ExcelStyle();
-            currencyStyle.Format = PredefinedExcelStyles.CurrencyTwoDecimal;
+            var currencyStyle = new ExcelStyle { Format = PredefinedExcelStyles.CurrencyTwoDecimal };
             eops.AddColumnStyle("Pay Rate", currencyStyle);
 
-            byte[] byteArray = eops.ExportToExcel(dt);
+            var byteArray = eops.ExportToExcel(dt);
 
             Session["ExportExcel"] = byteArray;
 

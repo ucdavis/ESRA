@@ -90,10 +90,11 @@
                     @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
                 </th>
                 <td>
-                    @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType<br />
+                    @*@Model.SalaryReviewAnalysis.Scenarios[i].SelectionType<br />*@
                     <div class="editor-field">
-                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType, new SelectList(Model.CriteriaList,
-              "Value", "Key", @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType), null, new { id = "ddlSelectionType" })
+                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType,
+                        new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[Model.SalaryReviewAnalysis.Scenarios[i].SelectionType]),
+                        null, new { id = "ddlSelectionType" })
                     </div>
                 </td>
                 <td>
@@ -120,26 +121,38 @@
             </tr>
             }
         }
-        <tr>
-            <th>
-                Department Comments:
-            </th>
-            <td colspan="5">
-                <div class="editor-field">
-                    @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DepartmentComments, new { rows = "2", cols = "60" })
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Dean's Office Comments:
-            </th>
-            <td colspan="5">
-                <div class="editor-field">
-                    @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DeansOfficeComments, new { rows = "2", cols = "60" })
-                </div>
-            </td>
-        </tr>
+        @{
+            <tr>
+                <th>
+                    @(Model.IsDepartmentUser ? "Comments:" : "Department Comments:")
+                </th>
+                @if (Model.IsDepartmentUser)
+                {
+                    <td colspan="5">
+                        <div class="editor-field">
+                            @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DepartmentComments, new
+                       {
+                           rows = "2",
+                           cols = "60"
+                       });
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+        @if (!Model.IsDepartmentUser)
+        {
+            <tr>
+                <th>
+                    Dean's Office Comments:
+                </th>
+                <td colspan="5">
+                    <div class="editor-field">
+                        @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DeansOfficeComments, new { rows = "2", cols = "60" })
+                    </div>
+                </td>
+            </tr>
+        }
         <tr>
             <td colspan="6">
                 <center>

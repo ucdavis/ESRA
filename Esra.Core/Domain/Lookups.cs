@@ -97,6 +97,14 @@ namespace Esra.Core.Domain
             set { _SchoolCode = value; }
         }
 
+        private string _DeansOfficeSchoolCode;
+
+        public virtual string DeansOfficeSchoolCode
+        {
+            get { return _DeansOfficeSchoolCode; }
+            set { _DeansOfficeSchoolCode = value; }
+        }
+
         //private bool _Inactive;
 
         //public virtual bool Inactive
@@ -125,6 +133,7 @@ namespace Esra.Core.Domain
             Map(x => x.PPSCode);
             Map(x => x.FISCode);
             Map(x => x.SchoolCode);
+            Map(x => x.DeansOfficeSchoolCode);
 
             ReadOnly();
         }

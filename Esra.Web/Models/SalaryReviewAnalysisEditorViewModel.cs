@@ -161,6 +161,8 @@ namespace Esra.Web.Models
                     .OrderBy(s => s.SortOrder)
                     .ToList();
 
+                cl.Add(selectionTypes[(int)SelectionType.Types.NONE].ShortType, null); // "None"
+
                 if (salaryScale.SalarySteps.Count == 0)
                 {
                     cl.Add(selectionTypes[(int)SelectionType.Types.MIN].ShortType, salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"

@@ -55,15 +55,23 @@
                                 Approved
                             </th>
                         </tr>
-                        @foreach (Esra.Core.Domain.Scenario scene in Model.SalaryReviewAnalysis.Scenarios)
-                        {
+                        @{
+        var len = Model.SalaryReviewAnalysis.Scenarios.Count;
+        for (var i = 0; i < len; i++)
+        {
+            var scene = Model.SalaryReviewAnalysis.Scenarios[i];
+@*    @foreach (Esra.Core.Domain.Scenario scene in Model.SalaryReviewAnalysis.Scenarios)
+                            {*@
                             <tr>
                                 <th>
                                     @scene.ScenarioNumber.
                                 </th>
                                 <td>
                                     <div class="editor-field">
-                                        @scene.SelectionType
+                                        @*@scene.SelectionType<br />*@
+                                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType,
+                        new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[Model.SalaryReviewAnalysis.Scenarios[i].SelectionType]),
+                 null, new { id = "ddlSelectionType", disabled = "true" })
                                     </div>
                                 </td>
                                 <td>
@@ -82,6 +90,7 @@
                                     </div>
                                 </td>
                             </tr>
+        }
                         }
                     </table>
                 </td>
