@@ -189,7 +189,7 @@ namespace Esra.Web.Controllers
             if (!isAnyEmployee)
             {
                 employeeSalaryComparisonModel.SelectedEmployee = employeeSalaryComparisonModel.EmployeesList.Where(
-                    r => selectedEmployeeId.Equals(r.EmployeeID)).FirstOrDefault();
+                    r => selectedEmployeeId.Equals(r.id)).FirstOrDefault();
                 employeeSalaryComparisonModel.EsrSearchParameters.SearchEmployee =
                     employeeSalaryComparisonModel.SelectedEmployee;
             }

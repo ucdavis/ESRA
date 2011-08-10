@@ -65,7 +65,7 @@
                                 <img alt="View Details" src='@Url.Image("Details.png")' />
                             </a>&nbsp;&nbsp;
                             <img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
-                                onclick="deleteSra(this)" />
+                                onclick="deleteSra(@a.ReferenceNumber)" />
                         </td>
                         <td>
                             @a.ReferenceNumber
@@ -126,7 +126,7 @@
 }
 <script type="text/javascript">
 <!--
-    function deleteSra(row) {
+    function deleteSra(referenceNum) {
         debugger;
         return false;
     }

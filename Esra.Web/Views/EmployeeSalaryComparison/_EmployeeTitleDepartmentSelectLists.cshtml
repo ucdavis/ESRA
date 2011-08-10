@@ -75,9 +75,9 @@
                     <div class="editor-field">
                         @Html.DropDownListFor(x => x.SelectedEmployeeId,
                         new SelectList(Model.EmployeesList,
-                        "EmployeeID",
+                        "id",
                         "FullName",
-                        Model.SelectedEmployee != null ? Model.SelectedEmployee.EmployeeID : string.Empty),
+                        Model.SelectedEmployee != null ? Model.SelectedEmployee.id : string.Empty),
              "--Any Employee(s)--", new { id = "employee-drop-down" }
                         )
                     </div>
