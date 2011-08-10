@@ -121,8 +121,10 @@ namespace Esra.Web.Models
                 .ToList();
 
             //------------------------------------------------------------------------------------
+            var searchParamsModel = viewModel.SalaryReviewAnalysisSearchParamsModel;
 
-            if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression == null)
+            if (searchParamsModel.SalaryReviewAnalysisSearchExpression == null
+               || (searchParamsModel.HasCreateDateOnly && !searchParamsModel.HasCreateDate))
             {
                 // Load all based on viewModel.FilteredSalaryReviewAnalysis reference numbers:
                 var referenceNumbers = viewModel.FilteredSalaryReviewAnalysis.Select(x => x.ReferenceNumber).ToArray();

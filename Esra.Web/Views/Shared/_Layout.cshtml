@@ -46,10 +46,20 @@
             </span>
         </div>
         <div id="personalbar">
-            <div class="col1">
-                <span id="welcome_user" @(User.Identity == null || User.Identity.Name == String.Empty ? "style=display:none;" : String.Empty)>
-                    Welcome @User.Identity.Name!</span>
-            </div>
+            @if (User.Identity != null && User.Identity.Name != String.Empty)
+            {
+                <div class="col1">
+                    <span id="welcome_user">Welcome @User.Identity.Name
+                        @{
+                var isDepartmentUser = Session[Esra.Web.Resources.GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool?;
+                if (isDepartmentUser != null && (bool)isDepartmentUser)
+                {<text>(Department User)!</text>}
+                else
+                {<text>(Dean's Office User)!</text>}
+                        }
+                    </span>
+                </div>
+            }
             <div class="col2" id="LogOffOn">
                 @Html.ActionLink("Logoff", "LogOut", "Account")
             </div>
