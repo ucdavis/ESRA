@@ -35,17 +35,6 @@ namespace Esra.Web.Controllers
                                                             };
             var salaryReviewAnalysisModel = SalaryReviewAnalysisViewModel.Create(Repository, IsDepartmentUser, Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name), salaryReviewAnalysisSearchParamsModel);
 
-            if (IsDepartmentUser)
-            {
-                // filter out non-department selections from select lists:
-                salaryReviewAnalysisModel.FilteredEmployees = salaryReviewAnalysisModel
-                    .FilteredEmployees
-                    .AsQueryable()
-                    .OfType<Employee>()
-                    .Where(x => x.IsDepartmentEmployee == true)
-                    .ToList();
-            }
-
             return View(salaryReviewAnalysisModel);
         }
 

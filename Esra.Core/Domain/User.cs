@@ -165,6 +165,40 @@ namespace Esra.Core.Domain
                Where(r => r.EmployeeID == employeeId)
                .FirstOrDefault();
         }
+
+        public static IList<User> GetAll(IRepository repository, User user, bool isDepartmentUser)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            IList<Unit> units;
+            var users = new List<User>();
+
+            if (isDepartmentUser)
+            {
+                // Get list of all user's departments assigned in Catbert:
+                units = user.Units.ToList();
+            }
+            else
+            {
+                // Get distinct list of user's deans office schools based on Catbert school code(s):
+                var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+
+                // Get list of all departments in the user's deans office school(s):
+                units = repository.OfType<Unit>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).ToList();
+            }
+
+            foreach (var unit in units)
+            {
+                users.AddRange(unit.Users);
+
+                //departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
+                //    .Queryable
+                //    .Where(d => d.Id.Equals(unit.PPSCode))
+                //    .FirstOrDefault()));
+            }
+
+            return users.Distinct().OrderBy(x => x.FullName).ToList();
+        }
     }
 
     public class UserMap : ClassMap<User>

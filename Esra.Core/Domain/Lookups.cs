@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -113,6 +114,8 @@ namespace Esra.Core.Domain
         //    set { _Inactive = value; }
         //}
 
+        public virtual IList<User> Users { get; set; }
+
         public Unit()
         {
         }
@@ -134,6 +137,12 @@ namespace Esra.Core.Domain
             Map(x => x.FISCode);
             Map(x => x.SchoolCode);
             Map(x => x.DeansOfficeSchoolCode);
+
+            HasManyToMany(x => x.Users)
+               .Table("Catbert3_vUserUnit")
+               .AsBag()
+               .ParentKeyColumn("UnitID")
+               .ChildKeyColumn("UserID");
 
             ReadOnly();
         }

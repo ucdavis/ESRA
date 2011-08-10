@@ -84,33 +84,43 @@ namespace Esra.Web.Models
 
             var viewModel = new SalaryReviewAnalysisViewModel
                                 {
-                                    SalaryReviewAnalysisSearchParamsModel = SalaryReviewAnalysisSearchParamsModel.Create(repository, salaryReviewAnalysisSearchParamsModel),
+                                    SalaryReviewAnalysisSearchParamsModel =
+                                        SalaryReviewAnalysisSearchParamsModel.Create(repository,
+                                                                                     salaryReviewAnalysisSearchParamsModel),
                                     SelectedEmployee = salaryReviewAnalysisSearchParamsModel.SelectedEmployee,
                                     SelectedUser = salaryReviewAnalysisSearchParamsModel.SelectedUser,
-                                    SelectedReferenceNumber = salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
+                                    SelectedReferenceNumber =
+                                        salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
                                     CreationDateString = salaryReviewAnalysisSearchParamsModel.CreationDateString,
 
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
 
                                     IsDepartmentUser = isDepartmentUser,
-                                    // These should be the only the one visible to the User
-                                    FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
-                                        .Queryable
-                                        .OrderBy(t => t.ReferenceNumber)
-                                        .ToList(),
 
-                                    //FilteredEmployees = repository.OfType<Employee>()
-                                    //    .Queryable
-                                    //    .OrderBy(t => t.FullName)
-                                    //    .ToList(),
-                                    FilteredEmployees = Employee.GetAllForUser(repository, user, isDepartmentUser, "FullName", true),
+                                    FilteredEmployees =
+                                        Employee.GetAllForUser(repository, user, isDepartmentUser, "FullName", true),
+
+                                    FilteredUsers = User.GetAll(repository, user, isDepartmentUser),
 
                                     ProposedTitles = repository.OfType<Title>()
-                                  .Queryable
-                                  .OrderBy(t => t.TitleCode)
-                                        // .ThenBy(t => t.AbbreviatedName)
-                                  .ToList()
+                                    .Queryable
+                                    .OrderBy(t => t.TitleCode)
+                                    .ToList()
                                 };
+
+            //------------------------------------------------------------------------------------
+            // viewModel.FilteredSalaryReviewAnalysis should only contain reference numbers for
+            // Analysis that are visible to the User, meaning created by someone in the user's units:
+
+            var reviewerNames = viewModel.FilteredUsers.Select(x => x.FullName).ToArray();
+
+            viewModel.FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
+                .Queryable
+                .Where(x => reviewerNames.Contains(x.InitiatedByReviewerName))
+                .OrderBy(y => y.ReferenceNumber)
+                .ToList();
+
+            //------------------------------------------------------------------------------------
 
             if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression != null)
             {
