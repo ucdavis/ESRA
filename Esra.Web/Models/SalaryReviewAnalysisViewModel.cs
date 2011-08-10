@@ -122,18 +122,23 @@ namespace Esra.Web.Models
 
             //------------------------------------------------------------------------------------
 
-            if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression != null)
+            if (viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression == null)
             {
+                // Load all based on viewModel.FilteredSalaryReviewAnalysis reference numbers:
+                var referenceNumbers = viewModel.FilteredSalaryReviewAnalysis.Select(x => x.ReferenceNumber).ToArray();
+
                 viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
                     .Queryable
-                    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
-                    .OrderBy(t => t.Employee.FullName)
+                    .Where(x => referenceNumbers.Contains(x.ReferenceNumber))
+                    .OrderBy(y => y.Employee.FullName)
                     .ToList();
             }
             else
             {
+                // Load all based on search criteria:
                 viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
                     .Queryable
+                    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
                     .OrderBy(t => t.Employee.FullName)
                     .ToList();
             }
