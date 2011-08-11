@@ -118,6 +118,7 @@ namespace Esra.Core.Domain
 
         public Unit()
         {
+            Users = new List<User>();
         }
     }
 

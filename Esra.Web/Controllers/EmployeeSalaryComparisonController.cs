@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using CAESOps;
 using Esra.Core.Domain;
 using Esra.Web.Models;
-using Esra.Web.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Attributes;
 
@@ -435,23 +434,56 @@ namespace Esra.Web.Controllers
             var id = editModel.Id.Substring(2);
 
             //TODO: Check permissions
-            var isDepartmentUser = Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? ?? false;
-
+            //var isDepartmentUser = Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? ?? false;
             var employee = _employeeRepository.GetById(id);
 
-            if (editModel.HireDate.HasValue) employee.SetCareerHireDate(editModel.HireDate.Value);
-            if (editModel.TitleDate.HasValue) employee.SetApptHireDate(editModel.TitleDate.Value);
-            if (editModel.ExperienceDate.HasValue) employee.SetExperienceBeginDate(editModel.ExperienceDate.Value);
+            if (editModel.HireDate.HasValue)
+            {
+                employee.SetCareerHireDate(editModel.HireDate.Value);
+            }
+            else
+            {
+                employee.SetCareerHireDate(null);
+            }
+
+            if (editModel.TitleDate.HasValue)
+            {
+                employee.SetApptHireDate(editModel.TitleDate.Value);
+            }
+            else
+            {
+                employee.SetApptHireDate(null);
+            }
+
+            if (editModel.ExperienceDate.HasValue)
+            {
+                employee.SetExperienceBeginDate(editModel.ExperienceDate.Value);
+            }
+            else
+            {
+                employee.SetExperienceBeginDate(null);
+            }
 
             employee.SetPPSCareerHireDateChecked(editModel.HireChecked);
             employee.SetPPSApptHireDateChecked(editModel.TitleChecked);
 
-            employee.SetDepartmentComments(editModel.DeptComments, isDepartmentUser);
-            employee.SetDeansOfficeComments(editModel.DeansComments, isDepartmentUser);
+            employee.SetDepartmentComments(editModel.DeptComments, IsDepartmentUser);
+            employee.SetDeansOfficeComments(editModel.DeansComments, IsDepartmentUser);
 
             _employeeRepository.EnsurePersistent(employee);
 
-            var result = new { hireAdjusted = employee.CareerDateHasBeenAdjusted, titleAdjusted = employee.ApptDateHasBeenAdjusted, success = true };
+            var result = new
+                             {
+                                 hireDate = String.Format("{0:MM/dd/yyyy}", employee.AdjustedCareerHireDate),
+                                 hireAdjusted = employee.CareerDateHasBeenAdjusted,
+                                 yearsOfService = String.Format("{0:0.00}", employee.YearsOfService),
+                                 titleDate = String.Format("{0:MM/dd/yyyy}", employee.ApptHireDate),
+                                 titleAdjusted = employee.ApptDateHasBeenAdjusted,
+                                 timeInTitle = String.Format("{0:0.00}", employee.TimeInTitle),
+                                 experienceDate = employee.ExperienceBeginDate == null ? String.Empty : String.Format("{0:MM/dd/yyyy}", employee.ExperienceBeginDate),
+                                 yearsOfExperience = employee.YearsOfExperience == null ? String.Empty : String.Format("{0:0.00}", employee.YearsOfExperience),
+                                 success = true
+                             };
 
             return Json(result);
         }
@@ -473,9 +505,15 @@ namespace Esra.Web.Controllers
 
         public DateTime? HireDate { get; set; }
 
+        public double? YearsOfService { get; set; }
+
         public DateTime? TitleDate { get; set; }
 
+        public double? TimeInTitle { get; set; }
+
         public DateTime? ExperienceDate { get; set; }
+
+        public double? YearsOfExperience { get; set; }
 
         public bool HireChecked { get; set; }
 
