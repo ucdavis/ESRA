@@ -129,20 +129,39 @@ namespace Esra.Web.Models
                 // Load all based on viewModel.FilteredSalaryReviewAnalysis reference numbers:
                 var referenceNumbers = viewModel.FilteredSalaryReviewAnalysis.Select(x => x.ReferenceNumber).ToArray();
 
+                //TODO: Figure out how to make this a Linq query that does an inner join instead calling the db SELECT N+1 times:  FIXED by adding .Fetch(y => y.Employee) and container.Register(Component.For<IQueryExtensionProvider>().ImplementedBy<NHibernateQueryExtensionProvider>().Named("queryExtensions")); to the ComponentRegstrar class.
+
                 viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
-                    .Queryable
+                    .Queryable.Fetch(y => y.Employee)
                     .Where(x => referenceNumbers.Contains(x.ReferenceNumber))
-                    .OrderBy(y => y.Employee.FullName)
+                    .OrderBy(t => t.Employee.FullName)
                     .ToList();
+
+                //// This does an inner join with SRAEmployee and does NOT call the database N+1 times:
+                //var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis));
+                //var conjunction = Restrictions.Conjunction();
+                //criteria.CreateAlias("Employee", "Employee")
+                //    .AddOrder(Order.Asc("Employee.LastName")).AddOrder(Order.Asc("Employee.FirstName"))
+                //    .SetFetchMode("Employee", FetchMode.Eager);
+                //conjunction.Add(Restrictions.In("ReferenceNumber", referenceNumbers));
+
+                //viewModel.SalaryReviewAnalysisResults = criteria.List<SalaryReviewAnalysis>().ToList();
             }
             else
             {
                 // Load all based on search criteria:
+                // This one call the database N+1 times, once for each analysis returned.
+                //viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
+                //    .Queryable
+                //    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
+                //    .OrderBy(t => t.Employee.FullName)
+                //    .ToList();
+
                 viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
-                    .Queryable
-                    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
-                    .OrderBy(t => t.Employee.FullName)
-                    .ToList();
+                                                            .Queryable.Fetch(x => x.Employee)
+                                                            .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
+                                                            .OrderBy(t => t.Employee.FullName)
+                                                            .ToList();
             }
 
             return viewModel;

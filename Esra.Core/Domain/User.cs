@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Mapping;
+using NHibernate.Criterion;
+using NHibernate.Transform;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Data.NHibernate;
 
 namespace Esra.Core.Domain
 {
@@ -170,7 +173,7 @@ namespace Esra.Core.Domain
         {
             Check.Require(repository != null, "Repository must be supplied");
 
-            IList<Unit> units;
+            var units = new List<Unit>();
             var users = new List<User>();
 
             if (isDepartmentUser)
@@ -187,17 +190,29 @@ namespace Esra.Core.Domain
                 units = repository.OfType<Unit>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).ToList();
             }
 
-            foreach (var unit in units)
-            {
-                users.AddRange(unit.Users);
+            // we have to get the all users associated with those units:
+            //TODO: Try implementing with LINQ and lambda expressions
 
-                //departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
-                //    .Queryable
-                //    .Where(d => d.Id.Equals(unit.PPSCode))
-                //    .FirstOrDefault()));
-            }
+            var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(User));
+            var conjunction = Restrictions.Conjunction();
+            criteria.CreateAlias("Units", "Units")
+                .AddOrder(Order.Asc("LastName")).AddOrder(Order.Asc("FirstName"))
+                .SetResultTransformer(new DistinctRootEntityResultTransformer());
+            conjunction.Add(Restrictions.In("Units", units));
 
-            return users.Distinct().OrderBy(x => x.FullName).ToList();
+            return criteria.List<User>().ToList();
+
+            //foreach (var unit in units)
+            //{
+            //    users.AddRange(unit.Users);
+
+            //    //departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
+            //    //    .Queryable
+            //    //    .Where(d => d.Id.Equals(unit.PPSCode))
+            //    //    .FirstOrDefault()));
+            //}
+
+            //return users.Distinct().OrderBy(x => x.FullName).ToList();
         }
     }
 

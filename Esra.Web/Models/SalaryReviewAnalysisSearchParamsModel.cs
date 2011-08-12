@@ -74,7 +74,7 @@ namespace Esra.Web.Models
 
                     viewModel.SalaryReviewAnalysisSearchExpression =
                             viewModel.SalaryReviewAnalysisSearchExpression.And(
-                                p => p.Employee.PkEmployee.Equals(viewModel.SelectedEmployee.id));
+                                p => p.Employee.PkEmployee == viewModel.SelectedEmployee.id);
                 }
 
                 if (String.IsNullOrEmpty(salaryReviewAnalysisSearchParamsModel.SelectedEmployeeId) == false)
@@ -89,7 +89,7 @@ namespace Esra.Web.Models
 
                     viewModel.SalaryReviewAnalysisSearchExpression =
                         viewModel.SalaryReviewAnalysisSearchExpression.And(
-                            p => p.Employee.PkEmployee.Equals(viewModel.SelectedEmployeeId));
+                            p => p.Employee.PkEmployee == viewModel.SelectedEmployeeId);
                 }
 
                 if (salaryReviewAnalysisSearchParamsModel.SelectedUser != null && salaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0)

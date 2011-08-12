@@ -11,7 +11,8 @@
     <many-to-one name="Employee"
                  class="Esra.Core.Domain.SRAEmployee, Esra.Core"
                  column="PkSRAEmployee"
-                 cascade="all-delete-orphan"></many-to-one>
+                 cascade="all-delete-orphan"
+                 ></many-to-one>
 
     <!--Set Title insert="false"; update="false" in order to be able to save the SalaryScale; otherwise TitleCode
     shows up twice in the result list!-->

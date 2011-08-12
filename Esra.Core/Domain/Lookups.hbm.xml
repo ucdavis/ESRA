@@ -27,7 +27,7 @@
     <property name="DeansOfficeSchoolCode" column="DeansOfficeSchoolCode" />
     <!--<property name="Inactive" column="Inactive" />-->
 
-    <bag name="Users" table="Catbert3_vUserUnit" >
+    <bag name="Users" table="Catbert3_vUserUnit">
       <key column="UnitID"/>
       <many-to-many column="UserID" class="Esra.Core.Domain.User, Esra.Core" />
     </bag>
