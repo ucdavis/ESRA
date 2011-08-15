@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Esra.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -19,6 +20,8 @@ namespace Esra.Web.Models
         public Employee SelectedEmployee { get; set; }
 
         public User SelectedUser { get; set; }
+
+        public Expression<Func<SalaryReviewAnalysis, bool>> SalaryReviewAnalysisSearchExpression { get; set; }
 
         // The SalaryReviewAnalysis creation date sought for
         // formerly populated from tbCreationDate
@@ -92,6 +95,7 @@ namespace Esra.Web.Models
                                     SelectedReferenceNumber =
                                         salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
                                     CreationDateString = salaryReviewAnalysisSearchParamsModel.CreationDateString,
+                                    SalaryReviewAnalysisSearchExpression = salaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression,
 
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
 

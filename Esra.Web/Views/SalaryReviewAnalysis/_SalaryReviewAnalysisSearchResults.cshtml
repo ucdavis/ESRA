@@ -3,115 +3,125 @@
     if (Model.SalaryReviewAnalysisResults.Count > 0)
     {
     <div id="salary-review-analysis-results">
-        <table id="analysis-table">
-            <thead>
-                <tr>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        Reference<br />
-                        Number
-                    </th>
-                    <th>
-                        Originating<br />
-                        Department
-                    </th>
-                    <th>
-                        Home<br />
-                        Department
-                    </th>
-                    <th>
-                        Employee
-                    </th>
-                    <th>
-                        Title<br />
-                        Code
-                    </th>
-                    <th>
-                        Date<br />
-                        Initiated
-                    </th>
-                    <th>
-                        Initiated&nbsp;By<br />
-                        Reviewer<br />
-                        Name
-                    </th>
-                    <th>
-                        Date<br />
-                        Approved
-                    </th>
-                    <th>
-                        Approved<br />
-                        Scenario
-                    </th>
-                    <th>
-                        Department<br />
-                        Comments
-                    </th>
-                    <th>
-                        Dean's<br />
-                        Office<br />
-                        Comments
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Esra.Core.Domain.SalaryReviewAnalysis a in Model.SalaryReviewAnalysisResults)
-                {
+        @using (@Html.BeginForm("Delete", "SalaryReviewAnalysis", FormMethod.Post, new { Name = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+           
+            @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.CreationDateString", Model.SalaryReviewAnalysisSearchParamsModel.CreationDateString)
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee != null && !String.IsNullOrEmpty(Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id) && !Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id.Equals("0")) { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedEmployee", Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id); }
+            @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber", (Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber == null ? String.Empty : Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber))
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser != null && Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0) { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedUser", Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id); }
+            <table id="analysis-table">
+                <thead>
                     <tr>
-                        <td>
-                            <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { ReferenceNumber = @a.ReferenceNumber })'>
-                                <img alt="View Details" src='@Url.Image("Details.png")' />
-                            </a>&nbsp;&nbsp;
-                            <img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
-                                onclick="deleteSra(@a.ReferenceNumber)" />
-                        </td>
-                        <td>
-                            @a.ReferenceNumber
-                        </td>
-                        <td>
-                            @(a.OriginatingDepartment != null && String.IsNullOrEmpty(a.OriginatingDepartment.Name) == false ? a.OriginatingDepartment.Name : String.Empty)
-                        </td>
-                        <td>
-                            @a.Employee.HomeDepartment.Name
-                        </td>
-                        <td>
-                            @a.Employee.FullName
-                        </td>
-                        <td>
-                            @if (a.IsReclass)
-                            { <strong>@a.Title.TitleCode*</strong><br /> }
-                            @a.CurrentTitleCode
-                        </td>
-                        <td>
-                            @String.Format("{0:MM/dd/yyyy}", a.DateInitiated)
-                        </td>
-                        <td>@a.InitiatedByReviewerName
-                        </td>
-                        <td>
-                            @String.Format("{0:MM/dd/yyyy}", a.DateApproved)
-                        </td>
-                        <td>
-                            @if (a.ApprovedScenario != null)
-                            {
-                                @a.ApprovedScenario.ScenarioNumber
-                            }
-                        </td>
-                        <td>
-                            @a.DepartmentComments
-                        </td>
-                        <td>
-                            @a.DeansOfficeComments
-                        </td>
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>
+                            Reference<br />
+                            Number
+                        </th>
+                        <th>
+                            Originating<br />
+                            Department
+                        </th>
+                        <th>
+                            Home<br />
+                            Department
+                        </th>
+                        <th>
+                            Employee
+                        </th>
+                        <th>
+                            Title<br />
+                            Code
+                        </th>
+                        <th>
+                            Date<br />
+                            Initiated
+                        </th>
+                        <th>
+                            Initiated&nbsp;By<br />
+                            Reviewer<br />
+                            Name
+                        </th>
+                        <th>
+                            Date<br />
+                            Approved
+                        </th>
+                        <th>
+                            Approved<br />
+                            Scenario
+                        </th>
+                        <th>
+                            Department<br />
+                            Comments
+                        </th>
+                        <th>
+                            Dean's<br />
+                            Office<br />
+                            Comments
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <span id="pnlProposedTitleCodeNote">
-            <label id="lblProposedTitleCodeNote">
-                *Proposed Title Code</label>
-        </span>
+                </thead>
+                <tbody>
+                    @foreach (Esra.Core.Domain.SalaryReviewAnalysis a in Model.SalaryReviewAnalysisResults)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(x => a.ReferenceNumber, new { id = "ReferenceNumber", name = "ReferenceNumber" })
+                                <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { ReferenceNumber = @a.ReferenceNumber })'>
+                                    <img alt="View Details" src='@Url.Image("Details.png")' />
+                                </a>&nbsp;&nbsp;
+                                <img id="delete-sra" src="../../Images/delete.png" class="edit-row" alt="delete"
+                                onclick="deleteSra(@a.ReferenceNumber)" />
+                            </td>
+                            <td>
+                                @a.ReferenceNumber
+                            </td>
+                            <td>
+                                @(a.OriginatingDepartment != null && String.IsNullOrEmpty(a.OriginatingDepartment.Name) == false ? a.OriginatingDepartment.Name : String.Empty)
+                            </td>
+                            <td>
+                                @a.Employee.HomeDepartment.Name
+                            </td>
+                            <td>
+                                @a.Employee.FullName
+                            </td>
+                            <td>
+                                @if (a.IsReclass)
+                                { <strong>@a.Title.TitleCode*</strong><br /> }
+                                @a.CurrentTitleCode
+                            </td>
+                            <td>
+                                @String.Format("{0:MM/dd/yyyy}", a.DateInitiated)
+                            </td>
+                            <td>@a.InitiatedByReviewerName
+                            </td>
+                            <td>
+                                @String.Format("{0:MM/dd/yyyy}", a.DateApproved)
+                            </td>
+                            <td>
+                                @if (a.ApprovedScenario != null)
+                                {
+                                    @a.ApprovedScenario.ScenarioNumber
+                                }
+                            </td>
+                            <td>
+                                @a.DepartmentComments
+                            </td>
+                            <td>
+                                @a.DeansOfficeComments
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <span id="pnlProposedTitleCodeNote">
+                <label id="lblProposedTitleCodeNote">
+                    *Proposed Title Code</label>
+            </span>
+        }
     </div>
     }
     else
@@ -128,7 +138,23 @@
 <!--
     function deleteSra(referenceNum) {
         debugger;
-        return false;
+        var token = $('[name=__RequestVerificationToken]').val();
+        var answer = confirm("Are you sure you want to delete reference number: " + referenceNum + "?");
+        if (!answer) return false;
+        //$(this).parents('form').submit();
+        document.forms["delete-form"].submit();
+
+        //        $.post('/SalaryReviewAnalysis/Delete',
+        //                { __RequestVerificationToken: token, referenceNum: $(referenceNum).val(), salaryReviewAnalysisSearchParamsModel: $(SalaryReviewAnalysisSearchParamsModel).val() },
+        //                function (result) {
+        //                    if (result.length > 50) {
+        //                        $("#salary-review-analysis-results").html(result.toString());
+        //                    }
+        //                    //                    else {
+        //                    //                        $("#salary-review-analysis-results").html("<fieldset><h3>No Salary Review Analysis Data Available</h3></fieldset>");
+        //                    //                    }
+        //                }
+        //            );
     }
 
 // -->

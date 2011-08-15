@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
+using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Esra.Web.Controllers
@@ -152,29 +153,58 @@ namespace Esra.Web.Controllers
 
         //
         // GET: /SalaryReviewAnalysis/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
+        //public ActionResult Delete(string referenceNumber, Employee selectedEmployee)
+        //{
+        //    var salaryReviewAnalysisToDelete = _salaryReviewAnalysisRepository.Queryable
+        //        .Where(x => x.ReferenceNumber == referenceNumber)
+        //        .FirstOrDefault();
 
-            if (salaryReviewAnalysis == null) return RedirectToAction("Index");
+        //    if (salaryReviewAnalysisToDelete == null) return RedirectToAction("Index");
 
-            return View(salaryReviewAnalysis);
-        }
+        //    // _salaryReviewAnalysisRepository.Remove(salaryReviewAnalysisToDelete);
+
+        //    Message = "Salary Review AnalysisSuccessfully Removed";
+
+        //    return RedirectToAction("Index");
+        //}
+
+        //
+        // POST: /SalaryReviewAnalysis/Delete/5
+        //[HttpPost]
+        //public ActionResult Delete(int id)
+        //{
+        //    var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
+
+        //    if (salaryReviewAnalysis == null) return RedirectToAction("Index");
+
+        //    return View(salaryReviewAnalysis);
+        //}
 
         //
         // POST: /SalaryReviewAnalysis/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, SalaryReviewAnalysis salaryReviewAnalysis)
+        public ActionResult Delete(SalaryReviewAnalysis a, SalaryReviewAnalysisSearchParamsModel salaryReviewAnalysisSearchParamsModel)
         {
-            var salaryReviewAnalysisToDelete = _salaryReviewAnalysisRepository.GetNullableById(id);
+            var referenceNumber = a.ReferenceNumber;
+            var salaryReviewAnalysisToDelete = _salaryReviewAnalysisRepository.Queryable
+               .Where(x => x.ReferenceNumber == referenceNumber)
+               .FirstOrDefault();
 
             if (salaryReviewAnalysisToDelete == null) return RedirectToAction("Index");
 
             _salaryReviewAnalysisRepository.Remove(salaryReviewAnalysisToDelete);
 
-            Message = "SalaryReviewAnalysis Removed Successfully";
+            Message = "Salary Review AnalysisSuccessfully Removed";
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+
+            return
+                this.RedirectToAction<SalaryReviewAnalysisController>(
+                    b =>
+                    b.Index(salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
+                            salaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id,
+                            salaryReviewAnalysisSearchParamsModel.SelectedUser.Id,
+                            salaryReviewAnalysisSearchParamsModel.CreationDateString));
         }
 
         /// <summary>
