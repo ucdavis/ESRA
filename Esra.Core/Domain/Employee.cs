@@ -452,6 +452,27 @@ namespace Esra.Core.Domain
         }
 
         /// <summary>
+        /// This will populate an Employee drop-down list based on the list of department Ids provided.
+        /// It assumes the list of user's departments, either college-wide or user.Units specific has already been resolved
+        /// correctly being provided accordingly based on isDepartmentUser, etc.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="user"></param>
+        /// <param name="isDepartmentUser"></param>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAscending"></param>
+        /// <param name="departments"></param>
+        /// <returns>Employees list containing all employees in the user's unit(s) if they're a department user, otherwise all employees in the user's deans office school(s).</returns>
+        public static IList<Employee> GetAllForUser(IRepository repository, User user, bool? isDepartmentUser, string sortPropertyName, bool isAscending, IList<Department> departments)
+        {
+            // Assume list of user's departments, either college-wide or user.Units specific has already been resolved and is
+            // correctly being provided according to isDepartmentUser, etc.
+            // This eliminates a duplicate call to the database.
+
+            return GetAll(sortPropertyName, isAscending, null, null, departments.Select(d => d.Id).ToArray());
+        }
+
+        /// <summary>
         /// This will populate an Employee drop-down list based on a user and if they're a department user.
         /// It will return all employees in the user's unit(s) if they're a department user, otherwise all
         /// employees in the user's deans office school(s).
@@ -461,11 +482,11 @@ namespace Esra.Core.Domain
         /// <param name="isDepartmentUser"></param>
         /// <param name="sortPropertyName"></param>
         /// <param name="isAscending"></param>
-        /// <returns></returns>
+        /// <returns>Employees list containing all employees in the user's unit(s) if they're a department user, otherwise all employees in the user's deans office school(s).</returns>
         public static IList<Employee> GetAllForUser(IRepository repository, User user, bool? isDepartmentUser, string sortPropertyName, bool isAscending)
         {
             List<String> depts;
-
+            //employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user, isDepartmentUser, "Name", true);
             // A null value for isDepartmentUser parameter defaults to false:
             if ((bool)(isDepartmentUser ?? false))
             {
@@ -499,7 +520,7 @@ namespace Esra.Core.Domain
         /// <param name="titleCodesString"></param>
         /// <param name="pkEmployee"></param>
         /// <param name="departmentIDsString"></param>
-        /// <returns></returns>
+        /// <returns>Employees list with non-department employees at the bottom of the list if the sort order is FullName or HomeDepartment.</returns>
         public static IList<Employee> GetAllForEmployeeTable(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending, string titleCodesString, string pkEmployee, string departmentIDsString)
         {
             string[] titleCodes = (!String.IsNullOrEmpty(titleCodesString) ? titleCodesString.Split('|') : new string[] { "0" });
@@ -523,7 +544,7 @@ namespace Esra.Core.Domain
         /// <param name="titleCodes"></param>
         /// <param name="pkEmployee"></param>
         /// <param name="departmentIds"></param>
-        /// <returns></returns>
+        /// <returns>Employees list with non-department employees at the bottom of the list if the sort order is FullName or HomeDepartment.</returns>
         public static IList<Employee> GetAllForEmployeeTable(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -670,6 +691,8 @@ namespace Esra.Core.Domain
 
             if (!hasPkEmployee && !hasDepartmentIds && !hasTitleCodes)
             {
+                // This will no longer work correctly since the addition of multiple colleges.
+                // We could however, make this method work only for CAES?
                 //if (sortPropertyName.Equals("HomeDepartment"))
                 //{
                 //    criteria.CreateAlias("HomeDepartment", "HomeDepartment")
@@ -728,13 +751,21 @@ namespace Esra.Core.Domain
             return retval;
         }
 
+        protected bool _IsDepartmentEmployee = true; // default to true.
         /// <summary>
-        /// Set when Employee is "pulled" from database, based on what the
-        /// logged in user's IsDepartmentUser is and whether or not the
+        /// If isDepartmentUser = true, then this is set when Employees are "pulled" by
+        /// GetAllForEmployeeTable(IRepository repository, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending, string[] titleCodes, string pkEmployee, string[] departmentIds),
+        /// based on what the logged in user's IsDepartmentUser is and whether or not the
         /// the employee is in the user's departments list.
+        /// However, we need to default it to true if it has not been set, since it is not a database field
+        /// and not set if isDepartmentUser = false.
         /// Not a database field.
         /// </summary>
-        public virtual bool IsDepartmentEmployee { get; set; }
+        public virtual bool IsDepartmentEmployee
+        {
+            get { return _IsDepartmentEmployee; }
+            set { _IsDepartmentEmployee = value; }
+        }
 
         /// <summary>
         /// This is the method, which determines whether or not the login user can "see"

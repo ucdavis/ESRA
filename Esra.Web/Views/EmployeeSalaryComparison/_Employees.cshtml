@@ -86,7 +86,11 @@
                         <td>@emp.IsDepartmentEmployee
                         </td>
                         <td class="is-department-user @(Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] != null ? Session[GlobalConstants.KEY_IS_DEPARTMENT_USER] as bool? : false)">
-                            <a href="#" class="edit-row">Edit</a>
+                            @if ((Model.IsDepartmentUser && emp.IsDepartmentEmployee) || (!Model.IsDepartmentUser))
+                            {
+                                // Only display the edit link for department employees.
+                                <text><a href='#' class='edit-row'>Edit</a></text>
+                            }
                         </td>
                         <td>@((Model.IsDepartmentUser && emp.IsDepartmentEmployee) || (!Model.IsDepartmentUser) ? emp.HomeDepartment.Name : String.Empty)
                         </td>

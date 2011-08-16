@@ -6,11 +6,15 @@
         @using (@Html.BeginForm("Delete", "SalaryReviewAnalysis", FormMethod.Post, new { Name = "delete-form" }))
         {
             @Html.AntiForgeryToken()
-           
+
             @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.CreationDateString", Model.SalaryReviewAnalysisSearchParamsModel.CreationDateString)
-            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee != null && !String.IsNullOrEmpty(Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id) && !Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id.Equals("0")) { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedEmployee", Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id); }
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee != null && !String.IsNullOrEmpty(Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id) && !Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id.Equals("0"))
+            { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedEmployee", Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id);
+            }
             @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber", (Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber == null ? String.Empty : Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber))
-            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser != null && Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0) { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedUser", Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id); }
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser != null && Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0)
+            { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedUser", Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id);
+            }
             <table id="analysis-table">
                 <thead>
                     <tr>
@@ -139,7 +143,7 @@
     function deleteSra(referenceNum) {
         debugger;
         var token = $('[name=__RequestVerificationToken]').val();
-        var answer = confirm("Are you sure you want to delete reference number: " + referenceNum + "?");
+        var answer = confirm("Are you sure you want to delete this analysis (ref #: " + referenceNum + ")?");
         if (!answer) return false;
         //$(this).parents('form').submit();
         document.forms["delete-form"].submit();

@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using CAESOps;
 using Esra.Core.Domain;
-using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Attributes;
 
@@ -32,29 +31,21 @@ namespace Esra.Web.Controllers
         // GET: /EmployeeSalaryComparison/
         public ActionResult Index()
         {
-            var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, null);
             var isDepartmentUser = IsDepartmentUser;
-            //employeeSalaryComparisonModel.User = Repository.OfType<User>().Queryable.Where(u => u.LoginID == CurrentUser.Identity.Name).FirstOrDefault();
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
-            employeeSalaryComparisonModel.User = user;
-            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user, isDepartmentUser, "Name", true);
-            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, isDepartmentUser, "FullName", true);
+
+            var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, user, isDepartmentUser, null);
 
             return View(employeeSalaryComparisonModel);
         }
 
-        //
         // GET: /EmployeeSalaryComparison/Details
         public ActionResult Details(string[] selectedTitleCodes, string[] selectedDepartmentCodes, string selectedEmployeeId)
         {
-            var employeeSalaryComparisonModel = EmployeeSalaryComparisonViewModel.Create(Repository, SalaryScaleViewModel.Create(Repository));
             var isDepartmentUser = IsDepartmentUser;
-            employeeSalaryComparisonModel.IsDepartmentUser = isDepartmentUser;
             var user = Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
-            employeeSalaryComparisonModel.User = user;
 
-            employeeSalaryComparisonModel.DepartmentsList = Department.GetAllForUser(Repository, user, isDepartmentUser, "Name", true);
-            employeeSalaryComparisonModel.EmployeesList = Employee.GetAllForUser(Repository, user, isDepartmentUser, "FullName", true);
+            var employeeSalaryComparisonModel = Models.EmployeeSalaryComparisonViewModel.Create(Repository, user, isDepartmentUser, null);
 
             var isAnyTitle = true;
             var isAnyDepartment = true;
@@ -72,18 +63,22 @@ namespace Esra.Web.Controllers
                                      selectedEmployeeId.Equals("0") || selectedEmployeeId.Equals(String.Empty)
                                          ? false
                                          : true;
+            // search expression example:
 
-            employeeSalaryComparisonModel.Employees = Employee.GetAllForEmployeeTable(Repository, user, IsDepartmentUser, "FullName", true,
-                                       selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+            //employeeSalaryComparisonModel.EmployeeSalaryComparisonSearchExpression =
+            //                employeeSalaryComparisonModel.EmployeeSalaryComparisonSearchExpression.And(
+            //                    p => p.Employee.PkEmployee == viewModel.SelectedEmployee.id);
+
+            var allSchoolEmployees = employeeSalaryComparisonModel.AllSchoolEmployees;
+            var employees = new List<Employee>();
 
             if (hasSelectedEmployeeId)
             {
                 // get the employee by employee ID:
-                //employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable.Where(r => selectedEmployeeId.Equals(r.EmployeeID))
-                //   .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-                //selectedTitleCodes, string[] selectedDepartmentCodes, string selectedEmployeeId
-                //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
-                //                       selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                employees =
+                    allSchoolEmployees.Where(r => selectedEmployeeId.Equals(r.Id)).ToList();
+
                 isAnyEmployee = false;
             }
             else
@@ -92,19 +87,15 @@ namespace Esra.Web.Controllers
                 if (!hasSelectedDepartmentCodes && !hasSelectedTitleCodes)
                 {
                     // get all records:
-                    //employeeSalaryComparisonModel.Employees = _employeeRepository.Queryable
-                    //    .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
-                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    employees = allSchoolEmployees.ToList();
                 }
                 else if (hasSelectedDepartmentCodes && !hasSelectedTitleCodes)
                 {
                     // get those with matching department codes:
-                    //employeeSalaryComparisonModel.Employees =
-                    //    _employeeRepository.Queryable.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
-                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    employees =
+                        allSchoolEmployees.Where(r => selectedDepartmentCodes.Contains(r.HomeDepartmentID)).ToList();
 
                     employeeSalaryComparisonModel.SelectedDepartmentCodesString =
                         PipeDelimittedString.ArrayToPipeDelimittedString(selectedDepartmentCodes);
@@ -114,12 +105,9 @@ namespace Esra.Web.Controllers
                 else if (!hasSelectedDepartmentCodes && hasSelectedTitleCodes)
                 {
                     // get those with matching title codes:
-                    //employeeSalaryComparisonModel.Employees =
-                    //    _employeeRepository.Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode))
-                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
 
-                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
-                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+                    employees =
+                        allSchoolEmployees.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
 
                     var salaryScales = _salaryScaleRepository
                         .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
@@ -145,13 +133,11 @@ namespace Esra.Web.Controllers
                 else
                 {
                     // get those with matching department and title codes:
-                    //employeeSalaryComparisonModel.Employees =
-                    //    _employeeRepository.Queryable.Where(
-                    //        r => selectedTitleCodes.Contains(r.TitleCode) &&
-                    //             selectedDepartmentCodes.Contains(r.HomeDepartmentID))
-                    //        .OrderBy(r => r.FullName).ThenBy(r => r.HomeDepartment.Name).ToList();
-                    //employeeSalaryComparisonModel.Employees = Employee.GetAllForUser(Repository, user.EmployeeID, IsDepartmentUser, "FullName", true,
-                    //                   selectedTitleCodes, selectedEmployeeId, selectedDepartmentCodes);
+
+                    employees =
+                        allSchoolEmployees.Where(
+                            r => selectedTitleCodes.Contains(r.TitleCode) &&
+                                 selectedDepartmentCodes.Contains(r.HomeDepartmentID)).ToList();
 
                     var salaryScales = _salaryScaleRepository
                         .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
@@ -177,6 +163,7 @@ namespace Esra.Web.Controllers
                     isAnyTitle = false;
                 }
             }
+            employeeSalaryComparisonModel.Employees = employees;
 
             // Logic for initializing ESR Search Parameters:
             employeeSalaryComparisonModel.EsrSearchParameters = new ESRSearchParameters()

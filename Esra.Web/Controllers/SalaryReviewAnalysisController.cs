@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
-using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
 
 namespace Esra.Web.Controllers
@@ -194,17 +193,23 @@ namespace Esra.Web.Controllers
 
             _salaryReviewAnalysisRepository.Remove(salaryReviewAnalysisToDelete);
 
-            Message = "Salary Review AnalysisSuccessfully Removed";
+            Message = "Salary Review Analysis (ref #: " + referenceNumber + ") Successfully Removed";
 
-            //return RedirectToAction("Index");
+            // This will return to the main Salary Review Analysis index page displaying the default search and sort order,
+            // meaning display the page in the "newly visited" state as if the user was visiting it for the first time.
+            return RedirectToAction("Index");
 
-            return
-                this.RedirectToAction<SalaryReviewAnalysisController>(
-                    b =>
-                    b.Index(salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
-                            salaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id,
-                            salaryReviewAnalysisSearchParamsModel.SelectedUser.Id,
-                            salaryReviewAnalysisSearchParamsModel.CreationDateString));
+            // This will return to the main Salary Review Analysis index page displaying the
+            // same search and TODO: add sort order and sort property
+            // as the user selected prior to the delete:
+            // Note that if the user deleted the only analysis listed in the search results, that the page will now display the "No Results Found" message.
+            //return
+            //    this.RedirectToAction<SalaryReviewAnalysisController>(
+            //        b =>
+            //        b.Index(salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
+            //                salaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id,
+            //                salaryReviewAnalysisSearchParamsModel.SelectedUser.Id,
+            //                salaryReviewAnalysisSearchParamsModel.CreationDateString));
         }
 
         /// <summary>

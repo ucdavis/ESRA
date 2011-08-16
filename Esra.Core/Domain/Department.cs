@@ -104,10 +104,26 @@ namespace Esra.Core.Domain
 
             if (isDepartmentUser)
             {
-                departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
+                /*
+                   viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
+                    .Queryable.Fetch(y => y.Employee)
+                    .Where(x => referenceNumbers.Contains(x.ReferenceNumber))
+                    .OrderBy(t => t.Employee.FullName)
+                    .ToList();
+                 *
+                 * depts = user.Units.Select(unit => unit.PPSCode).ToList();
+                 */
+                // Works but accesses the database once for each department.
+                //departments.AddRange(user.Units.Select(unit => repository.OfType<Department>()
+                //    .Queryable
+                //    .Where(d => d.Id.Equals(unit.PPSCode))
+                //    .FirstOrDefault()));
+
+                var units = user.Units.Select(u => u.PPSCode).ToArray();
+                departments = repository.OfType<Department>()
                     .Queryable
-                    .Where(d => d.Id.Equals(unit.PPSCode))
-                    .FirstOrDefault()));
+                    .Where(x => units.Contains(x.Id))
+                    .ToList();
             }
             else
             {
