@@ -72,6 +72,8 @@ namespace Esra.Web.Models
             var anyTitle = new Title() { AbbreviatedName = "Any", PayrollTitle = "Any", TitleCode = "Any" };
             var anyEmployee = new Employee() { FullName = "Any", EmployeeID = "0" };
 
+            if (salaryScaleViewModel == null) salaryScaleViewModel = Models.SalaryScaleViewModel.Create(repository);
+
             var viewModel = new EmployeeSalaryComparisonViewModel
                                 {
                                     IsDepartmentUser = isDepartmentUser,
@@ -86,7 +88,7 @@ namespace Esra.Web.Models
                                     SelectedEmployeeId = string.Empty
                                 };
 
-            if (salaryScaleViewModel == null)
+            if (salaryScaleViewModel.Titles.Count == 0)
             {
                 viewModel.TitlesList = repository.OfType<Title>()
                     .Queryable
@@ -119,6 +121,11 @@ namespace Esra.Web.Models
 
             // This will return a list of employees with their IsDepartmentEmployee set appropriately if isDepartmentUser == true.
             var allSchoolEmployees = Employee.GetAllForEmployeeTable(repository, user, isDepartmentUser, "FullName", true, null, null, allSchoolDepartments.Select(x => x.Id).ToArray());
+
+            //var allSchoolEmployees = SchoolEmployees.GetAllForSchoolCodes(repository,
+            //                                                             allSchoolDepartments.Select(
+            //                                                                 x => x.DeansOfficeSchoolCode).Distinct().
+            //                                                                 ToArray());
             viewModel.AllSchoolEmployees = allSchoolEmployees;
 
             // Assign only those with IsDepartmentEmployee == true to Employees select list or ALL school employees is non-department user, i.e. deans office.

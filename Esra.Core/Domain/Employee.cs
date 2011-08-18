@@ -451,6 +451,89 @@ namespace Esra.Core.Domain
         {
         }
 
+        public static IList<Employee> SetIsDepartmentEmployeeAndSort(IList<Employee> employees, User user, bool isDepartmentUser, string sortPropertyName, bool isAscending)
+        {
+            // This will be the sorted employee list returned:
+            List<Employee> retval = null;
+
+            if (isDepartmentUser)
+            {
+                // Then set the employee's IsDepartmentEmployee so that the View can determine
+                // how to display or blank out the Name, department and comments from non-departmental employees:
+                var nullList = new List<Employee>();
+                retval = new List<Employee>();
+
+                foreach (var employee in employees)
+                {
+                    try
+                    {
+                        employee.IsDepartmentEmployee = true;
+                        if (!ComputeIsDepartmentEmployee(user, employee))
+                        {
+                            // Set the employee's IsDepartmentEmployee to
+                            // allow view to decide how to "blank out" fields.
+
+                            employee.IsDepartmentEmployee = false;
+
+                            if (sortPropertyName.Equals("FullName") || sortPropertyName.Equals("HomeDepartment") || sortPropertyName.Equals("Title"))
+                            {
+                                // if sorted by FullName, add these employees to their own array.
+                                nullList.Add(employee);
+                            }
+                            else
+                            {
+                                // otherwise just add them to the return array.
+                                retval.Add(employee);
+                            }
+                        }
+                        else
+                        {
+                            // add them as-is to the return array.
+                            retval.Add(employee);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Console.Out.WriteLine(ex.InnerException);
+                    }
+                }
+
+                if (sortPropertyName.Equals("FullName"))
+                {
+                    // sort by FullName
+                    retval.Sort();
+                    if (!isAscending)
+                    {
+                        retval.Reverse();
+                    }
+                    retval.AddRange(nullList);
+                }
+                else if (sortPropertyName.Equals("HomeDepartment"))
+                {
+                    // Sort by Departments, then by FullNames within individual departments:
+                    retval.Sort(isAscending
+                                    ? Employee.sortHomeDepartmentAscending()
+                                    : Employee.sortHomeDepartmentDescending());
+                    retval.AddRange(nullList);
+                }
+                else if (sortPropertyName.Equals("Title"))
+                {
+                    retval.Sort(isAscending ? Employee.sortTitleAscending() : Employee.sortTitleDescending());
+                    retval.AddRange(nullList);
+                }
+                else
+                {
+                    retval.AddRange(nullList);
+                }
+            }
+            else
+            {
+                // Otherwise, return the employees list as-is:
+                retval = employees as List<Employee>;
+            }
+            return retval;
+        }
+
         /// <summary>
         /// This will populate an Employee drop-down list based on the list of department Ids provided.
         /// It assumes the list of user's departments, either college-wide or user.Units specific has already been resolved
@@ -578,85 +661,86 @@ namespace Esra.Core.Domain
                 employees = GetAll(sortPropertyName, isAscending, titleCodes, pkEmployee, depts);
             }
 
-            // This will be the sorted employee list returned:
-            List<Employee> retval = null;
+            //// This will be the sorted employee list returned:
+            //List<Employee> retval = null;
 
-            if (isDepartmentUser)
-            {
-                // Then set the employee's IsDepartmentEmployee so that the View can determine
-                // how to display or blank out the Name, department and comments from non-departmental employees:
-                var nullList = new List<Employee>();
-                retval = new List<Employee>();
+            //if (isDepartmentUser)
+            //{
+            //    // Then set the employee's IsDepartmentEmployee so that the View can determine
+            //    // how to display or blank out the Name, department and comments from non-departmental employees:
+            //    var nullList = new List<Employee>();
+            //    retval = new List<Employee>();
 
-                foreach (var employee in employees)
-                {
-                    try
-                    {
-                        employee.IsDepartmentEmployee = true;
-                        if (!ComputeIsDepartmentEmployee(user, employee))
-                        {
-                            // Set the employee's IsDepartmentEmployee to
-                            // allow view to decide how to "blank out" fields.
+            //    foreach (var employee in employees)
+            //    {
+            //        try
+            //        {
+            //            employee.IsDepartmentEmployee = true;
+            //            if (!ComputeIsDepartmentEmployee(user, employee))
+            //            {
+            //                // Set the employee's IsDepartmentEmployee to
+            //                // allow view to decide how to "blank out" fields.
 
-                            employee.IsDepartmentEmployee = false;
+            //                employee.IsDepartmentEmployee = false;
 
-                            if (sortPropertyName.Equals("FullName") || sortPropertyName.Equals("HomeDepartment") || sortPropertyName.Equals("Title"))
-                            {
-                                // if sorted by FullName, add these employees to their own array.
-                                nullList.Add(employee);
-                            }
-                            else
-                            {
-                                // otherwise just add them to the return array.
-                                retval.Add(employee);
-                            }
-                        }
-                        else
-                        {
-                            // add them as-is to the return array.
-                            retval.Add(employee);
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        System.Console.Out.WriteLine(ex.InnerException);
-                    }
-                }
+            //                if (sortPropertyName.Equals("FullName") || sortPropertyName.Equals("HomeDepartment") || sortPropertyName.Equals("Title"))
+            //                {
+            //                    // if sorted by FullName, add these employees to their own array.
+            //                    nullList.Add(employee);
+            //                }
+            //                else
+            //                {
+            //                    // otherwise just add them to the return array.
+            //                    retval.Add(employee);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                // add them as-is to the return array.
+            //                retval.Add(employee);
+            //            }
+            //        }
+            //        catch (System.Exception ex)
+            //        {
+            //            System.Console.Out.WriteLine(ex.InnerException);
+            //        }
+            //    }
 
-                if (sortPropertyName.Equals("FullName"))
-                {
-                    // sort by FullName
-                    retval.Sort();
-                    if (!isAscending)
-                    {
-                        retval.Reverse();
-                    }
-                    retval.AddRange(nullList);
-                }
-                else if (sortPropertyName.Equals("HomeDepartment"))
-                {
-                    // Sort by Departments, then by FullNames within individual departments:
-                    retval.Sort(isAscending
-                                    ? Employee.sortHomeDepartmentAscending()
-                                    : Employee.sortHomeDepartmentDescending());
-                    retval.AddRange(nullList);
-                }
-                else if (sortPropertyName.Equals("Title"))
-                {
-                    retval.Sort(isAscending ? Employee.sortTitleAscending() : Employee.sortTitleDescending());
-                    retval.AddRange(nullList);
-                }
-                else
-                {
-                    retval.AddRange(nullList);
-                }
-            }
-            else
-            {
-                // Otherwise, return the employees list as-is:
-                retval = employees as List<Employee>;
-            }
-            return retval;
+            //    if (sortPropertyName.Equals("FullName"))
+            //    {
+            //        // sort by FullName
+            //        retval.Sort();
+            //        if (!isAscending)
+            //        {
+            //            retval.Reverse();
+            //        }
+            //        retval.AddRange(nullList);
+            //    }
+            //    else if (sortPropertyName.Equals("HomeDepartment"))
+            //    {
+            //        // Sort by Departments, then by FullNames within individual departments:
+            //        retval.Sort(isAscending
+            //                        ? Employee.sortHomeDepartmentAscending()
+            //                        : Employee.sortHomeDepartmentDescending());
+            //        retval.AddRange(nullList);
+            //    }
+            //    else if (sortPropertyName.Equals("Title"))
+            //    {
+            //        retval.Sort(isAscending ? Employee.sortTitleAscending() : Employee.sortTitleDescending());
+            //        retval.AddRange(nullList);
+            //    }
+            //    else
+            //    {
+            //        retval.AddRange(nullList);
+            //    }
+            //}
+            //else
+            //{
+            //    // Otherwise, return the employees list as-is:
+            //    retval = employees as List<Employee>;
+            //}
+            //return retval;
+            return SetIsDepartmentEmployeeAndSort(employees, user, isDepartmentUser, sortPropertyName, isAscending);
         }
 
         /// <summary>

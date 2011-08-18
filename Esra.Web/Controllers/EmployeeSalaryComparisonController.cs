@@ -79,6 +79,23 @@ namespace Esra.Web.Controllers
                 employees =
                     allSchoolEmployees.Where(r => selectedEmployeeId.Equals(r.Id)).ToList();
 
+                if (employees.Count == 1)
+                {
+                    var salaryScale = _salaryScaleRepository
+                        .Queryable.Where(r => r.TitleCode == employees[0].TitleCode).FirstOrDefault();
+
+                    if (salaryScale != null)
+                    {
+                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                            .Queryable
+                            .Where(
+                                s =>
+                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                            .ToList();
+
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                    }
+                }
                 isAnyEmployee = false;
             }
             else
@@ -205,9 +222,9 @@ namespace Esra.Web.Controllers
 
         public ActionResult ExportToExcel(string sortPropertyName, string isAscending, string selectedTitleCodesString, string selectedEmployeeId, string selectedDepartmentCodesString)
         {
-            var employee =
-                Repository.OfType<Employee>().Queryable.Where(x => x.EmployeeID == selectedEmployeeId).FirstOrDefault();
-            var pkEmployee = (employee != null && String.IsNullOrEmpty(employee.EmployeeID) == false ? employee.Id : String.Empty);
+            //var employee =
+            //    Repository.OfType<Employee>().Queryable.Where(x => x.Id == selectedEmployeeId).FirstOrDefault();
+            //var pkEmployee = (employee != null && String.IsNullOrEmpty(employee.Id) == false ? employee.Id : String.Empty);
 
             var user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
             //string userId = user.EmployeeID;
@@ -222,7 +239,7 @@ namespace Esra.Web.Controllers
                 sortPropertyName,
                 Convert.ToBoolean(isAscending),
                 titleStrings,
-                pkEmployee,
+                selectedEmployeeId,
                 departmentStrings);
 
             // Convert the employees list to a datatable

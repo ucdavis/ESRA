@@ -1,5 +1,6 @@
 using System;
 using System.Web.Mvc;
+using Esra.Core.Domain;
 using Esra.Web.Resources;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Controller;
@@ -10,6 +11,8 @@ namespace Esra.Web.Controllers
     [Authorize]
     public class ApplicationController : SuperController
     {
+        protected static SchoolEmployees AllEmployees { get; set; }
+
         /// <summary>
         /// A department user is a person whose one and only role is USER.
         ///
