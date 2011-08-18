@@ -95,14 +95,14 @@ namespace Esra.Web.Models
                                     SelectedReferenceNumber =
                                         salaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber,
                                     CreationDateString = salaryReviewAnalysisSearchParamsModel.CreationDateString,
-                                    SalaryReviewAnalysisSearchExpression = salaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression,
+                                    SalaryReviewAnalysisSearchExpression =
+                                        salaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression,
 
                                     SalaryReviewAnalysis = new SalaryReviewAnalysis(),
 
                                     IsDepartmentUser = isDepartmentUser,
 
-                                    FilteredEmployees =
-                                        Employee.GetAllForUser(repository, user, isDepartmentUser, "FullName", true),
+                                    FilteredEmployees = new List<Employee>(),
 
                                     FilteredUsers = User.GetAll(repository, user, isDepartmentUser),
 
@@ -111,6 +111,27 @@ namespace Esra.Web.Models
                                     .OrderBy(t => t.TitleCode)
                                     .ToList()
                                 };
+
+            var allSchoolDepartments = Department.GetAllForUser(repository, user, false, "Name", true);
+            IList<Department> usersDepartmentsList;
+            if (isDepartmentUser)
+            {
+                var usersUnits = user.Units.Select(u => u.PPSCode).ToArray();
+
+                usersDepartmentsList = allSchoolDepartments
+                    .Where(x => usersUnits.Contains(x.Id))
+                    .ToList();
+            }
+            else
+            {
+                usersDepartmentsList = allSchoolDepartments;
+            }
+
+            // This will return a list of employees with their IsDepartmentEmployee set appropriately if isDepartmentUser == true.
+            var allSchoolEmployees = Employee.GetAllForEmployeeTable(repository, user, isDepartmentUser, "FullName", true, null, null, allSchoolDepartments.Select(x => x.Id).ToArray());
+
+            // Assign only those with IsDepartmentEmployee == true to Employees select list or ALL school employees is non-department user, i.e. deans office.
+            viewModel.FilteredEmployees = isDepartmentUser ? allSchoolEmployees.Where(x => x.IsDepartmentEmployee == true).ToList() : allSchoolEmployees;
 
             //------------------------------------------------------------------------------------
             // viewModel.FilteredSalaryReviewAnalysis should only contain reference numbers for
