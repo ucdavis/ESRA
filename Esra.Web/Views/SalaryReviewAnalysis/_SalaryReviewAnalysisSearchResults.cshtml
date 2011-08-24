@@ -1,4 +1,36 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<script language="JavaScript" type="text/javascript">
+    //$(function () {
+    $(document).ready(function () {
+        var dtable = $('#analysis-table').dataTable({
+            "bProcessing": true,
+            //"bServerSide": true,
+            "bJQueryUI": true,
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
+            "sPaginationType": "full_numbers",
+            "aaSorting": [[4, 'asc']] // Change default sort to IsDepartmentEmployee desc, Employee.FullName; otherwise it sorts by column 0.
+            //                "aoColumns": [
+            //                                                { "sName": "IsDepartmentEmployee", "bVisible": false },  // "bVisible": false "hides" the column from the user.
+            //                                                {"sName": "Edit", "bSortable": false }, // "bSortable": false disables user-enabled sorting on the column.
+            //                                                {"sName": "HomeDepartment" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
+            //                                                {"sName": "TitleCode" },
+            //                                                { "sName": "SalaryGrade" },
+            //                                                { "sName": "BargainingUnitCode" },
+            //                                                { "sName": "FullName", "sType": "deptEmployee" },
+            //                                                { "sName": "AdjustedCareerHireDate", "bSortable": false },
+            //                                                { "sName": "YearsOfService" },
+            //                                                { "sName": "AdjustedApptHireDate", "bSortable": false },
+            //                                                { "sName": "TimeInTitle" },
+            //                                                { "sName": "ExperienceBeginDate", "bSortable": false },
+            //                                                { "sName": "YearsOfExperience" },
+            //                                                { "sName": "PayRate", "sType": "currency" },
+            //                                                { "sName": "DepartmentComments", "bSortable": false },
+            //                                                { "sName": "DeansOfficeComments", "bSortable": false }
+            //                                            ]
+        });
+    })
+
+</script>
 @{
     if (Model.SalaryReviewAnalysisResults.Count > 0)
     {

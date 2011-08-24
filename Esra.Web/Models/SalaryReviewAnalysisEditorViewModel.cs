@@ -176,7 +176,7 @@ namespace Esra.Web.Models
                 cl.Add(selectionTypes[(int)SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
                 cl.Add(selectionTypes[(int)SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 
-                foreach (SalaryStep step in salaryScale.SalarySteps)
+                foreach (SalaryStep step in salaryScale.SalarySteps.OrderBy(x => x.Annual))
                 {
                     cl.Add(selectionTypes[(int)SelectionType.Types.STEP].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual)); // "Step"
                 }
