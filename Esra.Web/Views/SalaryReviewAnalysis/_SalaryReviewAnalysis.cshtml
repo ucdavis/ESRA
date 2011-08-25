@@ -2,7 +2,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        // We don't really need all the features of jQUery data table, but we're using it because
+        // We don't really need all the features of jQuery data table, but we're using it because
         // it allows easier access to the table cell's data.
 
         var dtable = $('#scenarios').dataTable({
@@ -54,127 +54,252 @@
         // Similarly, format the percent increases by multiplying by 100 and adding the percent signs:
         $(this).find('.percent').formatNumber({ format: "#0.00%", locale: "us" });
 
-        // This takes care of updating the PercentIncrease and SalaryAmount when an individual scenario's
+        // Calculate and update the PercentIncrease and SalaryAmount when an individual scenario's
         // ddlSelectionType is changed:
         $('#ddlSelectionType').live('change', function (e) {
-            //debugger;
 
             // Note: The value of the newly selected item from the drop-down list is the new salary amount.
-            var newSalary = e.currentTarget.value;  // e.currentTarget.value has the value just selected in the drop-down list!
-
-            var row = $(this).parents("tr");
-            var rowId = row.data("id");
-            var rowContents = row[0];
-            var aData = dtable.fnGetData(rowContents);
+            var newSalary = $(this).val();
 
             // This is the numerical percentage with a whole bunch of zeros.
-            var percentIncrease = (newSalary - oldSalary) / oldSalary * 100;
+            var percentIncrease = (newSalary - oldSalary) / oldSalary;
 
-            // This is the percentage with only 2 decimal places converted to a string:
-            var percentIncreaseString = percentIncrease.toFixed(2).toString() + "%";
+            // Update the values displayed in Criteria, Percent Increase, and New Annual Salary:
+            updateDisplayedValues(this, percentIncrease, newSalary, false);
 
-            // This logic gets the entire html structure, meaning the html created by
-            //  <div class="editor-field">
-            //      <input id="tbPercentIncrease" type="text" value="1.00%" name="SalaryReviewAnalysis.Scenarios[0].PercentIncrease" data-val-number="The field PercentIncrease must be a number." data-val="true">
-            //  </div>
-            // , which contains the old percentage increase value (string).
+            // This was the original logic I used, which was a lot more work (and java script)!
+            // It has all been replaced by a call to the previous method.
+            //            var row = $(this).parents("tr");
+            //            var rowId = row.data("id");
+            //            var rowContents = row[0];
+            //            var aData = dtable.fnGetData(rowContents);
 
-            // From that we can get the old percentage increase value less the space and percent sign:
-            var myOldPercentIncreaseString = getOldValueString(aData, "PercentIncrease");
+            //            // This is the percentage with only 2 decimal places converted to a string:
+            //            //var percentIncreaseString = percentIncrease//; .toFixed(2).toString() + "%";
 
-            // Then we can replace the old percentage increase value with the new percentage increase value, by substituting in
-            // back in the html.  If we did not use this approach we would display only the new percent increase string value and be missing
-            // the input field, i.e. text box, and all the other formatting.
-            var newPercentIncreaseHtml = aData[oColumnNames["PercentIncrease"]].replace(myOldPercentIncreaseString, percentIncreaseString);
+            //            // This logic gets the entire html structure, meaning the html created by
+            //            //  <div class="editor-field">
+            //            //      <input id="tbPercentIncrease" type="text" value="1.00%" name="SalaryReviewAnalysis.Scenarios[0].PercentIncrease" data-val-number="The field PercentIncrease must be a number." data-val="true">
+            //            //  </div>
+            //            // , which contains the old percentage increase value (string).
 
-            // We take a similar approach to finding the AnnualSalary html and updating it with the new Annual Salary amount:
-            //-----------------------------------------------------------------
+            //            // From that we can get the old percentage increase value less the space and percent sign:
+            //            //var myOldPercentIncreaseString = getOldValueString(aData, "PercentIncrease");
 
-            var myOldAnnualSalaryString = getOldValueString(aData, "SalaryAmount");
-            var newAnnualSalaryHtml = aData[oColumnNames["SalaryAmount"]].replace(myOldAnnualSalaryString, newSalary.toString());
+            //            // Then we can replace the old percentage increase value with the new percentage increase value, by substituting in
+            //            // back in the html.  If we did not use this approach we would display only the new percent increase string value and be missing
+            //            // the input field, i.e. text box, and all the other formatting.
+            //            //var newPercentIncreaseHtml = aData[oColumnNames["PercentIncrease"]].replace(myOldPercentIncreaseString, percentIncreaseString);
+            //            var tbPercentIncrease = row.find(".percent");
+            //            tbPercentIncrease.val(percentIncrease);
+            //            tbPercentIncrease.formatNumber({ format: "#0.00%", locale: "us" });
+            //            // We take a similar approach to finding the AnnualSalary html and updating it with the new Annual Salary amount:
+            //            //-----------------------------------------------------------------
 
-            //-----------------------------------------------------------------
+            //            //            var myOldAnnualSalaryString = getOldValueString(aData, "SalaryAmount");
+            //            //            var newAnnualSalaryHtml = aData[oColumnNames["SalaryAmount"]].replace(myOldAnnualSalaryString, newSalary.toString());
+            //            var tbSalaryAmount = row.find(".currency");
+            //            tbSalaryAmount.val(newSalary);
+            //            tbSalaryAmount.formatCurrency();
+            //            //-----------------------------------------------------------------
 
-            // Write the updated html results back out again:
-            dtable.fnUpdate(newPercentIncreaseHtml, rowContents, oColumnNames["PercentIncrease"], false, false); //False parameters to not redraw until second call
-            dtable.fnUpdate(newAnnualSalaryHtml, rowContents, oColumnNames["SalaryAmount"], false, false); //False parameters to not redraw until second call
+            //            // Write the updated html results back out again:
+            //            //            dtable.fnUpdate(newPercentIncreaseHtml, rowContents, oColumnNames["PercentIncrease"], false, false); //False parameters to not redraw until second call
+            //            //            dtable.fnUpdate(newAnnualSalaryHtml, rowContents, oColumnNames["SalaryAmount"], false, false); //False parameters to not redraw until second call
 
-            // Lastly, format the new Annual Salary Amount. because we're using TextBoxFor since EditorFor does not
-            // have an overloaded method that allows setting 'class = "currency"' as an html attribute; otherwise,
-            // we'd have to write our own currency formatting routine to handle the formatting.
+            //            // Lastly, format the new Annual Salary Amount. because we're using TextBoxFor since EditorFor does not
+            //            // have an overloaded method that allows setting 'class = "currency"' as an html attribute; otherwise,
+            //            // we'd have to write our own currency formatting routine to handle the formatting.
 
-            $('.currency').formatCurrency();
+            //            //$('.currency').formatCurrency();
 
             e.preventDefault();
         });
 
+        // Calculate and update the SalaryAmount when an individual scenario's
+        // PercentIncrease is changed:
         $('#tbPercentIncrease').live('change', function (e) {
-            //debugger;
-
             //var number = e.currentTarget.value; // This works to get the value that was just entered.
-            var number = $(this).val(); // This appears to also work to get the value, but I don't think it worked for my drop-down list.
+            var percentIncrease = $(this).val(); // This appears to also work to get the value, but I don't think it worked for my drop-down list.
 
-            if (number.search("%") > -1) {
+            if (percentIncrease.search("%") > -1) {
                 // Then the number entered was a percent, so parse accordingly:
-                number = $.parseNumber(number, { format: "##.00%", locale: "us" });
+                percentIncrease = $.parseNumber(percentIncrease, { format: "##.00%", locale: "us" });
             }
             else {
                 // Otherwise only a number, meaning 2 for 2%, etc, so convert it back to a decimal:
-                number = $.parseNumber(number, { format: "##.00", locale: "us" }) / 100;
+                percentIncrease = $.parseNumber(percentIncrease, { format: "##.00", locale: "us" }) / 100;
             }
 
             // calculate the amount of the salary increase based on the percent entered:
-            var raiseAmount = oldSalary * number;
+            var raiseAmount = oldSalary * percentIncrease;
             // add it to the old salary to determine the new salary:
-            var newSalary = raiseAmount + (oldSalary * 1);  // the "* 1" is a shortcut to convert a string into a number.
+            var newSalary = raiseAmount + (oldSalary * 1);  // Note: the "* 1" is a shortcut to convert a string into a number.
 
-            // get the current row and its data array:
-            var row = $(this).parents("tr");
-            var rowId = row.data("id");
-            var rowContents = row[0];
-            var aData = dtable.fnGetData(rowContents);
-
-            // Here we convert it from a decimal, back to a percent (string) and add the percent sign:
-            var percentIncreaseString = (number * 100).toFixed(2).toString() + "%";
-
-            // Get the old percent increase from the html and replace it with the new percent increase:
-            var myOldPercentIncreaseString = getOldValueString(aData, "PercentIncrease");
-            var newPercentIncreaseHtml = aData[oColumnNames["PercentIncrease"]].replace(myOldPercentIncreaseString, percentIncreaseString);
-
-            // Do similarly for the old and new salary amount:
-            var myOldAnnualSalaryString = getOldValueString(aData, "SalaryAmount");
-            var newAnnualSalaryHtml = aData[oColumnNames["SalaryAmount"]].replace(myOldAnnualSalaryString, newSalary.toString());
-
-            // Write the updated values and the html results back out again:
-            dtable.fnUpdate(newPercentIncreaseHtml, rowContents, oColumnNames["PercentIncrease"], false, false); //False parameters to not redraw until second call
-            dtable.fnUpdate(newAnnualSalaryHtml, rowContents, oColumnNames["SalaryAmount"], false, false); //False parameters to not redraw until second call
-
-            // Reset the criteria drop-down list back to "None" since a percentage was entered instead:
-            var selectctl = row.find("select");
-            selectctl.val("");
-
-            // Lastly, format the new Annual Salary Amount. because we're using TextBoxFor since EditorFor does not
-            // have an overloaded method that allows setting 'class = "currency"' as an html attribute; otherwise,
-            // we'd have to write our own currency formatting routine to handle the formatting.  However, the formatNumber
-            // jQuery plug-in I added for percentage might work for this as well.
-            $('.currency').formatCurrency();
+            // Update the values displayed in Criteria, Percent Increase, and New Annual Salary:
+            updateDisplayedValues(this, percentIncrease, newSalary, true);
 
             e.preventDefault();
         });
 
-        // Given a dataTable's data array, parse out the old string value of at the named cell position,
-        // and return it:
-        function getOldValueString(aData, stringName) {
-            // Find named the string within the html:
-            //-----------------------------------------------------------------
+        // Calculate and update the PercentIncrease when an individual scenario's
+        // SalaryAmount is changed:
+        $('.currency').live('change', function (e) {
+            //var number = e.currentTarget.value; // This works to get the value that was just entered.
+            var newSalary = $(this).val(); // This appears to also work to get the value, but I don't think it worked for my drop-down list.
+
+            if (newSalary.search("$") > -1) {
+                // Then the number entered was a salary amount, so parse accordingly:
+                newSalary = $.parseNumber(newSalary, { format: "$#,###,###.00", locale: "us" });
+            }
+            else {
+                // Otherwise only a number, meaning 2 for $2, etc, so convert it back to a decimal:
+                newSalary = $.parseNumber(newSalary, { format: "#######.00", locale: "us" });
+            }
+
+            var percentIncrease = (newSalary - oldSalary) / (oldSalary * 1);
+
+            // Update the values displayed in Criteria, Percent Increase, and New Annual Salary:
+            updateDisplayedValues(this, percentIncrease, newSalary, true);
+
+            e.preventDefault();
+        });
+
+        // Reset a given scenario's values back to those
+        // pulled from the database.
+        $('#btnResetScenario').live('click', function (e) {
+            var row = $(this).parents("tr");
+            var rowContents = row[0];
+            var aData = dtable.fnGetData(rowContents);
+
+            restoreDefaultSelection(row);
+
+            restorePercentIncrease(row, aData);
+
+            restoreSalaryAmount(row, aData);
+
+            e.preventDefault();
+        });
+
+        // Delete a scenario from the scenarios list of the Analysis being displayed:
+        function deleteScenario(e) {
+            // delete a scenario from the scenarios array.
             debugger;
+
+            //var row = $(this.closest("tr")).get(0);  // This supposedly works as well.
+            var row = $(this).parents("tr");
+            dtable.fnDeleteRow(dtable.fnGetPosition(row));
+
+            e.preventDefault();
+        }
+
+        // Worker method to update the values displayed in Criteria, Percent Increase, and New Annual Salary:
+        function updateDisplayedValues(selector, percentIncrease, salaryAmount, resetSelection) {
+            // get the current row and its data array:
+            var row = $(selector).parents("tr");
+            var rowId = row.data("id");
+            var rowContents = row[0];
+            var aData = dtable.fnGetData(rowContents);
+
+            // Handle the percent increase:
+            var tbPercentIncrease = row.find(".percent");
+            tbPercentIncrease.val(percentIncrease);
+            // Set the value to its decimal equivalent so the x 100 multiplication is not
+            // applied twice, i.e., once manually by the user and once by the formatter.
+            // Format the value as a percentage and add the percent sign:
+            tbPercentIncrease.formatNumber({ format: "#0.00%", locale: "us" });
+
+            // Do similarly for the new salary amount:
+            var tbSalaryAmount = row.find(".currency");
+            tbSalaryAmount.val(salaryAmount);
+            // Format the new Annual Salary Amount. This does not happen automatically because we're using TextBoxFor
+            // since EditorFor does not appear to have an overloaded method that allows setting 'class = "currency"'
+            // as an html attribute; otherwise, we'd have to write our own currency formatting routine to handle the
+            // formatting.  However, the formatNumber jQuery plug-in I added for percentage might work for this as well.
+            tbSalaryAmount.formatCurrency();
+
+            if (resetSelection == true) {
+                // Reset the criteria drop-down list back to "None" since a percentage was entered instead:
+                resetSelectionType(row);
+            }
+        }
+
+        // Worker method that when given a dataTable row,
+        // reset the select list back to the value at index 0.
+        function resetSelectionType(row) {
+            var selectctl = row.find("select");
+            selectctl.val("");
+        }
+
+        // Worker method that when given a dataTable row,
+        // restore its value back to the one originally
+        // pulled from the database.
+        function restoreDefaultSelection(row) {
+            var selectctl = row.find("select");
+            var oldSelectedValue = getOldSelectedValue(row);
+            selectctl.val(oldSelectedValue);
+        }
+
+        // Helper method that when given a dataTable's data array, and
+        // the column's sName, parse out the old value
+        // at the sNamed cell position, and return it:
+        function getOldValueString(aData, stringName) {
+            // Find named the substring within the html:
             var myOldStringBegin = aData[oColumnNames[stringName]].search('value="');
             var myOldStringEnd = aData[oColumnNames[stringName]].search('" type="text"');
             var myOldStringLength = myOldStringEnd - myOldStringBegin;
             var myOldString = aData[oColumnNames[stringName]].substring(myOldStringBegin + 7, myOldStringBegin + myOldStringLength);
+
             return myOldString;
         }
 
+        // Helper method that when given a row search through
+        // the select list's options for the default selected
+        // item and return it; otherwise, the value of the item
+        // at index 0 if there was no default selection.
+        function getOldSelectedValue(row) {
+            var selectctl = row.find("select");
+            selectctl0 = selectctl[0];
+            var options = selectctl0.options;
+            var i;
+            var defaultFound = false;
+            for (i = 0; i < options.length; i++) {
+                var option = options[i];
+                if (option.defaultSelected == true) {
+                    defaultFound = true;
+                    break;
+                }
+            }
+
+            var oldSelectedIndex = 0;
+            if (defaultFound == true) {
+                oldSelectedIndex = i;
+            };
+
+            return options[oldSelectedIndex].value;
+        }
+
+        // Worker method that when given a scenario row and dataTable data array,
+        // restore the PercentIncrease data value back to
+        // its original value.  Not that this is not necessarily 0,
+        // but the scenario's percent increase as pulled from the database.
+        function restorePercentIncrease(row, aData) {
+            var percentIncrease = row.find(".percent");
+            var percentIncreaseString = getOldValueString(aData, "PercentIncrease");
+            percentIncrease.val(percentIncreaseString);
+            percentIncrease.formatNumber({ format: "#0.00%", locale: "us" });
+        }
+
+        // Worker method that when given a scenario row and dataTable data array,
+        // restore the SalaryAmount data value back to
+        // its original value.  Not that this is not necessarily the employee's present salary amount,
+        // but the scenario's salary amount as pulled from the database.
+        function restoreSalaryAmount(row, aData) {
+            var salaryAmount = row.find(".currency");
+            var salaryAmountString = getOldValueString(aData, "SalaryAmount");
+            salaryAmount.val(salaryAmountString);
+            salaryAmount.formatCurrency();
+        }
     })
 </script>
 <div>
@@ -291,9 +416,9 @@
                         </div>
                     </td>
                     <td>
-                        <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" onclick="resetScenario(this)" />&nbsp;
+                        <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
                         <a onclick="return confirm('Are you sure you want to delete this scenario?'); deleteScenario(this);"
-                            id="btnDeleteScenario" class="buttons" href="javascript:__doPostBack('btnDelete','')">
+                            id="btnDeleteScenario" class="buttons">
                             <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                     </td>
                 </tr>
@@ -343,22 +468,4 @@
             </tr>
         </tfoot>
     </table>
-    @*<script type="text/javascript">
-       <!--
-        function resetScenario(scene) {
-            // reset a scenario's values back to their default values.
-            debugger;
-
-            return false;
-        }
-
-        function deleteScenario(scene) {
-            // delete a scenario from the scenarios array.
-            debugger;
-
-            return false;
-        }
-
-        //-->
-    </script>*@
 </div>
