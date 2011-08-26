@@ -19,7 +19,8 @@
                                                             {"sName": "SalaryAmount", "sType": "currency" },
                                                             { "sName": "Approved" },
                                                             { "sName": "Reset-Delete", "bSortable": false }
-                                                        ]
+                                                        ],
+            "oLanguage": { "sEmptyTable": "No scenarios found." }
         });
 
         // The old salary needed to be included as a hidden field
@@ -181,17 +182,79 @@
             e.preventDefault();
         });
 
-        // Delete a scenario from the scenarios list of the Analysis being displayed:
-        function deleteScenario(e) {
-            // delete a scenario from the scenarios array.
+        // Add a scenario to the scenarios list of the Analysis being edited:
+        $('#btnAddAnotherScenario').live('click', function (e) {
             debugger;
 
-            //var row = $(this.closest("tr")).get(0);  // This supposedly works as well.
-            var row = $(this).parents("tr");
-            dtable.fnDeleteRow(dtable.fnGetPosition(row));
+            //clone last row to variable
+            var row = $('#scenarios tbody>tr:last').clone(true);
+
+            // change to the alternate css class:
+            if (row.hasClass("even")) {
+                row.removeClass("even"); row.addClass("odd");
+            } else {
+                row.removeClass("odd"); row.addClass("even");
+            }
+
+            // set the row's data-id to 0 or "":
+            row.attr("data-id", 0);
+
+            // all of these require replacing SalaryReviewAnalysis.Scenarios[1]. with SalaryReviewAnalysis.Scenarios[n].,
+            // where n is the number of scenarios currently in the table:
+
+            // change scenarioNumber from whatever to n:
+
+            // change ddlSelectionType's name="SalaryReviewAnalysis.Scenarios[1].SelectionType" to n,
+            // where n is the number of scenarios currently in the table:
+
+            // change tbPercentIncrease's name="SalaryReviewAnalysis.Scenarios[1].PercentIncrease" to n,
+            // where n is the number of scenarios currently in the table:
+
+            // change tbSalaryAmount's name="SalaryReviewAnalysis.Scenarios[1].SalaryAmount" to n,
+            // where n is the number of scenarios currently in the table:
+
+            // change cbApproved'a name="SalaryReviewAnalysis.Scenarios[1].Approved">
+            // <input type="hidden" value="false" name="SalaryReviewAnalysis.Scenarios[1].Approved"> to n,
+            // where n is the number of scenarios currently in the table:
+
+            //clear text boxes
+            $("td input:text", row).val("");
+            $(".percent", row).val("0").formatNumber({ format: "#0.00%", locale: "us" });
+
+            $(".currency", row).val(oldSalary).formatCurrency();
+            //clear selection boxes
+            $("select option:selected", row).attr("selected", false);
+            //clear empty cells
+            //            $("td.percent", row).text("");
+            //            $("td.currency", row).text("");
+
+            //add row
+            row.insertAfter('#scenarios tbody>tr:last');
+            return false;
 
             e.preventDefault();
-        }
+        });
+
+        // Delete a scenario from the scenarios list of the Analysis being edited:
+        $('#btnDeleteScenario').live('click', function (e) {
+            // Delete a scenario from the web page's scenarios array.
+            // Note that the scenario is not actually deleted until
+            // the analysis has been saved.
+            //debugger;
+            var row = $(this).parents("tr");
+            var rowPosition = dtable.fnGetPosition(row.get(0));
+            var rowContents = row[0];
+            var aData = dtable.fnGetData(rowContents);
+            var scenarioNumber = aData[oColumnNames["ScenarioNumber"]];
+            scenarioNumber = $.parseNumber(scenarioNumber, { format: "#.", locale: "us" });
+
+            var answer = confirm("Are you sure you want to delete this scenario #" + scenarioNumber + " ?");
+            if (!answer) return false;
+
+            dtable.fnDeleteRow(rowPosition);
+
+            e.preventDefault();
+        });
 
         // Worker method to update the values displayed in Criteria, Percent Increase, and New Annual Salary:
         function updateDisplayedValues(selector, percentIncrease, salaryAmount, resetSelection) {
@@ -387,7 +450,7 @@
                 {
 
                 <tr data-id="s-@Model.SalaryReviewAnalysis.Scenarios[i].Id">
-                    <th>
+                    <th id="scenarioNumber">
                         @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
                     </th>
                     <td>
@@ -407,7 +470,7 @@
                     <td>
                         <div class="editor-field">
                             @*@Html.EditorFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)*@
-                            @Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { @class = "currency" })
+                            @Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { id = "tbSalaryAmount", @class = "currency" })
                         </div>
                     </td>
                     <td>
@@ -417,8 +480,7 @@
                     </td>
                     <td>
                         <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
-                        <a onclick="return confirm('Are you sure you want to delete this scenario?'); deleteScenario(this);"
-                            id="btnDeleteScenario" class="buttons">
+                        <a id="btnDeleteScenario" class="buttons">
                             <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                     </td>
                 </tr>
