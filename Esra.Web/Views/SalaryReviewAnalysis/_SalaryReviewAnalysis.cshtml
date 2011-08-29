@@ -202,8 +202,6 @@
             // all of these require replacing SalaryReviewAnalysis.Scenarios[1]. with SalaryReviewAnalysis.Scenarios[n].,
             // where n is the number of scenarios currently in the table:
 
-            // change scenarioNumber from whatever to n:
-
             // change ddlSelectionType's name="SalaryReviewAnalysis.Scenarios[1].SelectionType" to n,
             // where n is the number of scenarios currently in the table:
 
@@ -216,6 +214,45 @@
             // change cbApproved'a name="SalaryReviewAnalysis.Scenarios[1].Approved">
             // <input type="hidden" value="false" name="SalaryReviewAnalysis.Scenarios[1].Approved"> to n,
             // where n is the number of scenarios currently in the table:
+            var dataTableLength = $('#scenarios').length;
+            var tds = row.find('td');
+            tds.each(function (i, val) {
+
+                var oldString = $(val).html();
+                var offset = 1;
+                var myOldStringBegin = oldString.indexOf('[');
+                var myOldStringEnd = oldString.indexOf(']');
+                var myOldStringLength = myOldStringEnd - myOldStringBegin;
+                var myOldString = oldString.substring(myOldStringBegin + offset, myOldStringBegin + myOldStringLength);
+
+                var newHtml = oldString.replace("[" + myOldString + "]", "[" + dataTableLength + "]")
+                //alert(newHtml);
+                $(val).html(newHtml);
+
+            });
+
+            // change scenarioNumber from whatever to n:
+            // set the scenario number:
+            var scenarioNumber = row.find("#scenarioNumber").html();
+            var parsedNumber = $.parseNumber(scenarioNumber, { format: "##0.", locale: "us" }).toString();
+            var offset = 0;
+            var myOldStringBegin = scenarioNumber.indexOf(parsedNumber);
+            var myOldStringEnd = scenarioNumber.indexOf('.');
+            var myOldStringLength = myOldStringEnd - myOldStringBegin;
+            var myOldString = scenarioNumber.substring(myOldStringBegin + offset, myOldStringBegin + myOldStringLength);
+            var newHtml = scenarioNumber.replace(myOldString, (dataTableLength + 1));
+            $('#scenarioNumber', row).html(newHtml);
+
+            //            var testCurrency = row.find(".currency");
+            //            var oldControlName = testCurrency[0].name;
+            //            var offset = 1;
+            //            var myOldStringBegin = oldControlName.indexOf('[');
+            //            var myOldStringEnd = oldControlName.indexOf(']');
+            //            var myOldStringLength = myOldStringEnd - myOldStringBegin;
+            //            var myOldString = oldControlName.substring(myOldStringBegin + offset, myOldStringBegin + myOldStringLength);
+
+            //            var newControlName = testCurrency[0].name.replace("[" + myOldString + "]", "[" + dataTableLength + "]");
+            //            testCurrency.name = newControlName;
 
             //clear text boxes
             $("td input:text", row).val("");
