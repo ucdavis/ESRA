@@ -378,6 +378,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\SalaryReviewAnalysis\CreateEdit.cshtml" />
+    <None Include="Views\SalaryReviewAnalysis\Scenario.tmpl" />
+    <Content Include="Views\SalaryReviewAnalysis\_JQuery_dataTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
