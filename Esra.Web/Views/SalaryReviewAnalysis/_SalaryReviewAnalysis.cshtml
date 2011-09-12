@@ -1,32 +1,33 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
 <script type="text/javascript">
 
-    var dtable; // This is the jQuery dataTable used to display the scenarios list.
+    //var dtable; // This is the jQuery dataTable used to display the scenarios list.
     var oldSalary; // This is the pre-analysis salary amount used for percent increase calculations, etc.
     var defaultScenario; // This is new scenario initialized with the employee's default select list options, salary amount, etc.
     var scenarios = [];  // This is where we store the "original" scenarios so that we can reset the values back to their pre-edited state.
     var defaultSelectionTypeOptions; // This is the base set of custom criteria selectionType options based on the employee being analyzed.
+    var selectionTypeTextDictionary = new Array(); // For looking up the index based on a selection type's text value.
     $(document).ready(function () {
         // We don"t really need all the features of jQuery data table, but we"re using it because
         // it allows easier access to the table cell"s data.
 
-        dtable = $("#scenarios").dataTable({
-            "bProcessing": true,
-            //"bServerSide": true,
-            "bJQueryUI": true,
-            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[0, "asc"]], // Change default sort to scenario number; otherwise it sorts by column 0.
-            "aoColumns": [
-															{ "mDataProp": "scenarioNumber", "sName": "ScenarioNumber" },  // "bVisible": false "hides" the column from the user.
-															{"mDataProp": "selectionType", "sName": "SelectionType" },
-															{ "mDataProp": "percentIncrease", "sName": "PercentIncrease", "sType": "percent" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
-															{"mDataProp": "salaryAmount", "sName": "SalaryAmount", "sType": "currency" },
-															{ "mDataProp": "approved", "sName": "Approved" },
-															{ "mDataProp": "resetDelete", "sName": "Reset-Delete", "bSortable": false }
-														],
-            "oLanguage": { "sEmptyTable": "No scenarios found." }
-        });
+        //        dtable = $("#scenarios").dataTable({
+        //            "bProcessing": true,
+        //            //"bServerSide": true,
+        //            "bJQueryUI": true,
+        //            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
+        //            "sPaginationType": "full_numbers",
+        //            "aaSorting": [[0, "asc"]], // Change default sort to scenario number; otherwise it sorts by column 0.
+        //            "aoColumns": [
+        //															{ "mDataProp": "scenarioNumber", "sName": "ScenarioNumber" },  // "bVisible": false "hides" the column from the user.
+        //															{"mDataProp": "selectionType", "sName": "SelectionType" },
+        //															{ "mDataProp": "percentIncrease", "sName": "PercentIncrease", "sType": "percent" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
+        //															{"mDataProp": "salaryAmount", "sName": "SalaryAmount", "sType": "currency" },
+        //															{ "mDataProp": "approved", "sName": "Approved" },
+        //															{ "mDataProp": "resetDelete", "sName": "Reset-Delete", "bSortable": false }
+        //														],
+        //            "oLanguage": { "sEmptyTable": "No scenarios found." }
+        //        });
 
         // The old salary needed to be included as a hidden field
         // because the table cell that contains it had an "/n", and currency formatting making converting it back
@@ -45,47 +46,57 @@
         // a new one.
         defaultScenario = $.tmpl("scenarioTemplate", data);
 
-        var mySettings = dtable.fnSettings().nTBody.children;
-        //        var myData = dtable.fnSettings().aoData;
-
-        //        //var defaultScenarioHtml = defaultScenario.html();
-        //        var tds = defaultScenario.find('th, td');
-        //        var tdHtmlArray = new Array();
-        //        tds.each(function (i, val) {
-        //            debugger;
-        //            var htmlString = $(val).html();
-        //            tdHtmlArray[i] = htmlString;
-        //        });
-
-        //        dtable.fnAddData(tdHtmlArray);
-
-        // All of this logic gives us the ability to use the field names instead of having to memorize their
-        // cell positions in the table.
-        // I put it here so it only needed to be done once.
-        var oSettings = dtable.fnSettings();
-        var oColumns = oSettings.aoColumns;
-        var i;
-        var oColumnNames = new Array();
-        for (i = 0; i < oColumns.length; i++) {
-            oColumnNames[oColumns[i].sName] = i;
-        };
-
-        // This adds a date picker to the DataApproved field:
-        $(function () {
-            $("#SalaryReviewAnalysis_DateApproved").datepicker();
+        // This builds a dictionary of selection type option text values so that we can
+        // retrieve the e corresponding index.
+        // Used for resetting a scenario back to its original values.
+        $($(defaultScenario).find('#ddlSelectionType')[0].options).each(function (i, val) {
+            val = $(val);
+            var text = val.text();
+            selectionTypeTextDictionary[text] = i;
         });
 
-        var originalScenariosRows = dtable.find('tbody tr');
+        //        var mySettings = dtable.fnSettings().nTBody.children;
+        //        //        var myData = dtable.fnSettings().aoData;
+
+        //        //        //var defaultScenarioHtml = defaultScenario.html();
+        //        //        var tds = defaultScenario.find('th, td');
+        //        //        var tdHtmlArray = new Array();
+        //        //        tds.each(function (i, val) {
+        //        //            debugger;
+        //        //            var htmlString = $(val).html();
+        //        //            tdHtmlArray[i] = htmlString;
+        //        //        });
+
+        //        //        dtable.fnAddData(tdHtmlArray);
+
+        //        // All of this logic gives us the ability to use the field names instead of having to memorize their
+        //        // cell positions in the table.
+        //        // I put it here so it only needed to be done once.
+        //        var oSettings = dtable.fnSettings();
+        //        var oColumns = oSettings.aoColumns;
+        //        var i;
+        //        var oColumnNames = new Array();
+        //        for (i = 0; i < oColumns.length; i++) {
+        //            oColumnNames[oColumns[i].sName] = i;
+        //        };
+
+        //        // This adds a date picker to the DataApproved field:
+        //        $(function () {
+        //            $("#SalaryReviewAnalysis_DateApproved").datepicker();
+        //        });
+
+        //        var originalScenariosRows = dtable.find('tbody tr');
+        var originalScenariosRows = $('#scenarios').find('tbody tr');
         saveOriginalScenarioValues(originalScenariosRows);
 
-        $(".currency").formatCurrency();  // This is necessary because EditorFor needed to be replaced with TextBoxFor as editor for
+        //$(".currency").formatCurrency();  // This is necessary because EditorFor needed to be replaced with TextBoxFor as editor for
         // does not include an overload for html attributes, and TextAreaFor does.  The html attributes was necessary in order to
         // include a new { class = "currency" } that is used for adding the $, comma(s), and decimal point to the newly updated
         // SalaryAmount.  However, this removed the currency formatting of the initial value, so the call to format currency
         // needed to be added here to restore the currency formatting formerly provided by the Model (or domain) class.
 
         // Similarly, format the percent increases by multiplying by 100 and adding the percent signs:
-        $(this).find(".percent").formatNumber({ format: "#0.00%", locale: "us" });
+        //        $(this).find(".percent").formatNumber({ format: "#0.00%", locale: "us" });
 
         // Helper method to save the original scenario values used for "resetting" them back to their initial state:
         function saveOriginalScenarioValues(originalScenariosRows) {
@@ -94,24 +105,39 @@
             });
         }
 
+        function getScenarioNumber(row) {
+            row = $(row);
+            var scenarioNumber = row.find("#hiddenScenarioNumber").val();
+            return scenarioNumber;
+        }
+
         function saveScenarioValues(i, row) {
             //debugger;
-            var row = $(row);
+            row = $(row);
 
             var myScenario = new scenario();
-            myScenario.SalaryReviewAnalysisID = row.data("id");
 
-            var scenarioNumber = row.find("#scenarioNumber").html();
-            var parsedNumber = $.parseNumber(scenarioNumber, { format: "##0.", locale: "us" }) * 1;
-            myScenario.ScenarioNumber = parsedNumber;
+            myScenario.Id = row.data("id");
 
-            myScenario.SelectionType = row.find("select").val();
+            myScenario.SalaryReviewAnalysisId = $('#salaryReviewAnalysisId');
 
-            var percentIncrease = row.find(".percent").val();
+            //            var scenarioNumber = row.find("#scenarioNumber").html();
+            //            var parsedNumber = $.parseNumber(scenarioNumber, { format: "##0.", locale: "us" }) * 1;
+            //            myScenario.ScenarioNumber = parsedNumber;
+            myScenario.ScenarioNumber = getScenarioNumber(row);
+
+            var ddlSelectionType = row.find("select");
+            var selectionTypeOptions = ddlSelectionType.val();
+            myScenario.SelectionTypeOptions = selectionTypeOptions;
+
+            var hiddenSelectionType = row.find("#selectionType");
+            myScenario.SelectionType = hiddenSelectionType.val();
+
+            var percentIncrease = row.find(".percent input").val();
             percentIncrease = $.parseNumber(percentIncrease, { format: "##.00", locale: "us" }) * 1;
             myScenario.PercentIncrease = percentIncrease;
 
-            var salaryAmount = row.find(".currency").val();
+            var salaryAmount = row.find(".currency input").val();
             salaryAmount = $.parseNumber(salaryAmount, { format: "#######.00", locale: "us" }) * 1;
             myScenario.SalaryAmount = salaryAmount;
 
@@ -130,7 +156,8 @@
             //var scenarioIndex = 0;
             var alternatingClass = scenarioIndex % 2 ? "even" : "odd"
             var scenarioNumber = scenarioIndex + 1;
-            var data = { dataId: "new_s-" + scenarioNumber, alternatingClass: alternatingClass, scenarioNumber: scenarioNumber, selectionTypeOptions: defaultSelectionTypeOptions, i: scenarioIndex, percentIncrease: "0", salaryAmount: oldSalary }
+            var selectionType = "";
+            var data = { dataId: "new_" + scenarioNumber, alternatingClass: alternatingClass, scenarioNumber: scenarioNumber, selectionTypeOptions: defaultSelectionTypeOptions, i: scenarioIndex, percentIncrease: "0", salaryAmount: oldSalary, Id: 0, selectionType: selectionType, salaryReviewAnalysisId: $('#salaryReviewAnalysisId').val() };
             return data;
         }
         // Calculate and update the PercentIncrease and SalaryAmount when an individual scenario"s
@@ -139,6 +166,9 @@
 
             // Note: The value of the newly selected item from the drop-down list is the new salary amount.
             var newSalary = $(this).val();
+
+            // This is the text of the newly selected item, i.e. "Step 6.0", etc:
+            var selectedText = $(this).find(':selected').text();
 
             // This is the numerical percentage with a whole bunch of zeros.
             var percentIncrease = (newSalary - oldSalary) / oldSalary;
@@ -197,7 +227,8 @@
 
         // Calculate and update the SalaryAmount when an individual scenario"s
         // PercentIncrease is changed:
-        $("#tbPercentIncrease").live("change", function (e) {
+        //        $("#tbPercentIncrease").live("change", function (e) {
+        $(".percent input").live("change", function (e) {
             //debugger;
             //var number = e.currentTarget.value; // This works to get the value that was just entered.
             var percentIncrease = $(this).val(); // This appears to also work to get the value, but I don"t think it worked for my drop-down list.
@@ -224,7 +255,7 @@
 
         // Calculate and update the PercentIncrease when an individual scenario"s
         // SalaryAmount is changed:
-        $(".currency").live("change", function (e) {
+        $(".currency input").live("change", function (e) {
             //var number = e.currentTarget.value; // This works to get the value that was just entered.
             var newSalary = $(this).val(); // This appears to also work to get the value, but I don"t think it worked for my drop-down list.
 
@@ -257,8 +288,9 @@
 
             //            restoreSalaryAmount(row, aData);
 
-            var scenarioNumberString = row.find("#scenarioNumber").html();
-            var scenarioNumber = $.parseNumber(scenarioNumberString, { format: "##0.", locale: "us" }) * 1;
+            //            var scenarioNumberString = row.find("#scenarioNumber").html();
+            //            var scenarioNumber = $.parseNumber(scenarioNumberString, { format: "##0.", locale: "us" }) * 1;
+            var scenarioNumber = getScenarioNumber(row);
             var scenario = scenarios[scenarioNumber - 1];  // retrieve the scenario's original values.
 
             updateDisplayedRowValues(row, scenario.PercentIncrease, scenario.SalaryAmount, scenario.SelectionType, scenario.Approved);
@@ -268,16 +300,16 @@
 
         // Add a scenario to the scenarios list of the Analysis being edited:
         $("#btnAddAnotherScenario").live("click", function (e) {
-
+            //debugger;
             $("#scenarioTemplate").template("scenarioTemplate");
 
             //var n = $("#scenarios tbody>tr").length;
             var n = scenarios.length;
             var myData = buildScenarioDataArray(n);
             var newRow = $.tmpl("scenarioTemplate", myData);
-            $(".percent", newRow).val("0").formatNumber({ format: "#0.00%", locale: "us" });
-            $(".currency", newRow).val(oldSalary).formatCurrency();
-            newRow.appendTo(dtable);
+            $(".percent input", newRow).val("0").formatNumber({ format: "#0.00%", locale: "us" });
+            $(".currency input", newRow).val(oldSalary).formatCurrency();
+            newRow.appendTo("#scenarios");
             //     or       newRow.appendTo("#scenarios");
 
             saveScenarioValues(n, newRow);
@@ -286,17 +318,6 @@
             return false;
         });
 
-        // Helper method
-        // Given a search string, starting and ending string, and offset values
-        // return the string between the starting and ending string.
-        function getOldValueFromString(searchString, startingValue, endingValue, offset) {
-            //debugger;
-            var myOldStringBegin = searchString.indexOf(startingValue);
-            var myOldStringEnd = searchString.indexOf(endingValue);
-            var myOldStringLength = myOldStringEnd - myOldStringBegin;
-            return searchString.substring(myOldStringBegin + offset, myOldStringBegin + myOldStringLength);
-        }
-
         // Delete a scenario from the scenarios list of the Analysis being edited:
         $("#btnDeleteScenario").live("click", function (e) {
             // Delete a scenario from the web page"s scenarios array.
@@ -304,15 +325,15 @@
             // the analysis has been saved.
 
             var row = $(this).parents("tr");
-            var scenarioNumber = row.find("#scenarioNumber").html();
-            var parsedNumber = $.parseNumber(scenarioNumber, { format: "##0.", locale: "us" }) * 1;
-
-            var answer = confirm("Are you sure you want to delete this scenario #" + parsedNumber.toString() + " ?");
+            //            var scenarioNumber = row.find("#scenarioNumber").html();
+            //            var parsedNumber = $.parseNumber(scenarioNumber, { format: "##0.", locale: "us" }) * 1;
+            var scenarioNumber = getScenarioNumber(row);
+            var answer = confirm("Are you sure you want to delete this scenario #" + scenarioNumber.toString() + " ?");
             if (!answer) return false;
 
             row.remove();
 
-            var scenarioIndex = parsedNumber - 1;
+            var scenarioIndex = scenarioNumber - 1;
             scenarios[scenarioIndex] = null;  // set the corresponding object to null as opposed to removing it.
             // that way we can avoid duplicate scenario numbers because of multiple deletes and inserts, etc.
 
@@ -328,7 +349,7 @@
             //var aData = dtable.fnGetData(rowContents);
 
             // Handle the percent increase:
-            var tbPercentIncrease = row.find(".percent");
+            var tbPercentIncrease = row.find(".percent input");
             tbPercentIncrease.val(percentIncrease);
             // Set the value to its decimal equivalent so the x 100 multiplication is not
             // applied twice, i.e., once manually by the user and once by the formatter.
@@ -336,7 +357,7 @@
             tbPercentIncrease.formatNumber({ format: "#0.00%", locale: "us" });
 
             // Do similarly for the new salary amount:
-            var tbSalaryAmount = row.find(".currency");
+            var tbSalaryAmount = row.find(".currency input");
             tbSalaryAmount.val(salaryAmount);
             // Format the new Annual Salary Amount. This does not happen automatically because we"re using TextBoxFor
             // since EditorFor does not appear to have an overloaded method that allows setting "class = "currency""
@@ -344,22 +365,13 @@
             // formatting.  However, the formatNumber jQuery plug-in I added for percentage might work for this as well.
             tbSalaryAmount.formatCurrency();
 
-            var ddlSelectionType = row.find("select");
-            if (selectionType == null) {
-                // do nothing
-            }
-            else if (typeof selectionType === "boolean") {
-                if (selectionType == true) {
-                    // Reset the criteria drop-down list back to "None":
-                    //resetSelectionType(row);
-                    ddlSelectionType.val("");
-                }
-            }
-            else {
-                // Reset the criteria drop-down list back to what it when it was loaded from the database initially:
-                ddlSelectionType.val(selectionType);
-            }
-            // Otherwise, leave untouched.
+            // Reset the criteria drop-down list back to what it when it was loaded from the database initially:
+            myIndex = selectionTypeTextDictionary[selectionType];
+
+            var ddlSelectionTypes = row.find('#ddlSelectionType');
+            ddlSelectionTypes.selectedIndex = myIndex;
+            ddlSelectionTypes[0].options[myIndex].selected = true;
+            //row.find("select option")[myIndex].selected = true; // works with FF.
 
             var chkboxApproved = row.find("input[type='checkbox']");
             if (isApproved == true) {
@@ -460,16 +472,18 @@
         // Helper method to parse a boolean string value into a boolean;
         function parseBool(value) {
             return (typeof value === "undefined") ?
-           false :
+		   false :
             // trim using jQuery.trim()'s source
-           value.replace(/^\s+|\s+$/g, "").toLowerCase() === "true";
+		   value.replace(/^\s+|\s+$/g, "").toLowerCase() === "true";
         }
 
         // test object to store old scenario values in
         function scenario() {
-            this.SalaryReviewAnalysisID = 0;
+            this.Id = 0;
+            this.SalaryReviewAnalysisId = 0;
             this.ScenarioNumber = 0;
-            this.SelectionType = defaultSelectionTypeOptions;
+            this.SelectionType = "None";
+            this.SelectionTypeOptions = defaultSelectionTypeOptions;
             this.PercentIncrease = 0;
             this.SalaryAmount = oldSalary;
             this.Approved = false;
@@ -478,19 +492,20 @@
 </script>
 <script id="scenarioTemplate" type="text/x-jquery-tmpl">
 <tr data-id=${dataId} class=${alternatingClass}>
-	<th id="scenarioNumber" class=" sorting_1"> ${scenarioNumber}.</th>
+	<th id="scenarioNumber" class=" sorting_1">
+		<input type="hidden" id="hiddenScenarioNumber" value=${scenarioNumber} name="SalaryReviewAnalysis.Scenarios[${i}].ScenarioNumber">${scenarioNumber}.</th>
 	<td>
 		<div class="editor-field">
 			<select name="SalaryReviewAnalysis.Scenarios[${i}].SelectionType" id="ddlSelectionType">{{html selectionTypeOptions}}</select>
 		</div>
 	</td>
 	<td>
-		<div class="editor-field">
+		<div class="editor-field percent">
 			<input type="text" value=${percentIncrease} name="SalaryReviewAnalysis.Scenarios[${i}].PercentIncrease" id="tbPercentIncrease" data-val-number="The field PercentIncrease must be a number." data-val="true" class="percent">
 		</div>
 	</td>
 	<td>
-		<div class="editor-field">
+		<div class="editor-field currency">
 			<input type="text" value=${salaryAmount} name="SalaryReviewAnalysis.Scenarios[${i}].SalaryAmount" id="tbSalaryAmount" data-val-number="The field SalaryAmount must be a number." data-val="true" class="currency">
 		</div>
 	</td>
@@ -501,6 +516,9 @@
 		</div>
 	</td>
 	<td>
+		<input type="hidden" id="scenarioId" value=${Id} name="SalaryReviewAnalysis.Scenarios[${i}].Id">
+		<input type="hidden" id="selectionType" name="SalaryReviewAnalysis.Scenarios[${i}].SelectionType" value=${selectionType} >
+		<input type="hidden" id="salaryReviewAnalysisId" value=${salaryReviewAnalysisId} name="SalaryReviewAnalysis.Scenarios[${i}].SalaryReviewAnalysisID">
 		<input type="submit" id="btnResetScenario" value="Reset" name="btnReset">&nbsp;
 			<a class="buttons" id="btnDeleteScenario"><img class="delete_button" alt="Delete" src="../../Images/delete.png"></a>
 	</td>
@@ -517,7 +535,10 @@
             <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
             @Model.ProposedTitle.TitleCode_Name</center>
     }
-    @Html.HiddenFor(x => x.SraEmployee.PayRate, new { id = "oldSalary" })
+    @Html.HiddenFor(e => e.SraEmployee.PayRate, new { id = "oldSalary" })
+    @Html.HiddenFor(e => e.SraEmployee.PkEmployee)
+    @Html.HiddenFor(x => x.SalaryReviewAnalysis.IsReclass)
+    @Html.HiddenFor(x => x.SalaryReviewAnalysis.Title.TitleCode)
     <table>
         @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
         {
@@ -545,6 +566,7 @@
             </tr>
             <tr>
                 <td>
+                    @Html.HiddenFor(x => x.SalaryReviewAnalysis.Id, new { id = "salaryReviewAnalysisId" })
                     @Model.SalaryReviewAnalysis.ReferenceNumber
                 </td>
                 <td>
@@ -589,28 +611,28 @@
                 for (var i = 0; i < len; i++)
                 {
 
-                <tr data-id="s-@Model.SalaryReviewAnalysis.Scenarios[i].Id">
+                <tr data-id="@Model.SalaryReviewAnalysis.Scenarios[i].Id">
                     <th id="scenarioNumber">
+                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber, new { id = "hiddenScenarioNumber" })
                         @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
                     </th>
                     <td>
-                        @*@Model.SalaryReviewAnalysis.Scenarios[i].SelectionType<br />*@
                         <div class="editor-field">
-                            @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType,
+                            @Html.DropDownListFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType,
                         new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[Model.SalaryReviewAnalysis.Scenarios[i].SelectionType]),
                   null, new { id = "ddlSelectionType" })
                         </div>
                     </td>
                     <td>
-                        <div class="editor-field">
-                            @* @Html.EditorFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].PercentIncrease)*@
-                            @Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].PercentIncrease, new { id = "tbPercentIncrease", @class = "percent" })
+                        <div class="editor-field percent">
+                            @*@Html.TextBoxFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease, new { id = "tbPercentIncrease", @class = "percent" })*@
+                            @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease)
                         </div>
                     </td>
                     <td>
-                        <div class="editor-field">
-                            @*@Html.EditorFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)*@
-                            @Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { id = "tbSalaryAmount", @class = "currency" })
+                        <div class="editor-field currency">
+                            @*@Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { id = "tbSalaryAmount", @class = "currency" })*@
+                            @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)
                         </div>
                     </td>
                     <td>
@@ -619,13 +641,14 @@
                         </div>
                     </td>
                     <td>
+                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].Id, new { id = "scenarioId" })
+                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType, new { id = "selectionType" })
+                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryReviewAnalysisID, new { id = "salaryReviewAnalysisId" })
                         <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
                         <a id="btnDeleteScenario" class="buttons">
                             <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                     </td>
-                </tr>
-                }
-            }
+                </tr> } }
         </tbody>
         <tfoot>
             @{
@@ -643,6 +666,11 @@
                                cols = "60"
                            })
                             </div>
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.DeansOfficeComments)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.DepartmentComments)
                         }
                     </td>
                 </tr>

@@ -35,7 +35,7 @@
     <property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
     <property name="SalaryStep" column="SalaryStep"  insert="false" update="false"/>
     <property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>
-    <property name="LastChangeDate" column="LastChangeDate"  insert="false" update="false"/>
+    <!--<property name="LastChangeDate" column="LastChangeDate"  insert="false" update="false"/>-->
 
     <joined-subclass name="Esra.Core.Domain.Employee, Esra.Core" table="Employee" >
       <!--<key>

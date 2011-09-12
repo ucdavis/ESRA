@@ -151,6 +151,26 @@ namespace Esra.Core.Domain
             // assume non-department user, so pass isDepartmentUser parameter to false:
             return GetAllForUser(repository, user, false, sortPropertyName, isAscending);
         }
+
+        // This method contains the logic, which resolves the originating department
+        // based on the user provided.  Currently it's set to the user's home department.
+        public static Department GetOriginatingDepartmentForUser(IRepository repository, string value)
+        {
+            Check.Require(repository != null, "Repository must be supplied");
+
+            Department retval = null;
+
+            if (String.IsNullOrEmpty(value) == false)
+            {
+                var user = repository.OfType<UCDEmployee>().Queryable.Where(x => x.EmployeeID.Equals(value)).FirstOrDefault();
+                if (user != null)
+                {
+                    retval = user.HomeDepartment;
+                }
+            }
+
+            return retval;
+        }
     }
 
     public class DepartmentMap : ClassMap<Department>

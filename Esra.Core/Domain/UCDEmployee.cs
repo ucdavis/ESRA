@@ -302,13 +302,13 @@ namespace Esra.Core.Domain
             set { _BargainingUnitCode = value; }
         }
 
-        private DateTime _LastChangeDate;
+        //private DateTime _LastChangeDate;
 
-        public virtual DateTime LastChangeDate
-        {
-            get { return _LastChangeDate; }
-            set { _LastChangeDate = value; }
-        }
+        //public virtual DateTime LastChangeDate
+        //{
+        //    get { return _LastChangeDate; }
+        //    set { _LastChangeDate = value; }
+        //}
 
         public virtual int CompareTo(UCDEmployee item)
         {
@@ -400,7 +400,7 @@ namespace Esra.Core.Domain
             Map(x => x.SalaryGrade);
             Map(x => x.SalaryStep);
             Map(x => x.BargainingUnitCode);
-            Map(x => x.LastChangeDate);
+            //Map(x => x.LastChangeDate);
 
             // Note: See the Employee class for sub-class mapping.
             //JoinedSubClass<Employee>("PkEmployee", m =>

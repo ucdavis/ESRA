@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Attributes;
 
 namespace Esra.Web.Controllers
 {
@@ -13,10 +14,12 @@ namespace Esra.Web.Controllers
     public class SalaryReviewAnalysisController : ApplicationController
     {
         private readonly IRepository<SalaryReviewAnalysis> _salaryReviewAnalysisRepository;
+        private readonly IRepository<Scenario> _scenarioRepository;
 
-        public SalaryReviewAnalysisController(IRepository<SalaryReviewAnalysis> salaryReviewAnalysisRepository)
+        public SalaryReviewAnalysisController(IRepository<SalaryReviewAnalysis> salaryReviewAnalysisRepository, IRepository<Scenario> scenarioRepository)
         {
             _salaryReviewAnalysisRepository = salaryReviewAnalysisRepository;
+            _scenarioRepository = scenarioRepository;
         }
 
         //
@@ -119,25 +122,118 @@ namespace Esra.Web.Controllers
             return View(viewModel);
         }
 
+        private Scenario UpdateScenarioValues(Scenario item)
+        {
+            Scenario scenario = null;
+
+            var id = item.Id;
+            // Logic to force a restore of a non-saved scenario:
+            scenario = id == 0 ? new Scenario() : _scenarioRepository.GetNullableById(id);
+
+            // Update scenario values with any changes from UI:
+            scenario.ScenarioNumber = item.ScenarioNumber;
+
+            scenario.Approved = item.Approved;
+
+            scenario.SelectionType = item.SelectionType;
+
+            scenario.PercentIncrease = item.PercentIncrease;
+
+            scenario.SalaryAmount = item.SalaryAmount;
+
+            return scenario;
+        }
+
         //
         // POST: /SalaryReviewAnalysis/CreateEdit?SalaryReviewAnalysis
         [HttpPost]
-        public ActionResult CreateEdit(SalaryReviewAnalysis salaryReviewAnalysis)
+        [HandleTransactionsManually]
+        public ActionResult CreateEdit(SalaryReviewAnalysis salaryReviewAnalysis, SRAEmployee sraEmployee)
         {
-            var salaryReviewAnalysisToEdit = _salaryReviewAnalysisRepository
+            const string MESSAGE_RECORD_UPDATED_SUCCESS = "Salary Review Analysis Successfully Updated ";
+            const string MESSAGE_RECORD_SAVED_SUCCESS = "Salary Review Analysis Successfully Saved ";
+            var message = MESSAGE_RECORD_SAVED_SUCCESS;
+
+            var scenarios = salaryReviewAnalysis.Scenarios.Select(item => UpdateScenarioValues(item)).ToList();
+
+            var dateApproved = salaryReviewAnalysis.DateApproved;
+            //if (gvSalaryReviewAnaysis.Rows.Count == 1)
+            //{
+            //    // Get date approved:
+            //    TextBox tbDateApproved = gvSalaryReviewAnaysis.Rows[0].FindControl("tbDateApproved") as TextBox;
+            //    if (tbDateApproved != null)
+            //    {
+            //        dateApproved = tbDateApproved.Text;
+            //    }
+            //}
+            //dateApproved = salaryReviewAnalysis.DateApproved;
+
+            var user = Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+
+            //var sra = (String.IsNullOrEmpty(ReferenceNum) == false ? SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum) : null);
+            var salaryReviewAnalysisToEdit = (String.IsNullOrEmpty(salaryReviewAnalysis.ReferenceNumber) == false ? _salaryReviewAnalysisRepository
                 .Queryable
                 .Where(x => x.ReferenceNumber.Equals(salaryReviewAnalysis.ReferenceNumber))
-                .FirstOrDefault();
+                .FirstOrDefault() : null);
 
-            if (salaryReviewAnalysisToEdit == null) return RedirectToAction("Index");
+            var emp = (salaryReviewAnalysisToEdit != null ? salaryReviewAnalysisToEdit.Employee : new SRAEmployee(Repository.OfType<Employee>().Queryable.Where(x => x.Id.Equals(sraEmployee.PkEmployee)).FirstOrDefault()));
 
-            TransferValues(salaryReviewAnalysis, salaryReviewAnalysisToEdit);
+            //bool isReclass = (ProposedTitleCode != null && ProposedTitleCode.Equals(emp.TitleCode) == false ? true : false);
+            var isReclass = salaryReviewAnalysis.IsReclass;
+
+            //string titleCode = (isReclass ? ProposedTitleCode : emp.TitleCode);
+            var titleCode = salaryReviewAnalysis.Title.TitleCode;
+
+            if (salaryReviewAnalysisToEdit != null)
+            {
+                // Then this is an existing analysis:
+
+                // Record exists --> Update
+                message = MESSAGE_RECORD_UPDATED_SUCCESS;
+            }
+            else
+            {
+                // Else this is a new analysis:
+
+                salaryReviewAnalysisToEdit = new SalaryReviewAnalysis()
+                                                 {
+                                                     DateInitiated = DateTime.Today,
+                                                     InitiatedByReviewerName = user.FullName,
+                                                     OriginatingDepartment = Department.GetOriginatingDepartmentForUser(Repository, user.EmployeeID),
+                                                     Title = Repository.OfType<Title>()
+                                                     .Queryable
+                                                     .Where(t => t.TitleCode.Equals(titleCode))
+                                                     .FirstOrDefault(),
+                                                     Employee = emp,
+                                                     SalaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Today),
+                                                     CurrentTitleCode = emp.TitleCode,
+                                                     IsReclass = isReclass
+                                                 };
+            }
+
+            //if (String.IsNullOrEmpty(dateApproved) == false)
+            salaryReviewAnalysisToEdit.DateApproved = dateApproved ?? null;
+
+            salaryReviewAnalysisToEdit.DeansOfficeComments = salaryReviewAnalysis.DeansOfficeComments;
+            salaryReviewAnalysisToEdit.DepartmentComments = salaryReviewAnalysis.DepartmentComments;
+
+            salaryReviewAnalysisToEdit.Scenarios = scenarios;
+
+            //TransferValues(salaryReviewAnalysis, salaryReviewAnalysisToEdit);
 
             if (ModelState.IsValid)
             {
                 //_salaryReviewAnalysisRepository.EnsurePersistent(salaryReviewAnalysisToEdit);
+                SalaryReviewAnalysis.UpdateRecord(Repository, salaryReviewAnalysisToEdit);
+                // At this point the reference number has been if a newly created analysis!
+                //Session["Message"] = message;
+                var referenceNumber = salaryReviewAnalysisToEdit.ReferenceNumber;
 
-                Message = "SalaryReviewAnalysis Edited Successfully";
+                Message = Message = "Salary Review Analysis (ref #: " + referenceNumber + ") Successfully Saved"; ;
+
+                var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+
+                if (viewModel != null) return View("Details", viewModel);
 
                 return RedirectToAction("Index");
             }

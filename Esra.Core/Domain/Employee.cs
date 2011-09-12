@@ -797,21 +797,21 @@ namespace Esra.Core.Domain
             }
             else
             {
-                Conjunction conjunction = Restrictions.Conjunction();
+                var conjunction = Expression.Conjunction();
 
                 if (hasTitleCodes)
                 {
                     criteria.CreateAlias("Title", "Title");
-                    conjunction.Add(Restrictions.In("Title.TitleCode", titleCodes));
+                    conjunction.Add(Expression.In("Title.TitleCode", titleCodes));
                 }
                 if (hasPkEmployee)
                 {
-                    conjunction.Add(Restrictions.Eq("id", pkEmployee));
+                    conjunction.Add(Expression.Eq("id", pkEmployee));
                 }
                 if (hasDepartmentIds)
                 {
                     criteria.CreateAlias("HomeDepartment", "Department");
-                    conjunction.Add(Restrictions.In("Department.id", departmentIds));
+                    conjunction.Add(Expression.In("Department.id", departmentIds));
                 }
                 criteria.Add(conjunction);
 

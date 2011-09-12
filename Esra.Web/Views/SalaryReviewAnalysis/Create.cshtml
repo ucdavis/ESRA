@@ -29,8 +29,7 @@
                         "TitleCode",
                         "TitleCode_Name",
                         String.IsNullOrEmpty(Model.SelectedEmployee.TitleCode) == false ? Model.SelectedEmployee.TitleCode : String.Empty),
-                        null, new { id = "ddlProposedTitles" }
-                        )
+                        null, new { id = "ddlProposedTitles" })
                 </td>
                 <td style="padding-left: 10px;">
                     <img id="imgReclassArrow" alt="reclass arrow" class="buttons" src="../../Images/arrow_left.jpg"
@@ -52,8 +51,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="submit" id="btnDoEquityReview" value="Perform Equity Review" onclick="btnDoEquityReview_Click"
-                        style="width: 320px;" />
+                    <input type="submit" id="btnDoEquityReview" value="Perform Equity Review" style="width: 320px;" />
                 </td>
                 <td style="text-align: left; padding-left: 10px;">
                     <img id="imgEquityArrow" alt="equity arrow" class="buttons" src="../../Images/arrow_left.jpg"
@@ -88,6 +86,34 @@
             }
             return false;
         });
+
+        // This method prevents the "ProposedTitle" variable from appearing in the query string;
+        // otherwise, it would be passed because it exists as an input field in the form.
+        // "ProposedTitle" is only relevant if a new (proposed) title has been selected when
+        // conducting an analysis for a reclassification.  It should not be included for an
+        // equity analysis.
+        $('#btnDoEquityReview').click(function () {
+            // sample listing of all javascript "location" properties:
+            var url = "./CreateEdit/?NewSraEmployee=" + $('#NewSraEmployee').val();
+            var host = window.location.host; //"localhost:49635"
+            var hostname = window.location.hostname; // "localhost"
+            var port = window.location.port; //"49635"
+            var protocol = window.location.protocol; //"http:"
+            var search = window.location.search; //	"?NewSraEmployee=8543333907238"
+            var href = window.location.href; // "http://localhost:49635/SalaryReviewAnalysis/Create?NewSraEmployee=8543333907238"
+            var windowLocationPathname = window.location.pathname; // "/SalaryReviewAnalysis/Create"
+            // jQuery form action:
+            var action = $(this).parents('form').attr('action'); //"/SalaryReviewAnalysis/CreateEdit"
+            // create a javascript regular expression using a variable:
+            var e_v = new RegExp(windowLocationPathname, "i");
+            // replace the old action with the new:
+            href = href.replace(e_v, action);
+            // redirect to the new action:
+            window.location.href = href;
+
+            return false;
+        });
+
     //-->
     </script>
 </div>

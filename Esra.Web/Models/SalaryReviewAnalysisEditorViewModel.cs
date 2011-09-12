@@ -24,7 +24,7 @@ namespace Esra.Web.Models
         /// <summary>
         /// This is the actual criteria list populated for a specific title code.
         /// </summary>
-        public Dictionary<string, decimal?> CriteriaList { get; set; }
+        public IDictionary<string, decimal?> CriteriaList { get; set; }
 
         // This is the new salary review analysis that will be created
         public SalaryReviewAnalysis SalaryReviewAnalysis { get; set; }
@@ -97,6 +97,8 @@ namespace Esra.Web.Models
                                    {
                                        SalaryReviewAnalysis = salaryReviewAnalysis,
                                        ScenarioNumber = 1,
+                                       SelectionType = "None",
+                                       PercentIncrease = 0,
                                        Approved = false,
                                        SalaryAmount = viewModel.SelectedEmployee.PayRate
                                    };
@@ -108,7 +110,7 @@ namespace Esra.Web.Models
 
                 salaryScale = new SalaryScale();
 
-                if (string.IsNullOrEmpty(proposedTitle) == false)
+                if (string.IsNullOrEmpty(proposedTitle) == false && !viewModel.SelectedEmployee.TitleCode.Equals(proposedTitle))
                 {
                     viewModel.SalaryReviewAnalysis.IsReclass = true;
 
@@ -121,6 +123,8 @@ namespace Esra.Web.Models
                         .Queryable
                         .Where(r => r.TitleCode == proposedTitle)
                         .FirstOrDefault();
+
+                    viewModel.SalaryReviewAnalysis.Title = viewModel.ProposedTitle;
                 }
                 else
                 {
@@ -128,6 +132,8 @@ namespace Esra.Web.Models
                         .Queryable
                         .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
                         .FirstOrDefault();
+
+                    viewModel.SalaryReviewAnalysis.Title = salaryScale.Title;
                 }
             }
             else
@@ -145,43 +151,17 @@ namespace Esra.Web.Models
                 salaryScale = viewModel.SalaryReviewAnalysis.SalaryScale;
             }
 
-            var cl = new Dictionary<string, decimal?>();
             if (salaryScale != null)
             {
                 salaryScale.SalarySteps = repository.OfType<SalaryStep>()
                     .Queryable
                     .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    .OrderBy(s => s.Annual)
                     .ToList();
 
                 salaryScaleViewModel.SalaryScale = salaryScale;
-
-                List<SelectionType> selectionTypes = repository.OfType<SelectionType>()
-                    .Queryable
-                    //.Where(x => x.ShortType != "Step")
-                    .OrderBy(s => s.SortOrder)
-                    .ToList();
-
-                cl.Add(selectionTypes[(int)SelectionType.Types.NONE].ShortType, null); // "None"
-
-                if (salaryScale.SalarySteps.Count == 0)
-                {
-                    cl.Add(selectionTypes[(int)SelectionType.Types.MIN].ShortType, salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"
-                    cl.Add(selectionTypes[(int)SelectionType.Types.FIRST].ShortType, salaryScale.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
-                    cl.Add(selectionTypes[(int)SelectionType.Types.MID].ShortType, salaryScale.SalaryGradeQuartiles.MidAnnual); // "Mid"
-                    cl.Add(selectionTypes[(int)SelectionType.Types.THIRD].ShortType, salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
-                    cl.Add(selectionTypes[(int)SelectionType.Types.MAX].ShortType, salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
-                }
-                cl.Add(selectionTypes[(int)SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
-                cl.Add(selectionTypes[(int)SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(salaryScale.LaborMarketMidAnnual)); // "Labor Mkt Mid"
-                cl.Add(selectionTypes[(int)SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
-                cl.Add(selectionTypes[(int)SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
-
-                foreach (SalaryStep step in salaryScale.SalarySteps.OrderBy(x => x.Annual))
-                {
-                    cl.Add(selectionTypes[(int)SelectionType.Types.STEP].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual)); // "Step"
-                }
             }
-            viewModel.CriteriaList = cl;
+            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScaleViewModel.SalaryScale);
 
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;
 

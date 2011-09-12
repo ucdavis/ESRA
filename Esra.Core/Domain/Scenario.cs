@@ -36,7 +36,7 @@ namespace Esra.Core.Domain
 
         private string _SelectionType;
 
-        // Valid only if selection was choosen from drop-down list.
+        // Valid only if selection was chosen from drop-down list.
         public virtual string SelectionType
         {
             get { return _SelectionType; }

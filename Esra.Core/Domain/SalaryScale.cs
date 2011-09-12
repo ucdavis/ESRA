@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
+using UCDArch.Core.PersistanceSupport;
 
 //using CAESArch.Core.Domain;
 
@@ -156,6 +158,37 @@ namespace Esra.Core.Domain
 
         public SalaryScale()
         {
+        }
+
+        public static SalaryScale GetEffectiveSalaryScale(IRepository repository, string titleCode, DateTime effectiveDate)
+        {
+            // get salary scale whose effective date is equal to or less than the effectiveDate provided:
+            SalaryScale retval = null;
+
+            var queryable = repository.OfType<SalaryScale>().Queryable;
+
+            var count = queryable.Where(x => x.TitleCode.Equals(titleCode)).Count();
+
+            if (count == 1)
+            {
+                // Then there's only 1 salary scale:
+                retval = queryable.Where(x => x.TitleCode.Equals(titleCode)).SingleOrDefault();
+            }
+            else
+            {
+                // There's multiple salary scales for the same title code, so get the one
+                // whose effective date is equal to or less than the effectiveDate:
+
+                // Find the max effective date for the given title code that is equal to or less than the effectiveDate provided:
+                var maxEffectiveDateForDate =
+                    queryable.Where(x => x.TitleCode.Equals(titleCode)).Max(x => x.EffectiveDate <= effectiveDate);
+
+                retval =
+                    queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == effectiveDate).
+                        FirstOrDefault();
+            }
+
+            return retval;
         }
     }
 

@@ -60,8 +60,8 @@ namespace Esra.Core.Domain
 
             var allEmployees = repository.OfType<Employee>().GetAll();
 
-            MaxLastChangeDate = allEmployees.Select(x => x.LastChangeDate).Max();
-            LastRefreshed = DateTime.Now;
+            //MaxLastChangeDate = allEmployees.Select(x => x.LastChangeDate).Max();
+            //LastRefreshed = DateTime.Now;
 
             foreach (var code in schoolCodes)
             {
