@@ -36,7 +36,9 @@
         // User"s current annual salary from the hidden salary field.
         oldSalary = $("#oldSalary")[0].value;
 
-        defaultSelectionTypeOptions = $("#ddlSelectionType[0]").html();
+        var defaultSelectionTypeOptionsHtml = $("#ddlSelectionType[0]").html();
+        // clear out any selected items
+        defaultSelectionTypeOptions = defaultSelectionTypeOptionsHtml.replace(/selected?=.?["|']selected["|']/, "");
 
         $("#scenarioTemplate").template("scenarioTemplate");
 
@@ -141,8 +143,8 @@
             salaryAmount = $.parseNumber(salaryAmount, { format: "#######.00", locale: "us" }) * 1;
             myScenario.SalaryAmount = salaryAmount;
 
-            var approved = row.find("input[type='hidden']").val();
-            approved = parseBool(approved);
+            var chkboxApproved = row.find("input[type='checkbox']");
+            var approved = (chkboxApproved[0].checked);
             myScenario.Approved = approved;
 
             scenarios[i] = myScenario;
@@ -157,7 +159,7 @@
             var alternatingClass = scenarioIndex % 2 ? "even" : "odd"
             var scenarioNumber = scenarioIndex + 1;
             var selectionType = "";
-            var data = { dataId: "new_" + scenarioNumber, alternatingClass: alternatingClass, scenarioNumber: scenarioNumber, selectionTypeOptions: defaultSelectionTypeOptions, i: scenarioIndex, percentIncrease: "0", salaryAmount: oldSalary, Id: 0, selectionType: selectionType, salaryReviewAnalysisId: $('#salaryReviewAnalysisId').val() };
+            var data = { dataId: "new_" + scenarioNumber, alternatingClass: alternatingClass, scenarioNumber: scenarioNumber, selectionTypeOptions: defaultSelectionTypeOptions, i: scenarioIndex, percentIncrease: "0", salaryAmount: oldSalary, Id: 0, selectionType: selectionType, salaryReviewAnalysisId: $('#salaryReviewAnalysisId').val(), approved: false };
             return data;
         }
         // Calculate and update the PercentIncrease and SalaryAmount when an individual scenario"s
@@ -166,6 +168,10 @@
 
             // Note: The value of the newly selected item from the drop-down list is the new salary amount.
             var newSalary = $(this).val();
+            // Reset it back to the old salary if "None" was selected.
+            if (newSalary == "") {
+                newSalary = oldSalary;
+            }
 
             // This is the text of the newly selected item, i.e. "Step 6.0", etc:
             var selectedText = $(this).find(':selected').text();
@@ -366,12 +372,29 @@
             tbSalaryAmount.formatCurrency();
 
             // Reset the criteria drop-down list back to what it when it was loaded from the database initially:
-            myIndex = selectionTypeTextDictionary[selectionType];
-
-            var ddlSelectionTypes = row.find('#ddlSelectionType');
-            ddlSelectionTypes.selectedIndex = myIndex;
-            ddlSelectionTypes[0].options[myIndex].selected = true;
-            //row.find("select option")[myIndex].selected = true; // works with FF.
+            // Note that I need to reset it based on the Text being displayed, not the value.
+            if (typeof selectionType === 'boolean') {
+                // do nothing because this updated was based on a new selection type being selected.
+            }
+            else {
+                if (selectionType == "") {
+                    myIndex = 0;
+                }
+                else {
+                    // 1. Retrieve the index for the text value from the previously loaded text value/option's index dictionary:
+                    myIndex = selectionTypeTextDictionary[selectionType];
+                }
+                // 2. Find the select list control:
+                var ddlSelectionTypes = row.find('#ddlSelectionType');
+                // 3. Reset the index back to its original value:
+                // Note that this doesn't seem to have any effect with FF v6.01.
+                ddlSelectionTypes.selectedIndex = myIndex;
+                // 4. Reset the options[i].selected to true:
+                // Note that this is what actually resets the control in FF v6.01:
+                ddlSelectionTypes[0].options[myIndex].selected = true;
+                // The following also works in FF v6.01:
+                //row.find("select option")[myIndex].selected = true;
+            }
 
             var chkboxApproved = row.find("input[type='checkbox']");
             if (isApproved == true) {
@@ -511,8 +534,8 @@
 	</td>
 	<td>
 		<div class="editor-field">
-			<input type="checkbox" value="true" name="SalaryReviewAnalysis.Scenarios[${i}].Approved" id="SalaryReviewAnalysis_Scenarios_${i}__Approved">
-			<input type="hidden" value="false" name="SalaryReviewAnalysis.Scenarios[${i}].Approved">
+			<input type="checkbox" value="true" name="SalaryReviewAnalysis.Scenarios[${i}].Approved" id="cbxApproved" >
+            <input type="hidden" value="false" name="SalaryReviewAnalysis.Scenarios[${i}].Approved" >
 		</div>
 	</td>
 	<td>
@@ -617,10 +640,14 @@
                         @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
                     </th>
                     <td>
+                        @{
+                    string selectionTypeText = Model.SalaryReviewAnalysis.Scenarios[i].SelectionType;
+                    if (String.IsNullOrEmpty(selectionTypeText)) { selectionTypeText = "None"; }
+                        }
                         <div class="editor-field">
                             @Html.DropDownListFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType,
-                        new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[Model.SalaryReviewAnalysis.Scenarios[i].SelectionType]),
-                  null, new { id = "ddlSelectionType" })
+                      new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[selectionTypeText])
+                            , null, new { id = "ddlSelectionType" })
                         </div>
                     </td>
                     <td>
@@ -637,7 +664,7 @@
                     </td>
                     <td>
                         <div class="editor-field">
-                            @Html.CheckBox(@"SalaryReviewAnalysis.Scenarios[" + i + "].Approved", @Model.SalaryReviewAnalysis.Scenarios[i].Approved)
+                            @Html.CheckBox(@"SalaryReviewAnalysis.Scenarios[" + i + "].Approved", (@Model.SalaryReviewAnalysis.Scenarios[i].Approved != null ? (bool)@Model.SalaryReviewAnalysis.Scenarios[i].Approved : false), new { id = "cbxApproved" })
                         </div>
                     </td>
                     <td>
@@ -648,7 +675,8 @@
                         <a id="btnDeleteScenario" class="buttons">
                             <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
                     </td>
-                </tr> } }
+                </tr> }
+            }
         </tbody>
         <tfoot>
             @{

@@ -62,6 +62,7 @@
         var selected = row.find('#ddlSelectionType :selected');
         //        if (selected.val() != null && selected.val() != "") {
         // This is the text of the newly selected item, i.e. "Step 6.0", etc:
+        //debugger;
         var selectedText = row.find('#ddlSelectionType :selected').text();
         // set the SelectionType hidden field value with the selectedText:
         row.find("#selectionType").val(selectedText);

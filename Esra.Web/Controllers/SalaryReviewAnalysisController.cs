@@ -231,11 +231,8 @@ namespace Esra.Web.Controllers
 
                 Message = Message = "Salary Review Analysis (ref #: " + referenceNumber + ") Successfully Saved"; ;
 
-                var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
-
-                if (viewModel != null) return View("Details", viewModel);
-
-                return RedirectToAction("Index");
+                var values = new System.Web.Routing.RouteValueDictionary { { "referenceNumber", referenceNumber } };
+                return RedirectToAction("Details", values);
             }
             else
             {

@@ -67,11 +67,16 @@
                                     @scene.ScenarioNumber.
                                 </th>
                                 <td>
+                                    @{
+            string selectionType = Model.SalaryReviewAnalysis.Scenarios[i].SelectionType;
+
+            if (String.IsNullOrEmpty(selectionType)) { selectionType = "None"; }
+            var selectedOption = Model.CriteriaList[selectionType];
+                                    }
                                     <div class="editor-field">
-                                        @*@scene.SelectionType<br />*@
-                                        @Html.DropDownListFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SelectionType,
-                        new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[Model.SalaryReviewAnalysis.Scenarios[i].SelectionType]),
-                 null, new { id = "ddlSelectionType", disabled = "true" })
+                                        @Html.DropDownListFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType,
+new SelectList(Model.CriteriaList, "Value", "Key", selectedOption)
+                 , null, new { id = "ddlSelectionType", disabled = "true" })
                                     </div>
                                 </td>
                                 <td>
@@ -86,7 +91,12 @@
                                 </td>
                                 <td>
                                     <div class="editor-field">
-                                        <input id="approved" type="checkbox" disabled="true" @scene.Approved ? "checked" : @String.Empty />
+                                        <input id="approved" type="checkbox" disabled="true"
+                                                @if (scene.Approved != null && (bool)scene.Approved == true)
+                                                {
+                                                    <text>checked='checked'</text>;
+                                                }
+                                             />
                                     </div>
                                 </td>
                             </tr>
