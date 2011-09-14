@@ -169,25 +169,29 @@ namespace Esra.Core.Domain
 
             var count = queryable.Where(x => x.TitleCode.Equals(titleCode)).Count();
 
-            if (count == 1)
+            // Get the corresponding salary scale only if there's salary data available; otherwise, return null
+            // and let the view handle displaying the "No Data Found" message.
+            if (count > 0)
             {
-                // Then there's only 1 salary scale:
-                retval = queryable.Where(x => x.TitleCode.Equals(titleCode)).SingleOrDefault();
+                if (count == 1)
+                {
+                    // Then there's only 1 salary scale so return it:
+                    retval = queryable.Where(x => x.TitleCode.Equals(titleCode)).SingleOrDefault();
+                }
+                else
+                {
+                    // There's multiple salary scales for the same title code, so get the one
+                    // whose effective date is equal to or less than the effectiveDate:
+
+                    // Find the max effective date for the given title code that is equal to or less than the effectiveDate provided:
+                    var maxEffectiveDateForDate =
+                        queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate <= effectiveDate).Max(x => x.EffectiveDate);
+
+                    retval =
+                        queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == maxEffectiveDateForDate).
+                            FirstOrDefault();
+                }
             }
-            else
-            {
-                // There's multiple salary scales for the same title code, so get the one
-                // whose effective date is equal to or less than the effectiveDate:
-
-                // Find the max effective date for the given title code that is equal to or less than the effectiveDate provided:
-                var maxEffectiveDateForDate =
-                    queryable.Where(x => x.TitleCode.Equals(titleCode)).Max(x => x.EffectiveDate <= effectiveDate);
-
-                retval =
-                    queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == effectiveDate).
-                        FirstOrDefault();
-            }
-
             return retval;
         }
     }

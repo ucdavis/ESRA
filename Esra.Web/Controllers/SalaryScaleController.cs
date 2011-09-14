@@ -71,19 +71,21 @@ namespace Esra.Web.Controllers
                        .OrderBy(t => t.TitleCode)
                        .ToList();
 
-            var salaryScale = _salaryScaleRepository.Queryable
-                .Where(r => r.TitleCode == titleCode)
-                .FirstOrDefault();
+            //var salaryScale = _salaryScaleRepository.Queryable
+            //    .Where(r => r.TitleCode == titleCode)
+            //    .FirstOrDefault();
+            var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
             //var salaryScale = Repository.OfType<SalaryScale>()
             //    .Queryable
             //    .Where(r => r.TitleCode == titleCode)
-            //    .FirstOrDefault();
+            //    .FirstOrDefault();)
 
             if (salaryScale != null)
             {
                 salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
                     .Queryable
                     .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    .OrderBy(x => x.Annual)
                     .ToList();
 
                 salaryScaleModel.SalaryScale = salaryScale;
@@ -122,9 +124,12 @@ namespace Esra.Web.Controllers
 
             var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
 
-            var salaryScale = _salaryScaleRepository.Queryable
-                .Where(r => r.TitleCode == titleCode)
-                .FirstOrDefault();
+            //var salaryScale = _salaryScaleRepository.Queryable
+            //    .Where(r => r.TitleCode == titleCode)
+            //    .FirstOrDefault();
+
+            var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
+
             //var salaryScale = Repository.OfType<SalaryScale>()
             //    .Queryable
             //    .Where(r => r.TitleCode == titleCode)
@@ -135,6 +140,7 @@ namespace Esra.Web.Controllers
                 salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
                     .Queryable
                     .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    .OrderBy(x => x.Annual)
                     .ToList();
 
                 salaryScaleModel.SalaryScale = salaryScale;
