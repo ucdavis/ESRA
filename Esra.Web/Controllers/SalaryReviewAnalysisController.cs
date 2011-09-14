@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
+using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Attributes;
 
@@ -231,8 +232,12 @@ namespace Esra.Web.Controllers
 
                 Message = Message = "Salary Review Analysis (ref #: " + referenceNumber + ") Successfully Saved"; ;
 
-                var values = new System.Web.Routing.RouteValueDictionary { { "referenceNumber", referenceNumber } };
-                return RedirectToAction("Details", values);
+                //var values = new System.Web.Routing.RouteValueDictionary { { "referenceNumber", referenceNumber } };
+                //return RedirectToAction("Details", values);
+                // -- or --
+                //return RedirectToAction("Details", new { referenceNumber });
+                // -- or --
+                return this.RedirectToAction<SalaryReviewAnalysisController>(a => a.Details(referenceNumber));
             }
             else
             {
