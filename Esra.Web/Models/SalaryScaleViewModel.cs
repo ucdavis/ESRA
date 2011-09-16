@@ -46,8 +46,8 @@ namespace Esra.Web.Models
                 var searchDate = DateTime.Now;
                 if (effectiveDate != null)
                     DateTime.TryParse(effectiveDate, out searchDate);
-
-                viewModel.SalaryScale = SalaryScale.GetEffectiveSalaryScale(repository, titleCode, searchDate);
+                var salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, titleCode, searchDate);
+                if (salaryScale != null) viewModel.SalaryScale = salaryScale;
                 viewModel.TitleCode = titleCode;
             }
 

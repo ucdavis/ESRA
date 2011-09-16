@@ -90,8 +90,7 @@ namespace Esra.Web.Models
                     .Where(e => e.id.Equals(selectedEmployeeId))
                     .FirstOrDefault();
 
-                salaryReviewAnalysis = new SalaryReviewAnalysis();
-                salaryReviewAnalysis.DateInitiated = DateTime.Today;
+                salaryReviewAnalysis = new SalaryReviewAnalysis { DateInitiated = DateTime.Today };
                 var scenarios = new List<Scenario>();
                 var scenario = new Scenario
                                    {
@@ -119,19 +118,21 @@ namespace Esra.Web.Models
                         .Where(p => p.TitleCode.Equals(proposedTitle))
                         .FirstOrDefault();
 
-                    salaryScale = repository.OfType<SalaryScale>()
-                        .Queryable
-                        .Where(r => r.TitleCode == proposedTitle)
-                        .FirstOrDefault();
+                    //salaryScale = repository.OfType<SalaryScale>()
+                    //    .Queryable
+                    //    .Where(r => r.TitleCode == proposedTitle)
+                    //    .FirstOrDefault();
+                    salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, proposedTitle, DateTime.Today);
 
                     viewModel.SalaryReviewAnalysis.Title = viewModel.ProposedTitle;
                 }
                 else
                 {
-                    salaryScale = repository.OfType<SalaryScale>()
-                        .Queryable
-                        .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
-                        .FirstOrDefault();
+                    //salaryScale = repository.OfType<SalaryScale>()
+                    //    .Queryable
+                    //    .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
+                    //    .FirstOrDefault();
+                    salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SelectedEmployee.TitleCode, DateTime.Today);
 
                     viewModel.SalaryReviewAnalysis.Title = salaryScale.Title;
                 }
@@ -153,6 +154,7 @@ namespace Esra.Web.Models
 
             if (salaryScale != null)
             {
+                // fix for lazy binding issue causing only part of the salary steps to load:
                 salaryScale.SalarySteps = repository.OfType<SalaryStep>()
                     .Queryable
                     .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
@@ -161,7 +163,7 @@ namespace Esra.Web.Models
 
                 salaryScaleViewModel.SalaryScale = salaryScale;
             }
-            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScaleViewModel.SalaryScale);
+            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
 
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;
 

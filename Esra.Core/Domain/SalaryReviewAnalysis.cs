@@ -183,6 +183,16 @@ namespace Esra.Core.Domain
                 cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
                 cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 
+                if (salaryScale.NumSalarySteps > 0 && (salaryScale.SalarySteps.Count != salaryScale.NumSalarySteps))
+                {
+                    // lazy binding work around to fetch all salary steps:
+                    salaryScale.SalarySteps = repository.OfType<SalaryStep>()
+                        .Queryable
+                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        .OrderBy(x => x.Annual)
+                        .ToList();
+                }
+
                 foreach (SalaryStep step in salaryScale.SalarySteps.OrderBy(x => x.Annual))
                 {
                     cl.Add(selectionTypes[(int)Domain.SelectionType.Types.STEP].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual)); // "Step"
