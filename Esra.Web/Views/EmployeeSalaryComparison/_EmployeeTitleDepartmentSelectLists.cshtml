@@ -110,52 +110,68 @@
         // This allows the form to submit when a selection is made from the
         // employees drop-down.
         $('#employee-drop-down').change(function () {
-            debugger;
+            resetDropDownLists($(this).parents('form'), false);
             $(this).parents('form').submit();
+
         });
 
-        function resetForm(form) {
+        function resetDropDownLists(form, resetEmployee) {
+            form = $(form)[0];
             var i = 0;
             var selectedDepartmentCodes = form.SelectedDepartmentCodes;
-            var selectedDepartmentCodes1 = selectedDepartmentCodes[0];
-            var selectedDepartmentCodes2 = selectedDepartmentCodes[1];
 
-            for (i = 0; i < selectedDepartmentCodes1.length; i++) {
-                if (selectedDepartmentCodes1.options[i].selected == true) {
-                    //alert(i);
-                    selectedDepartmentCodes1.options[i].selected = false;
+            if (typeof selectedDepartmentCodes != 'undefined') {
+                var selectedDepartmentCodes1 = selectedDepartmentCodes[0];
+                var selectedDepartmentCodes2 = selectedDepartmentCodes[1];
+
+                for (i = 0; i < selectedDepartmentCodes1.length; i++) {
+                    if (selectedDepartmentCodes1.options[i].selected == true) {
+                        //alert(i);
+                        selectedDepartmentCodes1.options[i].selected = false;
+                    }
                 }
-            }
 
-            for (i = 0; i < selectedDepartmentCodes2.length; i++) {
-                if (selectedDepartmentCodes2.options[i].selected == true) {
-                    //alert(i);
-                    selectedDepartmentCodes2.options[i].selected = false;
+                for (i = 0; i < selectedDepartmentCodes2.length; i++) {
+                    if (selectedDepartmentCodes2.options[i].selected == true) {
+                        //alert(i);
+                        selectedDepartmentCodes2.options[i].selected = false;
+                    }
                 }
             }
 
             var selectedTitleCodes = form.SelectedTitleCodes;
-            var selectedTitleCodes1 = selectedTitleCodes[0];
-            var selectedTitleCodes2 = selectedTitleCodes[1];
+            if (typeof selectedTitleCodes != 'undefined') {
+                var selectedTitleCodes1 = selectedTitleCodes[0];
+                var selectedTitleCodes2 = selectedTitleCodes[1];
 
-            for (i = 0; i < selectedTitleCodes1.length; i++) {
-                if (selectedTitleCodes1.options[i].selected == true) {
-                    //alert(i);
-                    selectedTitleCodes1.options[i].selected = false;
+                for (i = 0; i < selectedTitleCodes1.length; i++) {
+                    if (selectedTitleCodes1.options[i].selected == true) {
+                        //alert(i);
+                        selectedTitleCodes1.options[i].selected = false;
+                    }
+                }
+
+                for (i = 0; i < selectedTitleCodes2.length; i++) {
+                    if (selectedTitleCodes2.options[i].selected == true) {
+                        //alert(i);
+                        selectedTitleCodes2.options[i].selected = false;
+                    }
                 }
             }
 
-            for (i = 0; i < selectedTitleCodes2.length; i++) {
-                if (selectedTitleCodes2.options[i].selected == true) {
-                    //alert(i);
-                    selectedTitleCodes2.options[i].selected = false;
+            if (resetEmployee) {
+                var selectedEmployeeId = form.SelectedEmployeeId;
+
+                if (typeof selectedEmployeeId != 'undefined') {
+                    selectedEmployeeId.selectedIndex = 0;
+                    selectedEmployeeId.options[0].selected = true;
                 }
             }
+            return false;
+        }
 
-            var selectedEmployeeId = form.SelectedEmployeeId
-
-            selectedEmployeeId.selectedIndex = 0;
-            selectedEmployeeId.options[0].selected = true;
+        function resetForm(form) {
+            resetDropDownLists(form, true);
         };
 
         //-->

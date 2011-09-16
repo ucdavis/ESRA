@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using Esra.Core.Domain;
 using Esra.Web.Models;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Data.NHibernate;
 
 namespace Esra.Web.Controllers
 {
@@ -26,20 +24,22 @@ namespace Esra.Web.Controllers
         {
             var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
 
+            // Example:
+            // Note that setting salaryScaleModel.Titles is now handled directly in the model
             //salaryScaleModel.Titles = Repository.OfType<Title>()
             //                      .Queryable
             //                      .OrderBy(t => t.AbbreviatedName)
             //    // .ThenBy(t => t.TitleCode)
             //                      .ToList();
 
-            salaryScaleModel.TitleCodes = salaryScaleModel.Titles
-                .OrderBy(t => t.TitleCode)
-                .ToList();
+            //salaryScaleModel.TitleCodes = salaryScaleModel.Titles
+            //    .OrderBy(t => t.TitleCode)
+            //    .ToList();
 
             return View(salaryScaleModel);
         }
 
-        //
+        // Example
         // GET: /SalaryScale/Details/5
         //public ActionResult SalaryScaleDetails(int id)
         //{
@@ -51,46 +51,60 @@ namespace Esra.Web.Controllers
         //}
 
         //
-        // GET: /SalaryScale/Details?TitleCode=4001
-        public ActionResult Details(string titleCode)
+        // GET: /SalaryScale/Details?TitleCode=4001, (EffectiveDate=09-20-2011 optional; otherwise, uses today's date.)
+        public ActionResult Details(string titleCode, string effectiveDate)
         {
             //ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(TypeOf(SalaryScale))
             //    .SetFetchMode("SalarySteps", FetchMode.Eager);
 
-            var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
+            //var searchDate = DateTime.Now;
+            //DateTime.TryParse(effectiveDate,  out searchDate);
 
-            salaryScaleModel.TitleCode = titleCode;
+            // DateTime  searchDate = String.IsNullOrEmpty(effectiveDate) ? DateTime.Now : bool validDate = DateTime.TryParse(effectiveDate, out searchDate);
 
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate);
+
+            //salaryScaleModel.TitleCode = titleCode;
+
+            // Example:
+            // Note setting salaryScaleModel.Titles is now handled directly in the model
             //salaryScaleModel.Titles = Repository.OfType<Title>()
             //                      .Queryable
             //                      .OrderBy(t => t.AbbreviatedName)
             //    // .ThenBy(t => t.TitleCode)
             //                      .ToList();
 
-            salaryScaleModel.TitleCodes = salaryScaleModel.Titles
-                       .OrderBy(t => t.TitleCode)
-                       .ToList();
+            //salaryScaleModel.TitleCodes = salaryScaleModel.Titles
+            //           .OrderBy(t => t.TitleCode)
+            //           .ToList();
 
+            // Example 1:
             //var salaryScale = _salaryScaleRepository.Queryable
             //    .Where(r => r.TitleCode == titleCode)
             //    .FirstOrDefault();
-            var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
+
+            // Example 2:
             //var salaryScale = Repository.OfType<SalaryScale>()
             //    .Queryable
             //    .Where(r => r.TitleCode == titleCode)
             //    .FirstOrDefault();)
 
-            if (salaryScale != null)
-            {
-                salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                    .Queryable
-                    .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                    .OrderBy(x => x.Annual)
-                    .ToList();
+            // Note that an "effectiveDate" is also required in order to fetch the salary scale in effect on the date provided.
+            //var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, searchDate);
+            //salaryScaleModel.SalaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, searchDate);
 
-                salaryScaleModel.SalaryScale = salaryScale;
-            }
+            //if (salaryScale != null)
+            //{
+            //    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+            //        .Queryable
+            //        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+            //        .OrderBy(x => x.Annual)
+            //        .ToList();
 
+            //    salaryScaleModel.SalaryScale = salaryScale;
+            //}
+
+            // Examples:
             //var titles = Repository.OfType<Title>()
             //                      .Queryable
             //                      .Select(t => new { t.TitleCode, t.PayrollTitle })
@@ -117,35 +131,40 @@ namespace Esra.Web.Controllers
             return View(salaryScaleModel);
         }
 
-        public ActionResult _SalaryScale(string titleCode)
+        // GET: /SalaryScale/_SalaryScale?TitleCode=4001, , (EffectiveDate=09-20-2011 optional; otherwise, uses today's date.)
+        public ActionResult _SalaryScale(string titleCode, string effectiveDate)
         {
             //ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(TypeOf(SalaryScale))
             //    .SetFetchMode("SalarySteps", FetchMode.Eager);
 
-            var salaryScaleModel = SalaryScaleViewModel.Create(Repository);
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate);
 
+            // Example 1
             //var salaryScale = _salaryScaleRepository.Queryable
             //    .Where(r => r.TitleCode == titleCode)
             //    .FirstOrDefault();
 
-            var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
+            //var salaryScale = SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
 
+            // Example 2
             //var salaryScale = Repository.OfType<SalaryScale>()
             //    .Queryable
             //    .Where(r => r.TitleCode == titleCode)
             //    .FirstOrDefault();
 
-            if (salaryScale != null)
-            {
-                salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                    .Queryable
-                    .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                    .OrderBy(x => x.Annual)
-                    .ToList();
+            //if (salaryScale != null)
+            //{
+            //    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+            //        .Queryable
+            //        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+            //        .OrderBy(x => x.Annual)
+            //        .ToList();
 
-                salaryScaleModel.SalaryScale = salaryScale;
-            }
+            //    salaryScaleModel.SalaryScale = salaryScale;
+            //}
 
+            // Other examples:
+            // Note that this is now handled in the model directly.
             //var titles = Repository.OfType<Title>()
             //                      .Queryable
             //                      .Select(t => new { t.TitleCode, t.PayrollTitle })

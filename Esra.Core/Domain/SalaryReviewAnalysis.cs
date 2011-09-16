@@ -153,7 +153,7 @@ namespace Esra.Core.Domain
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="salaryScale"></param>
-        /// <returns></returns>
+        /// <returns>A key/value pair dictionary containing the selection type criteria</returns>
         public static Dictionary<string, decimal?> GetCriteriaList(IRepository repository, SalaryScale salaryScale)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -192,6 +192,12 @@ namespace Esra.Core.Domain
             return cl;
         }
 
+        /// <summary>
+        /// Given a repository and a salary review analysis, update the database to match the
+        /// record provided.
+        /// </summary>
+        /// <param name="repository">An interface to a database repository</param>
+        /// <param name="record">The salary review analysis to update</param>
         public static void UpdateRecord(IRepository repository, SalaryReviewAnalysis record)
         {
             Check.Require(repository != null, "Repository must be supplied");

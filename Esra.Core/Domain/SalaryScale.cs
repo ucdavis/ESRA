@@ -160,10 +160,19 @@ namespace Esra.Core.Domain
         {
         }
 
+        /// <summary>
+        /// Given a title code and date,
+        /// return the salary scale that would have been in effect for the date provided.
+        /// This is necessary when there are several salary scales for a given title code,
+        /// and you do not know the salary scale's actual effective date.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="titleCode"></param>
+        /// <param name="effectiveDate"></param>
+        /// <returns>SalaryScale in effect for title code and date provided</returns>
         public static SalaryScale GetEffectiveSalaryScale(IRepository repository, string titleCode, DateTime effectiveDate)
         {
-            // get salary scale whose effective date is equal to or less than the effectiveDate provided:
-            SalaryScale retval = null;
+            SalaryScale salaryScale = null;
 
             var queryable = repository.OfType<SalaryScale>().Queryable;
 
@@ -175,24 +184,38 @@ namespace Esra.Core.Domain
             {
                 if (count == 1)
                 {
-                    // Then there's only 1 salary scale so return it:
-                    retval = queryable.Where(x => x.TitleCode.Equals(titleCode)).SingleOrDefault();
+                    // If there's only 1 salary scale set the return value to it:
+                    salaryScale = queryable.Where(x => x.TitleCode.Equals(titleCode)).SingleOrDefault();
                 }
                 else
                 {
-                    // There's multiple salary scales for the same title code, so get the one
-                    // whose effective date is equal to or less than the effectiveDate:
+                    if (effectiveDate.Equals(new DateTime()))
+                    {
+                        effectiveDate = DateTime.Now;
+                    }
+                    // If there's multiple salary scales for the same title code, get the one
+                    // whose effective date is equal to or less than the effectiveDate provided:
 
-                    // Find the max effective date for the given title code that is equal to or less than the effectiveDate provided:
+                    // First find the max effective date for the given title code that is equal to or less than the effectiveDate, i.e. date provided:
                     var maxEffectiveDateForDate =
                         queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate <= effectiveDate).Max(x => x.EffectiveDate);
 
-                    retval =
-                        queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == maxEffectiveDateForDate).
-                            FirstOrDefault();
+                    // Set the return value to the one whose effectiveDate matches the maximum effective date determined
+                    // in the previous statement:
+                    salaryScale = queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == maxEffectiveDateForDate).FirstOrDefault();
+                }
+
+                if (salaryScale != null)
+                {
+                    salaryScale.SalarySteps = repository.OfType<SalaryStep>()
+                        .Queryable
+                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        .OrderBy(x => x.Annual)
+                        .ToList();
                 }
             }
-            return retval;
+            // Return the corresponding salary scale (or null if none were available for that title code).
+            return salaryScale;
         }
     }
 

@@ -81,21 +81,24 @@ namespace Esra.Web.Controllers
 
                 if (employees.Count == 1)
                 {
-                    var salaryScale = _salaryScaleRepository
-                        .Queryable.Where(r => r.TitleCode == employees[0].TitleCode).FirstOrDefault();
+                    var employee = employees[0];
+                    //var salaryScale = _salaryScaleRepository
+                    //    .Queryable.Where(r => r.TitleCode == employees[0].TitleCode).FirstOrDefault();
 
-                    if (salaryScale != null)
-                    {
-                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                            .Queryable
-                            .Where(
-                                s =>
-                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                            .ToList();
+                    //if (salaryScale != null)
+                    //{
+                    //    salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                    //        .Queryable
+                    //        .Where(
+                    //            s =>
+                    //            s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                    //        .ToList();
 
-                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
-                    }
+                    //    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
+                        SalaryScale.GetEffectiveSalaryScale(Repository, employee.TitleCode, DateTime.Now);
                 }
+
                 isAnyEmployee = false;
             }
             else
@@ -107,6 +110,7 @@ namespace Esra.Web.Controllers
 
                     employees = allSchoolEmployees.ToList();
                 }
+
                 else if (hasSelectedDepartmentCodes && !hasSelectedTitleCodes)
                 {
                     // get those with matching department codes:
@@ -126,20 +130,25 @@ namespace Esra.Web.Controllers
                     employees =
                         allSchoolEmployees.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
 
-                    var salaryScales = _salaryScaleRepository
-                        .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
+                    //var salaryScales = _salaryScaleRepository
+                    //    .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
 
-                    if (salaryScales.Count == 1)
+                    if (selectedTitleCodes.Count() == 1)
                     {
-                        var salaryScale = salaryScales[0];
-                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                            .Queryable
-                            .Where(
-                                s =>
-                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                            .ToList();
+                        var titleCode = selectedTitleCodes[0];
+                        //var salaryScale = salaryScales[0];
 
-                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                        //salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                        //    .Queryable
+                        //    .Where(
+                        //        s =>
+                        //        s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        //    .ToList();
+
+                        //employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
+                            SalaryScale.GetEffectiveSalaryScale(Repository, titleCode,
+                                                                DateTime.Now);
                     }
 
                     employeeSalaryComparisonModel.SelectedTitleCodesString =
@@ -156,20 +165,23 @@ namespace Esra.Web.Controllers
                             r => selectedTitleCodes.Contains(r.TitleCode) &&
                                  selectedDepartmentCodes.Contains(r.HomeDepartmentID)).ToList();
 
-                    var salaryScales = _salaryScaleRepository
-                        .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
+                    //var salaryScales = _salaryScaleRepository
+                    //    .Queryable.Where(r => selectedTitleCodes.Contains(r.TitleCode)).ToList();
 
-                    if (salaryScales.Count == 1)
+                    if (selectedTitleCodes.Count() == 1)
                     {
-                        var salaryScale = salaryScales[0];
-                        salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
-                            .Queryable
-                            .Where(
-                                s =>
-                                s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                            .ToList();
+                        var titleCode = selectedTitleCodes[0];
+                        //var salaryScale = salaryScales[0];
+                        //salaryScale.SalarySteps = Repository.OfType<SalaryStep>()
+                        //    .Queryable
+                        //    .Where(
+                        //        s =>
+                        //        s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        //    .ToList();
 
-                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                        //employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
+                            SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
                     }
                     employeeSalaryComparisonModel.SelectedDepartmentCodesString =
                         PipeDelimittedString.ArrayToPipeDelimittedString(selectedDepartmentCodes);

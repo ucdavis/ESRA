@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Esra.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -20,6 +21,11 @@ namespace Esra.Web.Models
 
         public static SalaryScaleViewModel Create(IRepository repository)
         {
+            return SalaryScaleViewModel.Create(repository, null, null);
+        }
+
+        public static SalaryScaleViewModel Create(IRepository repository, string titleCode, string effectiveDate)
+        {
             Check.Require(repository != null, "Repository must be supplied");
 
             var viewModel = new SalaryScaleViewModel
@@ -31,6 +37,19 @@ namespace Esra.Web.Models
                     // .ThenBy(t => t.TitleCode)
                                   .ToList()
             };
+            viewModel.TitleCodes = viewModel.Titles
+                       .OrderBy(t => t.TitleCode)
+                       .ToList();
+
+            if (!String.IsNullOrEmpty(titleCode))
+            {
+                var searchDate = DateTime.Now;
+                if (effectiveDate != null)
+                    DateTime.TryParse(effectiveDate, out searchDate);
+
+                viewModel.SalaryScale = SalaryScale.GetEffectiveSalaryScale(repository, titleCode, searchDate);
+                viewModel.TitleCode = titleCode;
+            }
 
             return viewModel;
         }
