@@ -202,7 +202,19 @@ namespace Esra.Core.Domain
 
                     // Set the return value to the one whose effectiveDate matches the maximum effective date determined
                     // in the previous statement:
-                    salaryScale = queryable.Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == maxEffectiveDateForDate).FirstOrDefault();
+                    salaryScale = queryable
+                        .Where(x => x.TitleCode.Equals(titleCode) && x.EffectiveDate == maxEffectiveDateForDate)
+                        .FirstOrDefault();
+
+                    //   var conjunction = Restrictions.Conjunction();
+                    //   var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryScale));
+                    //   criteria.CreateAlias("SalarySteps", "SalarySteps")
+                    //.AddOrder(Order.Asc("SalarySteps.Annual"))
+                    //.SetFetchMode("SalarySteps", FetchMode.Eager);
+                    //   conjunction.Add(Restrictions.Eq("TitleCode", titleCode));
+                    //   conjunction.Add(Restrictions.Eq("EffectiveDate", maxEffectiveDateForDate));
+                    //   criteria.Add(conjunction);
+                    //   var ss = criteria.List<SalaryScale>().FirstOrDefault();
                 }
 
                 if (salaryScale != null)

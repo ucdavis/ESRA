@@ -161,27 +161,10 @@ namespace Esra.Web.Models
                     .Where(x => referenceNumbers.Contains(x.ReferenceNumber))
                     .OrderBy(t => t.Employee.FullName)
                     .ToList();
-
-                //// This does an inner join with SRAEmployee and does NOT call the database N+1 times:
-                //var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(SalaryReviewAnalysis));
-                //var conjunction = Restrictions.Conjunction();
-                //criteria.CreateAlias("Employee", "Employee")
-                //    .AddOrder(Order.Asc("Employee.LastName")).AddOrder(Order.Asc("Employee.FirstName"))
-                //    .SetFetchMode("Employee", FetchMode.Eager);
-                //conjunction.Add(Restrictions.In("ReferenceNumber", referenceNumbers));
-
-                //viewModel.SalaryReviewAnalysisResults = criteria.List<SalaryReviewAnalysis>().ToList();
             }
             else
             {
                 // Load all based on search criteria:
-                // This one call the database N+1 times, once for each analysis returned.
-                //viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
-                //    .Queryable
-                //    .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)
-                //    .OrderBy(t => t.Employee.FullName)
-                //    .ToList();
-
                 viewModel.SalaryReviewAnalysisResults = repository.OfType<SalaryReviewAnalysis>()
                                                             .Queryable.Fetch(x => x.Employee)
                                                             .Where(viewModel.SalaryReviewAnalysisSearchParamsModel.SalaryReviewAnalysisSearchExpression)

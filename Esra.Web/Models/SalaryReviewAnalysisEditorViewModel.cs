@@ -149,21 +149,15 @@ namespace Esra.Web.Models
 
                 viewModel.ProposedTitle = (viewModel.SalaryReviewAnalysis.IsReclass ? viewModel.SalaryReviewAnalysis.Title : null);
 
-                salaryScale = viewModel.SalaryReviewAnalysis.SalaryScale;
+                salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SalaryReviewAnalysis.SalaryScale.TitleCode, viewModel.SalaryReviewAnalysis.SalaryScale.EffectiveDate);
             }
+
+            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
 
             if (salaryScale != null)
             {
-                // fix for lazy binding issue causing only part of the salary steps to load:
-                salaryScale.SalarySteps = repository.OfType<SalaryStep>()
-                    .Queryable
-                    .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                    .OrderBy(s => s.Annual)
-                    .ToList();
-
                 salaryScaleViewModel.SalaryScale = salaryScale;
             }
-            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
 
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;
 

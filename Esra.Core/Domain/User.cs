@@ -173,13 +173,15 @@ namespace Esra.Core.Domain
         {
             Check.Require(repository != null, "Repository must be supplied");
 
-            var units = new List<Unit>();
+            // var units = new List<Unit>();
+            List<int> unitIds;
             var users = new List<User>();
 
             if (isDepartmentUser)
             {
                 // Get list of all user's departments assigned in Catbert:
-                units = user.Units.ToList();
+                //units = user.Units.ToList();
+                unitIds = user.Units.Select(unit => unit.Id).ToList();
             }
             else
             {
@@ -187,18 +189,22 @@ namespace Esra.Core.Domain
                 var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
 
                 // Get list of all departments in the user's deans office school(s):
-                units = repository.OfType<Unit>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).ToList();
+                //units = repository.OfType<Unit>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).ToList();
+                unitIds = repository.OfType<Unit>().Queryable.Where(x => schoolsForUser.Contains(x.DeansOfficeSchoolCode)).Select(x => x.Id).ToList();
             }
 
             // we have to get the all users associated with those units:
             //TODO: Try implementing with LINQ and lambda expressions
 
             var criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(typeof(User));
-            var conjunction = Restrictions.Conjunction();
+
             criteria.CreateAlias("Units", "Units")
                 .AddOrder(Order.Asc("LastName")).AddOrder(Order.Asc("FirstName"))
                 .SetResultTransformer(new DistinctRootEntityResultTransformer());
-            conjunction.Add(Restrictions.In("Units", units));
+
+            var conjunction = Restrictions.Conjunction();
+            conjunction.Add(Restrictions.In("Units.Id", unitIds));
+            criteria.Add(conjunction);
 
             return criteria.List<User>().ToList();
 

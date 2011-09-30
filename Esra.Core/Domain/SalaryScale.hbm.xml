@@ -43,7 +43,8 @@
     </many-to-one>
 
     <!--<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="all-delete-orphan" order-by="Annual, EffectiveDate" fetch="join">-->
-    <bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual, EffectiveDate" fetch="join">
+    <!--<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual, EffectiveDate" fetch="join">-->
+    <bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual, EffectiveDate">
       <key>
         <column name="TitleCode" />
         <column name="EffectiveDate"/>

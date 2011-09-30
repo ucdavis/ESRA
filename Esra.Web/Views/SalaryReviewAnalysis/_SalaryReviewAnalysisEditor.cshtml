@@ -14,7 +14,7 @@
 
         <center>
             <br />
-            <a href='@Url.Action("Index", "SalaryReviewAnalysis")' class="buttons">
+            <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { referenceNumber = @Model.SalaryReviewAnalysis.ReferenceNumber })' class="buttons">
                 <img alt="Back" src='@Url.Image("arrow_left.jpg")' class="back_button" />&nbsp;Cancel/Back</a>
             &nbsp; &nbsp;<input type="submit" name="btnSubmitSalaryReviewAnalysis" value="Save Salary Review Analysis"
                 id="btnSubmitSalaryReviewAnalysis" />

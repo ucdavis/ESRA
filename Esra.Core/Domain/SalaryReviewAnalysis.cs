@@ -183,6 +183,8 @@ namespace Esra.Core.Domain
                 cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
                 cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 
+                // This should never get called unless someone called this method with a SalaryScale that was
+                // not fetched using SalaryScale.GetEffectiveSalarryScale(...)
                 if (salaryScale.NumSalarySteps > 0 && (salaryScale.SalarySteps.Count != salaryScale.NumSalarySteps))
                 {
                     // lazy binding work around to fetch all salary steps:
@@ -193,7 +195,7 @@ namespace Esra.Core.Domain
                         .ToList();
                 }
 
-                foreach (SalaryStep step in salaryScale.SalarySteps.OrderBy(x => x.Annual))
+                foreach (var step in salaryScale.SalarySteps)
                 {
                     cl.Add(selectionTypes[(int)Domain.SelectionType.Types.STEP].ShortType + " " + step.StepNumber, Convert.ToDecimal(step.Annual)); // "Step"
                 }
