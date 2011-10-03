@@ -247,6 +247,7 @@
     <Content Include="Scripts\jquery.numberformatter-1.2.2.min.js" />
     <Content Include="Scripts\jquery.ui.autocomplete.js" />
     <Content Include="Scripts\jquery.ui.button.js" />
+    <Content Include="Scripts\jquery.ui.combobox.js" />
     <Content Include="Scripts\jquery.ui.core.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
