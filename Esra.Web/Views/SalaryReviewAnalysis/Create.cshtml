@@ -14,13 +14,36 @@
     @Model.SelectedEmployee.TitleCode
     <br />
     <br />
-    <label id="lblSelectReviewTypeView" style="font-weight: bold; font-size: large;">
-        Select a Salary Review Analysis Type:</label>
-    <br />
-    <br />
-    @using (@Html.BeginForm("CreateEdit", "SalaryReviewAnalysis", FormMethod.Get))
-    {
+    @{
+        if (Model.SalaryScaleViewModel.SalaryScale == null)
+        {
+
+        <fieldset>
+            <br />
+            <label id="lblNoSalaryDataAvailable" style="font-weight: bold; font-size: large;">
+                &nbsp;&nbsp;Unable to perform Salary Review Analysis
+                <br />
+                <br />
+                &nbsp;&nbsp;No Salary Data Available</label>
+            <br />
+            <br />
+        </fieldset>
+        <br />
+
+        @Html.ActionLink("Cancel/Back", "Index")
+
+        }
+        else
+        {
+        <label id="lblSelectReviewTypeView" style="font-weight: bold; font-size: large;">
+            Select a Salary Review Analysis Type:</label>
+        <br />
+        <br />
+
+            using (@Html.BeginForm("CreateEdit", "SalaryReviewAnalysis", FormMethod.Get))
+            {
         @Html.Hidden("NewSraEmployee", Model.SelectedEmployee.id)
+
         <table id="tblCurrentProposedTitleCodes">
             <tr>
                 <td>
@@ -74,6 +97,8 @@
                 </td>
             </tr>
         </table>
+            }
+        }
     }
     <script language="JavaScript" type="text/javascript">
     <!--        //

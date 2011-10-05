@@ -134,7 +134,7 @@ namespace Esra.Web.Models
                     //    .FirstOrDefault();
                     salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SelectedEmployee.TitleCode, DateTime.Today);
 
-                    viewModel.SalaryReviewAnalysis.Title = salaryScale.Title;
+                    viewModel.SalaryReviewAnalysis.Title = viewModel.SelectedEmployee.Title;
                 }
             }
             else

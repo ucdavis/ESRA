@@ -33,7 +33,7 @@
 @section SubNav
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>
+        @* <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>*@
         <li>@Html.ActionLink("Back to List", "Index")</li>
     </ul>
 }
@@ -150,6 +150,7 @@
             });
 
             $('input.save-employee', '#employees').live('click', function (e) {
+                debugger;
                 var rowId = $(this).data("id");
                 var employeeRow = $('tr[data-id=' + rowId + ']', '#employees');
                 var row = employeeRow.next();
@@ -176,7 +177,7 @@
                         dtable.fnClose(employeeRow[0]);
                     },
                     success: function (result) {
-                    debugger;
+                        //debugger;
                         var oSettings = dtable.fnSettings();
                         var oColumns = oSettings.aoColumns;
                         var i;

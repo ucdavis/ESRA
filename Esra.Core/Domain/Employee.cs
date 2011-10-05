@@ -366,7 +366,11 @@ namespace Esra.Core.Domain
 
         public virtual void SetDepartmentComments(string value, bool? isDepartmentUser)
         {
-            SetComments(value, isDepartmentUser);
+            // if a department user: set department comments:
+            if (isDepartmentUser != null && (bool)isDepartmentUser)
+            {
+                DepartmentComments = (String.IsNullOrEmpty(value) ? null : value);
+            }
         }
 
         protected string _DeansOfficeComments;
@@ -379,9 +383,15 @@ namespace Esra.Core.Domain
 
         public virtual void SetDeansOfficeComments(string value, bool? isDepartmentUser)
         {
-            SetComments(value, isDepartmentUser);
+            // if a dean's office user: set the deansOfficeComments
+            if (isDepartmentUser == null || isDepartmentUser == false)
+            {
+                DeansOfficeComments = (String.IsNullOrEmpty(value) ? null : value);
+            }
         }
 
+        // This method is intended to allow a single comment field to set the
+        // appropriate deansOffice or departments comments field based on isDepartmentUser.
         public virtual void SetComments(string value, bool? isDepartmentUser)
         {
             if (isDepartmentUser == null || isDepartmentUser == false)
@@ -817,8 +827,7 @@ namespace Esra.Core.Domain
 
                 if (sortPropertyName.Equals("HomeDepartment") && (hasDepartmentIds))
                 {
-                    criteria.CreateAlias("HomeDepartment", "HomeDepartment")
-                    .AddOrder((isAscending ? Order.Asc("HomeDepartment.Name") : Order.Desc("HomeDepartment.Name")))
+                    criteria.AddOrder((isAscending ? Order.Asc("Department.Name") : Order.Desc("Department.Name")))
                     .AddOrder(Order.Asc("FullName"));
                 }
                 else
