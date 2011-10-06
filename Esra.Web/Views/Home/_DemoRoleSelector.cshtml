@@ -26,7 +26,7 @@
         $("input[name='demoRoles']").change(function () {
             var token = $('[name=__RequestVerificationToken]').val();
 
-            $.post('/Home/_DemoMenu',
+            $.post('@Url.Action("_DemoMenu")',
                 { __RequestVerificationToken: token, demoRole: $(this).val() },
                 function (result) {
                     if (result.length > 50) {
