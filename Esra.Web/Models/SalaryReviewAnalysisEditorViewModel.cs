@@ -51,6 +51,16 @@ namespace Esra.Web.Models
         /// </summary>
         public Title ProposedTitle { get; set; }
 
+        /// <summary>
+        /// This is a list of possible originating departments of the user
+        /// </summary>
+        public IList<Department> PossibleOriginatingDepartments { get; set; }
+
+        /// <summary>
+        /// Originating department of SalaryReviewAnalysis
+        /// </summary>
+        public Department OriginatingDepartment { get; set; }
+
         public static SalaryReviewAnalysisEditorViewModel Create(IRepository repository, string selectedEmployeeId)
         {
             return Create(repository, selectedEmployeeId, null, null);

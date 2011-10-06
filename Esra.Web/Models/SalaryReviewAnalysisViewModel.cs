@@ -113,18 +113,20 @@ namespace Esra.Web.Models
                                 };
 
             var allSchoolDepartments = Department.GetAllForUser(repository, user, false, "Name", true);
-            IList<Department> usersDepartmentsList;
+            IList<String> usersDepartmentsList;
+
             if (isDepartmentUser)
             {
                 var usersUnits = user.Units.Select(u => u.PPSCode).ToArray();
 
                 usersDepartmentsList = allSchoolDepartments
                     .Where(x => usersUnits.Contains(x.Id))
-                    .ToList();
+                    .Select(u => u.Id)
+                    .ToArray();
             }
             else
             {
-                usersDepartmentsList = allSchoolDepartments;
+                usersDepartmentsList = allSchoolDepartments.Select(x => x.Id).ToArray();
             }
 
             // This will return a list of employees with their IsDepartmentEmployee set appropriately if isDepartmentUser == true.
@@ -137,11 +139,23 @@ namespace Esra.Web.Models
             // viewModel.FilteredSalaryReviewAnalysis should only contain reference numbers for
             // Analysis that are visible to the User, meaning created by someone in the user's units:
 
+            // Returns a list of reviewers that are within the Catbert user's units:
             var reviewerNames = viewModel.FilteredUsers.Select(x => x.FullName).ToArray();
 
+            // This query will get those salary review analysis created by anyone in the filtered users list,
+            // but we probably want a list of those salary review analysis created that have an originating
+            // department in the usersDepartmentsList
+            //viewModel.FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
+            //    .Queryable
+            //    .Where(x => reviewerNames.Contains(x.InitiatedByReviewerName))
+            //    .OrderBy(y => y.ReferenceNumber)
+            //    .ToList();
+
+            // This query will get those salary review analysis created that have an originating
+            // department in the usersDepartmentsList
             viewModel.FilteredSalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
                 .Queryable
-                .Where(x => reviewerNames.Contains(x.InitiatedByReviewerName))
+                .Where(x => usersDepartmentsList.Contains(x.OriginatingDepartment.Id))
                 .OrderBy(y => y.ReferenceNumber)
                 .ToList();
 

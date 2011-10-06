@@ -113,6 +113,31 @@ namespace Esra.Web.Controllers
             //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
             var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber);
             viewModel.IsDepartmentUser = IsDepartmentUser;
+
+            // Logic to set possible OriginatingDepartments
+            var user = Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+            var allSchoolDepartments = Department.GetAllForUser(Repository, user, false, "Name", true);
+
+            if (IsDepartmentUser)
+            {
+                var usersUnits = user.Units.Select(u => u.PPSCode).ToArray();
+
+                viewModel.PossibleOriginatingDepartments = allSchoolDepartments
+                    .Where(x => usersUnits.Contains(x.Id))
+                    .ToList();
+            }
+            else
+            {
+                // All school departments for Dean's Office User:
+                viewModel.PossibleOriginatingDepartments = allSchoolDepartments;
+            }
+
+            if (String.IsNullOrEmpty(viewModel.SalaryReviewAnalysis.ReferenceNumber))
+            {
+                viewModel.SalaryReviewAnalysis.OriginatingDepartment = Department.GetOriginatingDepartmentForUser(Repository, user.EmployeeID);
+                viewModel.SalaryReviewAnalysis.InitiatedByReviewerName = user.FullName;
+            }
+
             //var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
 
             if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
@@ -199,8 +224,8 @@ namespace Esra.Web.Controllers
                 salaryReviewAnalysisToEdit = new SalaryReviewAnalysis()
                                                  {
                                                      DateInitiated = DateTime.Today,
-                                                     InitiatedByReviewerName = user.FullName,
-                                                     OriginatingDepartment = Department.GetOriginatingDepartmentForUser(Repository, user.EmployeeID),
+                                                     //InitiatedByReviewerName = user.FullName,
+                                                     //OriginatingDepartment = Department.GetOriginatingDepartmentForUser(Repository, user.EmployeeID),
                                                      Title = Repository.OfType<Title>()
                                                      .Queryable
                                                      .Where(t => t.TitleCode.Equals(titleCode))
@@ -211,6 +236,9 @@ namespace Esra.Web.Controllers
                                                      IsReclass = isReclass
                                                  };
             }
+
+            salaryReviewAnalysisToEdit.InitiatedByReviewerName = salaryReviewAnalysis.InitiatedByReviewerName;
+            salaryReviewAnalysisToEdit.OriginatingDepartment = salaryReviewAnalysis.OriginatingDepartment;
 
             //if (String.IsNullOrEmpty(dateApproved) == false)
             salaryReviewAnalysisToEdit.DateApproved = dateApproved ?? null;

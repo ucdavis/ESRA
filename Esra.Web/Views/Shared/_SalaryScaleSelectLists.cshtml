@@ -10,18 +10,9 @@
             <ul>
                 <li>@Html.Label("Search by Title Code")</li>
                 <li>
-                    <div class="editor-field ui-widget">
-                        @Html.DropDownListFor(x => x.TitleCode,
-                        new SelectList(Model.Titles.OrderBy(x => x.TitleCode),
-                            "TitleCode",
-                            "TitleCode",
-                             Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
-                            "--Select a Title Code--", new { id = "titlecode-drop-down" }
-                            )
-                    </div>
+                    <div class="editor-field">@Html.TextBoxFor(x => x.TitleCode, new { id = "titlecode-textbox", style = "width: 10em" })</div>
                 </li>
             </ul>
-
             // end SelectTitleCodeForm
         }
         -- or --
@@ -30,7 +21,8 @@
             <ul>
                 <li>@Html.Label("Search by Payroll Title")</li>
                 <li>
-                    <div class="editor-field ui-widget">
+                    <div class="editor-field
+            ui-widget">
                         @Html.DropDownListFor(x => x.TitleCode,
                         new SelectList(Model.Titles,
                             "TitleCode",
@@ -43,6 +35,5 @@
             </ul>
 
             // end SelectTitleForm
-        }
-    </fieldset>
+        }</fieldset>
 </div>

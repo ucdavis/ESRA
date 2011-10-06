@@ -630,47 +630,62 @@
     @Html.HiddenFor(x => x.SalaryReviewAnalysis.IsReclass)
     @Html.HiddenFor(x => x.SalaryReviewAnalysis.Title.TitleCode)
     <table>
-        @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
-        {
-            <tr>
-                <td>
+        <tr>
+            @*<td>
                     -- Salary Review Analysis has yet to be saved --
+                </td>*@
+            <th>
+                Reference Number
+            </th>
+            <th>
+                Date Initiated
+            </th>
+            <th>
+                Date Approved
+            </th>
+            <th>
+                Originating Department
+            </th>
+            <th>
+                Initiated By (Reviewer&nbsp;Name)
+            </th>
+        </tr>
+        <tr>
+            @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
+            {
+                <td style="font-style: italic">
+                    Unsaved
                 </td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <th>
-                    Reference Number
-                </th>
-                <th>
-                    Date Initiated
-                </th>
-                <th>
-                    Date Approved
-                </th>
-                <th>
-                    Initiated By (Reviewer&nbsp;Name)
-                </th>
-            </tr>
-            <tr>
+            }
+            else
+            {
                 <td>
                     @Html.HiddenFor(x => x.SalaryReviewAnalysis.Id, new { id = "salaryReviewAnalysisId" })
                     @Model.SalaryReviewAnalysis.ReferenceNumber
                 </td>
-                <td>
-                    @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
-                </td>
-                <td>
-                    @Html.EditorFor(x => x.SalaryReviewAnalysis.DateApproved)
-                </td>
-                <td>
-                    @Model.SalaryReviewAnalysis.InitiatedByReviewerName
-                </td>
-            </tr>
-
-        }
+            }
+            <td>
+                @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
+            </td>
+            <td>
+                @Html.EditorFor(x => x.SalaryReviewAnalysis.DateApproved)
+            </td>
+            <td>
+                <div class="editor-field">
+                    @Html.DropDownListFor(x => x.SalaryReviewAnalysis.OriginatingDepartment.Id,
+                        new SelectList(Model.PossibleOriginatingDepartments.OrderBy(x => x.Name),
+                                     "Id",
+                                     "Name_DepartmentNumber",
+                                               Model.SalaryReviewAnalysis.OriginatingDepartment != null ? Model.SalaryReviewAnalysis.OriginatingDepartment.Id : string.Empty),
+                            null, new { id = "originatingDepartmentDropDown" }
+                            )
+                </div>
+            </td>
+            <td>
+                @Html.HiddenFor(x => x.SalaryReviewAnalysis.InitiatedByReviewerName)
+                @Model.SalaryReviewAnalysis.InitiatedByReviewerName
+            </td>
+        </tr>
     </table>
     <table id="scenarios">
         <thead>

@@ -1,5 +1,7 @@
 ﻿@*@model Esra.Core.Domain.Title*@
 @model Esra.Web.Models.SalaryScaleViewModel
+@section AdditionalScripts{
+}
 @{
     ViewBag.Title = "Salary Scale Selection";
 }
@@ -13,23 +15,24 @@
             var availableTitleCodes = [];
             var availableTitles = [];
 
-            $($("#titlecode-drop-down")[0].options).each(function (i, val) {
-                availableTitleCodes[i] = $(val).val();
-            });
+            //            $($("#titlecode-drop-down")[0].options).each(function (i, val) {
+            //                availableTitleCodes[i] = $(val).val();
+            //            });
 
             $($("#title-drop-down")[0].options).each(function (i, val) {
                 availableTitles[i] = $(val).text();
+                availableTitleCodes[i] = $(val).val();
             });
 
-            $("#titlecode-drop-down").combobox({
-                source: availableTitleCodes,
-                delay: 0,
-                selected: function (event, ui) {
-                    //debugger;
-                    // Event handling code goes here.
-                    $(this).parents('form').submit();
-                } // selected
-            }); // combobox });
+            //            $("#titlecode-drop-down").combobox({
+            //                source: availableTitleCodes,
+            //                delay: 0,
+            //                selected: function (event, ui) {
+            //                    //debugger;
+            //                    // Event handling code goes here.
+            //                    $(this).parents('form').submit();
+            //                } // selected
+            //            }); // combobox });
 
             $("#title-drop-down").combobox({
                 source: availableTitles,
@@ -41,11 +44,20 @@
                 } // selected
             }); // combobox });
 
+            $('select').change(function () { $(this).parents('form').submit(); });
+
+            $("input#titlecode-textbox").autocomplete({
+                source: availableTitleCodes,
+                delay: 0,
+                selected: function (event, ui) {
+                    debugger;
+                    // Event handling code goes here.
+                    $(this).parents('form').submit();
+                } // selected
+            });
+
         });
 
-        $('select').change(function () {
-            $(this).parents('form').submit();
-        });
 //-->
     </script>
 </div>
