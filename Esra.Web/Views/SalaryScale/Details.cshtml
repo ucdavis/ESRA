@@ -34,6 +34,7 @@
             $($("#title-drop-down")[0].options).each(function (i, val) {
                 availableTitles[i] = $(val).text();
                 availableTitleCodes[i] = $(val).val();
+                availableTitleCodes.sort();
             });
 
             //            $("#titlecode-drop-down").combobox({
@@ -48,11 +49,13 @@
             $("input#titlecode-textbox").autocomplete({
                 source: availableTitleCodes,
                 delay: 0,
-                selected: function (event, ui) {
+                select: function (event, ui) {
+                    //debugger;
                     // Event handling code goes here.
+                    $(this).val(ui.item.value);  // set the text box's value to that selected from the list
                     $(this).parents('form').submit();
                 }
-            }); // autocomplete });
+            }); // autocomplete
 
             $("#title-drop-down").combobox({
                 source: availableTitles,
@@ -64,12 +67,15 @@
                 } // selected
             }); // combobox });
 
-        });
+            $('select').change(function () {
+                //debugger;
+                $(this).parents('form').submit();
+            });
 
-        $('select').change(function () {
-            //debugger;
-            $(this).parents('form').submit();
+            //        $('input#titlecode-textbox').change(function () {
+            //            //debugger;
+            //            $(this).parents('form').submit();
+            //        });
         });
-
     </script>
 </div>

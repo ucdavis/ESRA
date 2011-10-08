@@ -47,6 +47,7 @@
     <script language="JavaScript" type="text/javascript">
         //$(function () {
         $(document).ready(function () {
+
             var dtable = $('#employees').dataTable({
                 "bProcessing": true,
                 //"bServerSide": true,
@@ -238,17 +239,82 @@
                 e.preventDefault();
             });
 
-            $('#titlecode-drop-down').change(function () {
-                //debugger;
+            var availableTitleCodes = [];
+            var availableTitles = [];
 
-                var selectedText = $(this).find('option:selected').text();
-                var otherControl = $('#title-drop-down');
-                otherControl.val($(this).val());
+            $($("#title-drop-down")[0].options).each(function (i, val) {
+                availableTitles[i] = $(val).text();
+                availableTitleCodes[i] = $(val).val();
+                availableTitleCodes.sort();
+            });
 
-                var token = $('[name=__RequestVerificationToken]').val();
+            //            $('#title-drop-down').change(function () {
+            //                //debugger;
 
-                $.post('/SalaryScale/_SalaryScale',
+            //                var selectedText = $(this).find('option:selected').text();
+            //                var otherControl = $('#titlecode-drop-down');
+            //                otherControl.val($(this).val());
+
+            //                var token = $('[name=__RequestVerificationToken]').val();
+
+            //                $.post('/SalaryScale/_SalaryScale',
+            //                { __RequestVerificationToken: token, titleCode: $(this).val() },
+            //                function (result) {
+            //                    if (result.length > 50) {
+            //                        $("#salary-scale-partial").html(result.toString());
+            //                    }
+            //                    else {
+            //                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+            //                    }
+            //                }
+            //            );
+            //            });
+            $('#title-drop-down').combobox({
+                source: availableTitles,
+                delay: 0,
+                selected: function (event, ui) {
+
+                    var selectedText = $(this).find('option:selected').text();
+                    var otherControl = $('input#titlecode-textbox');
+                    otherControl.val($(this).val());
+
+                    var token = $('[name=__RequestVerificationToken]').val();
+
+                    $.post('/SalaryScale/_SalaryScale',
                 { __RequestVerificationToken: token, titleCode: $(this).val() },
+                    function (result) {
+                        if (result.length > 50) {
+                            $("#salary-scale-partial").html(result.toString());
+                        }
+                        else {
+                            $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                        }
+                    } // function (result)
+                 ); // post
+                } // selected
+            }); // combobox
+
+            $("#toggle").click(function () {
+                $("#title-drop-down").toggle();
+            });
+
+            $("#title-drop-down").change(function () { debugger; });
+
+            $("input#titlecode-textbox").autocomplete({
+                source: availableTitleCodes,
+                delay: 0,
+                select: function (event, ui) {
+                    var value = ui.item.value;
+
+                    var otherControl = $('select#title-drop-down'); // that I want to change the selected value of
+                    var mySelected = $('#title-drop-down option:selected').text(); // the old selected value
+
+                    otherControl.val(value);  // sync  the other control
+
+                    var token = $('[name=__RequestVerificationToken]').val();
+
+                    $.post('/SalaryScale/_SalaryScale',
+                { __RequestVerificationToken: token, titleCode: value },
                 function (result) {
                     if (result.length > 50) {
                         $("#salary-scale-partial").html(result.toString());
@@ -256,83 +322,62 @@
                     else {
                         $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
                     }
-                }
-            );
-            });
+                } // function (result)
+            ); // post
+                } //select
+            }); //autocomplete
 
-            $('#title-drop-down').change(function () {
+            function GetRow() {
+
+            }
+
+            /* Formating function for row details */
+            function fnFormatDetails(dTable, row) {
                 //debugger;
+                var oSettings = dTable.fnSettings();
+                var oColumns = oSettings.aoColumns;
+                var i;
+                var oColumnNames = new Array();
 
-                var selectedText = $(this).find('option:selected').text();
-                var otherControl = $('#titlecode-drop-down');
-                otherControl.val($(this).val());
+                for (i = 0; i < oColumns.length; i++) {
+                    oColumnNames[oColumns[i].sName] = i;
+                };
 
-                var token = $('[name=__RequestVerificationToken]').val();
+                var rowContents = row[0];
+                var careerChecked = row.find(".hire-date").hasClass("date-checked");
+                var apptChecked = row.find(".title-date").hasClass("date-checked");
+                //var isDepartmentUser = $('#is-department-user')[0].value;
+                var isDepartmentUser = row.find(".is-department-user").hasClass("True");
+                var rowId = row.data("id");
 
-                $.post('/SalaryScale/_SalaryScale',
-                { __RequestVerificationToken: token, titleCode: $(this).val() },
-                function (result) {
-                    if (result.length > 50) {
-                        $("#salary-scale-partial").html(result.toString());
-                    }
-                    else {
-                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
-                    }
+                var aData = dTable.fnGetData(rowContents);
+
+                var sOut = '';
+                sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+                //sOut += '<tr><td>Is Department User: ' + isDepartmentUser + '</td></tr>';
+                sOut += '<tr><td>Editing ' + aData[oColumnNames["FullName"]] + '</td></tr>';
+                sOut += '<tr><td>Hire Date: <input class="hire-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedCareerHireDate"]] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+                sOut += '<tr><td>Title Begin Date: <input class="title-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedApptHireDate"]] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+                sOut += '<tr><td>Experience Begin Date: <input class="experience-date datepicker" type="text" value="' + aData[oColumnNames["ExperienceBeginDate"]] + '"/></td></tr>';
+                if (isDepartmentUser) {
+                    sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
                 }
-            );
-            });
-        });
+                else {
+                    sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
+                }
 
-        function GetRow() {
+                if (isDepartmentUser) {
+                    sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
+                }
+                else {
+                    sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
+                }
 
-        }
-
-        /* Formating function for row details */
-        function fnFormatDetails(dTable, row) {
-            //debugger;
-            var oSettings = dTable.fnSettings();
-            var oColumns = oSettings.aoColumns;
-            var i;
-            var oColumnNames = new Array();
-
-            for (i = 0; i < oColumns.length; i++) {
-                oColumnNames[oColumns[i].sName] = i;
+                sOut += '<tr><td><input class="save-employee" data-id="' + rowId + '" type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
+                sOut += '</table>';
+                return sOut;
             };
-
-            var rowContents = row[0];
-            var careerChecked = row.find(".hire-date").hasClass("date-checked");
-            var apptChecked = row.find(".title-date").hasClass("date-checked");
-            //var isDepartmentUser = $('#is-department-user')[0].value;
-            var isDepartmentUser = row.find(".is-department-user").hasClass("True");
-            var rowId = row.data("id");
-
-            var aData = dTable.fnGetData(rowContents);
-
-            var sOut = '';
-            sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-            //sOut += '<tr><td>Is Department User: ' + isDepartmentUser + '</td></tr>';
-            sOut += '<tr><td>Editing ' + aData[oColumnNames["FullName"]] + '</td></tr>';
-            sOut += '<tr><td>Hire Date: <input class="hire-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedCareerHireDate"]] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
-            sOut += '<tr><td>Title Begin Date: <input class="title-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedApptHireDate"]] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
-            sOut += '<tr><td>Experience Begin Date: <input class="experience-date datepicker" type="text" value="' + aData[oColumnNames["ExperienceBeginDate"]] + '"/></td></tr>';
-            if (isDepartmentUser) {
-                sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
-            }
-            else {
-                sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
-            }
-
-            if (isDepartmentUser) {
-                sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
-            }
-            else {
-                sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
-            }
-
-            sOut += '<tr><td><input class="save-employee" data-id="' + rowId + '" type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
-            sOut += '</table>';
-            return sOut;
-        }
+        });
     </script>
 </div>
 <div id="salary-scale-partial">

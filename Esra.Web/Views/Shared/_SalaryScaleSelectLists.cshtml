@@ -10,10 +10,10 @@
             <ul>
                 <li>@Html.Label("Search by Title Code")</li>
                 <li>
-                    <div class="editor-field">@Html.TextBoxFor(x => x.TitleCode, new { id = "titlecode-textbox", style = "width: 10em" })</div>
+                    <div class="editor-field">@Html.TextBoxFor(x => x.TitleCode, new { id = "titlecode-textbox", style = "width: 10em" })
+                    </div>
                 </li>
-            </ul>
-            // end SelectTitleCodeForm
+            </ul> // end SelectTitleCodeForm
         }
         -- or --
         @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
@@ -21,19 +21,14 @@
             <ul>
                 <li>@Html.Label("Search by Payroll Title")</li>
                 <li>
-                    <div class="editor-field
-            ui-widget">
-                        @Html.DropDownListFor(x => x.TitleCode,
-                        new SelectList(Model.Titles,
-                            "TitleCode",
-                            "PayrollTitle_TitleCode",
-                             Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty),
-                     "--Select a Title--", new { id = "title-drop-down" }
-                            )
+                    <div class="editor-field ui-widget">
+                        @Html.DropDownListFor(x => x.TitleCode, new SelectList(Model.Titles, "TitleCode", "PayrollTitle_TitleCode", Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty), "--Select a Title--", new { id = "title-drop-down" })
                     </div>
                 </li>
-            </ul>
+            </ul> // end SelectTitleForm
 
-            // end SelectTitleForm
-        }</fieldset>
+        }
+        <button id="toggle">
+            Show underlying select</button>
+    </fieldset>
 </div>
