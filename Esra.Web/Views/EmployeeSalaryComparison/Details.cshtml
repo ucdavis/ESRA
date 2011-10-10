@@ -279,7 +279,7 @@
 
                     var token = $('[name=__RequestVerificationToken]').val();
 
-                    $.post('/SalaryScale/_SalaryScale',
+                    $.post('@Url.Action("_SalaryScale", "SalaryScale")',
                 { __RequestVerificationToken: token, titleCode: $(this).val() },
                     function (result) {
                         if (result.length > 50) {
@@ -320,7 +320,7 @@
 
                     var token = $('[name=__RequestVerificationToken]').val();
 
-                    $.post('/SalaryScale/_SalaryScale',
+                    $.post('@Url.Action("_SalaryScale", "SalaryScale")',
                 { __RequestVerificationToken: token, titleCode: value },
                 function (result) {
                     if (result.length > 50) {
