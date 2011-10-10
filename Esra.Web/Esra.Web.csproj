@@ -209,6 +209,7 @@
     <Content Include="Images\printer.gif" />
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\jquery.ui.combobox.js" />
     <Content Include="Scripts\dataTables.naturalSort.js" />
     <Content Include="Scripts\dataTables.deptEmployee.js" />
     <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.js" />
@@ -247,7 +248,6 @@
     <Content Include="Scripts\jquery.numberformatter-1.2.2.min.js" />
     <Content Include="Scripts\jquery.ui.autocomplete.js" />
     <Content Include="Scripts\jquery.ui.button.js" />
-    <Content Include="Scripts\jquery.ui.combobox.js" />
     <Content Include="Scripts\jquery.ui.core.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />

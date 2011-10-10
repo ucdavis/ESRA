@@ -273,7 +273,6 @@
                 source: availableTitles,
                 delay: 0,
                 selected: function (event, ui) {
-
                     var selectedText = $(this).find('option:selected').text();
                     var otherControl = $('input#titlecode-textbox');
                     otherControl.val($(this).val());
@@ -288,7 +287,7 @@
                         }
                         else {
                             $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
-                        }
+                        } // else
                     } // function (result)
                  ); // post
                 } // selected
@@ -298,18 +297,26 @@
                 $("#title-drop-down").toggle();
             });
 
-            $("#title-drop-down").change(function () { debugger; });
-
             $("input#titlecode-textbox").autocomplete({
                 source: availableTitleCodes,
                 delay: 0,
                 select: function (event, ui) {
                     var value = ui.item.value;
 
-                    var otherControl = $('select#title-drop-down'); // that I want to change the selected value of
-                    var mySelected = $('#title-drop-down option:selected').text(); // the old selected value
-
+                    var otherControl = $('select#title-drop-down'); // control that I want to change the selected value of
                     otherControl.val(value);  // sync  the other control
+                    var newSelectedText = $('#title-drop-down option:selected').text(); // new selected value
+                    var autocompleteLabels = $("input.ui-autocomplete-input"); //
+                    autocompleteLabels.each(function (i, val) {
+                        var id = 'title-drop-down'; // name of auto complete control we're looking for
+                        var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                        if (prevSiblingId != null && prevSiblingId == id) {
+                            // if the previous control's id matches the id
+                            // then set the sibling's text value:
+                            var myVar = $(val);
+                            myVar.val(newSelectedText);
+                        } // if
+                    }); // each
 
                     var token = $('[name=__RequestVerificationToken]').val();
 
@@ -321,10 +328,15 @@
                     }
                     else {
                         $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
-                    }
+                    } // else
                 } // function (result)
             ); // post
-                } //select
+                }, //select
+                create: function (event, ui) {
+                    // This resets the value displayed to what is was before a page refresh:
+                    var selectedTitleCode = $('#title-drop-down option:selected').val(); // selected value
+                    $(this).val(selectedTitleCode);
+                }
             }); //autocomplete
 
             function GetRow() {
