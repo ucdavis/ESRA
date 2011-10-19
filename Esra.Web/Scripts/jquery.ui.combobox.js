@@ -54,7 +54,14 @@
 					        }
 					    }
 					})
-					.addClass("ui-widget ui-widget-content ui-corner-left");
+					.addClass("ui-widget ui-widget-content ui-corner-left")
+                    .click(function (event) {
+                        //debugger;
+                        var select = $(this).parent().find("select")[0].options;
+                        var option = select[0].text;
+                        var myValue = $(this).val();
+                        if (myValue == option) { $(this).val(""); }
+                    });
 
             input.data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li></li>")
@@ -62,6 +69,8 @@
 						.append("<a>" + item.label + "</a>")
 						.appendTo(ul);
             };
+            // This line added to set default value of the combobox
+            input.val(selected.text());
 
             this.button = $("<button type='button'>&nbsp;</button>")
 					.attr("tabIndex", -1)

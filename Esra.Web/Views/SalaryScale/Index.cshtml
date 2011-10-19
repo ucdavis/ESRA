@@ -13,31 +13,15 @@
     <!--        //
         $(document).ready(function () {
             var availableTitleCodes = [];
-            var availableTitles = [];
-
-            //            $($("#titlecode-drop-down")[0].options).each(function (i, val) {
-            //                availableTitleCodes[i] = $(val).val();
-            //            });
 
             $($("#title-drop-down")[0].options).each(function (i, val) {
-                availableTitles[i] = $(val).text();
+                //availableTitles[i] = $(val).text();
                 availableTitleCodes[i] = $(val).val();
                 availableTitleCodes.sort();
 
             });
 
-            //            $("#titlecode-drop-down").combobox({
-            //                source: availableTitleCodes,
-            //                delay: 0,
-            //                selected: function (event, ui) {
-            //                    //debugger;
-            //                    // Event handling code goes here.
-            //                    $(this).parents('form').submit();
-            //                } // selected
-            //            }); // combobox });
-
             $("#title-drop-down").combobox({
-                source: availableTitles,
                 delay: 0,
                 selected: function (event, ui) {
                     //debugger;

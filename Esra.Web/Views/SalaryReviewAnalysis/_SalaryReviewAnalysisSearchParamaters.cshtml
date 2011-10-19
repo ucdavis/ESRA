@@ -17,11 +17,11 @@
             </tr>
             <tr>
                 <th>
-                    &nbsp;Reference Number
+                    &nbsp;Reference Number:
                 </th>
                 <td>
                     @* @( Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber != null ? Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber : string.Empty)*@
-                    &nbsp;<div class="editor-field">
+                    &nbsp;<div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedReferenceNumber,
                         new SelectList(Model.FilteredSalaryReviewAnalysis,
                         "ReferenceNumber",
@@ -40,13 +40,13 @@
             </tr>
             <tr>
                 <th>
-                    &nbsp;Employee
+                    &nbsp;Employee:
                 </th>
                 <th>
-                    &nbsp;Created By
+                    &nbsp;Created By (Reviewer):
                 </th>
                 <th>
-                    &nbsp;Creation Date
+                    &nbsp;Creation Date:
                 </th>
                 <td>
                     (Use&nbsp;today&#39;s&nbsp;date&nbsp;for&nbsp;any&nbsp;date)
@@ -55,7 +55,7 @@
             <tr>
                 <td>
                     @* @(Model.SelectedEmployee != null ? Model.SelectedEmployee.Id.ToString() : String.Empty)*@
-                    &nbsp;<div class="editor-field">
+                    &nbsp;<div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedEmployee,
                         new SelectList(Model.FilteredEmployees,
                         "id",
@@ -67,7 +67,7 @@ null),
                 </td>
                 <td>
                     @* @(Model.SelectedUser != null ? Model.SelectedUser.Id.ToString()
-                    : "0")*@ &nbsp;<div class="editor-field">
+                    : "0")*@ &nbsp;<div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedUser,
                         new SelectList(Model.FilteredUsers,
                         "Id",
@@ -76,6 +76,8 @@ null),
              "-- Any Reviewer --", new { id = "ddlCreatedBy" }
                         )
                     </div>
+                    @*<button id="toggle">
+                        Show underlying select</button>*@
                 </td>
                 <td>
                     &nbsp;<div class="editor-field">
@@ -98,6 +100,16 @@ null),
     }
     <script language="JavaScript" type="text/javascript">
     <!--
+
+        $(document).ready(function () {
+
+        });
+
+        $("#toggle").click(function () {
+            $("#ddlCreatedBy").toggle();
+            return false;
+        });
+
         $("#btnFindSRA").click(function () {
             // reset the ddlReferenceNumber when the submit button is "pressed"
             var selectedReferenceNum = $('#ddlReferenceNumber')[0];
@@ -105,39 +117,52 @@ null),
             selectedReferenceNum.options[0].selected = true;
             $(this).parents('form').submit();
         });
-        // This allows the form to submit when a selection is made from the
-        // employees drop-down.
-        $('#ddlReferenceNumber').change(function () {
-            var selectedEmployee = $('#ddlEmployee')[0];
-            selectedEmployee.selectedIndex = 0;
-            selectedEmployee.options[0].selected = true;
 
-            var selectedUser = $('#ddlCreatedBy')[0];
-            selectedUser.selectedIndex = 0;
-            selectedUser.options[0].selected = true;
-
-            var creationDateString = $('#CreationDateString')[0];
-            creationDateString.value = getDate();
-
-            $(this).parents('form').submit();
-        });
+        // controlId = id of the control you wish to set.
+        // selectedTextValue = the text value you wish to display (or not), i.e. "".
+        function setAutocomplete(controlId, selectedTextValue) {
+            var autocompleteLabels = $("input.ui-autocomplete-input"); //
+            autocompleteLabels.each(function (i, val) {
+                //var id = 'title-drop-down'; // name of auto complete control we're looking for
+                var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                if (prevSiblingId != null && prevSiblingId == controlId) {
+                    // if the previous control's id matches the id
+                    // then set the sibling's text value:
+                    var myVar = $(val);
+                    myVar.val(selectedTextValue);
+                } // if
+            }); // each
+        }; // end setAutocomplete
 
         function resetForm(form) {
-            var selectedReferenceNumber = form.ddlReferenceNumber;
-            selectedReferenceNumber.selectedIndex = 0;
-            selectedReferenceNumber.options[0].selected = true;
+            resetFields(form, true);
+        };
+
+        function resetFields(form, resetReferenceNumber) {
+            //debugger;
+
+            if (resetReferenceNumber) {
+                var selectedReferenceNumber = form.ddlReferenceNumber;
+                selectedReferenceNumber.selectedIndex = 0;
+                selectedReferenceNumber.options[0].selected = true;
+
+                setAutocomplete("ddlReferenceNumber", selectedReferenceNumber.options[0].text);
+            }
 
             var selectedEmployee = form.ddlEmployee;
             selectedEmployee.selectedIndex = 0;
             selectedEmployee.options[0].selected = true;
+            setAutocomplete("ddlEmployee", selectedEmployee.options[0].text);
 
             var selectedUser = form.ddlCreatedBy;
             selectedUser.selectedIndex = 0;
             selectedUser.options[0].selected = true;
+            setAutocomplete("ddlCreatedBy", selectedUser.options[0].text)
 
             var creationDateString = form.CreationDateString;
             creationDateString.value = getDate();
-        };
+
+        }
 
         function getDate() {
             var today = new Date();
@@ -150,6 +175,48 @@ null),
             return mm + '/' + dd + '/' + yyyy;
         }
 
+        $("#ddlEmployee").combobox({
+            delay: 0 //,
+
+            //            selected: function (event, ui) {
+            //                // Event handling code goes here.
+            //                debugger;
+            //                return false;
+            //            } // selected
+        });     // combobox });
+
+        $("#ddlCreatedBy").combobox({
+            delay: 0
+        });  // combobox });
+
+        $("#ddlReferenceNumber").combobox({
+            delay: 0,
+            selected: function (event, ui) {
+                // Event handling code goes here.
+                resetFields($(this).parents('form')[0], false);
+
+                $(this).parents('form').submit();
+
+                return false;
+            } // selected
+        });      // combobox });
+
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        //        $('#ddlReferenceNumber').change(function () {
+        //            var selectedEmployee = $('#ddlEmployee')[0];
+        //            selectedEmployee.selectedIndex = 0;
+        //            selectedEmployee.options[0].selected = true;
+
+        //            var selectedUser = $('#ddlCreatedBy')[0];
+        //            selectedUser.selectedIndex = 0;
+        //            selectedUser.options[0].selected = true;
+
+        //            var creationDateString = $('#CreationDateString')[0];
+        //            creationDateString.value = getDate();
+
+        //            $(this).parents('form').submit();
+        //        });
         //-->
     </script>
 </div>

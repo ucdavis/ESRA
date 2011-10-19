@@ -2,17 +2,42 @@
 <div id="divCreateNewSRA">
     @using (@Html.BeginForm("Create", "SalaryReviewAnalysis", FormMethod.Get))
     {
-        <div class="editor-field">
-            &nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
+        <ul>
+            <li>&nbsp;Select an Employee to Create a New Salary Review Analysis:</li>
+            <li>
+                <div class="editor-field ui-widget">
+                    &nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
                         new SelectList(Model.FilteredEmployees,
                         "id",
                         "FullName"),
                                "-- Select an Employee to Create a New Salary Review Analysis --", new { id = "ddlNewSAREmployee" }
                         )
-        </div>
+                </div>
+            </li>
+        </ul>
     }
     <script language="JavaScript" type="text/javascript">
     <!--
+        //var availableEmployees = [];
+
+        //        $($("#ddlNewSAREmployee")[0].options).each(function (i, val) {
+
+        //            availableEmployees[i] = "-- Select me --"; //$(val).text();
+        //        });
+
+        $("#ddlNewSAREmployee").combobox({
+            delay: 0,
+            selected: function (event, ui) {
+                // Event handling code goes here.
+                var newSraEmployee = $('#ddlNewSAREmployee')[0];
+
+                if (newSraEmployee.value.length > 0) {
+                    $(this).parents('form').submit();
+                }
+                return false;
+            } // selected
+        }); // combobox });
+
         // This allows the form to submit when a selection is made from the
         // employees drop-down.
         $('#ddlNewSAREmployee').change(function () {
@@ -24,6 +49,7 @@
             }
             return false;
         });
+
         //-->
     </script>
 </div>

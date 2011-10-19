@@ -7,8 +7,10 @@
         <table>
             <tr>
                 <th>
-                    Titles:
+                    Select Title(s):
                 </th>
+            </tr>
+            <tr>
                 <td>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedTitleCodes,
@@ -20,70 +22,27 @@
                         @* @this.MultiSelect("SelectedTitleCodes").Options(Model.TitlesList.OrderBy(x => x.AbbreviatedName), t => t.TitleCode, t => t.PayrollTitle_TitleCode).FirstOption("Any","--Any Title(s)--").Selected(Model.SelectedTitles)*@
                     </div>
                 </td>
-                <th>
-                    Title Codes:
-                </th>
-                <td>
-                    <div class="editor-field">
-                        @Html.ListBoxFor(x => x.SelectedTitleCodes,
-                            new MultiSelectList(Model.TitlesList.OrderBy(x => x.TitleCode),
-                            "TitleCode",
-                            "TitleCode",
-                            Model.SelectedTitles)
-                        )
-                        @*@this.MultiSelect("SelectedTitleCodes").Options(Model.TitlesList.OrderBy(x => x.TitleCode), t => t.TitleCode, t => t.TitleCode).FirstOption("Any", "--Any Title Code(s)--").Selected(Model.SelectedTitles)*@
-                    </div>
-                </td>
             </tr>
             <tr>
                 <th>
-                    Departments:
+                    -- And/Or --
                 </th>
+            </tr>
+            <tr>
+                <th>
+                    Select Department(s):
+                </th>
+            </tr>
+            <tr>
                 <td>
-                    <div class="editor-field">
+                    <div class="editor-field ">
                         @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
                         new MultiSelectList(Model.DepartmentsList,
                         "DepartmentNumber",
                         "Name_DepartmentNumber",
-                        Model.SelectedDepartments)
-                        )
+                        Model.SelectedDepartments))
                         @*@this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.Name).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.Name_DepartmentNumber).FirstOption("Any", "--Any Department(s)--").Selected(Model.SelectedDepartments)*@
                     </div>
-                </td>
-                <th>
-                    Department Codes/IDs:
-                </th>
-                <td>
-                    <div class="editor-field">
-                        @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
-                            new MultiSelectList(Model.DepartmentsList
-                           .OrderBy(t => t.DepartmentNumber)
-                           .ThenBy(t => t.SchoolCode),
-                            "DepartmentNumber",
-                            "DepartmentNumber",
-                            Model.SelectedDepartments)
-                            )
-                        @* @this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.DepartmentNumber).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.DepartmentNumber).FirstOption("Any", "--Any Department ID(s)--").Selected(Model.SelectedDepartments)*@
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    Employee:
-                </th>
-                <td colspan="2">
-                    <div class="editor-field">
-                        @Html.DropDownListFor(x => x.SelectedEmployeeId,
-                        new SelectList(Model.EmployeesList,
-                        "id",
-                        "FullName",
-                        Model.SelectedEmployee != null ? Model.SelectedEmployee.id : string.Empty),
-             "--Any Employee(s)--", new { id = "employee-drop-down" }
-                        )
-                    </div>
-                </td>
-                <td>
-                    &nbsp;
                 </td>
             </tr>
             <tr>
@@ -92,6 +51,29 @@
                     <input id="btnGetEmployeeSalaryReport" type="submit" value="Get Employee Salary Report" />&nbsp;
                     &nbsp; &nbsp; &nbsp;
                     <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    -- Or --
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Select an Employee:
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-field ui-widget">
+                        @Html.DropDownListFor(x => x.SelectedEmployeeId,
+                        new SelectList(Model.EmployeesList,
+                        "id",
+                        "FullName",
+                        Model.SelectedEmployee != null ? Model.SelectedEmployee.id : string.Empty),
+             "--Any Employee(s)--", new { id = "employee-drop-down" }
+                        )
+                    </div>
                     <br />
                     <br />
                 </td>
@@ -99,14 +81,43 @@
         </table>
     }
     <script language="JavaScript" type="text/javascript">
-    <!--
+	<!--
+        $(document).ready(function () {
+
+            $("#employee-drop-down").combobox({
+                delay: 0,
+                defaultText: function (text) {
+                    debugger;
+                    var i = 2;
+                },
+                selected: function (event, ui) {
+                    // Event handling code goes here.
+                    resetDropDownLists($(this).parents('form')[0], false);
+
+                    $(this).parents('form').submit();
+                } // selected
+            }); // combobox });
+
+            $("#SelectedDepartmentCodes[0]").attr("id", "deptsMultiSelect");
+            $("#deptsMultiSelect").addClass("wideMultiSelect");
+            $("#deptsMultiSelect").addClass("multiselect");
+
+            $("#SelectedTitleCodes[0]").attr("id", "titlesMultiSelect");
+            $("#titlesMultiSelect").addClass("wideMultiSelect");
+            $("#titlesMultiSelect").addClass("multiselect");
+
+            $(".multiselect").multiselect();
+        });
+
         $("#btnGetEmployeeSalaryReport").click(function () {
             // reset the employee-drop-down when the submit button is "pressed"
             var selectedEmployeeId = $('#employee-drop-down')[0];
             selectedEmployeeId.selectedIndex = 0;
             selectedEmployeeId.options[0].selected = true;
+
             $(this).parents('form').submit();
         });
+
         // This allows the form to submit when a selection is made from the
         // employees drop-down.
         $('#employee-drop-down').change(function () {
@@ -116,48 +127,18 @@
         });
 
         function resetDropDownLists(form, resetEmployee) {
-            form = $(form)[0];
-            var i = 0;
-            var selectedDepartmentCodes = form.SelectedDepartmentCodes;
+            $(".remove-all").click();
 
-            if (typeof selectedDepartmentCodes != 'undefined') {
-                var selectedDepartmentCodes1 = selectedDepartmentCodes[0];
-                var selectedDepartmentCodes2 = selectedDepartmentCodes[1];
+            var selectedtitles = $('#titlesMultiSelect :selected');
 
-                for (i = 0; i < selectedDepartmentCodes1.length; i++) {
-                    if (selectedDepartmentCodes1.options[i].selected == true) {
-                        //alert(i);
-                        selectedDepartmentCodes1.options[i].selected = false;
-                    }
-                }
-
-                for (i = 0; i < selectedDepartmentCodes2.length; i++) {
-                    if (selectedDepartmentCodes2.options[i].selected == true) {
-                        //alert(i);
-                        selectedDepartmentCodes2.options[i].selected = false;
-                    }
-                }
+            var selectedDepartments = $('#deptsMultiSelect :selected');
+            if (typeof selectedDepartments === "undefined" == false) {
+                selectedDepartments.val("");
             }
-
-            var selectedTitleCodes = form.SelectedTitleCodes;
-            if (typeof selectedTitleCodes != 'undefined') {
-                var selectedTitleCodes1 = selectedTitleCodes[0];
-                var selectedTitleCodes2 = selectedTitleCodes[1];
-
-                for (i = 0; i < selectedTitleCodes1.length; i++) {
-                    if (selectedTitleCodes1.options[i].selected == true) {
-                        //alert(i);
-                        selectedTitleCodes1.options[i].selected = false;
-                    }
-                }
-
-                for (i = 0; i < selectedTitleCodes2.length; i++) {
-                    if (selectedTitleCodes2.options[i].selected == true) {
-                        //alert(i);
-                        selectedTitleCodes2.options[i].selected = false;
-                    }
-                }
+            if (typeof selectedtitles === "undefined" == false) {
+                selectedtitles.val("");
             }
+            selectedtitles.val("");
 
             if (resetEmployee) {
                 var selectedEmployeeId = form.SelectedEmployeeId;
@@ -165,15 +146,17 @@
                 if (typeof selectedEmployeeId != 'undefined') {
                     selectedEmployeeId.selectedIndex = 0;
                     selectedEmployeeId.options[0].selected = true;
+
+                    setAutocomplete('employee-drop-down', "");
                 }
             }
             return false;
-        }
+        };
 
         function resetForm(form) {
             resetDropDownLists(form, true);
         };
 
-        //-->
+		//-->
     </script>
 </div>

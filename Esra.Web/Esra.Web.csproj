@@ -180,6 +180,7 @@
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Css\cas.css" />
+    <Content Include="Css\common.css" />
     <Content Include="Css\extended.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -197,6 +198,7 @@
     <Content Include="Css\jquery-ui-1.8.11.custom.css" />
     <Content Include="Css\main.css" />
     <EmbeddedResource Include="favicon.ico" />
+    <Content Include="Css\ui.multiselect.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\arrow_left.jpg" />
     <Content Include="Images\comment.png" />
@@ -210,6 +212,10 @@
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\jquery.ui.combobox.js" />
+    <Content Include="Scripts\Copy of ui.multiselect.js" />
+    <Content Include="Scripts\jquery.defaultvalue-1.0.js" />
+    <Content Include="Scripts\jquery.defaultValue.js" />
+    <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\dataTables.naturalSort.js" />
     <Content Include="Scripts\dataTables.deptEmployee.js" />
     <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.js" />
@@ -256,6 +262,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\dataTables.currency.js" />
     <Content Include="Scripts\jquery.fn.sortElements.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en-US.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-min.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-pack.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo-min.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo.js" />
+    <Content Include="Scripts\new-ui.multiselect.js" />
     <Content Include="Scripts\jshashtable.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />

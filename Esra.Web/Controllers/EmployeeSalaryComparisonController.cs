@@ -63,6 +63,21 @@ namespace Esra.Web.Controllers
                                      selectedEmployeeId.Equals("0") || selectedEmployeeId.Equals(String.Empty)
                                          ? false
                                          : true;
+
+            var mySelectedTitleCodes = new List<string>();
+            if (selectedTitleCodes != null)
+            {
+                foreach (var i in selectedTitleCodes)
+                {
+                    var j = i.Split(',');
+                    foreach (var s in j)
+                    {
+                        mySelectedTitleCodes.Add(s.Trim());
+                    }
+                }
+                selectedTitleCodes = mySelectedTitleCodes.ToArray();
+            }
+
             // search expression example:
 
             //employeeSalaryComparisonModel.EmployeeSalaryComparisonSearchExpression =
