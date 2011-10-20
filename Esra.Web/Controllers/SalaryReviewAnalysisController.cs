@@ -112,6 +112,9 @@ namespace Esra.Web.Controllers
         {
             //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
             var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber);
+
+            if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
+
             viewModel.IsDepartmentUser = IsDepartmentUser;
 
             // Logic to set possible OriginatingDepartments
@@ -140,7 +143,7 @@ namespace Esra.Web.Controllers
 
             //var salaryReviewAnalysis = _salaryReviewAnalysisRepository.GetNullableById(id);
 
-            if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
+            //if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
 
             //var viewModel = SalaryReviewAnalysisViewModel.Create(Repository);
             //viewModel.SalaryReviewAnalysis = salaryReviewAnalysis;

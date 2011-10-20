@@ -6,22 +6,15 @@
     });
 </script>
 <div>
-    @using (@Html.BeginForm("Index", "SalaryReviewAnalysis", FormMethod.Get))
-    {
-        <table id="SRA_table">
-            <tr>
-                <th colspan="4">
-                    <h2>
-                        Search Parameters</h2>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    &nbsp;Reference Number:
-                </th>
-                <td>
-                    @* @( Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber != null ? Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber : string.Empty)*@
-                    &nbsp;<div class="editor-field ui-widget">
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Search Parameters</legend>
+        @using (@Html.BeginForm("Index", "SalaryReviewAnalysis", FormMethod.Get))
+        {
+
+            <ul>
+                <li style="font-weight: bold;">@Html.Label("Search by Reference Number")</li>
+                <li>
+                    <div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedReferenceNumber,
                         new SelectList(Model.FilteredSalaryReviewAnalysis,
                         "ReferenceNumber",
@@ -30,32 +23,11 @@
              "-- Select a Reference Number --", new { id = "ddlReferenceNumber" }
                         )
                     </div>
-                </td>
-                <td>
-                    &nbsp;
-                </td>
-                <td>
-                    &nbsp;
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    &nbsp;Employee:
-                </th>
-                <th>
-                    &nbsp;Created By (Reviewer):
-                </th>
-                <th>
-                    &nbsp;Creation Date:
-                </th>
-                <td>
-                    (Use&nbsp;today&#39;s&nbsp;date&nbsp;for&nbsp;any&nbsp;date)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @* @(Model.SelectedEmployee != null ? Model.SelectedEmployee.Id.ToString() : String.Empty)*@
-                    &nbsp;<div class="editor-field ui-widget">
+                </li>
+                <li style="font-weight: bold; font-style: italic;">@Html.Label("-- Or --")</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Employee")</li>
+                <li>
+                    <div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedEmployee,
                         new SelectList(Model.FilteredEmployees,
                         "id",
@@ -64,10 +36,12 @@ null),
              "-- Any Employee --", new { id = "ddlEmployee" }
                         )
                     </div>
-                </td>
-                <td>
-                    @* @(Model.SelectedUser != null ? Model.SelectedUser.Id.ToString()
-                    : "0")*@ &nbsp;<div class="editor-field ui-widget">
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- And/Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Reviewer") &nbsp;<label style="font-style: italic;">(Created
+                    By)</label></li>
+                <li>
+                    <div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedUser,
                         new SelectList(Model.FilteredUsers,
                         "Id",
@@ -76,28 +50,26 @@ null),
              "-- Any Reviewer --", new { id = "ddlCreatedBy" }
                         )
                     </div>
-                    @*<button id="toggle">
-                        Show underlying select</button>*@
-                </td>
-                <td>
-                    &nbsp;<div class="editor-field">
-                        @Html.TextBoxFor(a => a.CreationDateString)
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- And/Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Creation Date")&nbsp;
+                    <label style="font-style: italic;">
+                        (Use&nbsp;today&#39;s&nbsp;date&nbsp;to&nbsp;search&nbsp;for&nbsp;any&nbsp;date)</label></li><li>
+                            <div class="editor-field">
+                                @Html.TextBoxFor(a => a.CreationDateString)
+                            </div>
+                        </li>
+                <li>
                     <br />
                     <center>
                         <input type="submit" id="btnFindSRA" value="Find Salary Review Analysis" />
                         &nbsp; &nbsp; &nbsp; &nbsp;<input type="reset" value="Reset Selection(s)" onclick="resetForm(this.form); return false;" />
                     </center>
-                    <br />
-                    <br />
-                </td>
-            </tr>
-        </table>
-    }
+                </li>
+            </ul>
+
+        }
+    </fieldset>
     <script language="JavaScript" type="text/javascript">
     <!--
 

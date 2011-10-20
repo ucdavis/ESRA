@@ -284,7 +284,7 @@
                             $("#salary-scale-partial").html(result.toString());
                         }
                         else {
-                            $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                            $("#salary-scale-partial").html("<fieldset> <h3><br /> &nbsp; &nbsp;No Salary Data Available</h3><br /></fieldset>");
                         } // else
                     } // function (result)
                  ); // post
@@ -424,13 +424,17 @@
     @{
         if (Model.Employees != null && Model.Employees.Count() > 0)
         {
+
         @Html.Partial("_Employees")
+
         }
         else
         {
         <fieldset>
             <h3>
-                No Employees Found</h3>
+                <br />
+                &nbsp;&nbsp;No Employees Found</h3>
+            <br />
         </fieldset>
         }
     }

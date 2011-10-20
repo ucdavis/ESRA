@@ -1,17 +1,11 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
 <div>
-    @using (Html.BeginForm("Details", "EmployeeSalaryComparison", FormMethod.Get))
-    {
-        <h3>
-            Employee Search Parameters</h3>
-        <table>
-            <tr>
-                <th>
-                    Select Title(s):
-                </th>
-            </tr>
-            <tr>
-                <td>
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Employee Search Parameters</legend>
+        @using (Html.BeginForm("Details", "EmployeeSalaryComparison", FormMethod.Get))
+        {
+            <ul>
+                <li style="font-weight: bold;">@Html.Label("Search by Title(s)")</li><li>
                     <div class="editor-field">
                         @Html.ListBoxFor(x => x.SelectedTitleCodes,
                   new MultiSelectList(Model.TitlesList,
@@ -21,50 +15,23 @@
                         )
                         @* @this.MultiSelect("SelectedTitleCodes").Options(Model.TitlesList.OrderBy(x => x.AbbreviatedName), t => t.TitleCode, t => t.PayrollTitle_TitleCode).FirstOption("Any","--Any Title(s)--").Selected(Model.SelectedTitles)*@
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    -- And/Or --
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    Select Department(s):
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <div class="editor-field ">
-                        @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- And/Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Department(s)")</li>
+                <li>
+                    <div class="editor-field">
+                        <div class="editor-field ">
+                            @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
                         new MultiSelectList(Model.DepartmentsList,
                         "DepartmentNumber",
                         "Name_DepartmentNumber",
                         Model.SelectedDepartments))
-                        @*@this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.Name).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.Name_DepartmentNumber).FirstOption("Any", "--Any Department(s)--").Selected(Model.SelectedDepartments)*@
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                    <input id="btnGetEmployeeSalaryReport" type="submit" value="Get Employee Salary Report" />&nbsp;
-                    &nbsp; &nbsp; &nbsp;
-                    <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
-                </td>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    -- Or --
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    Select an Employee:
-                </th>
-            </tr>
-            <tr>
-                <td>
+                            @*@this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.Name).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.Name_DepartmentNumber).FirstOption("Any", "--Any Department(s)--").Selected(Model.SelectedDepartments)*@
+                        </div>
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Employee")</li>
+                <li>
                     <div class="editor-field ui-widget">
                         @Html.DropDownListFor(x => x.SelectedEmployeeId,
                         new SelectList(Model.EmployeesList,
@@ -74,12 +41,18 @@
              "--Any Employee(s)--", new { id = "employee-drop-down" }
                         )
                     </div>
-                    <br />
-                    <br />
-                </td>
-            </tr>
-        </table>
-    }
+                </li>
+                <li>
+                    <center>
+                        <br />
+                        <input id="btnGetEmployeeSalaryReport" type="submit" value="Get Employee Salary Report" />&nbsp;
+                        &nbsp; &nbsp; &nbsp;
+                        <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
+                    </center>
+                </li>
+            </ul>
+        }
+    </fieldset>
     <script language="JavaScript" type="text/javascript">
 	<!--
         $(document).ready(function () {
@@ -147,7 +120,7 @@
                     selectedEmployeeId.selectedIndex = 0;
                     selectedEmployeeId.options[0].selected = true;
 
-                    setAutocomplete('employee-drop-down', "");
+                    setAutocomplete('employee-drop-down', selectedEmployeeId.options[0].text);
                 }
             }
             return false;

@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Create";
 }
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
 <div id="vSelectReviewType">
     <br />
     <label id="lblNewSRAEmployeeLabel" style="font-weight: bold;">

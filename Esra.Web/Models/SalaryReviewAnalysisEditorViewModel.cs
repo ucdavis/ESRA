@@ -87,83 +87,87 @@ namespace Esra.Web.Models
             SalaryReviewAnalysis salaryReviewAnalysis = null;
             SalaryScale salaryScale = null;
 
-            if (String.IsNullOrEmpty(referenceNumber))
+            if (!String.IsNullOrEmpty(referenceNumber) || !String.IsNullOrEmpty(selectedEmployeeId))
             {
-                viewModel.ReportDate = DateTime.Today;
-                viewModel.SelectedEmployee = repository.OfType<Employee>()
-                    .Queryable
-                    .Where(e => e.id.Equals(selectedEmployeeId))
-                    .FirstOrDefault();
-
-                salaryReviewAnalysis = new SalaryReviewAnalysis { DateInitiated = DateTime.Today };
-                var scenarios = new List<Scenario>();
-                var scenario = new Scenario
-                                   {
-                                       SalaryReviewAnalysis = salaryReviewAnalysis,
-                                       ScenarioNumber = 1,
-                                       SelectionType = "None",
-                                       PercentIncrease = 0,
-                                       Approved = false,
-                                       SalaryAmount = viewModel.SelectedEmployee.PayRate
-                                   };
-                scenarios.Add(scenario);
-                salaryReviewAnalysis.Scenarios = scenarios;
-                viewModel.SalaryReviewAnalysis = salaryReviewAnalysis;
-
-                viewModel.SraEmployee = new SRAEmployee(viewModel.SelectedEmployee);
-
-                salaryScale = new SalaryScale();
-
-                if (string.IsNullOrEmpty(proposedTitle) == false && !viewModel.SelectedEmployee.TitleCode.Equals(proposedTitle))
+                if (String.IsNullOrEmpty(referenceNumber))
                 {
-                    viewModel.SalaryReviewAnalysis.IsReclass = true;
-
-                    viewModel.ProposedTitle = repository.OfType<Title>()
+                    viewModel.ReportDate = DateTime.Today;
+                    viewModel.SelectedEmployee = repository.OfType<Employee>()
                         .Queryable
-                        .Where(p => p.TitleCode.Equals(proposedTitle))
+                        .Where(e => e.id.Equals(selectedEmployeeId))
                         .FirstOrDefault();
 
-                    //salaryScale = repository.OfType<SalaryScale>()
-                    //    .Queryable
-                    //    .Where(r => r.TitleCode == proposedTitle)
-                    //    .FirstOrDefault();
-                    salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, proposedTitle, DateTime.Today);
+                    salaryReviewAnalysis = new SalaryReviewAnalysis { DateInitiated = DateTime.Today };
+                    var scenarios = new List<Scenario>();
+                    var scenario = new Scenario
+                                       {
+                                           SalaryReviewAnalysis = salaryReviewAnalysis,
+                                           ScenarioNumber = 1,
+                                           SelectionType = "None",
+                                           PercentIncrease = 0,
+                                           Approved = false,
+                                           SalaryAmount = viewModel.SelectedEmployee.PayRate
+                                       };
+                    scenarios.Add(scenario);
+                    salaryReviewAnalysis.Scenarios = scenarios;
+                    viewModel.SalaryReviewAnalysis = salaryReviewAnalysis;
 
-                    viewModel.SalaryReviewAnalysis.Title = viewModel.ProposedTitle;
+                    viewModel.SraEmployee = new SRAEmployee(viewModel.SelectedEmployee);
+
+                    salaryScale = new SalaryScale();
+
+                    if (string.IsNullOrEmpty(proposedTitle) == false && !viewModel.SelectedEmployee.TitleCode.Equals(proposedTitle))
+                    {
+                        viewModel.SalaryReviewAnalysis.IsReclass = true;
+
+                        viewModel.ProposedTitle = repository.OfType<Title>()
+                            .Queryable
+                            .Where(p => p.TitleCode.Equals(proposedTitle))
+                            .FirstOrDefault();
+
+                        //salaryScale = repository.OfType<SalaryScale>()
+                        //    .Queryable
+                        //    .Where(r => r.TitleCode == proposedTitle)
+                        //    .FirstOrDefault();
+                        salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, proposedTitle, DateTime.Today);
+
+                        viewModel.SalaryReviewAnalysis.Title = viewModel.ProposedTitle;
+                    }
+                    else
+                    {
+                        //salaryScale = repository.OfType<SalaryScale>()
+                        //    .Queryable
+                        //    .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
+                        //    .FirstOrDefault();
+                        salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SelectedEmployee.TitleCode, DateTime.Today);
+
+                        viewModel.SalaryReviewAnalysis.Title = viewModel.SelectedEmployee.Title;
+                    }
                 }
-                else
+                else if (!String.IsNullOrEmpty(referenceNumber))
                 {
-                    //salaryScale = repository.OfType<SalaryScale>()
-                    //    .Queryable
-                    //    .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
-                    //    .FirstOrDefault();
-                    salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SelectedEmployee.TitleCode, DateTime.Today);
+                    // Reference number is present so get by reference number:
+                    viewModel.SalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
+                        .Queryable
+                        .Where(x => x.ReferenceNumber.Equals(referenceNumber))
+                        .FirstOrDefault();
 
-                    viewModel.SalaryReviewAnalysis.Title = viewModel.SelectedEmployee.Title;
+                    if (viewModel.SalaryReviewAnalysis != null)
+                    {
+                        viewModel.SraEmployee = viewModel.SalaryReviewAnalysis.Employee;
+
+                        viewModel.ProposedTitle = (viewModel.SalaryReviewAnalysis.IsReclass ? viewModel.SalaryReviewAnalysis.Title : null);
+
+                        salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SalaryReviewAnalysis.SalaryScale.TitleCode, viewModel.SalaryReviewAnalysis.SalaryScale.EffectiveDate);
+                    }
+                }
+
+                if (salaryScale != null)
+                {
+                    viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
+                    salaryScaleViewModel.SalaryScale = salaryScale;
                 }
             }
-            else
-            {
-                // Reference number is present so get by reference number:
-                viewModel.SalaryReviewAnalysis = repository.OfType<SalaryReviewAnalysis>()
-                    .Queryable
-                    .Where(x => x.ReferenceNumber.Equals(referenceNumber))
-                    .FirstOrDefault();
-
-                viewModel.SraEmployee = viewModel.SalaryReviewAnalysis.Employee;
-
-                viewModel.ProposedTitle = (viewModel.SalaryReviewAnalysis.IsReclass ? viewModel.SalaryReviewAnalysis.Title : null);
-
-                salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, viewModel.SalaryReviewAnalysis.SalaryScale.TitleCode, viewModel.SalaryReviewAnalysis.SalaryScale.EffectiveDate);
-            }
-
-            viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
-
-            if (salaryScale != null)
-            {
-                salaryScaleViewModel.SalaryScale = salaryScale;
-            }
-
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;
 
             return viewModel;

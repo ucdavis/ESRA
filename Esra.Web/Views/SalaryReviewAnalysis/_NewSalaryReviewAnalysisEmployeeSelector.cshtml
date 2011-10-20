@@ -1,21 +1,25 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
 <div id="divCreateNewSRA">
-    @using (@Html.BeginForm("Create", "SalaryReviewAnalysis", FormMethod.Get))
-    {
-        <ul>
-            <li>&nbsp;Select an Employee to Create a New Salary Review Analysis:</li>
-            <li>
-                <div class="editor-field ui-widget">
-                    &nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
+    <fieldset>
+        <legend style="font-weight: bold; font-size: large;">Create Salary Review Analysis</legend>
+        @using (@Html.BeginForm("Create", "SalaryReviewAnalysis", FormMethod.Get))
+        {
+            <ul>
+                <li>&nbsp;&nbsp;Type to search by name and then select Employee to begin:</li>
+                <li>
+                    <div class="editor-field ui-widget">
+                        &nbsp;&nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
                         new SelectList(Model.FilteredEmployees,
                         "id",
                         "FullName"),
-                               "-- Select an Employee to Create a New Salary Review Analysis --", new { id = "ddlNewSAREmployee" }
+                               "-- Select an Employee --", new { id = "ddlNewSAREmployee" }
                         )
-                </div>
-            </li>
-        </ul>
-    }
+                    </div>
+                    <br />
+                </li>
+            </ul>
+        }
+    </fieldset>
     <script language="JavaScript" type="text/javascript">
     <!--
         //var availableEmployees = [];
