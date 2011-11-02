@@ -611,7 +611,7 @@
 		<input type="hidden" id="selectionType" name="SalaryReviewAnalysis.Scenarios[${i}].SelectionType" value=${selectionType} >
 		<input type="hidden" id="salaryReviewAnalysisId" value=${salaryReviewAnalysisId} name="SalaryReviewAnalysis.Scenarios[${i}].SalaryReviewAnalysisID">
 		<input type="submit" id="btnResetScenario" value="Reset" name="btnReset">&nbsp;
-			<a class="buttons" id="btnDeleteScenario"><img class="delete_button" alt="Delete" src="../../Images/delete.png"></a>
+			<a class="buttons" id="btnDeleteScenario"><img class="delete_button" alt="Delete" src='@Url.Image("delete.png")'></a>
 	</td>
 </tr>
 </script>
@@ -758,7 +758,7 @@
                             @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryReviewAnalysisID, new { id = "salaryReviewAnalysisId" })
                             <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
                             <a id="btnDeleteScenario" class="buttons">
-                                <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
+                                <img src='@Url.Image("delete.png")' alt="Delete" class="delete_button" /></a>
                         </td>
                     </tr> }
                 }

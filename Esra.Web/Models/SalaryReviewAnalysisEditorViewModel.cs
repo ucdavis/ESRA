@@ -69,7 +69,7 @@ namespace Esra.Web.Models
                                 {
                                     ProposedTitles = repository.OfType<Title>()
                                         .Queryable
-                                        .OrderBy(t => t.TitleCode)
+                                        .OrderBy(t => t.AbbreviatedName)
                                         // .ThenBy(t => t.TitleCode)
                                         .ToList(),
 
