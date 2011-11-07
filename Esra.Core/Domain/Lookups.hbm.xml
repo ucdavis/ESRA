@@ -36,7 +36,7 @@
 
   <class
 		name="Esra.Core.Domain.Roles, Esra.Core"
-		table="Catbert3_vRoles" >
+		table="Schools" >
     <id name="Id" column="RoleID" unsaved-value="0">
       <generator class="assigned" />
     </id>
@@ -44,6 +44,18 @@
     <property name="Role" column="Role" />
     <!--<property name="Inactive" column="Inactive" />-->
 
+  </class>
+
+  <class
+   name="Esra.Core.Domain.School, Esra.Core"
+   table="Schools" >
+    <id name="SchoolCode" column="SchoolCode" unsaved-value="0">
+      <generator class="assigned" />
+    </id>
+
+    <property name="ShortDescription" column="ShortDescription" />
+    <property name="LongDescription" column="LongDescription" />
+    <property name="Abbreviation" column="Abbreviation" />
   </class>
 
 </hibernate-mapping>

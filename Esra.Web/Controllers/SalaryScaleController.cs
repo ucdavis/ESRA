@@ -62,7 +62,8 @@ namespace Esra.Web.Controllers
 
             // DateTime  searchDate = String.IsNullOrEmpty(effectiveDate) ? DateTime.Now : bool validDate = DateTime.TryParse(effectiveDate, out searchDate);
 
-            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate);
+            var user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate, user);
 
             //salaryScaleModel.TitleCode = titleCode;
 
@@ -137,7 +138,8 @@ namespace Esra.Web.Controllers
             //ICriteria criteria = NHibernateSessionManager.Instance.GetSession().CreateCriteria(TypeOf(SalaryScale))
             //    .SetFetchMode("SalarySteps", FetchMode.Eager);
 
-            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate);
+            var user = Esra.Core.Domain.User.GetByLoginId(Repository, User.Identity.Name);
+            var salaryScaleModel = SalaryScaleViewModel.Create(Repository, titleCode, effectiveDate, user);
 
             // Example 1
             //var salaryScale = _salaryScaleRepository.Queryable

@@ -183,7 +183,26 @@
             <li>
                 <div class="display-label">
                     College Average Annual</div>
-                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.CollegeAverageAnnual)</div>
+                <div class="display-details">
+                    <table style="border-style: none;">
+                        <tbody>
+                            @foreach (Esra.Core.Domain.CollegeAverage avg in Model.CollegeAverages)
+                            {
+                                <tr>
+                                    
+                                    <td>@avg.School.Abbreviation:
+                                    </td>
+                                    
+                                    <td>@String.Format("{0:c}", @avg.CollegeAverageAnnual)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @*<div class="display-label">
+                    College Average Annual</div>
+                <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.CollegeAverageAnnual)</div>*@
             </li>
             <li>
                 <div class="display-label">

@@ -19,12 +19,14 @@ namespace Esra.Web.Models
 
         public SalaryScale SalaryScale { get; set; }
 
+        public IList<CollegeAverage> CollegeAverages { get; set; }
+
         public static SalaryScaleViewModel Create(IRepository repository)
         {
-            return SalaryScaleViewModel.Create(repository, null, null);
+            return SalaryScaleViewModel.Create(repository, null, null, null);
         }
 
-        public static SalaryScaleViewModel Create(IRepository repository, string titleCode, string effectiveDate)
+        public static SalaryScaleViewModel Create(IRepository repository, string titleCode, string effectiveDate, User user)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -49,6 +51,11 @@ namespace Esra.Web.Models
                 var salaryScale = SalaryScale.GetEffectiveSalaryScale(repository, titleCode, searchDate);
                 if (salaryScale != null) viewModel.SalaryScale = salaryScale;
                 viewModel.TitleCode = titleCode;
+
+                var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+                viewModel.CollegeAverages =
+                    repository.OfType<CollegeAverage>().Queryable.Where(x => schoolsForUser.Contains(x.SchoolCode) && x.TitleCode == viewModel.TitleCode).
+                        ToList();
             }
 
             return viewModel;
