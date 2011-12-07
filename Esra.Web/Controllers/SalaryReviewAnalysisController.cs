@@ -49,7 +49,7 @@ namespace Esra.Web.Controllers
         // GET: /SalaryReviewAnalysis/Details/5
         public ActionResult Details(string referenceNumber)
         {
-            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber, GetUser());
 
             if (viewModel == null) return RedirectToAction("Index");
 
@@ -60,7 +60,7 @@ namespace Esra.Web.Controllers
         // GET: /SalaryReviewAnalysis/Create?NewSraEmployee=2749660017247
         public ActionResult Create(string newSraEmployee)
         {
-            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, GetUser());
             //viewModel.NewSraEmployee = Repository.OfType<Employee>()
             //    .Queryable
             //    .Where(e => e.id.Equals(newSraEmployee))
@@ -108,19 +108,8 @@ namespace Esra.Web.Controllers
             }
         }
 
-        //
-        // GET: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
-        //public ActionResult CreateEdit(string referenceNumber)
-        public ActionResult CreateEdit(string newSraEmployee, string proposedTitle, string referenceNumber)
+        private User GetUser()
         {
-            //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
-            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber);
-
-            if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
-
-            viewModel.IsDepartmentUser = IsDepartmentUser;
-
-            // Logic to set possible OriginatingDepartments
             var user = Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
             if (user != null && String.IsNullOrEmpty(user.EmployeeID))
             {
@@ -129,6 +118,23 @@ namespace Esra.Web.Controllers
                 if (tempUser != null)
                     user.EmployeeID = tempUser.EmployeeId;
             }
+            return user;
+        }
+
+        //
+        // GET: /SalaryReviewAnalysis/Edit?ReferenceNumber=20100323147
+        //public ActionResult CreateEdit(string referenceNumber)
+        public ActionResult CreateEdit(string newSraEmployee, string proposedTitle, string referenceNumber)
+        {
+            var user = GetUser();
+
+            //var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, null, null, referenceNumber);
+            var viewModel = SalaryReviewAnalysisEditorViewModel.Create(Repository, newSraEmployee, proposedTitle, referenceNumber, user);
+
+            if (viewModel.SalaryReviewAnalysis == null) return RedirectToAction("Index");
+
+            // Logic to set possible OriginatingDepartments
+            viewModel.IsDepartmentUser = IsDepartmentUser;
 
             var allSchoolDepartments = Department.GetAllForUser(Repository, user, false, "Name", true);
 
@@ -211,7 +217,8 @@ namespace Esra.Web.Controllers
             //}
             //dateApproved = salaryReviewAnalysis.DateApproved;
 
-            var user = Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+            //var user = Esra.Core.Domain.User.GetByLoginId(Repository, CurrentUser.Identity.Name);
+            var user = GetUser();
 
             //var sra = (String.IsNullOrEmpty(ReferenceNum) == false ? SalaryReviewAnalysisBLL.GetByReferenceNumber(ReferenceNum) : null);
             var salaryReviewAnalysisToEdit = (String.IsNullOrEmpty(salaryReviewAnalysis.ReferenceNumber) == false ? _salaryReviewAnalysisRepository

@@ -14,6 +14,7 @@
 		</composite-id>-->
 
     <property name="EmployeeID" column="EmployeeID" insert="false" update="false"/>
+    <property name="SchoolCode" column="SchoolCode" insert="false" update="false"/>
     <many-to-one name="HomeDepartment" class="Esra.Core.Domain.Department, Esra.Core" column="HomeDept"  insert="false" update="false"/>
     <property name="HomeDepartmentID" column="HomeDept" insert="false" update="false"/>
     <many-to-one name="WorkDepartment" class="Esra.Core.Domain.Department, Esra.Core" column="WorkDept"  insert="false" update="false"/>

@@ -56,12 +56,12 @@ namespace Esra.Web.Models
         /// </summary>
         public IList<Department> PossibleOriginatingDepartments { get; set; }
 
-        public static SalaryReviewAnalysisEditorViewModel Create(IRepository repository, string selectedEmployeeId)
+        public static SalaryReviewAnalysisEditorViewModel Create(IRepository repository, string selectedEmployeeId, User user)
         {
-            return Create(repository, selectedEmployeeId, null, null);
+            return Create(repository, selectedEmployeeId, null, null, user);
         }
 
-        public static SalaryReviewAnalysisEditorViewModel Create(IRepository repository, string selectedEmployeeId, string proposedTitle, string referenceNumber)
+        public static SalaryReviewAnalysisEditorViewModel Create(IRepository repository, string selectedEmployeeId, string proposedTitle, string referenceNumber, User user)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -86,6 +86,7 @@ namespace Esra.Web.Models
 
             SalaryReviewAnalysis salaryReviewAnalysis = null;
             SalaryScale salaryScale = null;
+            string titleCode = null;
 
             if (!String.IsNullOrEmpty(referenceNumber) || !String.IsNullOrEmpty(selectedEmployeeId))
             {
@@ -118,6 +119,8 @@ namespace Esra.Web.Models
 
                     if (string.IsNullOrEmpty(proposedTitle) == false && !viewModel.SelectedEmployee.TitleCode.Equals(proposedTitle))
                     {
+                        titleCode = proposedTitle;
+
                         viewModel.SalaryReviewAnalysis.IsReclass = true;
 
                         viewModel.ProposedTitle = repository.OfType<Title>()
@@ -135,6 +138,8 @@ namespace Esra.Web.Models
                     }
                     else
                     {
+                        titleCode = viewModel.SelectedEmployee.TitleCode;
+
                         //salaryScale = repository.OfType<SalaryScale>()
                         //    .Queryable
                         //    .Where(r => r.TitleCode == viewModel.SelectedEmployee.TitleCode)
@@ -154,6 +159,8 @@ namespace Esra.Web.Models
 
                     if (viewModel.SalaryReviewAnalysis != null)
                     {
+                        titleCode = viewModel.SalaryReviewAnalysis.SalaryScale.TitleCode;
+
                         viewModel.SraEmployee = viewModel.SalaryReviewAnalysis.Employee;
 
                         viewModel.ProposedTitle = (viewModel.SalaryReviewAnalysis.IsReclass ? viewModel.SalaryReviewAnalysis.Title : null);
@@ -166,6 +173,11 @@ namespace Esra.Web.Models
                 {
                     viewModel.CriteriaList = SalaryReviewAnalysis.GetCriteriaList(repository, salaryScale);
                     salaryScaleViewModel.SalaryScale = salaryScale;
+
+                    var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+                    salaryScaleViewModel.CollegeAverages =
+                        repository.OfType<CollegeAverage>().Queryable.Where(x => schoolsForUser.Contains(x.SchoolCode) && x.TitleCode == titleCode).
+                            ToList();
                 }
             }
             viewModel.SalaryScaleViewModel = salaryScaleViewModel;

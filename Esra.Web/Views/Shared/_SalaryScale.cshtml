@@ -170,7 +170,7 @@
                     </div>
                 </li>
             }
-            <li>
+@*<li>
                 <div class="display-label">
                     Labor Market WAS</div>
                 <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.LaborMarketWAS)</div>
@@ -179,7 +179,7 @@
                 <div class="display-label">
                     Labor Market Mid Annual</div>
                 <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.LaborMarketMidAnnual)</div>
-            </li>
+            </li>*@
             <li>
                 <div class="display-label">
                     College Average Annual</div>
@@ -189,10 +189,8 @@
                             @foreach (Esra.Core.Domain.CollegeAverage avg in Model.CollegeAverages)
                             {
                                 <tr>
-                                    
                                     <td>@avg.School.Abbreviation:
                                     </td>
-                                    
                                     <td>@String.Format("{0:c}", @avg.CollegeAverageAnnual)
                                     </td>
                                 </tr>
@@ -206,7 +204,7 @@
             </li>
             <li>
                 <div class="display-label">
-                    Campus Average Annual</div>
+                    Multi-College Average Annual</div>
                 <div class="display-details">@String.Format("{0:c}", Model.SalaryScale.CampusAverageAnnual)</div>
             </li>
         </ul>
