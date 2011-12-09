@@ -173,17 +173,27 @@ namespace Esra.Core.Domain
 
                 if (salaryScale.SalarySteps.Count == 0)
                 {
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MIN].ShortType, salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.FIRST].ShortType, salaryScale.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MID].ShortType, salaryScale.SalaryGradeQuartiles.MidAnnual); // "Mid"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.THIRD].ShortType, salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MAX].ShortType, salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MIN].ShortType,
+                           salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.FIRST].ShortType,
+                           salaryScale.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MID].ShortType,
+                           salaryScale.SalaryGradeQuartiles.MidAnnual); // "Mid"
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.THIRD].ShortType,
+                           salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MAX].ShortType,
+                           salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
                 }
 
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(salaryScale.LaborMarketMidAnnual)); // "Labor Mkt Mid"
                 // This needs to be revised to return the college average for the college average of the employee!!!!
-                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(collegeAverage)); // "College AVG"
+                if (collegeAverage != null && collegeAverage > 0)
+                {
+                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType,
+                           Convert.ToDecimal(collegeAverage)); // "College AVG"
+                }
+
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 

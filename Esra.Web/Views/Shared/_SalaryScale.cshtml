@@ -184,19 +184,26 @@
                 <div class="display-label">
                     College Average Annual</div>
                 <div class="display-details">
-                    <table style="border-style: none;">
-                        <tbody>
-                            @foreach (Esra.Core.Domain.CollegeAverage avg in Model.CollegeAverages)
-                            {
-                                <tr>
-                                    <td>@avg.School.Abbreviation:
-                                    </td>
-                                    <td>@String.Format("{0:c}", @avg.CollegeAverageAnnual)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    @if (Model.CollegeAverages != null && Model.CollegeAverages.Count > 0)
+                    {
+                        <table style="border-style: none;">
+                            <tbody>
+                                @foreach (Esra.Core.Domain.CollegeAverage avg in Model.CollegeAverages)
+                                {
+                                    <tr>
+                                        <td>@avg.School.Abbreviation:
+                                        </td>
+                                        <td>@String.Format("{0:c}", @avg.CollegeAverageAnnual)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <text>No College Average(s) Available</text>
+                    }
                 </div>
                 @*<div class="display-label">
                     College Average Annual</div>
