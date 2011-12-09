@@ -154,7 +154,8 @@ namespace Esra.Core.Domain
         /// <param name="repository"></param>
         /// <param name="salaryScale"></param>
         /// <returns>A key/value pair dictionary containing the selection type criteria</returns>
-        public static Dictionary<string, decimal?> GetCriteriaList(IRepository repository, SalaryScale salaryScale)
+        /// <modifications>2011-12-08 by kjt: Commented out campus average, and Market selections since we either have little or no data; 2011-12-09 by kjt: Added collegeAverage as a param.</modifications>
+        public static Dictionary<string, decimal?> GetCriteriaList(IRepository repository, SalaryScale salaryScale, double collegeAverage)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -178,10 +179,13 @@ namespace Esra.Core.Domain
                     cl.Add(selectionTypes[(int)Domain.SelectionType.Types.THIRD].ShortType, salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
                     cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MAX].ShortType, salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
                 }
-                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
-                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(salaryScale.LaborMarketMidAnnual)); // "Labor Mkt Mid"
-                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
-                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
+
+                //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
+                //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_MID].ShortType, Convert.ToDecimal(salaryScale.LaborMarketMidAnnual)); // "Labor Mkt Mid"
+                // This needs to be revised to return the college average for the college average of the employee!!!!
+                cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(collegeAverage)); // "College AVG"
+                //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.COLLEGE_AVG].ShortType, Convert.ToDecimal(salaryScale.CollegeAverageAnnual)); // "College AVG"
+                //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 
                 // This should never get called unless someone called this method with a SalaryScale that was
                 // not fetched using SalaryScale.GetEffectiveSalarryScale(...)
