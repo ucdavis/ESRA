@@ -142,6 +142,8 @@ namespace Esra.Core.Domain
             set { _EmployeeID = value; }
         }
 
+        public virtual string SchoolCode { get; set; }
+
         protected string _HomeDepartmentID;
 
         public virtual string HomeDepartmentID

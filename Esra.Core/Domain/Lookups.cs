@@ -194,4 +194,16 @@ namespace Esra.Core.Domain
             Map(x => x.Role);
         }
     }
+
+    [Serializable]
+    public class School : DomainObjectWithTypedId<string>
+    {
+        public virtual string SchoolCode { get; set; }
+
+        public virtual string ShortDescription { get; set; }
+
+        public virtual string LongDescription { get; set; }
+
+        public virtual string Abbreviation { get; set; }
+    }
 }

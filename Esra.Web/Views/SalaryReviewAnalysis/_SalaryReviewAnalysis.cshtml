@@ -3,6 +3,7 @@
 
     //var dtable; // This is the jQuery dataTable used to display the scenarios list.
     var oldSalary; // This is the pre-analysis salary amount used for percent increase calculations, etc.
+
     var defaultScenario; // This is new scenario initialized with the employee's default select list options, salary amount, etc.
     var scenarios = [];  // This is where we store the "original" scenarios so that we can reset the values back to their pre-edited state.
     var defaultSelectionTypeOptions; // This is the base set of custom criteria selectionType options based on the employee being analyzed.
@@ -610,201 +611,203 @@
 		<input type="hidden" id="selectionType" name="SalaryReviewAnalysis.Scenarios[${i}].SelectionType" value=${selectionType} >
 		<input type="hidden" id="salaryReviewAnalysisId" value=${salaryReviewAnalysisId} name="SalaryReviewAnalysis.Scenarios[${i}].SalaryReviewAnalysisID">
 		<input type="submit" id="btnResetScenario" value="Reset" name="btnReset">&nbsp;
-			<a class="buttons" id="btnDeleteScenario"><img class="delete_button" alt="Delete" src="../../Images/delete.png"></a>
+			<a class="buttons" id="btnDeleteScenario"><img class="delete_button" alt="Delete" src='@Url.Image("delete.png")'></a>
 	</td>
 </tr>
 </script>
 <div>
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.SalaryReviewAnalysis.ReferenceNumber)
-    <h2>
-        Salary Review Analysis</h2>
-    @if (Model.ProposedTitle != null)
-    {
-        <center>
-            <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
-            @Model.ProposedTitle.TitleCode_Name</center>
-    }
-    @Html.HiddenFor(e => e.SraEmployee.PayRate, new { id = "oldSalary" })
-    @Html.HiddenFor(e => e.SraEmployee.PkEmployee)
-    @Html.HiddenFor(x => x.SalaryReviewAnalysis.IsReclass)
-    @Html.HiddenFor(x => x.SalaryReviewAnalysis.Title.TitleCode)
-    <table>
-        <tr>
-            @*<td>
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Salary Review Analysis</legend>
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.SalaryReviewAnalysis.ReferenceNumber)
+        @*<h2>
+        Salary Review Analysis</h2>*@
+        @if (Model.ProposedTitle != null)
+        {
+            <center>
+                <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
+                @Model.ProposedTitle.TitleCode_Name</center>
+        }
+        @Html.HiddenFor(e => e.SraEmployee.PayRate, new { id = "oldSalary" })
+        @Html.HiddenFor(e => e.SraEmployee.PkEmployee)
+        @Html.HiddenFor(x => x.SalaryReviewAnalysis.IsReclass)
+        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Title.TitleCode)
+        <table>
+            <tr>
+                @*<td>
                     -- Salary Review Analysis has yet to be saved --
                 </td>*@
-            <th>
-                Reference Number
-            </th>
-            <th>
-                Date Initiated
-            </th>
-            <th>
-                Date Approved
-            </th>
-            <th>
-                Originating Department
-            </th>
-            <th>
-                Initiated By (Reviewer&nbsp;Name)
-            </th>
-        </tr>
-        <tr>
-            @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
-            {
-                <td style="font-style: italic">
-                    Unsaved
-                </td>
-            }
-            else
-            {
+                <th>
+                    Reference Number
+                </th>
+                <th>
+                    Date Initiated
+                </th>
+                <th>
+                    Date Approved
+                </th>
+                <th>
+                    Originating Department
+                </th>
+                <th>
+                    Initiated By (Reviewer&nbsp;Name)
+                </th>
+            </tr>
+            <tr>
+                @if (String.IsNullOrEmpty(Model.SalaryReviewAnalysis.ReferenceNumber))
+                {
+                    <td style="font-style: italic">
+                        Unsaved
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Id, new { id = "salaryReviewAnalysisId" })
+                        @Model.SalaryReviewAnalysis.ReferenceNumber
+                    </td>
+                }
                 <td>
-                    @Html.HiddenFor(x => x.SalaryReviewAnalysis.Id, new { id = "salaryReviewAnalysisId" })
-                    @Model.SalaryReviewAnalysis.ReferenceNumber
+                    @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
                 </td>
-            }
-            <td>
-                @String.Format("{0:MM/dd/yyyy}", Model.SalaryReviewAnalysis.DateInitiated)
-            </td>
-            <td>
-                @Html.EditorFor(x => x.SalaryReviewAnalysis.DateApproved)
-            </td>
-            <td>
-                <div class="editor-field">
-                    @Html.DropDownListFor(x => x.SalaryReviewAnalysis.OriginatingDepartment.Id,
+                <td>
+                    @Html.EditorFor(x => x.SalaryReviewAnalysis.DateApproved)
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(x => x.SalaryReviewAnalysis.OriginatingDepartment.Id,
                         new SelectList(Model.PossibleOriginatingDepartments.OrderBy(x => x.Name),
                                      "Id",
                                      "Name_DepartmentNumber",
                                                Model.SalaryReviewAnalysis.OriginatingDepartment != null ? Model.SalaryReviewAnalysis.OriginatingDepartment.Id : string.Empty),
                             null, new { id = "originatingDepartmentDropDown" }
                             )
-                </div>
-            </td>
-            <td>
-                @Html.HiddenFor(x => x.SalaryReviewAnalysis.InitiatedByReviewerName)
-                @Model.SalaryReviewAnalysis.InitiatedByReviewerName
-            </td>
-        </tr>
-    </table>
-    <table id="scenarios">
-        <thead>
-            <tr>
-                <th>
-                    Scenario No.
-                </th>
-                <th>
-                    Criteria
-                </th>
-                <th>
-                    Percent Increase (%)
-                </th>
-                <th>
-                    New Annual Salary ($)
-                </th>
-                <th>
-                    Approved
-                </th>
-                <th>
-                    &nbsp
-                </th>
+                    </div>
+                </td>
+                <td>
+                    @Html.HiddenFor(x => x.SalaryReviewAnalysis.InitiatedByReviewerName)
+                    @Model.SalaryReviewAnalysis.InitiatedByReviewerName
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @{
-                var len = Model.SalaryReviewAnalysis.Scenarios.Count;
-                for (var i = 0; i < len; i++)
-                {
-
-                <tr data-id="@Model.SalaryReviewAnalysis.Scenarios[i].Id">
-                    <th id="scenarioNumber">
-                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber, new { id = "hiddenScenarioNumber" })
-                        @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
-                    </th>
-                    <td>
-                        @{
-                    string selectionTypeText = Model.SalaryReviewAnalysis.Scenarios[i].SelectionType;
-                    if (String.IsNullOrEmpty(selectionTypeText)) { selectionTypeText = "None"; }
-                        }
-                        <div class="editor-field">
-                            @Html.DropDownListFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType,
-                      new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[selectionTypeText])
-                            , null, new { id = "ddlSelectionType" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="editor-field percent">
-                            @*@Html.TextBoxFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease, new { id = "tbPercentIncrease", @class = "percent" })*@
-                            @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="editor-field currency">
-                            @*@Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { id = "tbSalaryAmount", @class = "currency" })*@
-                            @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="editor-field">
-                            @Html.CheckBox(@"SalaryReviewAnalysis.Scenarios[" + i + "].Approved", (@Model.SalaryReviewAnalysis.Scenarios[i].Approved != null ? (bool)@Model.SalaryReviewAnalysis.Scenarios[i].Approved : false), new { id = "cbxApproved" })
-                        </div>
-                    </td>
-                    <td>
-                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].Id, new { id = "scenarioId" })
-                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType, new { id = "selectionType" })
-                        @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryReviewAnalysisID, new { id = "salaryReviewAnalysisId" })
-                        <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
-                        <a id="btnDeleteScenario" class="buttons">
-                            <img src="../../Images/delete.png" alt="Delete" class="delete_button" /></a>
-                    </td>
-                </tr> }
-            }
-        </tbody>
-        <tfoot>
-            @{
+        </table>
+        <table id="scenarios">
+            <thead>
                 <tr>
                     <th>
-                        @(Model.IsDepartmentUser ? "Comments:" : "Department Comments:")
+                        Scenario No.
                     </th>
-                    <td colspan="5">
-                        @if (Model.IsDepartmentUser)
-                        {
+                    <th>
+                        Criteria
+                    </th>
+                    <th>
+                        Percent Increase (%)
+                    </th>
+                    <th>
+                        New Annual Salary ($)
+                    </th>
+                    <th>
+                        Approved
+                    </th>
+                    <th>
+                        &nbsp
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var len = Model.SalaryReviewAnalysis.Scenarios.Count;
+                    for (var i = 0; i < len; i++)
+                    {
+
+                    <tr data-id="@Model.SalaryReviewAnalysis.Scenarios[i].Id">
+                        <th id="scenarioNumber">
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber, new { id = "hiddenScenarioNumber" })
+                            @Model.SalaryReviewAnalysis.Scenarios[i].ScenarioNumber.
+                        </th>
+                        <td>
+                            @{
+                        string selectionTypeText = Model.SalaryReviewAnalysis.Scenarios[i].SelectionType;
+                        if (String.IsNullOrEmpty(selectionTypeText)) { selectionTypeText = "None"; }
+                            }
                             <div class="editor-field">
-                                @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DepartmentComments, new
+                                @Html.DropDownListFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType,
+                      new SelectList(Model.CriteriaList, "Value", "Key", Model.CriteriaList[selectionTypeText])
+                            , null, new { id = "ddlSelectionType" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="editor-field percent">
+                                @*@Html.TextBoxFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease, new { id = "tbPercentIncrease", @class = "percent" })*@
+                                @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].PercentIncrease)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="editor-field currency">
+                                @*@Html.TextBoxFor(x => @Model.SalaryReviewAnalysis.Scenarios[i].SalaryAmount, new { id = "tbSalaryAmount", @class = "currency" })*@
+                                @Html.EditorFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryAmount)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="editor-field">
+                                @Html.CheckBox(@"SalaryReviewAnalysis.Scenarios[" + i + "].Approved", (@Model.SalaryReviewAnalysis.Scenarios[i].Approved != null ? (bool)@Model.SalaryReviewAnalysis.Scenarios[i].Approved : false), new { id = "cbxApproved" })
+                            </div>
+                        </td>
+                        <td>
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].Id, new { id = "scenarioId" })
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SelectionType, new { id = "selectionType" })
+                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.Scenarios[i].SalaryReviewAnalysisID, new { id = "salaryReviewAnalysisId" })
+                            <input type="submit" name="btnReset" value="Reset" id="btnResetScenario" />&nbsp;
+                            <a id="btnDeleteScenario" class="buttons">
+                                <img src='@Url.Image("delete.png")' alt="Delete" class="delete_button" /></a>
+                        </td>
+                    </tr> }
+                }
+            </tbody>
+            <tfoot>
+                @{
+                    <tr>
+                        <th>
+                            @(Model.IsDepartmentUser ? "Comments:" : "Department Comments:")
+                        </th>
+                        <td colspan="5">
+                            @if (Model.IsDepartmentUser)
+                            {
+                                <div class="editor-field">
+                                    @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DepartmentComments, new
                            {
                                rows = "2",
                                cols = "60"
                            })
+                                </div>
+                                @Html.HiddenFor(x => x.SalaryReviewAnalysis.DeansOfficeComments)
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(x => x.SalaryReviewAnalysis.DepartmentComments)
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (!Model.IsDepartmentUser)
+                {
+                    <tr>
+                        <th>
+                            Dean"s Office Comments:
+                        </th>
+                        <td colspan="5">
+                            <div class="editor-field">
+                                @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DeansOfficeComments, new { rows = "2", cols = "60" })
                             </div>
-                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.DeansOfficeComments)
-                        }
-                        else
-                        {
-                            @Html.HiddenFor(x => x.SalaryReviewAnalysis.DepartmentComments)
-                        }
-                    </td>
-                </tr>
-            }
-            @if (!Model.IsDepartmentUser)
-            {
+                        </td>
+                    </tr>
+                }
                 <tr>
-                    <th>
-                        Dean"s Office Comments:
-                    </th>
-                    <td colspan="5">
-                        <div class="editor-field">
-                            @Html.TextAreaFor(x => x.SalaryReviewAnalysis.DeansOfficeComments, new { rows = "2", cols = "60" })
-                        </div>
+                    <td colspan="6">
+                        <center>
+                            <a id="btnAddAnotherScenario" style="text-decoration: underline;">Add another scenario</a></center>
+                        <br />
                     </td>
                 </tr>
-            }
-            <tr>
-                <td colspan="6">
-                    <center>
-                        <a id="btnAddAnotherScenario" style="text-decoration: underline;">Add another scenario</a></center>
-                    <br />
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
 </div>

@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Create";
 }
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
 <div id="vSelectReviewType">
     <br />
     <label id="lblNewSRAEmployeeLabel" style="font-weight: bold;">
@@ -47,6 +53,7 @@
         <table id="tblCurrentProposedTitleCodes">
             <tr>
                 <td>
+                    <br />
                     @Html.DropDownListFor(x => x.ProposedTitle,
                         new SelectList(Model.ProposedTitles,
                         "TitleCode",
@@ -55,7 +62,8 @@
                         null, new { id = "ddlProposedTitles" })
                 </td>
                 <td style="padding-left: 10px;">
-                    <img id="imgReclassArrow" alt="reclass arrow" class="buttons" src="../../Images/arrow_left.jpg"
+                    <br />
+                    <img id="imgReclassArrow" alt="reclass arrow" class="buttons" src='@Url.Image("arrow_left.jpg")'
                         style="width: 14px;" />
                     &nbsp;Select a different Title Code to conduct a Reclassification Review.
                 </td>
@@ -64,9 +72,8 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <center>
-                        -- or --</center>
+                <td style="font-weight: bold; font-style: italic; text-align: center;">
+                    @Html.Label("-- Or --")
                 </td>
                 <td>
                     &nbsp;
@@ -77,20 +84,17 @@
                     <input type="submit" id="btnDoEquityReview" value="Perform Equity Review" style="width: 320px;" />
                 </td>
                 <td style="text-align: left; padding-left: 10px;">
-                    <img id="imgEquityArrow" alt="equity arrow" class="buttons" src="../../Images/arrow_left.jpg"
+                    <img id="imgEquityArrow" alt="equity arrow" class="buttons" src='@Url.Image("arrow_left.jpg")'
                         style="width: 14px;" />
                     &nbsp;Select &quot;Perform Equity Review&quot; to conduct an Equity Review.
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    &nbsp;
-                </td>
-            </tr>
-            <tr>
                 <td>
-                    <input type="button" id="btnCancelSalaryReviewAnalysis" onclick="history.go(-1)"
-                        value="Cancel/Back" />
+                    <a href="#" id="btnCancelSalaryReviewAnalysis" class="buttons" onclick="history.go(-1)">
+                        <img alt="Cancel/Back" src='@Url.Image("arrow_left.jpg")' class="back_button" onclick="history.go(-1)"/>&nbsp;Cancel/Back</a>
+                    <br />
+                    <br />
                 </td>
                 <td>
                     &nbsp;

@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Create/Edit";
 }
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
 <div id="salary-review-analysis-editor">
     @Html.Partial("_SalaryReviewAnalysisEditor")
 </div>

@@ -19,9 +19,9 @@
         @Html.HiddenFor(x => x.SelectedTitleCodesString)
         @Html.Hidden("sortPropertyName", "FullName")
         @Html.Hidden("isAscending", true)
-        <h3 class="h3_black">
-            Employee Salary Comparison Report&nbsp;&nbsp;<input type="button" id="btnExportToExcel"
-                onclick="NewExportToExcel(); return false;" value="Export to Excel" /></h3>
+        <label class="h3_black">
+            &nbsp;&nbsp;Select to export report results to Excel:&nbsp;&nbsp;<input type="button"
+                id="btnExportToExcel" onclick="NewExportToExcel(); return false;" value="Export to Excel" /></label>
     }
     <script type="text/javascript">
      <!--

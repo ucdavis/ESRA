@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Salary Review Analysis Viewer";
 }
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
 <br />
 @if (Model.SalaryReviewAnalysis != null)
 {
@@ -36,4 +42,13 @@
             class="buttons" onclick="window.print();return false;">
             <img alt="Print" src='@Url.Image("printer.gif")' class="print_button" />&nbsp;Print</a>
     </div>
+}
+else
+{
+    <fieldset>
+        <h3>
+            <br />
+            &nbsp;&nbsp;Salary Review Analysis Not Found</h3>
+        <br />
+    </fieldset>
 }

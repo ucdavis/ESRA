@@ -17,12 +17,15 @@
 					            var text = $(this).text();
 					            if (this.value && (!request.term || matcher.test(text)))
 					                return {
-					                    label: text.replace(
-											new RegExp(
-												"(?![^&;]+;)(?!<[^<>]*)(" +
-												$.ui.autocomplete.escapeRegex(request.term) +
-												")(?![^<>]*>)(?![^&;]+;)", "gi"
-											), "<strong>$1</strong>"),
+					                    label: text,
+					                    // This is the code that "bolds" the matching characters and increases the load time,
+					                    // so I removed it to help speed things up.
+					                    //					                    label: text.replace(
+					                    //					            											new RegExp(
+					                    //					            												"(?![^&;]+;)(?!<[^<>]*)(" +
+					                    //					            												$.ui.autocomplete.escapeRegex(request.term) +
+					                    //					            												")(?![^<>]*>)(?![^&;]+;)", "gi"
+					                    //					            											), "<strong>$1</strong>"),
 					                    value: text,
 					                    option: this
 					                };
@@ -54,7 +57,14 @@
 					        }
 					    }
 					})
-					.addClass("ui-widget ui-widget-content ui-corner-left");
+					.addClass("ui-widget ui-widget-content ui-corner-left")
+					.click(function (event) {
+					    //debugger;
+					    var select = $(this).parent().find("select")[0].options;
+					    var option = select[0].text;
+					    var myValue = $(this).val();
+					    if (myValue == option) { $(this).val(""); }
+					});
 
             input.data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li></li>")
@@ -62,6 +72,8 @@
 						.append("<a>" + item.label + "</a>")
 						.appendTo(ul);
             };
+            // This line added to set default value of the combobox
+            input.val(selected.text());
 
             this.button = $("<button type='button'>&nbsp;</button>")
 					.attr("tabIndex", -1)

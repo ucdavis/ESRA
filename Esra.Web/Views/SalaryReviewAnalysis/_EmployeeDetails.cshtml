@@ -1,105 +1,107 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
 <div>
-    <h2>
-        Employee Details</h2>
-    <table>
-        <tr>
-            <th>
-                Title Code
-            </th>
-            <th>
-                Payroll Title
-            </th>
-            <th>
-                Salary Grade
-            </th>
-            <th>
-                Salary Step
-            </th>
-            <th>
-                Bargaining Unit
-            </th>
-            <th>
-                Report Date
-            </th>
-        </tr>
-        <tr>
-            <td>
-                @Model.SraEmployee.TitleCode
-            </td>
-            <td>
-                @Model.SraEmployee.Title.PayrollTitle
-            </td>
-            <td>
-                @Model.SraEmployee.SalaryGrade
-            </td>
-            <td>
-                @Model.SraEmployee.SalaryStep
-            </td>
-            <td>
-                @Model.SraEmployee.BargainingUnitCode
-            </td>
-            <td>
-                @String.Format("{0:d}", @Model.ReportDate)
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Department Name
-            </th>
-            <th>
-                Employee Name
-            </th>
-            <th>
-                Hire Date
-            </th>
-            <th>
-                Years Of Service
-            </th>
-            <th>
-                Begin Date (in Title)
-            </th>
-            <th>
-                Time In Title
-            </th>
-            <th>
-                Pay Rate
-            </th>
-            <th>
-                Department Comments
-            </th>
-            <th>
-                Dean's Office Comments
-            </th>
-        </tr>
-        <tr>
-            <td>
-                @Model.SraEmployee.HomeDepartment.Name
-            </td>
-            <td>
-                @Model.SraEmployee.FullName
-            </td>
-            <td>
-                @String.Format("{0:MM/dd/yyyy}", @Model.SraEmployee.HireDate)
-            </td>
-            <td>
-                @String.Format("{0:0.00}", @Model.SraEmployee.YearsOfService)
-            </td>
-            <td>
-                @String.Format("{0:MM/dd/yyyy}", @Model.SraEmployee.BeginDate)
-            </td>
-            <td>
-                @String.Format("{0:0.00}", @Model.SraEmployee.TimeInTitle)
-            </td>
-            <td id="payrate">
-                @String.Format("{0:c}", @Model.SraEmployee.PayRate)
-            </td>
-            <td>
-                @Model.SraEmployee.DepartmentComments
-            </td>
-            <td>
-                @Model.SraEmployee.DeansOfficeComments
-            </td>
-        </tr>
-    </table>
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Employee Details</legend>@*<h2>
+        Employee Details</h2>*@
+        <table style="border: none;">
+            <tr>
+                <th>
+                    Title Code
+                </th>
+                <th>
+                    Payroll Title
+                </th>
+                <th>
+                    Salary Grade
+                </th>
+                <th>
+                    Salary Step
+                </th>
+                <th>
+                    Bargaining Unit
+                </th>
+                <th>
+                    Report Date
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.SraEmployee.TitleCode
+                </td>
+                <td>
+                    @Model.SraEmployee.Title.PayrollTitle
+                </td>
+                <td>
+                    @Model.SraEmployee.SalaryGrade
+                </td>
+                <td>
+                    @Model.SraEmployee.SalaryStep
+                </td>
+                <td>
+                    @Model.SraEmployee.BargainingUnitCode
+                </td>
+                <td>
+                    @String.Format("{0:d}", @Model.ReportDate)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Department Name
+                </th>
+                <th>
+                    Employee Name
+                </th>
+                <th>
+                    Hire Date
+                </th>
+                <th>
+                    Years Of Service
+                </th>
+                <th>
+                    Begin Date (in Title)
+                </th>
+                <th>
+                    Time In Title
+                </th>
+                <th>
+                    Pay Rate
+                </th>
+                <th>
+                    Department Comments
+                </th>
+                <th>
+                    Dean's Office Comments
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.SraEmployee.HomeDepartment.Name
+                </td>
+                <td>
+                    @Model.SraEmployee.FullName
+                </td>
+                <td>
+                    @String.Format("{0:MM/dd/yyyy}", @Model.SraEmployee.HireDate)
+                </td>
+                <td>
+                    @String.Format("{0:0.00}", @Model.SraEmployee.YearsOfService)
+                </td>
+                <td>
+                    @String.Format("{0:MM/dd/yyyy}", @Model.SraEmployee.BeginDate)
+                </td>
+                <td>
+                    @String.Format("{0:0.00}", @Model.SraEmployee.TimeInTitle)
+                </td>
+                <td id="payrate">
+                    @String.Format("{0:c}", @Model.SraEmployee.PayRate)
+                </td>
+                <td>
+                    @Model.SraEmployee.DepartmentComments
+                </td>
+                <td>
+                    @Model.SraEmployee.DeansOfficeComments
+                </td>
+            </tr>
+        </table>
+    </fieldset>
 </div>

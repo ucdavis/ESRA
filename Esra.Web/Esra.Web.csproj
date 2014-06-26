@@ -49,8 +49,9 @@
     <Reference Include="Elmah">
       <HintPath>..\Bin\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
@@ -81,6 +82,7 @@
       <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -135,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GlobalConstants.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\DirectorySearchService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\DataTables-1.8.1\extras\AutoFill\media\css\AutoFill.css" />
@@ -180,23 +183,42 @@
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Css\cas.css" />
+    <Content Include="Css\common.css" />
     <Content Include="Css\extended.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Css\images\ui-bg_flat_55_999999_40x100.png" />
+    <Content Include="Css\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Css\images\ui-bg_glass_0_014a81_1x400.png" />
     <Content Include="Css\images\ui-bg_glass_0_3182c0_1x400.png" />
     <Content Include="Css\images\ui-bg_glass_0_fbf7eb_1x400.png" />
     <Content Include="Css\images\ui-bg_glass_0_ffffff_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_75_2191c0_500x100.png" />
     <Content Include="Css\images\ui-bg_highlight-soft_0_014a81_1x100.png" />
+    <Content Include="Css\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
     <Content Include="Css\images\ui-bg_inset-soft_0_fcf0f0_1x100.png" />
+    <Content Include="Css\images\ui-icons_0078ae_256x240.png" />
     <Content Include="Css\images\ui-icons_014a81_256x240.png" />
+    <Content Include="Css\images\ui-icons_056b93_256x240.png" />
     <Content Include="Css\images\ui-icons_222222_256x240.png" />
     <Content Include="Css\images\ui-icons_c83900_256x240.png" />
+    <Content Include="Css\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Css\images\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Css\images\ui-icons_f5e175_256x240.png" />
+    <Content Include="Css\images\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Css\images\ui-icons_fcd113_256x240.png" />
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Css\images\ui-icons_fffff_256x240.png" />
     <Content Include="Css\jquery-ui-1.8.11.custom.css" />
+    <Content Include="Css\jquery-ui-1.8.16.custom.css" />
     <Content Include="Css\main.css" />
     <EmbeddedResource Include="favicon.ico" />
+    <Content Include="Css\ui.multiselect.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\arrow_left.jpg" />
     <Content Include="Images\comment.png" />
@@ -209,7 +231,16 @@
     <Content Include="Images\printer.gif" />
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\Copy of jquery.ui.combobox.js" />
+    <Content Include="Scripts\jquery-1.6.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.16.custom.min.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery.ui.combobox.js" />
+    <Content Include="Scripts\Copy of ui.multiselect.js" />
+    <Content Include="Scripts\jquery.defaultvalue-1.0.js" />
+    <Content Include="Scripts\jquery.defaultValue.js" />
+    <Content Include="Scripts\themeswitchertool.js" />
+    <Content Include="Scripts\ui.multiselect.js" />
     <Content Include="Scripts\dataTables.naturalSort.js" />
     <Content Include="Scripts\dataTables.deptEmployee.js" />
     <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.js" />
@@ -256,6 +287,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\dataTables.currency.js" />
     <Content Include="Scripts\jquery.fn.sortElements.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en-US.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-min.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-pack.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo-min.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo.js" />
+    <Content Include="Scripts\new-ui.multiselect.js" />
     <Content Include="Scripts\jshashtable.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />

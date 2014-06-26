@@ -90,6 +90,10 @@ namespace Esra.Core.Domain
             set { _LaborMarketMidAnnual = value; }
         }
 
+        /// <summary>
+        /// College Average for CAES ONLY!
+        /// Note: Use CollegeAverages list and school code for college average of other schools.
+        /// </summary>
         private double _CollegeAverageAnnual;
 
         public virtual double CollegeAverageAnnual
@@ -268,5 +272,17 @@ namespace Esra.Core.Domain
                 .Cascade.AllDeleteOrphan()
                 .OrderBy("Annual");
         }
+    }
+
+    [Serializable]
+    public class CollegeAverage : DomainObject
+    {
+        public virtual string SchoolCode { get; set; }
+
+        public virtual School School { get; set; }
+
+        public virtual string TitleCode { get; set; }
+
+        public virtual double CollegeAverageAnnual { get; set; }
     }
 }

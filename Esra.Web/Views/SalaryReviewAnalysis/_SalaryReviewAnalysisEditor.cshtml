@@ -1,6 +1,6 @@
 ﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
-<h2>
-    Salary Scale Details</h2>
+@*<h2>
+    Salary Scale Details</h2>*@
 <div id="salary-scale-details">
     @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
 </div>
@@ -14,7 +14,7 @@
 
         <center>
             <br />
-            <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { referenceNumber = @Model.SalaryReviewAnalysis.ReferenceNumber })' class="buttons">
+            <a href="#" id="cancelBack" class="buttons">
                 <img alt="Back" src='@Url.Image("arrow_left.jpg")' class="back_button" />&nbsp;Cancel/Back</a>
             &nbsp; &nbsp;<input type="submit" name="btnSubmitSalaryReviewAnalysis" value="Save Salary Review Analysis"
                 id="btnSubmitSalaryReviewAnalysis" />
@@ -30,6 +30,24 @@
         saveModifiedScenarioValues(scenariosRows);
 
         $(this).parents('form').submit();
+    });
+
+    // If this is a new analysis, return to the index page;
+    // else return to the details page:
+    $('#cancelBack').click(function cancelBack() {
+
+        var salaryReviewAnalysisId = $('#salaryReviewAnalysisId').val(); // "0" for unsaved.
+        var href = "";
+        if (salaryReviewAnalysisId == null || salaryReviewAnalysisId == "0") {
+            href = '@Url.Action("Index", "SalaryReviewAnalysis")';
+        }
+        else {
+            href = '@Url.Action("Details", "SalaryReviewAnalysis", new { referenceNumber = @Model.SalaryReviewAnalysis.ReferenceNumber })';
+        }
+
+        window.location.href = href;
+
+        return false;
     });
 
     function saveModifiedScenarioValues(scenariosRows) {

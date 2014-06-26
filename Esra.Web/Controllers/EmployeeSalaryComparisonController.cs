@@ -63,6 +63,21 @@ namespace Esra.Web.Controllers
                                      selectedEmployeeId.Equals("0") || selectedEmployeeId.Equals(String.Empty)
                                          ? false
                                          : true;
+
+            var mySelectedTitleCodes = new List<string>();
+            if (selectedTitleCodes != null)
+            {
+                foreach (var i in selectedTitleCodes)
+                {
+                    var j = i.Split(',');
+                    foreach (var s in j)
+                    {
+                        mySelectedTitleCodes.Add(s.Trim());
+                    }
+                }
+                selectedTitleCodes = mySelectedTitleCodes.ToArray();
+            }
+
             // search expression example:
 
             //employeeSalaryComparisonModel.EmployeeSalaryComparisonSearchExpression =
@@ -97,6 +112,10 @@ namespace Esra.Web.Controllers
                     //    employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
                     employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
                         SalaryScale.GetEffectiveSalaryScale(Repository, employee.TitleCode, DateTime.Now);
+                    var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+                    employeeSalaryComparisonModel.SalaryScaleViewModel.CollegeAverages =
+                        Repository.OfType<CollegeAverage>().Queryable.Where(x => schoolsForUser.Contains(x.SchoolCode) && x.TitleCode == employee.TitleCode).
+                            ToList();
                 }
 
                 isAnyEmployee = false;
@@ -149,6 +168,10 @@ namespace Esra.Web.Controllers
                         employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
                             SalaryScale.GetEffectiveSalaryScale(Repository, titleCode,
                                                                 DateTime.Now);
+                        var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.CollegeAverages =
+                            Repository.OfType<CollegeAverage>().Queryable.Where(x => schoolsForUser.Contains(x.SchoolCode) && x.TitleCode == titleCode).
+                                ToList();
                     }
 
                     employeeSalaryComparisonModel.SelectedTitleCodesString =
@@ -182,6 +205,10 @@ namespace Esra.Web.Controllers
                         //employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale = salaryScale;
                         employeeSalaryComparisonModel.SalaryScaleViewModel.SalaryScale =
                             SalaryScale.GetEffectiveSalaryScale(Repository, titleCode, DateTime.Now);
+                        var schoolsForUser = user.Units.Select(x => x.DeansOfficeSchoolCode).Distinct().ToArray();
+                        employeeSalaryComparisonModel.SalaryScaleViewModel.CollegeAverages =
+                            Repository.OfType<CollegeAverage>().Queryable.Where(x => schoolsForUser.Contains(x.SchoolCode) && x.TitleCode == titleCode).
+                                ToList();
                     }
                     employeeSalaryComparisonModel.SelectedDepartmentCodesString =
                         PipeDelimittedString.ArrayToPipeDelimittedString(selectedDepartmentCodes);

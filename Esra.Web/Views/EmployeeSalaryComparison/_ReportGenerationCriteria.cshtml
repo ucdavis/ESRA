@@ -1,55 +1,57 @@
 ﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
-@{
-    if (Model.EsrSearchParameters != null)
+<fieldset class="display-form">
+    <legend style="font-weight: bold; font-size: large;">Report Generation Criteria</legend>
+    @if (Model.EsrSearchParameters != null)
     {
-    <h3>
-        Report Generation Criteria</h3>
-    <table title="Report Generation Criteria">
-        <tr>
-            <th>
-                Title Code(s):
-            </th>
-            <td>
-                @foreach (Esra.Core.Domain.Title title in Model.EsrSearchParameters.SearchTitles)
-                {
-                    @title.TitleCode<br />
-                }
-            </td>
-            <th>
-                Payroll Title(s):
-            </th>
-            <td>
-                @foreach (Esra.Core.Domain.Title title in Model.EsrSearchParameters.SearchTitles)
-                {
-                    @title.PayrollTitle<br />
-                }
-            </td>
-            <th>
-                Report Date:
-            </th>
-        </tr>
-        <tr>
-            <th>
-                Department(s):
-            </th>
-            <td>
-                @foreach (Esra.Core.Domain.Department dept in Model.EsrSearchParameters.SearchDepartments)
-                {
-                    @dept.Name_DepartmentNumber<br />
-                }
-            </td>
-            <th>
-                Employee:
-            </th>
-            <td>
-                @Model.EsrSearchParameters.SearchEmployee.FullName.ToString()
-            </td>
-            <td>@String.Format("{0:MM/dd/yyyy}", Model.EsrSearchParameters.ReportDate)
-            </td>
-        </tr>
-    </table>
+
+        <table title="Report Generation Criteria" style="border: none;">
+            <tr>
+                <th>
+                    Title Code(s):
+                </th>
+                <td>
+                    @foreach (Esra.Core.Domain.Title title in Model.EsrSearchParameters.SearchTitles)
+                    {
+                        @title.TitleCode<br />
+                    }
+                </td>
+                <th>
+                    Payroll Title(s):
+                </th>
+                <td>
+                    @foreach (Esra.Core.Domain.Title title in Model.EsrSearchParameters.SearchTitles)
+                    {
+                        @title.PayrollTitle<br />
+                    }
+                </td>
+                <th>
+                    Report Date:
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Department(s):
+                </th>
+                <td>
+                    @foreach (Esra.Core.Domain.Department dept in Model.EsrSearchParameters.SearchDepartments)
+                    {
+                        @dept.Name_DepartmentNumber<br />
+                    }
+                </td>
+                <th>
+                    Employee:
+                </th>
+                <td>
+                    @Model.EsrSearchParameters.SearchEmployee.FullName.ToString()
+                </td>
+                <td>@String.Format("{0:MM/dd/yyyy}", Model.EsrSearchParameters.ReportDate)
+                </td>
+            </tr>
+        </table>
     }
     else
-    { <text>No Search Parameters selected.</text>
+    {
+        <label style="font-weight: bold;">
+            No Search Parameters selected.</label>
     }
-}
+</fieldset>

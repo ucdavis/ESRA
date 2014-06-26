@@ -240,10 +240,8 @@
             });
 
             var availableTitleCodes = [];
-            var availableTitles = [];
 
             $($("#title-drop-down")[0].options).each(function (i, val) {
-                availableTitles[i] = $(val).text();
                 availableTitleCodes[i] = $(val).val();
                 availableTitleCodes.sort();
             });
@@ -270,7 +268,7 @@
             //            );
             //            });
             $('#title-drop-down').combobox({
-                source: availableTitles,
+
                 delay: 0,
                 selected: function (event, ui) {
                     var selectedText = $(this).find('option:selected').text();
@@ -286,7 +284,7 @@
                             $("#salary-scale-partial").html(result.toString());
                         }
                         else {
-                            $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                            $("#salary-scale-partial").html("<fieldset> <h3><br /> &nbsp; &nbsp;No Salary Data Available</h3><br /></fieldset>");
                         } // else
                     } // function (result)
                  ); // post
@@ -306,17 +304,19 @@
                     var otherControl = $('select#title-drop-down'); // control that I want to change the selected value of
                     otherControl.val(value);  // sync  the other control
                     var newSelectedText = $('#title-drop-down option:selected').text(); // new selected value
-                    var autocompleteLabels = $("input.ui-autocomplete-input"); //
-                    autocompleteLabels.each(function (i, val) {
-                        var id = 'title-drop-down'; // name of auto complete control we're looking for
-                        var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
-                        if (prevSiblingId != null && prevSiblingId == id) {
-                            // if the previous control's id matches the id
-                            // then set the sibling's text value:
-                            var myVar = $(val);
-                            myVar.val(newSelectedText);
-                        } // if
-                    }); // each
+                    //                    var autocompleteLabels = $("input.ui-autocomplete-input"); //
+                    //                    autocompleteLabels.each(function (i, val) {
+                    //                        var id = 'title-drop-down'; // name of auto complete control we're looking for
+                    //                        var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                    //                        if (prevSiblingId != null && prevSiblingId == id) {
+                    //                            // if the previous control's id matches the id
+                    //                            // then set the sibling's text value:
+                    //                            var myVar = $(val);
+                    //                            myVar.val(newSelectedText);
+                    //                        } // if
+                    //                    }); // each
+
+                    setAutocomplete('title-drop-down', newSelectedText);
 
                     var token = $('[name=__RequestVerificationToken]').val();
 
@@ -390,6 +390,22 @@
                 return sOut;
             };
         });
+
+        // controlId = id of the control you wish to set.
+        // selectedTextValue = the text value you wish to display (or not), i.e. "".
+        function setAutocomplete(controlId, selectedTextValue) {
+            var autocompleteLabels = $("input.ui-autocomplete-input"); //
+            autocompleteLabels.each(function (i, val) {
+                //var id = 'title-drop-down'; // name of auto complete control we're looking for
+                var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                if (prevSiblingId != null && prevSiblingId == controlId) {
+                    // if the previous control's id matches the id
+                    // then set the sibling's text value:
+                    var myVar = $(val);
+                    myVar.val(selectedTextValue);
+                } // if
+            }); // each
+        }; // end setAutocomplete
     </script>
 </div>
 <div id="salary-scale-partial">
@@ -408,13 +424,17 @@
     @{
         if (Model.Employees != null && Model.Employees.Count() > 0)
         {
+
         @Html.Partial("_Employees")
+
         }
         else
         {
         <fieldset>
             <h3>
-                No Employees Found</h3>
+                <br />
+                &nbsp;&nbsp;No Employees Found</h3>
+            <br />
         </fieldset>
         }
     }

@@ -53,4 +53,27 @@
     </bag>
 
   </class>
+
+  <class name="Esra.Core.Domain.CollegeAverage, Esra.Core" table="CollegeAverages" dynamic-update="true">
+    <!--<id name="Id" column="SalaryScaleID" unsaved-value="0">
+			<generator class="identity" />
+		</id>-->
+
+    <!-- This makes no sense to me, but I needed to set the composite-id unsaved-value="any"
+		in order to avoid the "Unexpected row count: 0; expected: 1" error.  This seems to make a
+		difference to NHibernate of its ability to distinguish whether to do an insert or an
+		update.  With it set to the default, unsaved-value="none", it "sees" the transaction (or
+		object) as "dirty" and attempts an update, which fails.-->
+    <composite-id unsaved-value="any">
+      <key-property name="SchoolCode" column="SchoolCode"/>
+      <key-property name="TitleCode" column="TitleCode"/>
+    </composite-id>
+
+    <property name="SchoolCode" column="SchoolCode" update="false" insert="false"/>
+    <property name="TitleCode" column="TitleCode" update="false" insert="false"/>
+    <property name="CollegeAverageAnnual" column="RoundedAverage" />
+
+    <many-to-one name="School" class="Esra.Core.Domain.School, Esra.Core" cascade="none" column="SchoolCode" insert="false" update="false"/>
+
+  </class>
 </hibernate-mapping>
