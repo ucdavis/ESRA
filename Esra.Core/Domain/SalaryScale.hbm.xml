@@ -37,7 +37,7 @@
 		duplicate field update/insert issue, since SalaryGrade and Effective date are already specified as fields by
 		virtue of their presence as a key-property in the composite-id section. -->
     <many-to-one name="SalaryGradeQuartiles" class="Esra.Core.Domain.SalaryGradeQuartiles, Esra.Core"
-					 insert="false" update="false" cascade="none" fetch="join">
+					 insert="false" update="false" cascade="none" fetch="join" not-found = "ignore" >
       <column name="SalaryGrade" />
       <column name="EffectiveDate"/>
     </many-to-one>
