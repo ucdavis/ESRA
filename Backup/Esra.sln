@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esra.Web", "Esra.Web\Esra.Web.csproj", "{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esra.Tests", "Esra.Tests\Esra.Tests.csproj", "{FDD7CEB2-E3FE-4976-ACBE-D2FDC8810114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esra.Core", "Esra.Core\Esra.Core.csproj", "{AF622928-B2D4-456D-ADA9-0FF669B3A316}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD7CEB2-E3FE-4976-ACBE-D2FDC8810114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD7CEB2-E3FE-4976-ACBE-D2FDC8810114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD7CEB2-E3FE-4976-ACBE-D2FDC8810114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD7CEB2-E3FE-4976-ACBE-D2FDC8810114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF622928-B2D4-456D-ADA9-0FF669B3A316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF622928-B2D4-456D-ADA9-0FF669B3A316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF622928-B2D4-456D-ADA9-0FF669B3A316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF622928-B2D4-456D-ADA9-0FF669B3A316}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

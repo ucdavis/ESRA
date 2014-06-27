@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1CEE519C-2C2A-44E1-96A2-B35173FAFB90}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Esra.Web</RootNamespace>
+    <AssemblyName>Esra.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\Bin\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CAESOps">
+      <HintPath>..\Bin\CAESOps.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Bin\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\Bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\Bin\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\Bin\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\..\..\..\..\Downloads\LinqKit\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib">
+      <HintPath>..\Bin\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.FluentHtml">
+      <HintPath>..\Bin\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcMiniProfiler">
+      <HintPath>..\packages\MiniProfiler.1.3\lib\MvcMiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Spring">
+      <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="UCDArch">
+      <HintPath>..\Bin\UCDArch.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EmployeeSalaryComparisonController.cs" />
+    <Compile Include="Controllers\Filters\RoleFilters.cs" />
+    <Compile Include="Controllers\Filters\RoleNames.cs" />
+    <Compile Include="Controllers\SalaryReviewAnalysisController.cs" />
+    <Compile Include="Controllers\SalaryScaleController.cs" />
+    <Compile Include="Controllers\UserAdministrationController.cs" />
+    <Compile Include="Helpers\AutoMapperConfig.cs" />
+    <Compile Include="ComponentRegistrar.asax.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalaryReviewAnalysisEditorViewModel.cs" />
+    <Compile Include="Models\EsraBaseViewModel.cs" />
+    <Compile Include="Models\EmployeeComparisonViewModel_bak.cs" />
+    <Compile Include="Models\EmployeeSalaryComparisonViewModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
+    <Compile Include="Models\SalaryReviewAnalysisViewModel.cs" />
+    <Compile Include="Models\SalaryScaleViewModel.cs" />
+    <Compile Include="Models\SalaryReviewAnalysisSearchParamsModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\GlobalConstants.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalConstants.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\DirectorySearchService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\DataTables-1.8.1\extras\AutoFill\media\css\AutoFill.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\ColReorder\media\css\ColReorder.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\ColVis\media\css\ColVis.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\ColVis\media\css\ColVisAlt.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\FixedColumns\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\FixedColumns\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\FixedColumns\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\Scroller\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\Scroller\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\Scroller\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\TableTools\media\css\TableTools.css" />
+    <Content Include="Content\DataTables-1.8.1\extras\TableTools\media\css\TableTools_JUI.css" />
+    <Content Include="Content\DataTables-1.8.1\media\css\demo_page.css" />
+    <Content Include="Content\DataTables-1.8.1\media\css\demo_table.css" />
+    <Content Include="Content\DataTables-1.8.1\media\css\demo_table_jui.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Css\cas.css" />
+    <Content Include="Css\common.css" />
+    <Content Include="Css\extended.css" />
+    <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Css\images\ui-bg_flat_55_999999_40x100.png" />
+    <Content Include="Css\images\ui-bg_flat_75_aaaaaa_40x100.png" />
+    <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Css\images\ui-bg_glass_0_014a81_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_0_3182c0_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_0_fbf7eb_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_0_ffffff_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Css\images\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Css\images\ui-bg_gloss-wave_75_2191c0_500x100.png" />
+    <Content Include="Css\images\ui-bg_highlight-soft_0_014a81_1x100.png" />
+    <Content Include="Css\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Css\images\ui-bg_inset-soft_0_fcf0f0_1x100.png" />
+    <Content Include="Css\images\ui-icons_0078ae_256x240.png" />
+    <Content Include="Css\images\ui-icons_014a81_256x240.png" />
+    <Content Include="Css\images\ui-icons_056b93_256x240.png" />
+    <Content Include="Css\images\ui-icons_222222_256x240.png" />
+    <Content Include="Css\images\ui-icons_c83900_256x240.png" />
+    <Content Include="Css\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Css\images\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Css\images\ui-icons_f5e175_256x240.png" />
+    <Content Include="Css\images\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Css\images\ui-icons_fcd113_256x240.png" />
+    <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Css\images\ui-icons_fffff_256x240.png" />
+    <Content Include="Css\jquery-ui-1.8.11.custom.css" />
+    <Content Include="Css\jquery-ui-1.8.16.custom.css" />
+    <Content Include="Css\main.css" />
+    <EmbeddedResource Include="favicon.ico" />
+    <Content Include="Css\ui.multiselect.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\arrow_left.jpg" />
+    <Content Include="Images\comment.png" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\details.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\email.png" />
+    <Content Include="Images\logo-caes-long-cap.png" />
+    <Content Include="Images\logo-ucdavis.png" />
+    <Content Include="Images\printer.gif" />
+    <Content Include="Images\top_blue_bar.jpg" />
+    <Content Include="robots.txt" />
+    <Content Include="Scripts\Copy of jquery.ui.combobox.js" />
+    <Content Include="Scripts\jquery-1.6.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.16.custom.min.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
+    <Content Include="Scripts\jquery.ui.combobox.js" />
+    <Content Include="Scripts\Copy of ui.multiselect.js" />
+    <Content Include="Scripts\jquery.defaultvalue-1.0.js" />
+    <Content Include="Scripts\jquery.defaultValue.js" />
+    <Content Include="Scripts\themeswitchertool.js" />
+    <Content Include="Scripts\ui.multiselect.js" />
+    <Content Include="Scripts\dataTables.naturalSort.js" />
+    <Content Include="Scripts\dataTables.deptEmployee.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\ColReorder\media\js\ColReorder.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\ColReorder\media\js\ColReorder.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\ColVis\media\js\ColVis.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\ColVis\media\js\ColVis.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\media\js\FixedColumns.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\FixedColumns\media\js\FixedColumns.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\js\Scroller.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\Scroller\media\js\Scroller.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\TableTools\media\js\TableTools.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\TableTools\media\js\TableTools.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\extras\TableTools\media\js\ZeroClipboard.js" />
+    <Content Include="Scripts\DataTables-1.8.1\media\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables-1.8.1\media\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables-1.8.1\media\js\jquery.js" />
+    <Content Include="Scripts\jquery-1.6-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.js" />
+    <Content Include="Scripts\jquery-1.6.min.js" />
+    <Content Include="Scripts\jquery-dateFormat.js" />
+    <Content Include="Scripts\jquery-ui-1.8.12.js" />
+    <Content Include="Scripts\jquery-ui-1.8.12.min.js" />
+    <Content Include="Scripts\jquery.formatCurrency-1.4.0.js" />
+    <Content Include="Scripts\jquery.formatCurrency-1.4.0.min.js" />
+    <Content Include="Scripts\jquery.numberformatter-1.2.2.js" />
+    <Content Include="Scripts\jquery.numberformatter-1.2.2.min.js" />
+    <Content Include="Scripts\jquery.ui.autocomplete.js" />
+    <Content Include="Scripts\jquery.ui.button.js" />
+    <Content Include="Scripts\jquery.ui.core.js" />
+    <Content Include="Scripts\jquery.ui.position.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\dataTables.currency.js" />
+    <Content Include="Scripts\jquery.fn.sortElements.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en-US.js" />
+    <Content Include="Scripts\locale\ui-multiselect-en.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-min.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation-pack.js" />
+    <Content Include="Scripts\plugins\localization\jquery.localisation.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo-min.js" />
+    <Content Include="Scripts\plugins\scrollTo\jquery.scrollTo.js" />
+    <Content Include="Scripts\new-ui.multiselect.js" />
+    <Content Include="Scripts\jshashtable.js" />
+    <Content Include="Scripts\modernizr-1.7.js" />
+    <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\StringTrim.js" />
+    <Content Include="UCDArch.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Web.config" />
+    <EmbeddedResource Include="Resources\GlobalConstants.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalConstants.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Navigation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Sample.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeTemplates\AddController\Controller.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Create.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\CreateViewModel.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Delete.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Details.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Edit.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\EditViewModel.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Empty.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\List.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\ListDatatables.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\ListTelerik.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\CreateViewModel.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Delete.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Details.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\EditViewModel.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Empty.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
+    <Content Include="Views\SalaryScale\DetailsWholePage.cshtml" />
+    <Content Include="Views\Shared\_NavigationExample.cshtml" />
+    <Content Include="Views\Shared\_LayoutExample.cshtml" />
+    <Content Include="Views\SalaryScale\Details2.cshtml" />
+    <Content Include="Views\SalaryScale\Index.cshtml" />
+    <Content Include="Views\SalaryScale\Copy of Index.cshtml" />
+    <Content Include="Views\SalaryScale\Details.cshtml" />
+    <Content Include="Views\Shared\_SalaryScale.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\Index.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\Details.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_EmployeeTitleDepartmentSelectLists.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_Employees.cshtml" />
+    <Content Include="Views\Shared\_SalaryScaleSelectLists.cshtml" />
+    <Content Include="Views\SalaryScale\Copy %282%29 of Index.cshtml" />
+    <Content Include="Views\SalaryScale\Index_bak.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_ReportGenerationCriteria.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Index.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Details.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Edit.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\Delete.cshtml" />
+    <None Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\extras\ColReorder\media\js\ColReorder.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\extras\ColVis\media\js\ColVis.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\extras\FixedColumns\media\js\FixedColumns.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\extras\Scroller\media\js\Scroller.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\extras\TableTools\media\js\TableTools.min.js.gz" />
+    <None Include="Scripts\DataTables-1.8.1\media\js\jquery.dataTables.min.js.gz" />
+    <Content Include="Views\Shared\_UserRoles.cshtml" />
+    <Content Include="Views\Home\_AdminMenu.cshtml" />
+    <Content Include="Views\UserAdministration\Index.cshtml" />
+    <Content Include="Views\Home\_DepartmentsMenu.cshtml" />
+    <Content Include="Views\Home\_DeansOfficeMenu.cshtml" />
+    <Content Include="Views\Home\_ReviewerMenu.cshtml" />
+    <Content Include="Views\Account\LoggedOut.cshtml" />
+    <Content Include="Views\Home\_DemoRoleSelector.cshtml" />
+    <Content Include="Views\Home\_EmulateUser.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchParamaters.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisSearchResults.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_NewSalaryReviewAnalysisEmployeeSelector.cshtml" />
+    <Content Include="Views\EmployeeSalaryComparison\_ExportToExcel.cshtml" />
+    <None Include="Views\SalaryReviewAnalysis\Create.cshtml_bak" />
+    <Content Include="Views\SalaryReviewAnalysis\_EmployeeDetails.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysis.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SalaryReviewAnalysisEditor.cshtml" />
+    <Content Include="Views\SalaryReviewAnalysis\_SraDetails.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SraEmployeeInfo.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\_SraEmployeeTitle.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SalaryReviewAnalysis\CreateEdit.cshtml" />
+    <None Include="Views\SalaryReviewAnalysis\Scenario.tmpl" />
+    <Content Include="Views\SalaryReviewAnalysis\_JQuery_dataTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Esra.Core\Esra.Core.csproj">
+      <Project>{AF622928-B2D4-456D-ADA9-0FF669B3A316}</Project>
+      <Name>Esra.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49635</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

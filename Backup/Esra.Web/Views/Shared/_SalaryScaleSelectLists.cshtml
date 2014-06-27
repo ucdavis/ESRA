@@ -1,0 +1,35 @@
+﻿@model Esra.Web.Models.SalaryScaleViewModel
+@section AdditionalScripts{
+}
+<div>
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Salary Scales</legend>
+        @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
+        {
+            //@Html.AntiForgeryToken()
+            <ul>
+                <li style="font-weight: bold;">@Html.Label("Search by Title Code")</li>
+                <li>
+                    <div class="editor-field">@Html.TextBoxFor(x => x.TitleCode, new { id = "titlecode-textbox", style = "width: 10em" })
+                    </div>
+                </li>
+            </ul> // end SelectTitleCodeForm
+        }
+        <label style="font-weight: bold; font-style: italic;">
+            -- Or --</label>
+        @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
+        {
+            <ul>
+                <li style="font-weight: bold;">@Html.Label("Search by Payroll Title")</li>
+                <li>
+                    <div class="editor-field ui-widget" style="text-decoration: none !important;">
+                        @Html.DropDownListFor(x => x.TitleCode, new SelectList(Model.Titles, "TitleCode", "PayrollTitle_TitleCode", Model.Title != null ? Model.Title.TitleCode.ToString() : string.Empty), "--Select a Title--", new { id = "title-drop-down" })
+                    </div>
+                </li>
+            </ul> // end SelectTitleForm
+
+        }
+        @*<button id="toggle">
+            Show underlying select</button>*@
+    </fieldset>
+</div>

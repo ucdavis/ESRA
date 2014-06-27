@@ -1,0 +1,20 @@
+﻿<div id="departments-menu">
+    <dl>
+        <dt>
+            @Html.ActionLink("Salary Scales", "Index", "SalaryScale")
+        </dt>
+        <dd>
+            View Titles and Their Respective Salary Scales.</dd>
+        <dt>
+            @Html.ActionLink("Employee Salary Comparison", "Index", "EmployeeSalaryComparison")
+        </dt>
+        <dd>
+            Compare Employees' Salaries By Title.</dd>
+        <dt>
+            @Html.ActionLink("Salary Review Analysis", "Index", "SalaryReviewAnalysis", new { isDepartmentUser = Model.IsDepartmentUser }, null)
+        </dt>
+        <dd>
+            Create a New Salary Review Analysis or Search For and View an Existing Salary Review
+            Analysis.</dd>
+    </dl>
+</div>
