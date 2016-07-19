@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Esra.Db</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{235059e1-354f-408e-8e23-cde0c07ad65f}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Esra.Db</RootNamespace>
+    <AssemblyName>Esra.Db</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\UCOP_20140805.sql" />
+    <Build Include="dbo\Tables\TX_20131220.sql" />
+    <Build Include="dbo\Tables\SX_20140622.sql" />
+    <Build Include="dbo\Tables\SX_20111101.sql" />
+    <Build Include="dbo\Tables\sx_10-01-2010.sql" />
+    <Build Include="dbo\Tables\SRAEmployee.sql" />
+    <Build Include="dbo\Tables\SelectionType.sql" />
+    <Build Include="dbo\Tables\Scenario.sql" />
+    <Build Include="dbo\Tables\SalarySteps.sql" />
+    <Build Include="dbo\Tables\SalaryScale.sql" />
+    <Build Include="dbo\Tables\SalaryReviewAnalysis.sql" />
+    <Build Include="dbo\Tables\SalaryGradeMatrix.sql" />
+    <Build Include="dbo\Tables\SalaryData_20140712.sql" />
+    <Build Include="dbo\Tables\SalaryData_20120510.sql" />
+    <Build Include="dbo\Tables\RX-TX_20111001.sql" />
+    <Build Include="dbo\Tables\rx_tx_20110401.sql" />
+    <Build Include="dbo\Tables\RX_20131220.sql" />
+    <Build Include="dbo\Tables\QuartileType.sql" />
+    <Build Include="dbo\Tables\PPS_Grades.sql" />
+    <Build Include="dbo\Tables\PPS_20140701.sql" />
+    <Build Include="dbo\Tables\PayRateType.sql" />
+    <Build Include="dbo\Tables\NX_20120201.sql" />
+    <Build Include="dbo\Tables\NX 6-1-11 1.sql" />
+    <Build Include="dbo\Tables\HX_5-1-2011.sql" />
+    <Build Include="dbo\Tables\ex_nx_titlecodes.sql" />
+    <Build Include="dbo\Tables\EX_20140501.sql" />
+    <Build Include="dbo\Tables\EX_20120101.sql" />
+    <Build Include="dbo\Tables\ERSA_Request_TCx.sql" />
+    <Build Include="dbo\Tables\EmployeeChanges.sql" />
+    <Build Include="dbo\Tables\Employee.sql" />
+    <Build Include="dbo\Tables\CX_20140622.sql" />
+    <Build Include="dbo\Tables\CX_20120701.sql" />
+    <Build Include="dbo\Tables\CX_20120401.sql" />
+    <Build Include="dbo\Tables\cx_10-01-2007.sql" />
+    <Build Include="dbo\Tables\CollegeAverages.sql" />
+    <Build Include="dbo\Tables\ChangeType.sql" />
+    <Build Include="dbo\Tables\ApptType.sql" />
+    <Build Include="dbo\Views\vUserUnit.sql" />
+    <Build Include="dbo\Views\vUsers.sql" />
+    <Build Include="dbo\Views\vUnit.sql" />
+    <Build Include="dbo\Views\vTitles.sql" />
+    <Build Include="dbo\Views\vLogin.sql" />
+    <Build Include="dbo\Views\UCDEmployee_20120203_bak.sql" />
+    <Build Include="dbo\Views\UCDEmployee_20110404_bak.sql" />
+    <Build Include="dbo\Views\UCDEmployee_20101013_bak.sql" />
+    <Build Include="dbo\Views\UCDEmployee.sql" />
+    <Build Include="dbo\Views\Title.GtEq4001.sql" />
+    <Build Include="dbo\Views\Title.sql" />
+    <Build Include="dbo\Views\Schools.sql" />
+    <Build Include="dbo\Views\SalaryData_V.sql" />
+    <Build Include="dbo\Views\Departments_20120203_bak.sql" />
+    <Build Include="dbo\Views\Departments_20110404_bak.sql" />
+    <Build Include="dbo\Views\Departments.sql" />
+    <Build Include="dbo\Views\CollegeAveragesV.sql" />
+    <Build Include="dbo\Views\CollegeAverages_20120203_bak.sql" />
+    <Build Include="dbo\Views\Catbert3_vUserUnit.sql" />
+    <Build Include="dbo\Views\Catbert3_vUsers.sql" />
+    <Build Include="dbo\Views\Catbert3_vUserRoles.sql" />
+    <Build Include="dbo\Views\Catbert3_vUnit_20120203_bak.sql" />
+    <Build Include="dbo\Views\Catbert3_vUnit.sql" />
+    <Build Include="dbo\Views\Catbert3_vRoles.sql" />
+    <Build Include="dbo\Views\Catbert3_vLogin.sql" />
+    <Build Include="dbo\Views\CampusAverages_20120203_bak.sql" />
+    <Build Include="dbo\Views\CampusAverages.sql" />
+    <Build Include="dbo\Views\CAES_Title.sql" />
+    <Build Include="dbo\Views\APTDIS_V2.sql" />
+    <Build Include="dbo\Views\AllUCDEmployees.sql" />
+    <Build Include="dbo\Views\AllDepartments.sql" />
+    <Build Include="Security\prodapp.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCollegeAverages.sql" />
+    <Build Include="dbo\Stored Procedures\usp_getUnitsInAppByLoginID.sql" />
+    <Build Include="dbo\Stored Procedures\usp_getRolesInAppByLoginID.sql" />
+    <Build Include="Security\Permissions.sql" />
+  </ItemGroup>
+</Project>
