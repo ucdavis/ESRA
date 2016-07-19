@@ -1,0 +1,1 @@
+﻿ALTER INDEX [Employee_YearsOfExperienceIDX] ON [dbo].[Employee] REORGANIZE WITH ( LOB_COMPACTION = ON )

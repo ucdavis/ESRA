@@ -62,6 +62,7 @@
     <Folder Include="dbo\Views\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Jobs" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\UCOP_20140805.sql" />
@@ -137,5 +138,15 @@
     <Build Include="dbo\Stored Procedures\usp_getUnitsInAppByLoginID.sql" />
     <Build Include="dbo\Stored Procedures\usp_getRolesInAppByLoginID.sql" />
     <Build Include="Security\Permissions.sql" />
+    <None Include="Jobs\7- ReOrganizeYearsOfServiceIndex.sql" />
+    <None Include="Jobs\8- ReOrganizeYearsOfExperienceIndex.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Jobs\1- UpdateTimeInTitle.sql" />
+    <None Include="Jobs\2- InsertEmployees.sql" />
+    <None Include="Jobs\3- UpdateCollegeAverages.sql" />
+    <None Include="Jobs\4- UpdateCampusAverages.sql" />
+    <None Include="Jobs\5- UpdateIsCaes.sql" />
+    <None Include="Jobs\6- ReOrganizeTimeInTitleIndex.sql" />
   </ItemGroup>
 </Project>
