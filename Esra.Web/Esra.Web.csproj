@@ -427,6 +427,7 @@
     <Content Include="Views\Home\Sample.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appSettings.config" />
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <None Include="CodeTemplates\AddView\AspxCSharp\Create.tt" />
     <None Include="CodeTemplates\AddView\AspxCSharp\CreateViewModel.tt" />
@@ -470,6 +471,7 @@
     <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Edit.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Delete.cshtml" />
+    <Content Include="connectionStrings.config" />
     <None Include="Properties\PublishProfiles\Prod - Multi-select.pubxml" />
     <None Include="Properties\PublishProfiles\Test - Autoocmplete.pubxml" />
     <None Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.min.js.gz" />

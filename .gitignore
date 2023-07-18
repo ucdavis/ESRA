@@ -1,0 +1,11 @@
+
+Esra.Web/connectionStrings.config
+Esra.Web/appSettings.config
+.vs/ESRA/v15/Server/sqlite3/db.lock
+Esra.Web/obj/Debug/Esra.Web.pdb
+Esra.Web/bin/Esra.Web.pdb
+Esra.Web/bin/Esra.Web.pdb
+Esra.Web/obj/Debug/Esra.Web.pdb
+*.pdb
+Esra.Web/bin/Esra.Web.dll
+Esra.Web/obj/Debug/Esra.Web.dll
