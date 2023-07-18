@@ -120,10 +120,11 @@ tfoot {text-align:center;}
 /*    header        */
 /* ---------------- */
 
-#headertext {
+#headertext p {
     font-size: 14px;
     font-weight: bold;
     font-style: italic;
+    margin:4px 0px 8px 0px;
 }
 
 /* ---------------- */
