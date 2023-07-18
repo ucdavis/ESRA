@@ -86,16 +86,9 @@ C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\DataAn
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\DataAnnotationsExtensions.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\FluentNHibernate.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\Iesi.Collections.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\Microsoft.CSharp.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\NHibernate.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\NHibernate.Validator.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\NHibernate.Validator.Specific.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.ComponentModel.DataAnnotations.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.Data.DataSetExtensions.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.Data.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.Xml.dll
-C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\System.Xml.Linq.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\UCDArch.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\WebActivator.dll
 C:\Users\taylorkj\Box\Homedir\Documents\GitHub\ESRA\Esra.Core\bin\Release\Microsoft.Practices.ServiceLocation.dll
