@@ -1,0 +1,13 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+@{
+    ViewBag.Title = "Salary Review Analysis";
+}
+<div id="salary-review-analysis-selector">
+    @Html.Partial("_SalaryReviewAnalysisSearchParamaters")
+</div>
+<div id="salary-review-analysis-listing">
+    @Html.Partial("_SalaryReviewAnalysisSearchResults")
+</div>
+<div id="new-salary-review-analysis-employee-selector">
+    @Html.Partial("_NewSalaryReviewAnalysisEmployeeSelector")
+</div>

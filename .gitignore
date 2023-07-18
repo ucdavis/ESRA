@@ -1,10 +1,7 @@
 
-#ignore thumbnails created by windows
-Thumbs.db
-#Ignore files build by Visual Studio
-*.obj
-*.exe
-*.pdb
+Esra.Web/connectionStrings.config
+Esra.Web/appSettings.config
+.vs/ESRA/v15/Server/sqlite3/db.lock
 *.user
 *.aps
 *.pch
@@ -29,3 +26,4 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 !Bin/
 .vs/
+

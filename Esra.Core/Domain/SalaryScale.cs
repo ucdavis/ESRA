@@ -40,7 +40,11 @@ namespace Esra.Core.Domain
             set { _EffectiveDate = value; }
         }
 
-        public virtual string SalaryGrade { get; set; }
+        private string _SalaryGrade;
+        public virtual string SalaryGrade {
+            get { return _SalaryGrade; }
+            set { _SalaryGrade = value; }
+        }
 
         private string _BargainingCode;
 
@@ -102,13 +106,9 @@ namespace Esra.Core.Domain
             set { _CollegeAverageAnnual = value; }
         }
 
-        private double _CampusAverageAnnual;
 
         public virtual double CampusAverageAnnual
-        {
-            get { return _CampusAverageAnnual; }
-            set { _CampusAverageAnnual = value; }
-        }
+        { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -135,7 +135,7 @@ namespace Esra.Core.Domain
                 _NumSalarySteps = this._NumSalarySteps,
                 _Title = this._Title,
                 _TitleCode = this._TitleCode,
-                SalaryGrade = this.SalaryGrade
+                _SalaryGrade = this.SalaryGrade
             };
 
             // Create a new SalaryGradeQuartiles and add it to the SalaryScale:
@@ -242,6 +242,7 @@ namespace Esra.Core.Domain
             Table("SalaryScale");
             CompositeId()
                .KeyProperty(x => x.TitleCode)
+               .KeyProperty(x => x.SalaryGrade)
                .KeyProperty(x => x.EffectiveDate)
                .UnsavedValue("any");
 
@@ -285,4 +286,5 @@ namespace Esra.Core.Domain
 
         public virtual double CollegeAverageAnnual { get; set; }
     }
+
 }

@@ -1,0 +1,10 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+<div id="salary-review-analysis-editor">
+    @using (@Html.BeginForm("Edit", "SalaryReviewAnalysis", FormMethod.Post))
+    {
+        @Html.Partial("_SalaryReviewAnalysisEditor")
+    }
+</div>

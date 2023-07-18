@@ -76,4 +76,5 @@
     <many-to-one name="School" class="Esra.Core.Domain.School, Esra.Core" cascade="none" column="SchoolCode" insert="false" update="false"/>
 
   </class>
+
 </hibernate-mapping>
