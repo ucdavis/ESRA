@@ -1,0 +1,67 @@
+﻿@model Esra.Web.Models.SalaryScaleViewModel
+@{
+    ViewBag.Title = "Salary Scale";
+}
+<div>
+    <div id="selectlists">
+        @Html.Partial("_SalaryScaleSelectLists")
+    </div>
+    <div id="result">
+        @{
+            if (Model.SalaryScale.TitleCode != null)
+            {
+            @Html.Partial("_SalaryScale")
+            }
+            else
+            {
+            <fieldset>
+                <h3>
+                    <br />
+                    &nbsp; &nbsp;No Salary Data Available</h3>
+                <br />
+            </fieldset>
+            }
+        }
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var availableTitleCodes = [];
+
+            $($("#title-drop-down")[0].options).each(function (i, val) {
+                //availableTitles[i] = $(val).text();
+                availableTitleCodes[i] = $(val).val();
+                availableTitleCodes.sort();
+            });
+
+            $("input#titlecode-textbox").autocomplete({
+                source: availableTitleCodes,
+                delay: 0,
+                select: function (event, ui) {
+                    //debugger;
+                    // Event handling code goes here.
+                    $(this).val(ui.item.value);  // set the text box's value to that selected from the list
+                    $(this).parents('form').submit();
+                }
+            }); // autocomplete
+
+            $("#title-drop-down").combobox({
+                delay: 0,
+                selected: function (event, ui) {
+                    //debugger;
+                    // Event handling code goes here.
+                    $(this).parents('form').submit();
+                } // selected
+            }); // combobox });
+
+            $('select').change(function () {
+                //debugger;
+                $(this).parents('form').submit();
+            });
+
+            $("#toggle").click(function () {
+                $("#title-drop-down").toggle();
+            });
+        });
+    </script>
+</div>

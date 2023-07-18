@@ -1,0 +1,139 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+@*@{
+// This was the old asp.net web forms way of doing this:
+        byte[] byteArray = (byte[])HttpContext.Current.Session["ExportExcel"];
+
+        // Send the XML file to the web browser for download.
+        Response.Clear();
+        Response.AppendHeader("Content-Disposition", "filename=MyExportedFile.xml");
+        Response.AppendHeader("Content-Length", byteArray.Length.ToString());
+        Response.ContentType = "application/octet-stream";
+        Response.BinaryWrite(byteArray);
+    }*@
+<div>
+    @using (Html.BeginForm("ExportToExcel", "EmployeeSalaryComparison", FormMethod.Get, new { name = "exportform" }))
+    {
+@*@Html.AntiForgeryToken()*@
+        @Html.HiddenFor(x => x.SelectedEmployeeId)
+        @Html.HiddenFor(x => x.SelectedDepartmentCodesString)
+        @Html.HiddenFor(x => x.SelectedTitleCodesString)
+        @Html.Hidden("sortPropertyName", "FullName")
+        @Html.Hidden("isAscending", true)
+        <label class="h3_black">
+            &nbsp;&nbsp;Select to export report results to Excel:&nbsp;&nbsp;<input type="button"
+                id="btnExportToExcel" onclick="NewExportToExcel(); return false;" value="Export to Excel" /></label>
+    }
+    <script type="text/javascript">
+     <!--
+        function NewExportToExcel() {
+            //debugger;
+
+            var oTable;
+            oTable = $('#employees').dataTable();
+            var oSettings = oTable.fnSettings();
+            var oColumns = oSettings.aoColumns;
+            var oSorting = (oSettings.aaSorting.length == 1 ? oSettings.aaSorting[0] : oSettings.aaSorting[1]);
+            var oSortDirection = oSorting[1];
+            var oSortTableColumnNumber = oSorting[0];
+            var sortPropertyName = (oSortTableColumnNumber != 0 ? oColumns[oSortTableColumnNumber].sName : "FullName");
+            var isAscending = oSortDirection != "asc" ? false : true;
+
+            // I no longer need the case statement because I added a sName to each column that matches the class property name.
+            //            switch (oSortTableColumnNumber) {
+            //                case 1:
+            //                    // emp.HomeDepartment.Name
+            //                    sortPropertyName = "HomeDepartment";
+            //                    break;
+            //                case 2:
+            //                    // emp.TitleCode
+            //                    sortPropertyName = "TitleCode";
+
+            //                    break;
+            //                case 3:
+            //                    // emp.SalaryGrade
+            //                    sortPropertyName = "SalaryGrade";
+            //                    break;
+            //                case 4:
+            //                    // emp.BargainingUnitCode
+            //                    sortPropertyName = "BargainingUnitCode";
+            //                    break;
+            //                case 5:
+            //                    // emp.FullName
+            //                    sortPropertyName = "FullName";
+            //                    break;
+            //                case 6:
+            //                    // String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate)
+            //                    sortPropertyName = "AdjustedCareerHireDate";
+            //                    break;
+            //                case 7:
+            //                    // (emp.YearsOfService ?? 0d)
+            //                    sortPropertyName = "YearsOfService";
+            //                    break;
+            //                case 8:
+            //                    // String.Format("{0:MM/dd/yyyy}", emp.AdjustedApptHireDate)
+            //                    sortPropertyName = "AdjustedApptHireDate";
+            //                    break;
+            //                case 9:
+            //                    // (emp.TimeInTitle ?? 0d)
+            //                    sortPropertyName = "TimeInTitle";
+            //                    break;
+            //                case 10:
+            //                    // String.Format("{0:MM/dd/yyyy}", emp.ExperienceBeginDate)
+            //                    sortPropertyName = "ExperienceBeginDate";
+            //                    break;
+            //                case 11:
+            //                    // (emp.YearsOfExperience ?? 0d)
+            //                    sortPropertyName = "YearsOfExperience";
+            //                    break;
+            //                case 12:
+            //                    // emp.PayRate
+            //                    sortPropertyName = "PayRate";
+            //                    break;
+            //                case 13:
+            //                    // emp.DepartmentComments
+            //                    sortPropertyName = "DepartmentComments";
+
+            //                    break;
+            //                case 14:
+            //                    // emp.DeansOfficeComments
+            //                    sortPropertyName = "DeansOfficeComments";
+            //                    break;
+            //                default:
+            //                    sortPropertyName = "FullName";
+            //            }
+
+            // This updated the values of the hidden fields:
+            $("#isAscending").val(isAscending);
+            $("#sortPropertyName").val(sortPropertyName);
+
+            /* Show an example parameter from the settings */
+            //alert("propertyName: " + sortPropertyName + "; ascending: " + ascending);
+
+            // This is some ajax code that I have yet to get to work properly.
+            //            var token = $('[name=__RequestVerificationToken]').val();
+
+            //            $.post('/EmployeeSalaryComparison/ExportToExcel',
+            //                { dataType: "json", __RequestVerificationToken: token, sortPropertyName: sortPropertyName, isAscending: isAscending, titleCodesString: titleCodesString, pkEmployee: pkEmployeeID, departmentIdsString: departmentsString },
+            //                function (result) {
+            //                    if (result.length > 50) {
+            //                        //$.download('/export.php', 'filename=mySpreadsheet&format=xls&content=' + spreadsheetData);
+            //                        //window.location.href = result.redirect;
+            //                        // $("#excel-partial").html(result);
+            //                        $("#excel-partial").replaceWith(result.form);
+
+            //                    }
+            //                    else {
+            //                        $("#excel-partial").html("<fieldset><h3>No Employee Data Available</h3></fieldset>");
+            //                    }
+            //                }
+            //            );
+            //$(this).parents('exportform').submit();
+
+            // This does actually work as desired:
+            document.forms["exportform"].submit();
+
+            //_ExportToExcel(sortPropertyName, isAscending, titleCodesString, pkEmployeeID, departmentsString); // This did not work as desired either.
+        }
+        //-->
+    </script>
+</div>

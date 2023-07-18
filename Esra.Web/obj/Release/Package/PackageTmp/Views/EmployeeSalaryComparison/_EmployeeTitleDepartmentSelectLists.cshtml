@@ -1,0 +1,135 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+<div>
+    <fieldset class="display-form">
+        <legend style="font-weight: bold; font-size: large;">Employee Search Parameters</legend>
+        @using (Html.BeginForm("Details", "EmployeeSalaryComparison", FormMethod.Get))
+        {
+            <ul>
+                <li style="font-weight: bold;">@Html.Label("Search by Title(s)")</li><li>
+                    <div class="editor-field">
+                        @Html.ListBoxFor(x => x.SelectedTitleCodes,
+                  new MultiSelectList(Model.TitlesList,
+                            "TitleCode",
+                            "PayrollTitle_TitleCode",
+                            Model.SelectedTitles)
+                        )
+                        @* @this.MultiSelect("SelectedTitleCodes").Options(Model.TitlesList.OrderBy(x => x.AbbreviatedName), t => t.TitleCode, t => t.PayrollTitle_TitleCode).FirstOption("Any","--Any Title(s)--").Selected(Model.SelectedTitles)*@
+                    </div>
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- And/Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Department(s)")</li>
+                <li>
+                    <div class="editor-field">
+                        <div class="editor-field ">
+                            @Html.ListBoxFor(x => x.SelectedDepartmentCodes,
+                        new MultiSelectList(Model.DepartmentsList,
+                        "DepartmentNumber",
+                        "Name_DepartmentNumber",
+                        Model.SelectedDepartments))
+                            @*@this.MultiSelect("SelectedDepartmentCodes").Options(Model.DepartmentsList.OrderBy(x => x.Name).ThenBy(x => x.SchoolCode), d => d.DepartmentNumber, d => d.Name_DepartmentNumber).FirstOption("Any", "--Any Department(s)--").Selected(Model.SelectedDepartments)*@
+                        </div>
+                </li>
+                <li style="font-weight: bold; font-style: italic;">-- Or --</li>
+                <li style="font-weight: bold;">@Html.Label("Search by Employee")</li>
+                <li>
+                    <div class="editor-field ui-widget">
+                        @Html.DropDownListFor(x => x.SelectedEmployeeId,
+                        new SelectList(Model.EmployeesList,
+                        "id",
+                        "FullNameTitleCodeLabel",
+                        Model.SelectedEmployee != null ? Model.SelectedEmployee.id : string.Empty),
+             "--Any Employee(s)--", new { id = "employee-drop-down" }
+                        )
+                    </div>
+                </li>
+                <li>
+                    <center>
+                        <br />
+                        <input id="btnGetEmployeeSalaryReport" type="submit" value="Get Employee Salary Report" />&nbsp;
+                        &nbsp; &nbsp; &nbsp;
+                        <input type="reset" value="Clear Selection(s)" onclick="resetForm(this.form); return false;" />
+                    </center>
+                </li>
+            </ul>
+        }
+    </fieldset>
+    <script language="JavaScript" type="text/javascript">
+	<!--
+        $(document).ready(function () {
+
+            $("#employee-drop-down").combobox({
+                delay: 0,
+                defaultText: function (text) {
+                    debugger;
+                    var i = 2;
+                },
+                selected: function (event, ui) {
+                    // Event handling code goes here.
+                    resetDropDownLists($(this).parents('form')[0], false);
+
+                    $(this).parents('form').submit();
+                } // selected
+            }); // combobox });
+
+            $("#SelectedDepartmentCodes[0]").attr("id", "deptsMultiSelect");
+            $("#deptsMultiSelect").addClass("wideMultiSelect");
+            $("#deptsMultiSelect").addClass("multiselect");
+
+            $("#SelectedTitleCodes[0]").attr("id", "titlesMultiSelect");
+            $("#titlesMultiSelect").addClass("wideMultiSelect");
+            $("#titlesMultiSelect").addClass("multiselect");
+
+            $(".multiselect").multiselect();
+        });
+
+        $("#btnGetEmployeeSalaryReport").click(function () {
+            // reset the employee-drop-down when the submit button is "pressed"
+            var selectedEmployeeId = $('#employee-drop-down')[0];
+            selectedEmployeeId.selectedIndex = 0;
+            selectedEmployeeId.options[0].selected = true;
+
+            $(this).parents('form').submit();
+        });
+
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        $('#employee-drop-down').change(function () {
+            resetDropDownLists($(this).parents('form'), false);
+            $(this).parents('form').submit();
+
+        });
+
+        function resetDropDownLists(form, resetEmployee) {
+            $(".remove-all").click();
+
+            var selectedtitles = $('#titlesMultiSelect :selected');
+
+            var selectedDepartments = $('#deptsMultiSelect :selected');
+            if (typeof selectedDepartments === "undefined" == false) {
+                selectedDepartments.val("");
+            }
+            if (typeof selectedtitles === "undefined" == false) {
+                selectedtitles.val("");
+            }
+            selectedtitles.val("");
+
+            if (resetEmployee) {
+                var selectedEmployeeId = form.SelectedEmployeeId;
+
+                if (typeof selectedEmployeeId != 'undefined') {
+                    selectedEmployeeId.selectedIndex = 0;
+                    selectedEmployeeId.options[0].selected = true;
+
+                    setAutocomplete('employee-drop-down', selectedEmployeeId.options[0].text);
+                }
+            }
+            return false;
+        };
+
+        function resetForm(form) {
+            resetDropDownLists(form, true);
+        };
+
+		//-->
+    </script>
+</div>

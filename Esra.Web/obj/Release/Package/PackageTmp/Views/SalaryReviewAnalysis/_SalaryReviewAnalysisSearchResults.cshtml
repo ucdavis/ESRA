@@ -1,0 +1,197 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<script language="JavaScript" type="text/javascript">
+    //$(function () {
+    $(document).ready(function () {
+        var dtable = $('#analysis-table').dataTable({
+            "bProcessing": true,
+            //"bServerSide": true,
+            "bJQueryUI": true,
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
+            "sPaginationType": "full_numbers",
+            "aaSorting": [[4, 'asc']] // Change default sort to IsDepartmentEmployee desc, Employee.FullName; otherwise it sorts by column 0.
+            //                "aoColumns": [
+            //                                                { "sName": "IsDepartmentEmployee", "bVisible": false },  // "bVisible": false "hides" the column from the user.
+            //                                                {"sName": "Edit", "bSortable": false }, // "bSortable": false disables user-enabled sorting on the column.
+            //                                                {"sName": "HomeDepartment" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
+            //                                                {"sName": "TitleCode" },
+            //                                                { "sName": "SalaryGrade" },
+            //                                                { "sName": "BargainingUnitCode" },
+            //                                                { "sName": "FullName", "sType": "deptEmployee" },
+            //                                                { "sName": "AdjustedCareerHireDate", "bSortable": false },
+            //                                                { "sName": "YearsOfService" },
+            //                                                { "sName": "AdjustedApptHireDate", "bSortable": false },
+            //                                                { "sName": "TimeInTitle" },
+            //                                                { "sName": "ExperienceBeginDate", "bSortable": false },
+            //                                                { "sName": "YearsOfExperience" },
+            //                                                { "sName": "PayRate", "sType": "currency" },
+            //                                                { "sName": "DepartmentComments", "bSortable": false },
+            //                                                { "sName": "DeansOfficeComments", "bSortable": false }
+            //                                            ]
+        });
+    })
+
+</script>
+@{
+    if (Model.SalaryReviewAnalysisResults.Count > 0)
+    {
+    <div id="salary-review-analysis-results">
+        @using (@Html.BeginForm("Delete", "SalaryReviewAnalysis", FormMethod.Post, new { Name = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.CreationDateString", Model.SalaryReviewAnalysisSearchParamsModel.CreationDateString)
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee != null && !String.IsNullOrEmpty(Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id) && !Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id.Equals("0"))
+            { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedEmployee", Model.SalaryReviewAnalysisSearchParamsModel.SelectedEmployee.Id);
+            }
+            @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber", (Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber == null ? String.Empty : Model.SalaryReviewAnalysisSearchParamsModel.SelectedReferenceNumber))
+            if (Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser != null && Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id != 0)
+            { @Html.Hidden("SalaryReviewAnalysisSearchParamsModel.SelectedUser", Model.SalaryReviewAnalysisSearchParamsModel.SelectedUser.Id);
+            }
+            <table id="analysis-table">
+                <thead>
+                    <tr>
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>
+                            Reference<br />
+                            Number
+                        </th>
+                        <th>
+                            Originating<br />
+                            Department
+                        </th>
+                        <th>
+                            Home<br />
+                            Department
+                        </th>
+                        <th>
+                            Employee
+                        </th>
+                        <th>
+                            Title<br />
+                            Code
+                        </th>
+                        <th>
+                            Date<br />
+                            Initiated
+                        </th>
+                        <th>
+                            Initiated&nbsp;By<br />
+                            Reviewer<br />
+                            Name
+                        </th>
+                        <th>
+                            Date<br />
+                            Approved
+                        </th>
+                        <th>
+                            Approved<br />
+                            Scenario
+                        </th>
+                        <th>
+                            Department<br />
+                            Comments
+                        </th>
+                        <th>
+                            Dean's<br />
+                            Office<br />
+                            Comments
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Esra.Core.Domain.SalaryReviewAnalysis a in Model.SalaryReviewAnalysisResults)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(x => a.ReferenceNumber, new { id = "ReferenceNumber", name = "ReferenceNumber" })
+                                <a href='@Url.Action("Details", "SalaryReviewAnalysis", new { ReferenceNumber = @a.ReferenceNumber })'>
+                                    <img alt="View Details" src='@Url.Image("Details.png")' />
+                                </a>&nbsp;&nbsp;
+                                <img id="delete-sra" src='@Url.Image("delete.png")' class="edit-row" alt="delete"
+                                onclick="deleteSra(@a.ReferenceNumber)" />
+                            </td>
+                            <td>
+                                @a.ReferenceNumber
+                            </td>
+                            <td>
+                                @(a.OriginatingDepartment != null && String.IsNullOrEmpty(a.OriginatingDepartment.Name) == false ? a.OriginatingDepartment.Name : String.Empty)
+                            </td>
+                            <td>
+                                @a.Employee.HomeDepartment.Name
+                            </td>
+                            <td>
+                                @a.Employee.FullName
+                            </td>
+                            <td>
+                                @if (a.IsReclass)
+                                { <strong>@a.Title.TitleCode*</strong><br /> }
+                                @a.CurrentTitleCode
+                            </td>
+                            <td>
+                                @String.Format("{0:MM/dd/yyyy}", a.DateInitiated)
+                            </td>
+                            <td>@a.InitiatedByReviewerName
+                            </td>
+                            <td>
+                                @String.Format("{0:MM/dd/yyyy}", a.DateApproved)
+                            </td>
+                            <td>
+                                @if (a.ApprovedScenario != null)
+                                {
+                                    @a.ApprovedScenario.ScenarioNumber
+                                }
+                            </td>
+                            <td>
+                                @a.DepartmentComments
+                            </td>
+                            <td>
+                                @a.DeansOfficeComments
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <span id="pnlProposedTitleCodeNote">
+                <label id="lblProposedTitleCodeNote">
+                    *Proposed Title Code</label>
+            </span>
+        }
+    </div>
+    }
+    else
+    {
+    <fieldset>
+        <br />
+        <h3>
+            &nbsp;&nbsp;No Matching Results Found</h3>
+        <br />
+    </fieldset>
+    }
+}
+<script type="text/javascript">
+<!--
+    function deleteSra(referenceNum) {
+        //debugger;
+        var token = $('[name=__RequestVerificationToken]').val();
+        var answer = confirm("Are you sure you want to delete this analysis (ref #: " + referenceNum + ")?");
+        if (!answer) return false;
+        //$(this).parents('form').submit();
+        document.forms["delete-form"].submit();
+
+        //        $.post('/SalaryReviewAnalysis/Delete',
+        //                { __RequestVerificationToken: token, referenceNum: $(referenceNum).val(), salaryReviewAnalysisSearchParamsModel: $(SalaryReviewAnalysisSearchParamsModel).val() },
+        //                function (result) {
+        //                    if (result.length > 50) {
+        //                        $("#salary-review-analysis-results").html(result.toString());
+        //                    }
+        //                    //                    else {
+        //                    //                        $("#salary-review-analysis-results").html("<fieldset><h3>No Salary Review Analysis Data Available</h3></fieldset>");
+        //                    //                    }
+        //                }
+        //            );
+    }
+
+// -->
+</script>

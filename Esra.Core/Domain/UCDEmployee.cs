@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using DataAnnotationsExtensions;
 
 namespace Esra.Core.Domain
 {
@@ -206,6 +207,11 @@ namespace Esra.Core.Domain
         {
             get { return _FullName; }
             set { _FullName = value; }
+        }
+
+        public virtual string FullNameTitleCodeLabel
+        {
+            get { return _FullName + " - " + _TitleCode; }
         }
 
         protected string _FirstName;

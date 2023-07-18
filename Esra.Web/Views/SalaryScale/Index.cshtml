@@ -1,14 +1,24 @@
 ﻿@*@model Esra.Core.Domain.Title*@
+@using System.Web.UI.WebControls
+@using AutoMapper
 @model Esra.Web.Models.SalaryScaleViewModel
 @section AdditionalScripts{
 }
 @{
     ViewBag.Title = "Salary Scale Selection";
 }
+
+<div id="headertext" style="font-size: 14px; font-weight: bold; font-style: italic; ">
+	<p style="margin: 10px 0 20px;">
+		Note: Official UCOP Non-Academic Salary Scales may be found here: <a href=@(System.Configuration.ConfigurationManager.AppSettings["UCOPNonAcademicTitlesUrl"])>UCOP Non-Academic Titles</a>
+	</p>
+</div>
+
 <div id="result">
     @{
         @Html.Partial("_SalaryScaleSelectLists");
     }
+    
     <script language="JavaScript" type="text/javascript">
     <!--        //
         $(document).ready(function () {

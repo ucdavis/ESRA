@@ -1,0 +1,441 @@
+﻿@model Esra.Web.Models.EmployeeSalaryComparisonViewModel
+@using System.Text;
+@section AdditionalScripts{
+    <script language="JavaScript" type="text/javascript">
+
+    // This adds string trim functionality to string data type:
+            <!-- Hide from non-JavaScript browsers
+
+            function strltrim() {
+                return this.replace(/^\s+/,'');
+            }
+
+            function strrtrim() {
+                return this.replace(/\s+$/,'');
+            }
+            function strtrim() {
+                return this.replace(/^\s+/,'').replace(/\s+$/,'');
+            }
+
+            String.prototype.ltrim = strltrim;
+            String.prototype.rtrim = strrtrim;
+            String.prototype.trim = strtrim;
+
+            // End hiding -->
+    </script>
+    @*<script type="text/javascript" src="../../Scripts/dataTables.naturalSort.js"></script>*@
+    <script src="@Url.Script("dataTables.naturalSort.js")" type="text/javascript"></script>
+    @*<script type="text/javascript" src="../../Scripts/dataTables.currency.js"></script>*@
+    <script src="@Url.Script("dataTables.currency.js")" type="text/javascript"></script>
+    @* <script type="text/javascript" src="../../Scripts/dataTables.deptEmployee.js"></script>*@
+    <script src="@Url.Script("dataTables.deptEmployee.js")" type="text/javascript"></script>
+}
+@{
+    ViewBag.Title = "Employee Salary Comparison";
+}
+@section SubNav
+{
+    <ul class="navigation">
+        @* <li>@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) </li>*@
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+<div id="salary-scale">
+    @Html.AntiForgeryToken()
+    @Html.Partial("_SalaryScaleSelectLists", Model.SalaryScaleViewModel)
+    @*<div id="salaryscale-result" />*@
+    <script language="JavaScript" type="text/javascript">
+        //$(function () {
+        $(document).ready(function () {
+
+            var dtable = $('#employees').dataTable({
+                "bProcessing": true,
+                //"bServerSide": true,
+                "bJQueryUI": true,
+                "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  // This allows for the "display all" records feature.
+                "sPaginationType": "full_numbers",
+                "aaSorting": [[0, 'desc'], [6, 'asc']], // Change default sort to IsDepartmentEmployee desc, Employee.FullName; otherwise it sorts by column 0.
+                "aoColumns": [
+                                                { "sName": "IsDepartmentEmployee", "bVisible": false },  // "bVisible": false "hides" the column from the user.
+                                                {"sName": "Edit", "bSortable": false }, // "bSortable": false disables user-enabled sorting on the column.
+                                                {"sName": "HomeDepartment" }, // "sName": HomeDepartment gives the column a name in the oSettings.aoColumns[] array.  This is used in _ExportToExcel.
+                                                {"sName": "TitleCode" },
+                                                { "sName": "SalaryGrade" },
+                                                { "sName": "BargainingUnitCode" },
+                                                { "sName": "FullName", "sType": "deptEmployee" },
+                                                { "sName": "AdjustedCareerHireDate", "bSortable": false },
+                                                { "sName": "YearsOfService" },
+                                                { "sName": "AdjustedApptHireDate", "bSortable": false },
+                                                { "sName": "TimeInTitle" },
+                                                { "sName": "ExperienceBeginDate", "bSortable": false },
+                                                { "sName": "YearsOfExperience" },
+                                                { "sName": "PayRate", "sType": "currency" },
+                                                { "sName": "DepartmentComments", "bSortable": false },
+                                                { "sName": "DeansOfficeComments", "bSortable": false }
+                                            ]
+            });
+
+            $('thead th#dept-sorter').unbind(); // This removes the default sort for the Department column.
+            $('thead th').unbind("mousedown");  // This disables the user selected multi-column sort functionality.
+
+            // This did not work because it calls the default sort function regardless of any custom sort
+            // you might wish to implement, and there appears to be no way to turn off the default sort.
+            //
+            //            dtable.fnSortListener(document.getElementById('dept-sorter'), 2, function (e) {
+            //                var oTable = $('#employees').dataTable();
+            //                var oSettings = oTable.fnSettings();
+            //                var oColumns = oSettings.aoColumns;
+            //                var oSorting = (oSettings.aaSorting.length == 1 ? oSettings.aaSorting[0] : oSettings.aaSorting[1]);
+            //                var oSortDirection = oSorting[1];
+            //                var oSortColumnNumber = oSorting[0];
+            //                var oSortColumnName = oColumns[oSortColumnNumber].sName;
+            //                var newSortDirection = 'asc';
+
+            //                //alert(elem.attr("class"));
+            //                if (oSortColumnName == "HomeDepartment") {
+            //                    // sort in opposite order from current sort direction
+            //                    newSortDirection = (oSortDirection == 'asc' ? 'desc' : 'asc');
+
+            //                }
+            //                //alert(newSortDirection);
+            //                //alert("sorting: " + e.aaSorting.length + "; " + e.aaSorting)
+            //                oTable.fnSort([[0, 'desc'], [2, newSortDirection], [6, 'asc']]);
+            //                //alert("sorting: " + e.aaSorting.length + "; " + e.aaSorting)
+            //                //oSettings.bSorted = true;
+            //                return true;
+
+            //            });
+
+            // This is how I actually had to implement the multi-column sorting,
+            // i.e. order by IsDepartmentEmployee desc, Department.Name asc/desc, and Employee.FullName asc.
+            // I'm leave the Department column sortable in "aoColumns", but unbinding the default on-click
+            // event and replacing it with a custom one.  That way the sort icons work automatically without me
+            // having to set them manually.
+
+            $('#dept-sorter').click(function (event) {
+                //alert($(this).text()); //"Department Name"  // A way to view the cell contents.
+                //var oTable = $('#employees').dataTable();
+                var oSettings = dtable.fnSettings();
+                var oColumns = oSettings.aoColumns;
+                var oSorting = (oSettings.aaSorting.length == 1 ? oSettings.aaSorting[0] : oSettings.aaSorting[1]);  // If there's > 1 sort properties column, then we're only interested in the 2nd one, since the first one is the IsDepartmentEmployee column.
+                var oSortDirection = oSorting[1];  // The sort direction is at [1].
+                var oSortColumnNumber = oSorting[0];  // The sort column number is at [0].
+                var oSortColumnName = oColumns[oSortColumnNumber].sName;  // Get the sName assigned to the column, based on the column number.
+                var newSortDirection = 'asc';  // set to the default sort direction to ascending.
+
+                //alert(elem.attr("class"));  // This will show you the first css class name.
+                if (oSortColumnName == "HomeDepartment") {
+                    // If the column was previously sorted by Department, then
+                    // sort in opposite order from current sort direction
+                    newSortDirection = (oSortDirection == 'asc' ? 'desc' : 'asc');
+                }
+                // otherwise sort by ascending (default).
+
+                //alert("sorting: " + event.aaSorting.length + "; " + event.aaSorting)  // e.aaSorting also contains the current, i.e. present sort columns and sort direction.
+                dtable.fnSort([[0, 'desc'], [2, newSortDirection], [6, 'asc']]);  // call the sort function to sort in the desired direction.
+                //alert("sorting: " + event.aaSorting.length + "; " + event.aaSorting) // once sorted, the sort columns and direction will change to the new ones just provided to fnSort.
+                //event.stopPropagation();  // This appears not be necessary since I'm not using fnSortListener.
+                return false;
+            });
+
+            $('#employees a.edit-row').live('click', function (e) {
+                //var row = this.parentNode.parentNode;
+                var row = $(this).parents("tr");
+
+                dtable.fnOpen(row[0], fnFormatDetails(dtable, row), 'details');
+                row.next().find("input.datepicker").datepicker(); //setup datepicker for the new datetime inputs
+                e.preventDefault();
+            });
+
+            $('#employees a.close-row').live('click', function (e) {
+                var row = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.previousSibling;
+                dtable.fnClose(row);
+                e.preventDefault();
+            });
+
+            $('input.save-employee', '#employees').live('click', function (e) {
+                //debugger;
+                var rowId = $(this).data("id");
+                var employeeRow = $('tr[data-id=' + rowId + ']', '#employees');
+                var row = employeeRow.next();
+
+                var data = { //Grab the data out of the rows
+                    id: rowId,
+                    hireDate: row.find('.hire-date').val(),
+                    titleDate: row.find('.title-date').val(),
+                    experienceDate: row.find('.experience-date').val(),
+                    hireChecked: row.find('.hire-checked').is(":checked"),
+                    titleChecked: row.find('.title-checked').is(":checked"),
+                    deptComments: row.find('.dept-comments').val(),
+                    deansComments: row.find('.deans-comments').val()
+                }
+
+                row.html("<tr><td>Saving Data.......<td></tr>");
+
+                $.ajax({
+                    url: '@Url.Action("Edit")',
+                    data: data,
+                    type: 'POST',
+                    error: function () {
+                        alert("There was a problem saving the data for this employee. Please retry your request, and if the problem persists contact application support.");
+                        dtable.fnClose(employeeRow[0]);
+                    },
+                    success: function (result) {
+                        //debugger;
+                        var oSettings = dtable.fnSettings();
+                        var oColumns = oSettings.aoColumns;
+                        var i;
+                        var oColumnNames = new Array();
+                        for (i = 0; i < oColumns.length; i++) {
+                            oColumnNames[oColumns[i].sName] = i;
+                        };
+
+                        var resultrow = employeeRow[0];
+                        //update the row
+                        //dtable.fnUpdate(data.hireDate, resultrow, oColumnNames["AdjustedCareerHireDate"], false, false); //False params to not redraw until second call
+                        var hireDate = result.hireDate;
+                        dtable.fnUpdate(hireDate, resultrow, oColumnNames["AdjustedCareerHireDate"], false, false); //False params to not redraw until second call
+                        dtable.fnUpdate(result.yearsOfService, resultrow, oColumnNames["YearsOfService"], false, false);
+                        //dtable.fnUpdate(data.titleDate, resultrow, oColumnNames["AdjustedApptHireDate"], false, false);
+                        dtable.fnUpdate(result.titleDate, resultrow, oColumnNames["AdjustedApptHireDate"], false, false);
+                        dtable.fnUpdate(result.timeInTitle, resultrow, oColumnNames["TimeInTitle"], false, false);
+                        //dtable.fnUpdate(data.experienceDate, resultrow, oColumnNames["ExperienceBeginDate"], false, false);
+                        dtable.fnUpdate(result.experienceDate, resultrow, oColumnNames["ExperienceBeginDate"], false, false);
+
+                        dtable.fnUpdate(result.yearsOfExperience, resultrow, oColumnNames["YearsOfExperience"], false, false);
+                        dtable.fnUpdate(data.deptComments, resultrow, oColumnNames["DepartmentComments"], false, false);
+                        dtable.fnUpdate(data.deansComments, resultrow, oColumnNames["DeansOfficeComments"]);
+
+                        //updated the headers for the pps checked/adjusted columns
+                        if (data.hireChecked) {
+                            employeeRow.find("td.hire-date").addClass("date-checked");
+                        }
+                        else {
+                            employeeRow.find("td.hire-date").removeClass("date-checked");
+                        }
+                        if (data.titleChecked) {
+                            employeeRow.find("td.title-date").addClass("date-checked");
+                        }
+                        else {
+                            employeeRow.find("td.title-date").removeClass("date-checked");
+                        }
+                        if (result.hireAdjusted) {
+                            employeeRow.find("td.hire-date").addClass("date-adjusted");
+                        }
+                        else {
+                            employeeRow.find("td.hire-date").removeClass("date-adjusted");
+                        }
+                        if (result.titleAdjusted) {
+                            employeeRow.find("td.title-date").addClass("date-adjusted");
+                        }
+                        else {
+                            employeeRow.find("td.title-date").removeClass("date-adjusted");
+                        }
+
+                        dtable.fnClose(resultrow);
+                    }
+                });
+
+                e.preventDefault();
+            });
+
+            var availableTitleCodes = [];
+
+            $($("#title-drop-down")[0].options).each(function (i, val) {
+                availableTitleCodes[i] = $(val).val();
+                availableTitleCodes.sort();
+            });
+
+            //            $('#title-drop-down').change(function () {
+            //                //debugger;
+
+            //                var selectedText = $(this).find('option:selected').text();
+            //                var otherControl = $('#titlecode-drop-down');
+            //                otherControl.val($(this).val());
+
+            //                var token = $('[name=__RequestVerificationToken]').val();
+
+            //                $.post('/SalaryScale/_SalaryScale',
+            //                { __RequestVerificationToken: token, titleCode: $(this).val() },
+            //                function (result) {
+            //                    if (result.length > 50) {
+            //                        $("#salary-scale-partial").html(result.toString());
+            //                    }
+            //                    else {
+            //                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+            //                    }
+            //                }
+            //            );
+            //            });
+            $('#title-drop-down').combobox({
+
+                delay: 0,
+                selected: function (event, ui) {
+                    var selectedText = $(this).find('option:selected').text();
+                    var otherControl = $('input#titlecode-textbox');
+                    otherControl.val($(this).val());
+
+                    var token = $('[name=__RequestVerificationToken]').val();
+
+                    $.post('@Url.Action("_SalaryScale", "SalaryScale")',
+                { __RequestVerificationToken: token, titleCode: $(this).val() },
+                    function (result) {
+                        if (result.length > 50) {
+                            $("#salary-scale-partial").html(result.toString());
+                        }
+                        else {
+                            $("#salary-scale-partial").html("<fieldset> <h3><br /> &nbsp; &nbsp;No Salary Data Available</h3><br /></fieldset>");
+                        } // else
+                    } // function (result)
+                 ); // post
+                } // selected
+            }); // combobox
+
+            $("#toggle").click(function () {
+                $("#title-drop-down").toggle();
+            });
+
+            $("input#titlecode-textbox").autocomplete({
+                source: availableTitleCodes,
+                delay: 0,
+                select: function (event, ui) {
+                    var value = ui.item.value;
+
+                    var otherControl = $('select#title-drop-down'); // control that I want to change the selected value of
+                    otherControl.val(value);  // sync  the other control
+                    var newSelectedText = $('#title-drop-down option:selected').text(); // new selected value
+                    //                    var autocompleteLabels = $("input.ui-autocomplete-input"); //
+                    //                    autocompleteLabels.each(function (i, val) {
+                    //                        var id = 'title-drop-down'; // name of auto complete control we're looking for
+                    //                        var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                    //                        if (prevSiblingId != null && prevSiblingId == id) {
+                    //                            // if the previous control's id matches the id
+                    //                            // then set the sibling's text value:
+                    //                            var myVar = $(val);
+                    //                            myVar.val(newSelectedText);
+                    //                        } // if
+                    //                    }); // each
+
+                    setAutocomplete('title-drop-down', newSelectedText);
+
+                    var token = $('[name=__RequestVerificationToken]').val();
+
+                    $.post('@Url.Action("_SalaryScale", "SalaryScale")',
+                { __RequestVerificationToken: token, titleCode: value },
+                function (result) {
+                    if (result.length > 50) {
+                        $("#salary-scale-partial").html(result.toString());
+                    }
+                    else {
+                        $("#salary-scale-partial").html("<fieldset><h3>No Salary Data Available</h3></fieldset>");
+                    } // else
+                } // function (result)
+            ); // post
+                }, //select
+                create: function (event, ui) {
+                    // This resets the value displayed to what is was before a page refresh:
+                    var selectedTitleCode = $('#title-drop-down option:selected').val(); // selected value
+                    $(this).val(selectedTitleCode);
+                }
+            }); //autocomplete
+
+            function GetRow() {
+
+            }
+
+            /* Formating function for row details */
+            function fnFormatDetails(dTable, row) {
+                //debugger;
+                var oSettings = dTable.fnSettings();
+                var oColumns = oSettings.aoColumns;
+                var i;
+                var oColumnNames = new Array();
+
+                for (i = 0; i < oColumns.length; i++) {
+                    oColumnNames[oColumns[i].sName] = i;
+                };
+
+                var rowContents = row[0];
+                var careerChecked = row.find(".hire-date").hasClass("date-checked");
+                var apptChecked = row.find(".title-date").hasClass("date-checked");
+                //var isDepartmentUser = $('#is-department-user')[0].value;
+                var isDepartmentUser = row.find(".is-department-user").hasClass("True");
+                var rowId = row.data("id");
+
+                var aData = dTable.fnGetData(rowContents);
+
+                var sOut = '';
+                sOut += '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+                //sOut += '<tr><td>Is Department User: ' + isDepartmentUser + '</td></tr>';
+                sOut += '<tr><td>Editing ' + aData[oColumnNames["FullName"]] + '</td></tr>';
+                sOut += '<tr><td>Hire Date: <input class="hire-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedCareerHireDate"]] + '"/>&nbsp;<input class="hire-checked" type="checkbox" ' + (careerChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+                sOut += '<tr><td>Title Begin Date: <input class="title-date datepicker" type="text" value="' + aData[oColumnNames["AdjustedApptHireDate"]] + '"/>&nbsp;<input class="title-checked" type="checkbox" ' + (apptChecked ? 'checked' : String.Empty) + ' />Checked in PPS?</td></tr>';
+                sOut += '<tr><td>Experience Begin Date: <input class="experience-date datepicker" type="text" value="' + aData[oColumnNames["ExperienceBeginDate"]] + '"/></td></tr>';
+                if (isDepartmentUser) {
+                    sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
+                }
+                else {
+                    sOut += '<tr><td>Department Comments: <textarea class="dept-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DepartmentComments"]] + '</textarea></td></tr>';
+                }
+
+                if (isDepartmentUser) {
+                    sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20" readonly="readonly" style="background-color:LightGrey;">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
+                }
+                else {
+                    sOut += '<tr><td>Dean\'s Office Comments: <textarea class="deans-comments" rows="3" cols="20">' + aData[oColumnNames["DeansOfficeComments"]] + '</textarea></td></tr>';
+                }
+
+                sOut += '<tr><td><input class="save-employee" data-id="' + rowId + '" type="submit" value="Save" />&nbsp;&nbsp;<a class="close-row" href="#">Close</a></td></tr>';
+                sOut += '</table>';
+                return sOut;
+            };
+        });
+
+        // controlId = id of the control you wish to set.
+        // selectedTextValue = the text value you wish to display (or not), i.e. "".
+        function setAutocomplete(controlId, selectedTextValue) {
+            var autocompleteLabels = $("input.ui-autocomplete-input"); //
+            autocompleteLabels.each(function (i, val) {
+                //var id = 'title-drop-down'; // name of auto complete control we're looking for
+                var prevSiblingId = $(this).prev().attr('id'); // id of previous sibling
+                if (prevSiblingId != null && prevSiblingId == controlId) {
+                    // if the previous control's id matches the id
+                    // then set the sibling's text value:
+                    var myVar = $(val);
+                    myVar.val(selectedTextValue);
+                } // if
+            }); // each
+        }; // end setAutocomplete
+    </script>
+</div>
+<div id="salary-scale-partial">
+    @{
+        @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+    }
+</div>
+<div id="employee-drop-down-lists">
+    @Html.Partial("_EmployeeTitleDepartmentSelectLists")
+</div>
+@*<div id="role-test">@Html.Partial("_UserRoles")</div>*@
+<div id="report-generation-criteria">
+    @Html.Partial("_ReportGenerationCriteria")
+</div>
+<div id="result">
+    @{
+        if (Model.Employees != null && Model.Employees.Count() > 0)
+        {
+
+        @Html.Partial("_Employees")
+
+        }
+        else
+        {
+        <fieldset>
+            <h3>
+                <br />
+                &nbsp;&nbsp;No Employees Found</h3>
+            <br />
+        </fieldset>
+        }
+    }
+</div>

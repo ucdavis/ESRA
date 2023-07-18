@@ -116,6 +116,15 @@ tfoot tr  > td:first-child {text-align:left;}
 tfoot tr > td:last-child {text-align:right;}
 tfoot {text-align:center;}
 
+/*------------------*/
+/*    header        */
+/* ---------------- */
+
+#headertext {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+}
 
 /* ---------------- */
 /*    footer        */

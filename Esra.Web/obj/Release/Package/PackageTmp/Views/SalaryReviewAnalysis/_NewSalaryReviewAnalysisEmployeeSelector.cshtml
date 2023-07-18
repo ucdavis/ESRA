@@ -1,0 +1,59 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisViewModel
+<div id="divCreateNewSRA">
+    <fieldset>
+        <legend style="font-weight: bold; font-size: large;">Create Salary Review Analysis</legend>
+        @using (@Html.BeginForm("Create", "SalaryReviewAnalysis", FormMethod.Get))
+        {
+            <ul>
+                <li>&nbsp;&nbsp;Type to search by name and then select Employee to begin:</li>
+                <li>
+                    <div class="editor-field ui-widget">
+                        &nbsp;&nbsp;@Html.DropDownListFor(x => x.NewSraEmployee,
+                        new SelectList(Model.FilteredEmployees,
+                        "id",
+                        "FullNameTitleCodeLabel"),
+                               "-- Select an Employee --", new { id = "ddlNewSAREmployee" }
+                        )
+                    </div>
+                    <br />
+                </li>
+            </ul>
+        }
+    </fieldset>
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        //var availableEmployees = [];
+
+        //        $($("#ddlNewSAREmployee")[0].options).each(function (i, val) {
+
+        //            availableEmployees[i] = "-- Select me --"; //$(val).text();
+        //        });
+
+        $("#ddlNewSAREmployee").combobox({
+            delay: 0,
+            selected: function (event, ui) {
+                // Event handling code goes here.
+                var newSraEmployee = $('#ddlNewSAREmployee')[0];
+
+                if (newSraEmployee.value.length > 0) {
+                    $(this).parents('form').submit();
+                }
+                return false;
+            } // selected
+        }); // combobox });
+
+        // This allows the form to submit when a selection is made from the
+        // employees drop-down.
+        $('#ddlNewSAREmployee').change(function () {
+
+            var newSraEmployee = $('#ddlNewSAREmployee')[0];
+
+            if (newSraEmployee.value.length > 0) {
+                $(this).parents('form').submit();
+            }
+            return false;
+        });
+
+        //-->
+    </script>
+</div>

@@ -1,0 +1,54 @@
+﻿@model Esra.Web.Models.SalaryReviewAnalysisEditorViewModel
+@{
+    ViewBag.Title = "Salary Review Analysis Viewer";
+}
+@section SubNav
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+<br />
+@if (Model.SalaryReviewAnalysis != null)
+{
+    <div id="salary-scale">
+        @Html.Partial("_SalaryScale", Model.SalaryScaleViewModel)
+    </div>
+
+    if (Model.ProposedTitle != null)
+    {
+    <span id="proposed-title" style="font-weight: bold;">Proposed Title: </span>
+    @Model.ProposedTitle.TitleCode_Name
+    }
+
+    <div id="employee-title-info">
+        @Html.Partial("_SraEmployeeTitle", Model.SalaryReviewAnalysis.Employee)
+    </div>
+
+    <div id="employee-info">
+        @Html.Partial("_SraEmployeeInfo", Model.SalaryReviewAnalysis.Employee)
+    </div>
+
+    <div id="sra-details">
+        @Html.Partial("_SraDetails", Model)
+    </div>
+
+    <div id="back-edit-print">
+        <a href='@Url.Action("Index", "SalaryReviewAnalysis")' class="buttons">
+            <img alt="Back" src='@Url.Image("arrow_left.jpg")' class="back_button" />&nbsp;Back</a>
+        <a href='@Url.Action("CreateEdit", "SalaryReviewAnalysis", new { ReferenceNumber = @Model.SalaryReviewAnalysis.ReferenceNumber })' class="buttons" >
+            <img alt="Edit Salary Review Analysis" src='@Url.Image("edit.png")' class="edit_button" />&nbsp;Edit
+        </a><a id="lbtnPrint" title="Print" href="javascript:__doPostBack('lbtnPrint','')"
+            class="buttons" onclick="window.print();return false;">
+            <img alt="Print" src='@Url.Image("printer.gif")' class="print_button" />&nbsp;Print</a>
+    </div>
+}
+else
+{
+    <fieldset>
+        <h3>
+            <br />
+            &nbsp;&nbsp;Salary Review Analysis Not Found</h3>
+        <br />
+    </fieldset>
+}

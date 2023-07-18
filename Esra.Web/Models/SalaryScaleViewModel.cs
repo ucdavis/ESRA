@@ -21,6 +21,8 @@ namespace Esra.Web.Models
 
         public IList<CollegeAverage> CollegeAverages { get; set; }
 
+        public double CampusAverage { get; set; }
+
         public static SalaryScaleViewModel Create(IRepository repository)
         {
             return SalaryScaleViewModel.Create(repository, null, null, null);
