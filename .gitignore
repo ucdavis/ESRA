@@ -30,3 +30,5 @@ _ReSharper*/
 !Bin/
 .vs/
 /Esra.Web/bin/Esra.Web.dll.config
+/Esra.Web/connectionStrings.config
+/Esra.Web/appSettings.config
