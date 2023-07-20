@@ -10,7 +10,11 @@ namespace Esra.Web.Helpers
 {
     public static class CasMvc
     {
-        private const string StrCasUrl = "https://cas.ucdavis.edu/cas/";
+#if DEBUG
+        private const string CasBaseUrl = "https://ssodev.ucdavis.edu/cas/";
+#else
+        private const string CasBaseUrl = "https://cas.ucdavis.edu/cas/";
+#endif
         private const string StrTicket = "ticket";
         private const string StrReturnUrl = "ReturnURL";
 
@@ -80,7 +84,7 @@ namespace Esra.Web.Helpers
                 if (!string.IsNullOrEmpty(ticket))
                 {
                     // validate ticket against cas
-                    var sr = new StreamReader(new WebClient().OpenRead(StrCasUrl + "validate?ticket=" + ticket + "&service=" + service));
+                    var sr = new StreamReader(new WebClient().OpenRead(CasBaseUrl + "validate?ticket=" + ticket + "&service=" + service));
 
                     // parse text file
                     if (sr.ReadLine() == "yes")
@@ -100,7 +104,7 @@ namespace Esra.Web.Helpers
                 }
 
                 // ticket doesn't exist or is invalid so redirect user to CAS login
-                return new RedirectResult(StrCasUrl + "login?service=" + service);
+                return new RedirectResult(CasBaseUrl + "login?service=" + service);
             }
 
             //User already has a valid ticket. This likely means they are unauthorized because they were kicked back to the login page.
