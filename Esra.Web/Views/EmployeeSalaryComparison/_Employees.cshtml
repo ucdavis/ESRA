@@ -68,7 +68,10 @@
                             Experience
                         </th>
                         <th>
-                            Pay Rate
+	                        Pay Rate
+                        </th>
+                        <th>
+	                        Salary Step
                         </th>
                         <th>
                             Department<br />
@@ -118,8 +121,10 @@
                             </td>
                             <td>@String.Format("{0:0.00}", emp.YearsOfExperience)
                             </td>
-                            <td>@String.Format("{0:c}", emp.PayRate)
-                            </td>
+	                        <td>@String.Format("{0:c}", emp.PayRate)
+	                        </td>
+	                        <td>@emp.SalaryStep
+	                        </td>
                             <td>@(emp.IsDepartmentEmployee ? emp.DepartmentComments : String.Empty)
                             </td>
                             <td>@(emp.IsDepartmentEmployee ? emp.DeansOfficeComments : String.Empty)

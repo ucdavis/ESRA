@@ -36,7 +36,7 @@
                         @Html.DropDownListFor(x => x.SelectedEmployeeId,
                         new SelectList(Model.EmployeesList,
                         "id",
-                        "FullName",
+                        "FullNameTitleCodeLabel",
                         Model.SelectedEmployee != null ? Model.SelectedEmployee.id : string.Empty),
              "--Any Employee(s)--", new { id = "employee-drop-down" }
                         )
