@@ -158,6 +158,7 @@
     <Compile Include="Services\DirectorySearchService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="connectionStrings.config" />
     <Content Include="Content\DataTables-1.8.1\extras\AutoFill\media\css\AutoFill.css" />
     <Content Include="Content\DataTables-1.8.1\extras\ColReorder\media\css\ColReorder.css" />
     <Content Include="Content\DataTables-1.8.1\extras\ColVis\media\css\ColVis.css" />
