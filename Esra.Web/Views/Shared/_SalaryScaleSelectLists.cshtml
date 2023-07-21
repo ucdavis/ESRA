@@ -1,9 +1,17 @@
 ﻿@model Esra.Web.Models.SalaryScaleViewModel
 @section AdditionalScripts{
 }
+
 <div>
     <fieldset class="display-form">
-        <legend style="font-weight: bold; font-size: large;">Salary Scales</legend>
+	    <legend style="font-weight: bold; font-size: large;">Salary Scales</legend>
+
+	    <div id="headertext">
+		    <p>
+			    Note: Official UCOP Non-Academic Salary Scales may be found here: <a href=@(System.Configuration.ConfigurationManager.AppSettings["UCOPNonAcademicTitlesUrl"])>UCOP Non-Academic Titles</a>
+		    </p>
+	    </div>
+
         @using (Html.BeginForm("Details", "SalaryScale", FormMethod.Get))
         {
             //@Html.AntiForgeryToken()

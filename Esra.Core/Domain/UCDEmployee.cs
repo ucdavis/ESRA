@@ -208,6 +208,11 @@ namespace Esra.Core.Domain
             set { _FullName = value; }
         }
 
+        public virtual string FullNameTitleCodeLabel
+        {
+            get { return _FullName + " - " + _TitleCode; }
+        }
+
         protected string _FirstName;
 
         public virtual string FirstName
