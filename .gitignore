@@ -29,14 +29,12 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 !Bin/
 .vs/
-Esra.Web/bin/Esra.Web.dll.config
-connectionStrings.config
+
 Esra.Web/appSettings.config
-Esra.Web/appSettings.config
+/Esra.Web/appSettings.config
 Esra.Web/bin/Esra.Core.dll
 Esra.Web/bin/Esra.Web.dll
-
+Esra.Web/connectionStrings.config
 /Esra.Web/connectionStrings.config
-/Esra.Db/Esra.Db.jfm
 /Esra.Web/bin/Esra.Core.dll
 /Esra.Web/bin/Esra.Web.dll
