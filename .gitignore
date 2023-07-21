@@ -29,9 +29,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 !Bin/
 .vs/
-/Esra.Web/bin/Esra.Web.dll.config
+Esra.Web/bin/Esra.Web.dll.config
 Esra.Web/connectionStrings.config
 Esra.Web/appSettings.config
-
 Esra.Web/bin/Esra.Core.dll
 Esra.Web/bin/Esra.Web.dll
+
