@@ -158,7 +158,6 @@
     <Compile Include="Services\DirectorySearchService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connectionStrings.config" />
     <Content Include="Content\DataTables-1.8.1\extras\AutoFill\media\css\AutoFill.css" />
     <Content Include="Content\DataTables-1.8.1\extras\ColReorder\media\css\ColReorder.css" />
     <Content Include="Content\DataTables-1.8.1\extras\ColVis\media\css\ColVis.css" />
@@ -409,6 +408,10 @@
     <Content Include="Views\SalaryReviewAnalysis\Create.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Edit.cshtml" />
     <Content Include="Views\SalaryReviewAnalysis\Delete.cshtml" />
+    <Content Include="connectionStrings.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Prod - Multi-select.pubxml" />
+    <None Include="Properties\PublishProfiles\Test - Autoocmplete.pubxml" />
     <None Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <None Include="Scripts\DataTables-1.8.1\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <None Include="Scripts\DataTables-1.8.1\extras\ColVis\media\js\ColVis.min.js.gz" />
