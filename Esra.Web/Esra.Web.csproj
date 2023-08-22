@@ -411,6 +411,8 @@
     <Content Include="connectionStrings.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Prod - Multi-select.pubxml" />
+    <None Include="Properties\PublishProfiles\SalaryReview - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\SalaryReview - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\Test - Autoocmplete.pubxml" />
     <None Include="Scripts\DataTables-1.8.1\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <None Include="Scripts\DataTables-1.8.1\extras\ColReorder\media\js\ColReorder.min.js.gz" />

@@ -29,8 +29,12 @@
                             Department Name
                         </th>
                         <th>
-                            Title<br />
-                            Code
+	                        Title<br />
+	                        Code
+                        </th>
+                        <th>
+                            Salary<br />
+                            Plan
                         </th>
                         <th>
                             Salary<br />
@@ -99,8 +103,10 @@
                             </td>
                             <td>@((Model.IsDepartmentUser && emp.IsDepartmentEmployee) || (!Model.IsDepartmentUser) ? emp.HomeDepartment.Name : String.Empty)
                             </td>
-                            <td>@emp.TitleCode
-                            </td>
+	                        <td>@emp.TitleCode
+	                        </td>
+	                        <td>@emp.SalaryAdminPlan
+	                        </td>
                             <td>@emp.SalaryGrade
                             </td>
                             <td>@emp.BargainingUnitCode

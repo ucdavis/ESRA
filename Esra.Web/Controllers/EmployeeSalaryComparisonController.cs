@@ -300,6 +300,7 @@ namespace Esra.Web.Controllers
             // Add the data headers:
             dt.Columns.Add("Department Name", stringType);
             dt.Columns.Add("Title Code", stringType);
+            dt.Columns.Add("Salary Plan", stringType);
             dt.Columns.Add("Salary Grade", stringType);
             dt.Columns.Add("Bargaining Unit", stringType);
             dt.Columns.Add("Employee Name", stringType);
@@ -322,6 +323,7 @@ namespace Esra.Web.Controllers
                 row["Department Comments"] = emp.DepartmentComments;
                 row["Deans Office Comments"] = emp.DeansOfficeComments;
                 row["Title Code"] = emp.TitleCode;
+                row["Salary Plan"] = emp.SalaryAdminPlan;
                 row["Salary Grade"] = emp.SalaryGrade;
                 row["Bargaining Unit"] = emp.BargainingUnitCode;
                 row["Hire Date"] = String.Format("{0:MM/dd/yyyy}", emp.AdjustedCareerHireDate);

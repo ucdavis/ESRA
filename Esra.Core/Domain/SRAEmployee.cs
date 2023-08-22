@@ -164,6 +164,14 @@ namespace Esra.Core.Domain
             set { _PayRate = value; }
         }
 
+        protected string _SalaryAdminPlan;
+
+        public virtual string SalaryAdminPlan
+        {
+            get { return _SalaryAdminPlan; }
+            set { _SalaryAdminPlan = value; }
+        }
+
         protected string _SalaryGrade;
 
         public virtual string SalaryGrade
@@ -413,6 +421,7 @@ namespace Esra.Core.Domain
             _MiddleName = emp.MiddleName;
             _LastName = emp.LastName;
             _PayRate = emp.PayRate;
+            _SalaryAdminPlan = emp.SalaryAdminPlan;
             _SalaryGrade = emp.SalaryGrade;
             _BargainingUnitCode = emp.BargainingUnitCode;
             _SalaryStep = emp.SalaryStep;
@@ -457,6 +466,7 @@ namespace Esra.Core.Domain
             Map(x => x.Created);
             Map(x => x.EmployeeID);
             Map(x => x.PayRate);
+            Map(x => x.SalaryAdminPlan);
             Map(x => x.SalaryGrade);
             Map(x => x.SalaryStep);
             Map(x => x.BargainingUnitCode);
