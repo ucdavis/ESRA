@@ -33,6 +33,7 @@
     <!--<property name="YearsInTitle" column="YearsInTitle" insert="false" update="false"/>-->
     <property name="PayRate" column="PayRate"  insert="false" update="false"/>
     <many-to-one name="ApptType" class="Esra.Core.Domain.ApptType, Esra.Core" column="ApptType"  insert="false" update="false"/>
+    <property name="SalaryAdminPlan" column="SalaryAdminPlan"  insert="false" update="false"/>
     <property name="SalaryGrade" column="SalaryGrade"  insert="false" update="false"/>
     <property name="SalaryStep" column="SalaryStep"  insert="false" update="false"/>
     <property name="BargainingUnitCode" column="BargainingUnit"  insert="false" update="false"/>

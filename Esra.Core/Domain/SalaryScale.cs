@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using FluentNHibernate.Mapping;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
@@ -40,14 +41,20 @@ namespace Esra.Core.Domain
             set { _EffectiveDate = value; }
         }
 
-        public virtual string SalaryGrade { get; set; }
-
         private string _BargainingCode;
 
         public virtual string BargainingCode
         {
             get { return _BargainingCode; }
             set { _BargainingCode = value; }
+        }
+
+        private string _Represented;
+
+        public virtual string Represented
+        {
+            get { return _Represented; }
+            set { _Represented = value; }
         }
 
         private int _NumSalarySteps;
@@ -58,12 +65,12 @@ namespace Esra.Core.Domain
             set { _NumSalarySteps = value; }
         }
 
-        private SalaryGradeQuartiles _SalaryGradeQuartiles;
+        private IList<SalaryGrade> _SalaryGrades;
 
-        public virtual SalaryGradeQuartiles SalaryGradeQuartiles
+        public virtual IList<SalaryGrade> SalaryGrades
         {
-            get { return _SalaryGradeQuartiles; }
-            set { _SalaryGradeQuartiles = value; }
+            get { return _SalaryGrades; }
+            set { _SalaryGrades = value; }
         }
 
         private IList<SalaryStep> _SalarySteps;
@@ -88,18 +95,6 @@ namespace Esra.Core.Domain
         {
             get { return _LaborMarketMidAnnual; }
             set { _LaborMarketMidAnnual = value; }
-        }
-
-        /// <summary>
-        /// College Average for CAES ONLY!
-        /// Note: Use CollegeAverages list and school code for college average of other schools.
-        /// </summary>
-        private double _CollegeAverageAnnual;
-
-        public virtual double CollegeAverageAnnual
-        {
-            get { return _CollegeAverageAnnual; }
-            set { _CollegeAverageAnnual = value; }
         }
 
         private double _CampusAverageAnnual;
@@ -131,11 +126,11 @@ namespace Esra.Core.Domain
             SalaryScale retval = new SalaryScale()
             {
                 _BargainingCode = this._BargainingCode,
+                _Represented = this._Represented,
                 _EffectiveDate = DateTime.Today,
                 _NumSalarySteps = this._NumSalarySteps,
                 _Title = this._Title,
-                _TitleCode = this._TitleCode,
-                SalaryGrade = this.SalaryGrade
+                _TitleCode = this._TitleCode
             };
 
             // Create a new SalaryGradeQuartiles and add it to the SalaryScale:
@@ -156,6 +151,13 @@ namespace Esra.Core.Domain
                 ss.Add(step.InitializedCopy(retval));
             }
             retval.SalarySteps = ss; // Assign the newly copied salary steps.
+
+            List<SalaryGrade> sg = new List<SalaryGrade>();
+            foreach (SalaryGrade grade in this.SalaryGrades)
+            {
+                sg.Add(grade.InitializedCopy(retval));
+            }
+            retval.SalaryGrades = sg; // Assign the newly copied salary grade(s).
 
             return retval;
         }
@@ -226,8 +228,15 @@ namespace Esra.Core.Domain
                     salaryScale.SalarySteps = repository.OfType<SalaryStep>()
                         .Queryable
                         .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
-                        .OrderBy(x => x.Annual)
+                        .OrderBy(x => x.SalaryAdminPlan).OrderBy(x => x.SalaryGrade).OrderBy(x => x.Annual)
                         .ToList();
+
+                    salaryScale.SalaryGrades = repository.OfType<SalaryGrade>()
+                        .Queryable
+                        .Where(s => s.TitleCode == salaryScale.TitleCode && s.EffectiveDate == salaryScale.EffectiveDate)
+                        .OrderBy(x => x.SalaryAdminPlan).OrderBy(x => x.Grade).OrderBy(x => x.MinAnnual)
+                        .ToList();
+
                 }
             }
             // Return the corresponding salary scale (or null if none were available for that title code).
@@ -252,25 +261,24 @@ namespace Esra.Core.Domain
 
             Map(x => x.TitleCode).Not.Update().Not.Insert();
             Map(x => x.EffectiveDate).Not.Update().Not.Insert();
-            Map(x => x.SalaryGrade);
             Map(x => x.BargainingCode);
+            Map(x => x.Represented);
             Map(x => x.NumSalarySteps);
             Map(x => x.LaborMarketWAS);
             Map(x => x.LaborMarketMidAnnual);
-            Map(x => x.CollegeAverageAnnual, "CollegeAvgAnnual");
             Map(x => x.CampusAverageAnnual, "CampusAvgAnnual");
 
-            References(x => x.SalaryGradeQuartiles)
-                .Columns("SalaryGrade", "EffectiveDate")
-                .Not.Insert()
-                .Not.Update()
-                .Cascade.None();
+            HasMany(x => x.SalaryGrades)
+                .KeyColumns.Add("TitleCode", "EffectiveDate")
+                .Inverse()
+                .Cascade.AllDeleteOrphan()
+                .OrderBy("Grade").OrderBy("MinAnnual");
 
             HasMany(x => x.SalarySteps)
                 .KeyColumns.Add("TitleCode", "EffectiveDate")
                 .Inverse()
                 .Cascade.AllDeleteOrphan()
-                .OrderBy("Annual");
+                .OrderBy("Grade").OrderBy("Annual");
         }
     }
 

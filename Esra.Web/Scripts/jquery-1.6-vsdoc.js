@@ -1488,7 +1488,7 @@ jQuery.event = { "global": {},
 "props": ['altKey','attrChange','attrName','bubbles','button','cancelable','charCode','clientX','clientY','ctrlKey','currentTarget','data','detail','eventPhase','fromElement','handler','keyCode','layerX','layerY','metaKey','newValue','offsetX','offsetY','pageX','pageY','prevValue','relatedNode','relatedTarget','screenX','screenY','shiftKey','srcElement','target','toElement','view','wheelDelta','which'],
 "guid": 100000000,
 "special": {},
-"triggered":  };
+    "triggered": {},
 jQuery.expr = { "order": ['ID','CLASS','NAME','TAG'],
 "match": {},
 "leftMatch": {},

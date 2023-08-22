@@ -29,6 +29,7 @@
     <property name="Created" column="Created" />
     <property name="EmployeeID" column="EmployeeID"/>
     <property name="PayRate" column="PayRate"/>
+    <property name="SalaryAdminPlan" column="SalaryAdminPlan"/>
     <property name="SalaryGrade" column="SalaryGrade"/>
     <property name="SalaryStep" column="SalaryStep"/>
     <property name="BargainingUnitCode" column="BargainingUnit"/>

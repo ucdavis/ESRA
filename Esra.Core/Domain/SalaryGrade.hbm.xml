@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-  <class name="Esra.Core.Domain.SalaryStep, Esra.Core" table="SalarySteps" dynamic-update="true">
+  <class name="Esra.Core.Domain.SalaryGrade, Esra.Core" table="SalaryGrades" dynamic-update="true">
     <!--<id name="Id" column="SalaryScaleID" unsaved-value="0">
 			<generator class="identity" />
 		</id>-->
@@ -8,19 +8,19 @@
     <composite-id unsaved-value="any">
       <key-property name="TitleCode" column="TitleCode"/>
       <key-property name="SalaryAdminPlan" column="SalaryAdminPlan"/>
-      <key-property name="SalaryGrade" column="SalaryGrade"/>
+      <key-property name="Grade" column="SalaryGrade"/>
       <key-property name="EffectiveDate" column="EffectiveDate"/>
-      <key-property name="StepNumber" column="Step"/>
     </composite-id>
 
     <property name="TitleCode" column="TitleCode" insert="false" update="false"/>
     <property name="SalaryAdminPlan" column="SalaryAdminPlan" insert="false" update="false"/>
-    <property name="SalaryGrade" column="SalaryGrade" insert="false" update="false"/>
+    <property name="Grade" column="SalaryGrade" insert="false" update="false"/>
     <property name="EffectiveDate" column="EffectiveDate" insert="false" update="false"/>
-    <property name="StepNumber" column ="Step" insert="false" update="false"/>
-    <property name="Annual" column="Annual" />
-    <property name="Monthly" column="Monthly" />
-    <property name="Hourly" column="Hourly" />
+    <property name="MinAnnual" column="MinAnnual" />
+    <property name="FirstQrtleAnnual" column="FirstQrtleAnnual" />
+    <property name="MidAnnual" column="MidAnnual" />
+    <property name="ThirdQrtleAnnual" column="ThirdQrtleAnnual" />
+    <property name="MaxAnnual" column="MaxAnnual" />
 
     <many-to-one name="SalaryScale" class="Esra.Core.Domain.SalaryScale, Esra.Core"
                  insert="false" update="false" cascade="none" unique="true">

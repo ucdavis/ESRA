@@ -25,26 +25,29 @@
 		 I cannot set the TitleCode to the correct title code or the EffectiveDate to the correct date I want to search on.-->
     <property name="TitleCode" column="TitleCode" update="false" insert="false"/>
     <property name="EffectiveDate" column="EffectiveDate" update="false" insert="false"/>
-    <property name="SalaryGrade" column ="SalaryGrade" />
+    <!--<property name="SalaryGrade" column ="SalaryGrade" />-->
     <property name="BargainingCode" column="BargainingCode" />
+    <property name="Represented" column="Represented" />
     <property name="NumSalarySteps" column="NumSalarySteps" />
     <property name="LaborMarketWAS" column="LaborMarketWAS" />
     <property name="LaborMarketMidAnnual" column="LaborMarketMidAnnual" />
-    <property name="CollegeAverageAnnual" column="CollegeAvgAnnual" />
+    <!--<property name="CollegeAverageAnnual" column="CollegeAvgAnnual" />-->
     <property name="CampusAverageAnnual" column="CampusAvgAnnual" />
 
     <!-- Apparently, this relationship also has to be specified as insert="false" update="false" in order to avoid the
 		duplicate field update/insert issue, since SalaryGrade and Effective date are already specified as fields by
 		virtue of their presence as a key-property in the composite-id section. -->
-    <many-to-one name="SalaryGradeQuartiles" class="Esra.Core.Domain.SalaryGradeQuartiles, Esra.Core"
-					 insert="false" update="false" cascade="none" fetch="join" not-found = "ignore" >
-      <column name="SalaryGrade" />
-      <column name="EffectiveDate"/>
-    </many-to-one>
+    <bag name="SalaryGrades" table="SalaryGrades" inverse="true" cascade="none" order-by="SalaryGrade, MinAnnual, EffectiveDate">
+      <key>
+        <column name="TitleCode" />
+        <column name="EffectiveDate"/>
+      </key>
+      <one-to-many class="Esra.Core.Domain.SalaryGrade, Esra.Core"/>
+    </bag>
 
     <!--<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="all-delete-orphan" order-by="Annual, EffectiveDate" fetch="join">-->
     <!--<bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual, EffectiveDate" fetch="join">-->
-    <bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="Annual, EffectiveDate">
+    <bag name="SalarySteps" table="SalarySteps" inverse="true" cascade="none" order-by="SalaryGrade, Annual, EffectiveDate">
       <key>
         <column name="TitleCode" />
         <column name="EffectiveDate"/>

@@ -35,10 +35,13 @@
       <one-to-many class="Esra.Core.Domain.Scenario, Esra.Core" />
     </bag>
 
-    <many-to-one name="SalaryScale" class="Esra.Core.Domain.SalaryScale, Esra.Core" cascade="none" update="false">
+    <many-to-one name="SalaryScale" class="Esra.Core.Domain.SalaryScale, Esra.Core" cascade="none" update="false" optimistic-lock="false">
       <column name="TitleCode"/>
       <column name="EffectiveDate"/>
     </many-to-one>
+
+    <property name="SalaryAdminPlan" column="SalaryAdminPlan" />
+    <property name="Grade" column="SalaryGrade" />
 
     <property name="IsReclass" column="IsReclass"/>
   </class>

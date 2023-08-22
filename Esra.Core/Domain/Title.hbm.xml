@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-  <class name="Esra.Core.Domain.Title, Esra.Core" table="Title" dynamic-update="true" where="(TitleCode >= '4000') OR
-                      (TitleCode BETWEEN '0101' AND '1000') ">
+  <class name="Esra.Core.Domain.Title, Esra.Core" table="Title" dynamic-update="true"
+         where="(TitleCode >= '4000') OR (TitleCode BETWEEN '0101' AND '0999')"> 
+        
+
     <id name="Id" column="TitleCode" unsaved-value="0" type="string" length="4">
       <generator class="assigned" />
     </id>

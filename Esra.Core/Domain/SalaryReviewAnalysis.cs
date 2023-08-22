@@ -50,6 +50,22 @@ namespace Esra.Core.Domain
             set { _SalaryScale = value; }
         }
 
+        private string _SalaryAdminPlan;
+
+        public virtual string SalaryAdminPlan
+        {
+            get { return _SalaryAdminPlan; }
+            set { _SalaryAdminPlan = value; }
+        }
+
+        private string _Grade;
+
+        public virtual string Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+
         private Scenario _ApprovedScenario;
 
         public virtual Scenario ApprovedScenario
@@ -173,16 +189,19 @@ namespace Esra.Core.Domain
 
                 if (salaryScale.SalarySteps.Count == 0)
                 {
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MIN].ShortType,
-                           salaryScale.SalaryGradeQuartiles.MinAnnual); // "Min"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.FIRST].ShortType,
-                           salaryScale.SalaryGradeQuartiles.FirstQrtleAnnual); // "1st"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MID].ShortType,
-                           salaryScale.SalaryGradeQuartiles.MidAnnual); // "Mid"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.THIRD].ShortType,
-                           salaryScale.SalaryGradeQuartiles.ThirdQrtleAnnual); // "3rd"
-                    cl.Add(selectionTypes[(int)Domain.SelectionType.Types.MAX].ShortType,
-                           salaryScale.SalaryGradeQuartiles.MaxAnnual); // "Max"
+                    foreach (var salaryGrade in salaryScale.SalaryGrades)
+                    {
+                        cl.Add(salaryGrade.Grade + ": " + selectionTypes[(int)Domain.SelectionType.Types.MIN].ShortType ,
+                            salaryGrade.MinAnnual); // "Min"
+                        cl.Add(salaryGrade.Grade + ": " + selectionTypes[(int)Domain.SelectionType.Types.FIRST].ShortType,
+                            salaryGrade.FirstQrtleAnnual); // "1st"
+                        cl.Add(salaryGrade.Grade + ": " + selectionTypes[(int)Domain.SelectionType.Types.MID].ShortType,
+                            salaryGrade.MidAnnual); // "Mid"
+                        cl.Add(salaryGrade.Grade + ": " + selectionTypes[(int)Domain.SelectionType.Types.THIRD].ShortType,
+                            salaryGrade.ThirdQrtleAnnual); // "3rd"
+                        cl.Add(salaryGrade.Grade + ": " + selectionTypes[(int)Domain.SelectionType.Types.MAX].ShortType,
+                            salaryGrade.MaxAnnual); // "Max"
+                    }
                 }
 
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.LM_WAS].ShortType, Convert.ToDecimal(salaryScale.LaborMarketWAS)); // "Labor Mkt WAS"
@@ -198,7 +217,7 @@ namespace Esra.Core.Domain
                 //cl.Add(selectionTypes[(int)Domain.SelectionType.Types.CAMPUS_AVG].ShortType, Convert.ToDecimal(salaryScale.CampusAverageAnnual)); // "Campus AVG"
 
                 // This should never get called unless someone called this method with a SalaryScale that was
-                // not fetched using SalaryScale.GetEffectiveSalarryScale(...)
+                // not fetched using SalaryScale.GetEffectiveSalaryScale(...)
                 if (salaryScale.NumSalarySteps > 0 && (salaryScale.SalarySteps.Count != salaryScale.NumSalarySteps))
                 {
                     // lazy binding work around to fetch all salary steps:
@@ -281,6 +300,9 @@ namespace Esra.Core.Domain
                     }
                 }
 
+                //record.Grade = --new SalaryGrade(record.SalaryScale, record.Employee.SalaryGrade, record.Employee.SalaryAdminPlan);
+                record.SalaryAdminPlan = record.Employee.SalaryAdminPlan;
+                record.Grade = record.Employee.SalaryGrade;
                 repository.OfType<SalaryReviewAnalysis>().EnsurePersistent(record);
 
                 record.Employee.CorrespondingAnalysisID = record.Id;
@@ -313,6 +335,8 @@ namespace Esra.Core.Domain
 
             References(x => x.Title, "TitleCode").Not.Insert().Not.Update();
 
+            Map(x => x.SalaryAdminPlan);
+            Map(x => x.Grade);
             Map(x => x.CurrentTitleCode);
             Map(x => x.DateApproved);
             Map(x => x.DepartmentComments);
@@ -330,10 +354,13 @@ namespace Esra.Core.Domain
                 .Inverse()
                 .Cascade.All();
 
-            References(x => x.SalaryScale)
-                .Columns("TitleCode", "EffectiveDate")
-                .Cascade.None()
-                .Not.Update();
+            //References(x => x.SalaryScale)
+            //    .Columns("TitleCode", "EffectiveDate")
+            //    .Cascade.None()
+            //    .Not.Update();
+
+            //References(x => x.Grade)
+            //    .Columns("TitleCode","EffectiveDate", "SalaryAdminPlan", "Grade").Not.Insert().Not.Update();
 
             Map(x => x.IsReclass);
         }

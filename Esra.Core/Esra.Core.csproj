@@ -72,6 +72,7 @@
     <Compile Include="Domain\AppException.cs" />
     <Compile Include="Domain\ApptType.cs" />
     <Compile Include="Domain\ChangeType.cs" />
+    <Compile Include="Domain\SalaryGrade.cs" />
     <Compile Include="Domain\SchoolEmployees.cs" />
     <Compile Include="Domain\Department.cs" />
     <Compile Include="Domain\Employee.cs" />
@@ -150,6 +151,11 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Domain\User.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Domain\SalaryGrade.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
